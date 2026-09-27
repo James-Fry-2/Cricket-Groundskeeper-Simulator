@@ -4,6 +4,8 @@ A management sim about preparing a cricket ground. Current goal: the MVP in docs
 
 - Design: docs/design.md
 - MVP plan: docs/mvp-plan.md (follow its phase order)
+- Current phase plan: docs/phase-2-plan.md
+- Research notes (groundskeeping practice, ICC ratings): docs/research.md
 - Progress and next steps: docs/progress.md (read at session start, update at session end)
 
 ## Structure

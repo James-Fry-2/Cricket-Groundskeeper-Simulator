@@ -125,7 +125,7 @@ Each session:
 
 Commentary comes from templates in data, keyed by event and filled with the fictional names, so tone can be rewritten without code changes.
 
-At the end the match referee rates the pitch on the ICC scale from the research file (very good, good, average, below average, poor, unfit), with demerits as set out there. Bounce consistency and danger carry the most weight, then balance between bat and ball over the match. Stakeholder reactions follow from the rating, the result and how long the match lasted.
+At the end the match referee rates the pitch on the ICC scale from [the research notes](research.md) (very good, good, average, below average, poor, unfit), with demerits as set out there. Bounce consistency and danger carry the most weight, then balance between bat and ball over the match. Stakeholder reactions follow from the rating, the result and how long the match lasted.
 
 Out of the MVP: ball-by-ball play, named individual players, pitch maps and bounce heatmaps.
 
@@ -167,7 +167,7 @@ The harness can tell you whether the core puzzle exists before anyone plays: if 
 | Policy | Plays like | Should end up |
 | --- | --- | --- |
 | Neglect | Does nothing but assign strips | Frequent demerits and unhappy stakeholders |
-| By the book | Follows the ten-day prep loop from the research file | Few below-average ratings |
+| By the book | Follows the ten-day prep loop from [the research notes](research.md) | Few below-average ratings |
 | Greedy | Always picks the best-looking strip now | Strong early, short of good strips late in the season |
 | Random | Random legal commands | A baseline that proves the others differ |
 

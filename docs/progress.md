@@ -4,17 +4,17 @@
 Phase 2: weather, moisture and readings. Ends at Gate A: the by-the-book policy beats neglect in the harness.
 
 ## Phase 2 tasks
-Draft from `docs/mvp-plan.md`, to be planned in detail before starting:
-- [ ] Weather: `content/climate.json` with monthly normals; hourly rain in spells, temperature, wind and sunshine from the Weather stream; first fixed-seed replay test
-- [ ] Forecast: truth plus noise that grows with lead time, shown as ranges in the view (Forecast stream)
-- [ ] Loams: `content/loams.json` (clay %, drainage rate, cracking tendency); saturation moves there from `ground.json`
-- [ ] Moisture: two-layer bucket per strip (rain, watering, evaporation, drainage by clay content)
-- [ ] Covers: cover and uncover commands; the Covers step keeps rain off covered strips
-- [ ] Readings: ageing (ranges widen each day, faster in changeable weather), miss rates per source, staff skill multipliers, feel readings (dry, damp, wet)
-- [ ] Harness: neglect and by-the-book policies over many seeded seasons, results to CSV
-- [ ] Gate A check: by the book lands match-morning moisture in the target band clearly more often than neglect
+Detail in `docs/phase-2-plan.md`.
+- [ ] 1. Distributions: `NextGaussian` and `NextExponential`
+- [ ] 2. Weather: `climate.json`, `WeatherSystem`, observed weather in the view, truth inspector, first replay snapshot, harness trace mode
+- [ ] 3. Loams and moisture: `loams.json`, two-layer model in mm, watering in mm
+- [ ] 4. Covers: commands, cover limit, no rain and slower drying under covers
+- [ ] 5. Staff hours: `staff.json`, job costs, daily hours
+- [ ] 6. Forecast: 7-day ranges, error growing with lead time
+- [ ] 7. Readings: ageing, misses, staff skill, feel readings
+- [ ] 8. Harness policies (neglect, random, by the book) and the Gate A check
 
-Decided: match ratings arrive in phase 3, so Gate A uses a stand-in score. It counts how often the match strip's true surface moisture sits inside a target band on each match morning. The band goes in content as a placeholder (for example 18 to 24%). Phase 3 replaces it with the referee's pitch rating.
+Gate A stand-in score: a match strip lands when, on the match morning, subsurface moisture is inside a target band and surface moisture is below a ceiling (placeholders: 24 to 30%, under 22%). By the book must land at least 25 percentage points more often than neglect over 1,000 seasons. Phase 3 replaces this with the referee's pitch rating.
 
 ## Phase 1 tasks (done)
 - [x] Solution skeleton: Core, Cli, Harness, Tests projects, references, one passing test, `IGame` interface
@@ -60,4 +60,5 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Console loop: the Cli loads `content/*.json` from next to its build, takes `--seed N` or picks and prints one, and runs `GameLoop`. Commands: `r <strip>`, `r all`, `w <strip>`, `s`, Enter or `a` to advance, `h`, `q`. Ranges display rounded outwards so the true value stays inside. Piped stdin is read line by line and echoed, since Spectre's prompts refuse redirected input; end of input quits. Tests drive the loop through Spectre's `TestConsole`.
 - `GameView` gained `Pace` and `NextMatchDay`, and `StripView` gained `WateringQueued`.
 - Phase 1 complete. Try it with `dotnet run --project src/Groundsman.Cli -- --seed 7`.
-- Next: plan phase 2 in detail, starting with weather.
+- Phase 2 planned in detail in `docs/phase-2-plan.md`, using the research notes (now `docs/research.md`). Staff hours come into phase 2 because the research makes labour hours the core resource. The Gate A score now checks moisture at depth plus a dry surface, matching the research's target.
+- Next: phase 2 task 1, distributions.
