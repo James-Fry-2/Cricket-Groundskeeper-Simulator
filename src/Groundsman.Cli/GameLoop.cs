@@ -175,9 +175,22 @@ public sealed class GameLoop
         }
 
         _console.Write(table);
+        ShowForecast(view);
         _console.MarkupLine($"Covers free: {view.CoversFree} of {view.CoversOwned}.");
         _console.MarkupLine(Markup.Escape(Format.Hours(view.Staff)));
         _console.MarkupLine("[grey]Enter to advance, h for help.[/]");
+    }
+
+    private void ShowForecast(GameView view)
+    {
+        var table = new Table().Border(TableBorder.Simple).Title("Forecast").AddColumn("");
+        foreach (var day in view.Forecast)
+        {
+            table.AddColumn(day.Date == view.Now.Date ? "Today" : day.Date.ToString("ddd d", System.Globalization.CultureInfo.InvariantCulture));
+        }
+        table.AddRow(new[] { "Rain" }.Concat(view.Forecast.Select(d => Format.Rain(d.Rain))).ToArray());
+        table.AddRow(new[] { "High" }.Concat(view.Forecast.Select(d => Format.Temperature(d.MaxTemperature))).ToArray());
+        _console.Write(table);
     }
 
     private void ShowHelp()

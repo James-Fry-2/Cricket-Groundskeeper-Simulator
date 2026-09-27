@@ -10,6 +10,11 @@ public static class Format
     // Round outwards so rounding for display never puts the true value outside the range shown.
     public static string Percent(ValueRange range) => $"{Math.Floor(range.Low):0}–{Math.Ceiling(range.High):0}%";
 
+    public static string Rain(ValueRange range) =>
+        range.High <= 0 ? "dry" : $"{Math.Floor(range.Low):0}–{Math.Ceiling(range.High):0} mm";
+
+    public static string Temperature(ValueRange range) => $"{Math.Floor(range.Low):0}–{Math.Ceiling(range.High):0}°C";
+
     public static string Age(GameTime takenAt, GameTime now) => (now.Date - takenAt.Date).Days switch
     {
         0 => "today",

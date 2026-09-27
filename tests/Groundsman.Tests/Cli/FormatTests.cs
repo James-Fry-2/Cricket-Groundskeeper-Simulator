@@ -16,6 +16,21 @@ public class FormatTests
     }
 
     [Theory]
+    [InlineData(0.0, 0.0, "dry")]
+    [InlineData(0.0, 2.3, "0–3 mm")]
+    [InlineData(4.6, 11.2, "4–12 mm")]
+    public void Rain_ranges_round_outwards_and_read_dry_when_nothing_is_expected(double low, double high, string expected)
+    {
+        Assert.Equal(expected, Format.Rain(new ValueRange(low, high)));
+    }
+
+    [Fact]
+    public void Temperature_ranges_round_outwards()
+    {
+        Assert.Equal("17–22°C", Format.Temperature(new ValueRange(17.6, 21.2)));
+    }
+
+    [Theory]
     [InlineData(0, "today")]
     [InlineData(1, "yesterday")]
     [InlineData(5, "5 days ago")]

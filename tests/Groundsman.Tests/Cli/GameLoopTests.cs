@@ -33,6 +33,18 @@ public class GameLoopTests
     }
 
     [Fact]
+    public void Shows_the_forecast_from_today()
+    {
+        var (console, game) = Play("q");
+        var today = game.View.Forecast[0];
+
+        Assert.Contains("Forecast", console.Output);
+        Assert.Contains("Today", console.Output);
+        Assert.Contains("Sun 16", console.Output);
+        Assert.Contains(Format.Temperature(today.MaxTemperature), console.Output);
+    }
+
+    [Fact]
     public void Reading_a_strip_reports_the_range()
     {
         var (console, game) = Play("r 3", "q");
