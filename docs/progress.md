@@ -57,6 +57,10 @@ In `content/forecast.json`:
 - 7 days from today; ranges 1.5 error spreads either side (truth inside about 87% of the time)
 - Rain error spread 1.5 mm on the day, growing 40% per day ahead; top temperature 1.0 °C, growing 30% per day
 
+In `content/season.json` and `content/scoring.json`:
+- 18 placeholder fixtures, 16 April to 25 September, four-day and one-day, on rotating strips
+- Gate A stand-in: subsurface 24 to 30%, surface under 22% on the first morning
+
 In `content/tasks.json` and `content/readings.json`:
 - One watering is 12 mm (a deep watering; 5 mm barely reached depth)
 - Probe reading: 8 percentage points wide and an 8% miss rate at skill 1; a miss lands up to a quarter of the width off the truth
@@ -114,4 +118,8 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Chance of rain added to the forecast. A naive figure from the forecast value alone was badly calibrated (it said 70 to 80% on days that rained 28% of the time), because most days are dry. It now weighs the forecast value against the month's rain-day rate and wet-day amounts, and a test over 1,000 seeds holds each band within 8 points of what actually happens. No truth and no extra random draws.
 - Readings: probe width and miss rate both scale with the taker's reading skill (tested: Sam 0.8, you 1.0, Jo 1.4 miss about 6%, 8% and 11%). A missed probe reading lands up to a quarter of its width off the truth. Feel readings (`TakeReading` with `ReadingSource.Feel`) cost 0.05 h and give a word whose band is the range, judged on truth plus noise scaled by skill, so borderline strips can get the wrong word. `KnowledgeStore` tracks water known to have reached each strip since its reading (rain while uncovered, from the gauge and cover state, plus ordered watering) and `StripView.SurfaceMoistureNow` gives the range widened for age and that water, clamped at 0. One reading of either kind per strip per turn. Cli: `f <strip> [name]`, `f all`, and the table shows the feel word or the widened range. Replay snapshot updated; only reading lines changed.
 - Found and fixed while doing this: a parser edit briefly deleted `ParseSeason` and `ParseClimate`; the build caught it and they were restored from the last commit unchanged.
-- Next: phase 2 task 8, harness policies and the Gate A check.
+- Fixtures: `season.json` lists fixtures (start, days, strip); match days derive from them; the view shows the next fixture and the Cli names its strip.
+- Harness: `IPolicy` plays through `IGame`, which has no `Inspect`, so policies see only what a player sees. Neglect, random, and by the book (the research loop: Sam reads the strip each morning from 10 days out, water deeply 5 days out unless it reads wet or rain is likely, again 4 days out if still dryish, a top-up 3 days out only if parched, cover in the final 3 days when the chance of rain is 40% or more, uncover otherwise). `SeasonRunner` scores each fixture's strip from the truth at 08:00 on its first day, before the policy acts. `harness gate --seasons N` runs all three in parallel with fixed results order, prints a summary and writes per-match CSV; 1,000 seasons take about 2 seconds.
+- Gate A, first run over 1,000 seasons: neglect 20%, random 24%, by the book 37% on target. NOT PASSED (17-point lead, 25 needed). Not tuned to pass.
+- Diagnosis from policy variants over 400 seasons (scratch code, not committed): watering only 25% (too wet below 54%), covers only about 24% (too dry below about 50%), a smarter honest policy 35%, and an oracle that sees the true moisture 59% (still too wet below 31%). Two causes: (1) the target at depth (24 to 30%) sits just under the loam's field capacity (32%), and below field capacity the model only dries the subsurface by slow capillary rise, about a point a day, so after decent rain a strip stays too wet at depth for days whatever the player does; (2) the probe reads only the surface, so honest play is guessing about the thing that's scored, which is why it tops out near 36% while the oracle reaches 59%.
+- Next: decide how to address the Gate A result before phase 3.
