@@ -84,6 +84,42 @@ public class GameLoopTests
     }
 
     [Fact]
+    public void Shows_everyones_hours_left_today()
+    {
+        var (console, _) = Play("w 1 sam", "s", "q");
+
+        Assert.Contains("Hours left today: You 8/8, Sam Test 8/8, Jo Test 4/4.", console.Output);
+        Assert.Contains("Hours left today: You 8/8, Sam Test 7/8, Jo Test 4/4.", console.Output);
+    }
+
+    [Fact]
+    public void Reading_everything_stops_at_the_first_refusal()
+    {
+        var (console, game) = Play("w 1 jo", "w 2 jo", "w 3 jo", "r all jo", "q");
+
+        Assert.Equal(4, game.View.Strips.Count(s => s.SurfaceMoisture != null));
+        Assert.Contains("Jo Test has 0 hours left today", console.Output);
+        Assert.Single(console.Output.Split('\n'), line => line.Contains("hours left today;"));
+    }
+
+    [Fact]
+    public void Reading_everything_skips_strips_already_read_this_turn()
+    {
+        var (console, game) = Play("r 3", "r all", "q");
+
+        Assert.All(game.View.Strips, s => Assert.NotNull(s.SurfaceMoisture));
+        Assert.DoesNotContain("already been read", console.Output);
+    }
+
+    [Fact]
+    public void Readings_say_who_took_them()
+    {
+        var (console, _) = Play("r 3 sam", "s", "q");
+
+        Assert.Contains("today, Sam Test", console.Output);
+    }
+
+    [Fact]
     public void A_rejected_command_shows_the_reason()
     {
         var (console, _) = Play("w 3", "w 3", "q");

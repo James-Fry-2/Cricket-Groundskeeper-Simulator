@@ -57,6 +57,9 @@ public static class Format
         return string.Join(", ", orders);
     }
 
+    public static string Hours(IReadOnlyList<StaffView> staff) =>
+        "Hours left today: " + string.Join(", ", staff.Select(s => $"{s.Name} {s.HoursLeft:0.##}/{s.HoursPerDay:0.##}")) + ".";
+
     public static string NextMatch(DateTime? matchDay, GameTime now)
     {
         if (matchDay is not { } day)

@@ -1,4 +1,5 @@
 using Groundsman.Cli;
+using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 
 namespace Groundsman.Tests.Cli;
@@ -89,6 +90,17 @@ public class InputParserTests
         }
     }
 
+    [Fact]
+    public void A_name_after_the_strip_says_who_does_the_job()
+    {
+        Assert.Equal(new StaffId("sam"), Assert.IsType<ReadInput>(InputParser.Parse("r 3 Sam")).By);
+        Assert.Equal(new StaffId("jo"), Assert.IsType<ReadInput>(InputParser.Parse("r all jo")).By);
+        Assert.Equal(new StaffId("sam"), Assert.IsType<WaterInput>(InputParser.Parse("w 3 sam")).By);
+        Assert.Equal(new StaffId("sam"), Assert.IsType<CoverInput>(InputParser.Parse("c 3 sam")).By);
+        Assert.Equal(new StaffId("sam"), Assert.IsType<UncoverInput>(InputParser.Parse("u 3 sam")).By);
+        Assert.Null(Assert.IsType<WaterInput>(InputParser.Parse("w 3")).By);
+    }
+
     [Theory]
     [InlineData("c all")]
     [InlineData("u")]
@@ -97,7 +109,7 @@ public class InputParserTests
     [InlineData("w")]
     [InlineData("w all")]
     [InlineData("r three")]
-    [InlineData("w 3 4")]
+    [InlineData("w 3 4 5")]
     public void Anything_else_is_invalid_with_a_hint(string input)
     {
         var invalid = Assert.IsType<InvalidInput>(InputParser.Parse(input));

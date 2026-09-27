@@ -1,3 +1,4 @@
+using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 
 namespace Groundsman.Cli;
@@ -13,12 +14,13 @@ public sealed record HelpInput : Input;
 public sealed record StatusInput : Input;
 
 /// <summary>Reads one strip, or every strip when <see cref="Strip"/> is null.</summary>
-public sealed record ReadInput(StripId? Strip) : Input;
+/// <remarks>On every strip job, <c>By</c> names who does it; null means the player.</remarks>
+public sealed record ReadInput(StripId? Strip, StaffId? By = null) : Input;
 
-public sealed record WaterInput(StripId Strip) : Input;
+public sealed record WaterInput(StripId Strip, StaffId? By = null) : Input;
 
-public sealed record CoverInput(StripId Strip) : Input;
+public sealed record CoverInput(StripId Strip, StaffId? By = null) : Input;
 
-public sealed record UncoverInput(StripId Strip) : Input;
+public sealed record UncoverInput(StripId Strip, StaffId? By = null) : Input;
 
 public sealed record InvalidInput(string Message) : Input;

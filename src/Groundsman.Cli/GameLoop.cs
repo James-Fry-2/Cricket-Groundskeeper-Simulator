@@ -1,6 +1,7 @@
 using Groundsman.Core;
 using Groundsman.Core.Commands;
 using Groundsman.Core.Inspection;
+using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 using Spectre.Console;
 
@@ -49,23 +50,27 @@ public sealed class GameLoop
                 case StatusInput:
                     ShowStatus();
                     break;
-                case ReadInput { Strip: null }:
-                    foreach (var strip in _game.View.Strips)
+                case ReadInput { Strip: null } all:
+                    var now = _game.View.Now;
+                    foreach (var strip in _game.View.Strips.Where(s => s.SurfaceMoisture?.TakenAt != now))
                     {
-                        Read(strip.Id);
+                        if (!Read(strip.Id, all.By))
+                        {
+                            break;
+                        }
                     }
                     break;
-                case ReadInput { Strip: { } strip }:
-                    Read(strip);
+                case ReadInput { Strip: { } strip } read:
+                    Read(strip, read.By);
                     break;
                 case WaterInput water:
-                    Water(water.Strip);
+                    Order(new WaterStrip(water.Strip, water.By), $"{water.Strip} is down for watering.");
                     break;
                 case CoverInput cover:
-                    Order(new CoverStrip(cover.Strip), $"{cover.Strip} is down for covering.");
+                    Order(new CoverStrip(cover.Strip, cover.By), $"{cover.Strip} is down for covering.");
                     break;
                 case UncoverInput uncover:
-                    Order(new UncoverStrip(uncover.Strip), $"{uncover.Strip} is down for uncovering.");
+                    Order(new UncoverStrip(uncover.Strip, uncover.By), $"{uncover.Strip} is down for uncovering.");
                     break;
                 case InvalidInput invalid:
                     _console.MarkupLine($"[yellow]{Markup.Escape(invalid.Message)}[/]");
@@ -96,19 +101,17 @@ public sealed class GameLoop
         ShowStatus();
     }
 
-    private void Read(StripId strip)
+    private bool Read(StripId strip, StaffId? by)
     {
-        var result = _game.Submit(new TakeReading(strip));
-        if (!Report(result))
+        if (!Report(_game.Submit(new TakeReading(strip, by))))
         {
-            return;
+            return false;
         }
 
         var reading = _game.View.Strips.Single(s => s.Id == strip).SurfaceMoisture!;
         _console.MarkupLine($"{strip} reads [bold]{Format.Percent(reading.Range)}[/] surface moisture.");
+        return true;
     }
-
-    private void Water(StripId strip) => Order(new WaterStrip(strip), $"{strip} is down for watering.");
 
     private void Order(IGameCommand command, string confirmation)
     {
@@ -159,7 +162,7 @@ public sealed class GameLoop
             {
                 strip.Id.Number.ToString(),
                 reading == null ? "[grey]no reading[/]" : Format.Percent(reading.Range),
-                reading == null ? "" : Format.Age(reading.TakenAt, view.Now),
+                reading == null ? "" : $"{Format.Age(reading.TakenAt, view.Now)}, {Markup.Escape(view.Staff.Single(s => s.Id == reading.TakenBy).Name)}",
                 strip.Covered ? "covered" : "",
                 Format.Orders(strip),
             };
@@ -173,6 +176,7 @@ public sealed class GameLoop
 
         _console.Write(table);
         _console.MarkupLine($"Covers free: {view.CoversFree} of {view.CoversOwned}.");
+        _console.MarkupLine(Markup.Escape(Format.Hours(view.Staff)));
         _console.MarkupLine("[grey]Enter to advance, h for help.[/]");
     }
 
@@ -181,11 +185,12 @@ public sealed class GameLoop
         var table = new Table().Border(TableBorder.None).HideHeaders()
             .AddColumn("Command")
             .AddColumn("What it does")
-            .AddRow("r <strip>", "Take a moisture probe reading of a strip")
+            .AddRow("r <strip> [[name]]", "Take a moisture probe reading of a strip; add a name to send someone else")
             .AddRow("r all", "Read every strip")
             .AddRow("w <strip>", "Water a strip (done when time advances)")
             .AddRow("c <strip>", "Put a cover on a strip: keeps rain off, slows drying")
             .AddRow("u <strip>", "Take a strip's cover off")
+            .AddRow("", "Every strip job takes a name, e.g. w 3 sam. You do it if none is given.")
             .AddRow("s", "Show the ground again")
             .AddRow("Enter or a", "Advance to the next decision point")
             .AddRow("q", "Quit");
