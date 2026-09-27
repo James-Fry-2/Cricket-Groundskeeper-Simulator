@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Groundsman.Core.Strips;
 using Newtonsoft.Json;
 
@@ -13,6 +15,7 @@ namespace Groundsman.Core.Content
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
             MissingMemberHandling = MissingMemberHandling.Error,
+            DateParseHandling = DateParseHandling.None,
         };
 
         public static CalendarSettings ParseCalendar(string json)
@@ -69,6 +72,21 @@ namespace Groundsman.Core.Content
             return new ReadingSettings(Required(file, "moistureProbeWidth", dto.MoistureProbeWidth));
         }
 
+        public static SeasonSettings ParseSeason(string json)
+        {
+            const string file = "season";
+            var dto = Deserialise<SeasonDto>(json, file);
+            var matchDayTexts = Required(file, "matchDays", dto.MatchDays);
+
+            var matchDays = new DateTime[matchDayTexts.Count];
+            for (var i = 0; i < matchDays.Length; i++)
+            {
+                matchDays[i] = ParseDate(file, $"matchDays[{i}]", matchDayTexts[i]);
+            }
+
+            return new SeasonSettings(ParseDate(file, "start", dto.Start), matchDays);
+        }
+
         private static T Deserialise<T>(string json, string file)
             where T : class
         {
@@ -88,6 +106,15 @@ namespace Groundsman.Core.Content
             if (!MonthDay.TryParse(Required(file, field, text), out var value))
             {
                 throw new ContentException($"{file}.{field} (\"{text}\") must be a date that occurs every year, as MM-dd.");
+            }
+            return value;
+        }
+
+        private static DateTime ParseDate(string file, string field, string? text)
+        {
+            if (!DateTime.TryParseExact(Required(file, field, text), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var value))
+            {
+                throw new ContentException($"{file}.{field} (\"{text}\") must be a date as yyyy-MM-dd.");
             }
             return value;
         }
@@ -135,6 +162,12 @@ namespace Groundsman.Core.Content
         private sealed class ReadingsDto
         {
             public double? MoistureProbeWidth { get; set; }
+        }
+
+        private sealed class SeasonDto
+        {
+            public string? Start { get; set; }
+            public List<string>? MatchDays { get; set; }
         }
     }
 }
