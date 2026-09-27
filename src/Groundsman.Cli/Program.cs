@@ -7,7 +7,7 @@ using Spectre.Console;
 var seed = ParseSeed(args) ?? BitConverter.ToUInt64(RandomNumberGenerator.GetBytes(8));
 var (content, season) = ContentLoader.Load(ContentLoader.DefaultDirectory);
 var start = GameTime.OnDate(season.Start, content.Calendar.MorningHour);
-var game = new Game(new GameSetup(content, start, season.MatchDays, seed));
+var game = new Game(new GameSetup(content, start, season.Fixtures, seed));
 
 AnsiConsole.MarkupLine($"[green]Cricket Groundsman Simulator[/], seed {seed}");
 var debug = args.Contains("--debug");

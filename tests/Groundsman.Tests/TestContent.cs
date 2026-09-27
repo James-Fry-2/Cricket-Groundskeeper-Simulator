@@ -1,5 +1,6 @@
 using Groundsman.Core;
 using Groundsman.Core.Content;
+using Groundsman.Core.Strips;
 using Groundsman.Core.Time;
 
 namespace Groundsman.Tests;
@@ -23,8 +24,13 @@ internal static class TestContent
 
     public static GameContent Content { get; } = new GameContent(TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, Covers, Tasks, TestStaff.Settings, Readings, TestForecast.Settings);
 
+    /// <summary>A game whose match days are one-day fixtures on strip 1, for tests that only care about dates.</summary>
     public static GameSetup Setup(GameTime start, IEnumerable<DateTime>? matchDays = null, ulong seed = 1, ReadingSettings? readings = null) =>
-        new GameSetup(readings == null ? Content : WithReadings(readings), start, matchDays ?? Array.Empty<DateTime>(), seed);
+        new GameSetup(
+            readings == null ? Content : WithReadings(readings),
+            start,
+            (matchDays ?? Array.Empty<DateTime>()).Select(d => new Fixture(d, 1, new StripId(1))).ToArray(),
+            seed);
 
     /// <summary>Test readings with nothing left to chance except where the true value sits.</summary>
     public static ReadingSettings ExactReadings { get; } = new ReadingSettings(

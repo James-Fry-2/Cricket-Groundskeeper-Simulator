@@ -1,10 +1,23 @@
 {
   "start": "2027-03-25",
-  "matchDays": [
-    "2027-04-16",
-    "2027-04-17",
-    "2027-04-18",
-    "2027-04-19",
-    "2027-05-02"
+  "fixtures": [
+    { "start": "2027-04-16", "days": 4, "strip": 6 },
+    { "start": "2027-04-25", "days": 1, "strip": 8 },
+    { "start": "2027-05-02", "days": 4, "strip": 5 },
+    { "start": "2027-05-13", "days": 1, "strip": 7 },
+    { "start": "2027-05-20", "days": 4, "strip": 4 },
+    { "start": "2027-06-01", "days": 1, "strip": 9 },
+    { "start": "2027-06-06", "days": 1, "strip": 3 },
+    { "start": "2027-06-13", "days": 4, "strip": 6 },
+    { "start": "2027-06-26", "days": 1, "strip": 8 },
+    { "start": "2027-07-04", "days": 1, "strip": 10 },
+    { "start": "2027-07-11", "days": 4, "strip": 5 },
+    { "start": "2027-07-24", "days": 1, "strip": 7 },
+    { "start": "2027-08-02", "days": 4, "strip": 4 },
+    { "start": "2027-08-14", "days": 1, "strip": 9 },
+    { "start": "2027-08-22", "days": 1, "strip": 3 },
+    { "start": "2027-09-01", "days": 4, "strip": 6 },
+    { "start": "2027-09-14", "days": 1, "strip": 8 },
+    { "start": "2027-09-22", "days": 4, "strip": 5 }
   ]
 }

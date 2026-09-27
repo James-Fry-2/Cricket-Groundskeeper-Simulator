@@ -199,15 +199,20 @@ namespace Groundsman.Core.Content
         {
             const string file = "season";
             var dto = Deserialise<SeasonDto>(json, file);
-            var matchDayTexts = Required(file, "matchDays", dto.MatchDays);
+            var fixtureDtos = Required(file, "fixtures", dto.Fixtures);
 
-            var matchDays = new DateTime[matchDayTexts.Count];
-            for (var i = 0; i < matchDays.Length; i++)
+            var fixtures = new Fixture[fixtureDtos.Count];
+            for (var i = 0; i < fixtures.Length; i++)
             {
-                matchDays[i] = ParseDate(file, $"matchDays[{i}]", matchDayTexts[i]);
+                var fixture = fixtureDtos[i];
+                var path = $"fixtures[{i}]";
+                fixtures[i] = new Fixture(
+                    ParseDate(file, path + ".start", fixture.Start),
+                    Required(file, path + ".days", fixture.Days),
+                    new StripId(Required(file, path + ".strip", fixture.Strip)));
             }
 
-            return new SeasonSettings(ParseDate(file, "start", dto.Start), matchDays);
+            return new SeasonSettings(ParseDate(file, "start", dto.Start), fixtures);
         }
 
         public static ClimateSettings ParseClimate(string json)
@@ -358,7 +363,14 @@ namespace Groundsman.Core.Content
         private sealed class SeasonDto
         {
             public string? Start { get; set; }
-            public List<string>? MatchDays { get; set; }
+            public List<FixtureDto>? Fixtures { get; set; }
+        }
+
+        private sealed class FixtureDto
+        {
+            public string? Start { get; set; }
+            public int? Days { get; set; }
+            public int? Strip { get; set; }
         }
 
         private sealed class ClimateDto

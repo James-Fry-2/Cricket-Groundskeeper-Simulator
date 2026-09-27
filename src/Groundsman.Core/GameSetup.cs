@@ -7,20 +7,41 @@ namespace Groundsman.Core
 {
     public sealed class GameSetup
     {
-        public GameSetup(GameContent content, GameTime start, IEnumerable<DateTime> matchDays, ulong seed)
+        public GameSetup(GameContent content, GameTime start, IEnumerable<Fixture> fixtures, ulong seed)
         {
+            var list = new List<Fixture>(fixtures);
+            for (var i = 0; i < list.Count; i++)
+            {
+                if (list[i].Strip.Number > content.Ground.Strips.Count)
+                {
+                    throw new ContentException($"season.fixtures[{i}].strip ({list[i].Strip.Number}) isn't on the ground, which has {content.Ground.Strips.Count} strips.");
+                }
+            }
+
             Content = content;
             Start = start;
-            MatchDays = new List<DateTime>(matchDays).AsReadOnly();
+            Fixtures = list.AsReadOnly();
             Seed = seed;
         }
 
         public GameContent Content { get; }
         public GameTime Start { get; }
-
-        /// <summary>Supplied directly until fixtures exist.</summary>
-        public IReadOnlyList<DateTime> MatchDays { get; }
-
+        public IReadOnlyList<Fixture> Fixtures { get; }
         public ulong Seed { get; }
+
+        public IReadOnlyList<DateTime> MatchDays => MatchDaysOf(Fixtures);
+
+        internal static IReadOnlyList<DateTime> MatchDaysOf(IEnumerable<Fixture> fixtures)
+        {
+            var days = new List<DateTime>();
+            foreach (var fixture in fixtures)
+            {
+                for (var date = fixture.Start; date <= fixture.End; date = date.AddDays(1))
+                {
+                    days.Add(date);
+                }
+            }
+            return days.AsReadOnly();
+        }
     }
 }

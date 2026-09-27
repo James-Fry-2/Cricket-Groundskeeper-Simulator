@@ -139,7 +139,7 @@ public sealed class GameLoop
 
         _console.WriteLine();
         _console.Write(new Rule($"[green]{Markup.Escape(view.GroundName)}[/]  {Format.Time(view.Now)}").LeftJustified());
-        _console.MarkupLine($"{Format.Pace(view.Pace)}. Next match: {Format.NextMatch(view.NextMatchDay, view.Now)}.");
+        _console.MarkupLine($"{Format.Pace(view.Pace)}. Next match: {Format.NextMatch(view.NextFixture, view.Now)}.");
         if (view.Weather is { } weather)
         {
             _console.MarkupLine(Format.Weather(weather));

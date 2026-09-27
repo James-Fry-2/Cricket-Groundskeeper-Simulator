@@ -1,4 +1,6 @@
+using Groundsman.Core;
 using Groundsman.Core.Content;
+using Groundsman.Core.Strips;
 using Groundsman.Core.Time;
 using Groundsman.Harness;
 
@@ -9,7 +11,7 @@ public class SeasonTraceTests
     [Fact]
     public void Records_every_decision_point_up_to_the_end_with_truth_per_strip()
     {
-        var season = new SeasonSettings(new DateTime(2027, 4, 1), new[] { new DateTime(2027, 4, 10) });
+        var season = new SeasonSettings(new DateTime(2027, 4, 1), new[] { new Fixture(new DateTime(2027, 4, 10), 1, new StripId(1)) });
 
         var csv = SeasonTrace.Run(TestContent.Content, season, seed: 4, end: new DateTime(2027, 4, 15));
         var lines = csv.TrimEnd().Split('\n');
@@ -24,7 +26,7 @@ public class SeasonTraceTests
     [Fact]
     public void The_same_seed_gives_the_same_trace()
     {
-        var season = new SeasonSettings(new DateTime(2027, 4, 1), Array.Empty<DateTime>());
+        var season = new SeasonSettings(new DateTime(2027, 4, 1), Array.Empty<Fixture>());
 
         Assert.Equal(
             SeasonTrace.Run(TestContent.Content, season, seed: 4, end: new DateTime(2027, 5, 1)),

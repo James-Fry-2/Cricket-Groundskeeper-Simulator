@@ -71,14 +71,21 @@ public static class Format
     public static string Hours(IReadOnlyList<StaffView> staff) =>
         "Hours left today: " + string.Join(", ", staff.Select(s => $"{s.Name} {s.HoursLeft:0.##}/{s.HoursPerDay:0.##}")) + ".";
 
-    public static string NextMatch(DateTime? matchDay, GameTime now)
+    public static string NextMatch(Fixture? fixture, GameTime now)
     {
-        if (matchDay is not { } day)
+        if (fixture == null)
         {
             return "none scheduled";
         }
 
-        var days = (day - now.Date).Days;
-        return days == 0 ? "today" : $"{Day(day)} (in {days} day{(days == 1 ? "" : "s")})";
+        var strip = $"strip {fixture.Strip.Number}";
+        if (fixture.Start <= now.Date)
+        {
+            var day = (now.Date - fixture.Start).Days + 1;
+            return fixture.Days == 1 ? $"today on {strip}" : $"day {day} of {fixture.Days} on {strip}";
+        }
+
+        var days = (fixture.Start - now.Date).Days;
+        return $"{Day(fixture.Start)} on {strip} (in {days} day{(days == 1 ? "" : "s")})";
     }
 }

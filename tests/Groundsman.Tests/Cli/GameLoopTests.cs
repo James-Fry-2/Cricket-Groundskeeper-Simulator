@@ -29,7 +29,7 @@ public class GameLoopTests
         Assert.Contains("Test Ground", console.Output);
         Assert.Contains("Mon 10 May 2027, 07:00", console.Output);
         Assert.Contains("In season", console.Output);
-        Assert.Contains("Thu 20 May (in 10 days)", console.Output);
+        Assert.Contains("Thu 20 May on strip 1 (in 10 days)", console.Output);
     }
 
     [Fact]

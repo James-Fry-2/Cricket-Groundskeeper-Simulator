@@ -22,6 +22,7 @@ namespace Groundsman.Core
         private readonly string _groundName;
         private readonly PaceContext _paceContext;
         private readonly PaceRules _pace;
+        private readonly IReadOnlyList<Fixture> _fixtures;
         private readonly TasksSystem _tasks;
         private readonly CoversSystem _covers;
         private readonly int _coversOwned;
@@ -46,6 +47,7 @@ namespace Groundsman.Core
             var random = new RandomStreams(setup.Seed);
 
             _groundName = content.Ground.Name;
+            _fixtures = setup.Fixtures;
             _paceContext = new PaceContext(content.Calendar, setup.MatchDays);
             _pace = new PaceRules(_paceContext);
             Square = new Square(content);
@@ -78,7 +80,7 @@ namespace Groundsman.Core
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
                     .ToArray();
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current);
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.FirstOrDefault(f => f.End >= _now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current);
             }
         }
 

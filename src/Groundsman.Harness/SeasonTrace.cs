@@ -14,7 +14,7 @@ public static class SeasonTrace
     public static string Run(GameContent content, SeasonSettings season, ulong seed, DateTime end)
     {
         var start = GameTime.OnDate(season.Start, content.Calendar.MorningHour);
-        var game = new Game(new GameSetup(content, start, season.MatchDays, seed));
+        var game = new Game(new GameSetup(content, start, season.Fixtures, seed));
         var stop = GameTime.OnDate(end, content.Calendar.MorningHour);
 
         var csv = new StringBuilder("time,rain_24h_mm,temperature");

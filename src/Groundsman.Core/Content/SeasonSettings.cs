@@ -4,29 +4,42 @@ using System.Collections.Generic;
 namespace Groundsman.Core.Content
 {
     /// <summary>
-    /// When a new game starts and which days have matches. Stands in until fixtures exist.
+    /// When a new game starts and the season's fixtures, each on an assigned strip until
+    /// players choose strips themselves.
     /// </summary>
     public sealed class SeasonSettings
     {
-        public SeasonSettings(DateTime start, IReadOnlyList<DateTime> matchDays)
+        public SeasonSettings(DateTime start, IReadOnlyList<Fixture> fixtures)
         {
-            for (var i = 0; i < matchDays.Count; i++)
+            for (var i = 0; i < fixtures.Count; i++)
             {
-                if (matchDays[i] < start)
+                var fixture = fixtures[i];
+                var path = $"season.fixtures[{i}]";
+                if (fixture.Days < 1)
                 {
-                    throw new ContentException($"season.matchDays[{i}] ({matchDays[i]:yyyy-MM-dd}) is before the start ({start:yyyy-MM-dd}).");
+                    throw new ContentException($"{path}.days ({fixture.Days}) must be at least 1.");
                 }
-                if (i > 0 && matchDays[i] <= matchDays[i - 1])
+                if (fixture.Strip.Number < 1)
                 {
-                    throw new ContentException("season.matchDays must be in date order with no repeats.");
+                    throw new ContentException($"{path}.strip ({fixture.Strip.Number}) must be a strip number from 1.");
+                }
+                if (fixture.Start < start.Date)
+                {
+                    throw new ContentException($"{path} ({fixture.Start:yyyy-MM-dd}) starts before the game does ({start:yyyy-MM-dd}).");
+                }
+                if (i > 0 && fixture.Start <= fixtures[i - 1].End)
+                {
+                    throw new ContentException($"{path} ({fixture.Start:yyyy-MM-dd}) must start after the previous fixture ends: fixtures run in date order without overlapping.");
                 }
             }
 
             Start = start.Date;
-            MatchDays = new List<DateTime>(matchDays).AsReadOnly();
+            Fixtures = new List<Fixture>(fixtures).AsReadOnly();
         }
 
         public DateTime Start { get; }
-        public IReadOnlyList<DateTime> MatchDays { get; }
+        public IReadOnlyList<Fixture> Fixtures { get; }
+
+        public IReadOnlyList<DateTime> MatchDays => GameSetup.MatchDaysOf(Fixtures);
     }
 }
