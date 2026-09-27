@@ -122,6 +122,10 @@ public sealed class GameLoop
         _console.WriteLine();
         _console.Write(new Rule($"[green]{Markup.Escape(view.GroundName)}[/]  {Format.Time(view.Now)}").LeftJustified());
         _console.MarkupLine($"{Format.Pace(view.Pace)}. Next match: {Format.NextMatch(view.NextMatchDay, view.Now)}.");
+        if (view.Weather is { } weather)
+        {
+            _console.MarkupLine(Format.Weather(weather));
+        }
 
         var table = new Table().Border(TableBorder.Simple)
             .AddColumn("Strip")

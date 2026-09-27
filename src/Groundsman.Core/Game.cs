@@ -7,6 +7,7 @@ using Groundsman.Core.Simulation;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Tasks;
 using Groundsman.Core.Time;
+using Groundsman.Core.Weather;
 
 namespace Groundsman.Core
 {
@@ -36,8 +37,9 @@ namespace Groundsman.Core
             _paceContext = new PaceContext(content.Calendar, setup.MatchDays);
             _pace = new PaceRules(_paceContext);
             Square = new Square(content.Ground);
+            Weather = new WeatherSystem(new WeatherGenerator(content.Climate, random.Get(RandomStream.Weather)), setup.Start.Date);
             _tasks = new TasksSystem(Square, content.Tasks);
-            _tick = new HourlyTick(new IHourlySystem[] { _tasks }.Concat(extraSystems));
+            _tick = new HourlyTick(new IHourlySystem[] { Weather, _tasks }.Concat(extraSystems));
             _knowledge = new KnowledgeStore(Square.Strips.Count);
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
             _now = setup.Start;
@@ -53,11 +55,13 @@ namespace Groundsman.Core
                     var id = Square.Strips[i].Id;
                     strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id), _tasks.IsWateringQueued(id));
                 }
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _groundName, strips);
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), Observe(), _groundName, strips);
             }
         }
 
         internal Square Square { get; }
+
+        internal WeatherSystem Weather { get; }
 
         public CommandResult Submit(IGameCommand command)
         {
@@ -85,6 +89,16 @@ namespace Groundsman.Core
             _now = to;
             _readThisTurn.Clear();
             return new AdvanceResult(from, to);
+        }
+
+        private WeatherObservation? Observe()
+        {
+            if (!(Weather.LastHour is { } lastHour))
+            {
+                return null;
+            }
+
+            return new WeatherObservation(Weather.RainLast24HoursMm, lastHour.Temperature, lastHour.WindKph);
         }
 
         private CommandResult Water(WaterStrip water)

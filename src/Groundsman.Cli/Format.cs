@@ -1,4 +1,5 @@
 using System.Globalization;
+using Groundsman.Core;
 using Groundsman.Core.Readings;
 using Groundsman.Core.Time;
 
@@ -29,6 +30,9 @@ public static class Format
         DayPace.MatchDay => "Match day",
         _ => pace.ToString(),
     };
+
+    public static string Weather(WeatherObservation weather) =>
+        $"Rain in the last 24 hours: {weather.RainLast24HoursMm:0.0} mm. Now {weather.Temperature:0}°C, wind {weather.WindKph:0} km/h.";
 
     public static string NextMatch(DateTime? matchDay, GameTime now)
     {

@@ -12,6 +12,7 @@ public static class ContentLoader
 
         var content = new GameContent(
             ContentParser.ParseCalendar(Read("calendar.json")),
+            ContentParser.ParseClimate(Read("climate.json")),
             ContentParser.ParseGround(Read("ground.json")),
             ContentParser.ParseTasks(Read("tasks.json")),
             ContentParser.ParseReadings(Read("readings.json")));

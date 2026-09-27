@@ -27,6 +27,14 @@ public class FormatTests
     }
 
     [Fact]
+    public void Weather_shows_gauge_temperature_and_wind()
+    {
+        var text = Format.Weather(new Groundsman.Core.WeatherObservation(3.26, 11.4, 17.6));
+
+        Assert.Equal("Rain in the last 24 hours: 3.3 mm. Now 11°C, wind 18 km/h.", text);
+    }
+
+    [Fact]
     public void Times_show_day_date_and_hour()
     {
         Assert.Equal("Thu 25 Mar 2027, 07:00", Format.Time(new GameTime(2027, 3, 25, 7)));

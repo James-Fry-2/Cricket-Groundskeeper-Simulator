@@ -9,11 +9,12 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
-        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, string groundName, IReadOnlyList<StripView> strips)
+        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips)
         {
             Now = now;
             Pace = pace;
             NextMatchDay = nextMatchDay;
+            Weather = weather;
             GroundName = groundName;
             Strips = strips;
         }
@@ -23,6 +24,9 @@ namespace Groundsman.Core
 
         /// <summary>Today if a match is on today, otherwise the next match day, or null if none.</summary>
         public DateTime? NextMatchDay { get; }
+
+        /// <summary>Null until the first hour has run.</summary>
+        public WeatherObservation? Weather { get; }
 
         public string GroundName { get; }
         public IReadOnlyList<StripView> Strips { get; }
