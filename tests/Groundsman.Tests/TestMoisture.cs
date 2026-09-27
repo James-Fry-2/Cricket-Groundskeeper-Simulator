@@ -9,5 +9,7 @@ internal static class TestMoisture
         subsurfaceDepthMm: 75,
         evaporationPerDegreeMm: 0.004,
         evaporationWindFactorPerKph: 0.02,
-        evaporationPerSunshineHourMm: 0.2);
+        evaporationPerSunshineHourMm: 0.2,
+        rootUptakeShare: 0.3,
+        rootUptakeCurve: 3);
 }

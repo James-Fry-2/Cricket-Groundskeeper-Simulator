@@ -109,7 +109,9 @@ namespace Groundsman.Core.Content
                 Required(file, "subsurfaceDepthMm", dto.SubsurfaceDepthMm),
                 Required(file, "evaporation.perDegreeMm", evaporation.PerDegreeMm),
                 Required(file, "evaporation.windFactorPerKph", evaporation.WindFactorPerKph),
-                Required(file, "evaporation.perSunshineHourMm", evaporation.PerSunshineHourMm));
+                Required(file, "evaporation.perSunshineHourMm", evaporation.PerSunshineHourMm),
+                Required(file, "rootUptakeShare", dto.RootUptakeShare),
+                Required(file, "rootUptakeCurve", dto.RootUptakeCurve));
         }
 
         public static CoverSettings ParseCovers(string json)
@@ -444,6 +446,8 @@ namespace Groundsman.Core.Content
             public double? SurfaceDepthMm { get; set; }
             public double? SubsurfaceDepthMm { get; set; }
             public EvaporationDto? Evaporation { get; set; }
+            public double? RootUptakeShare { get; set; }
+            public double? RootUptakeCurve { get; set; }
         }
 
         private sealed class EvaporationDto

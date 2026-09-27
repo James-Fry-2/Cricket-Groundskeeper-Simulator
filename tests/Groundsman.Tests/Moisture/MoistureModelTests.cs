@@ -186,6 +186,63 @@ public class MoistureModelTests
         Assert.True(ExcessLeftAfter12Hours(TestLoams.Heavy) > ExcessLeftAfter12Hours(TestLoams.Standard));
     }
 
+    private static IEnumerable<HourWeather> SummerDay()
+    {
+        for (var hour = 0; hour < 24; hour++)
+        {
+            var daylight = hour >= 5 && hour < 21;
+            yield return new HourWeather(rainMm: 0, temperature: daylight ? 22 : 13, windKph: 12, sunshine: daylight ? 0.7 : 0);
+        }
+    }
+
+    [Fact]
+    public void Roots_dry_the_subsurface_from_field_capacity_into_the_prepared_range_over_a_few_summer_days()
+    {
+        var loam = TestLoams.Standard;
+        var strip = Strip(loam.FieldCapacity - 6, loam.FieldCapacity, loam);
+
+        for (var day = 0; day < 3; day++)
+        {
+            foreach (var hour in SummerDay())
+            {
+                Model.RunHour(strip, hour, covered: false, wateringMm: 0);
+            }
+        }
+
+        Assert.InRange(loam.FieldCapacity - strip.SubsurfaceMoisture, 3, 8);
+    }
+
+    [Fact]
+    public void Roots_take_less_from_a_drier_subsurface()
+    {
+        double DryingInADay(double subsurface)
+        {
+            var strip = Strip(subsurface, subsurface);
+            foreach (var hour in SummerDay())
+            {
+                Model.RunHour(strip, hour, covered: false, wateringMm: 0);
+            }
+            return subsurface - strip.SubsurfaceMoisture;
+        }
+
+        Assert.True(DryingInADay(28) > DryingInADay(14));
+    }
+
+    [Fact]
+    public void A_covered_strip_loses_less_water_at_depth()
+    {
+        var covered = Strip(24, 30);
+        var open = Strip(24, 30);
+
+        foreach (var hour in SummerDay())
+        {
+            Model.RunHour(covered, hour, covered: true, wateringMm: 0);
+            Model.RunHour(open, hour, covered: false, wateringMm: 0);
+        }
+
+        Assert.True(covered.SubsurfaceMoisture > open.SubsurfaceMoisture);
+    }
+
     [Fact]
     public void A_dry_surface_draws_water_up_from_below()
     {

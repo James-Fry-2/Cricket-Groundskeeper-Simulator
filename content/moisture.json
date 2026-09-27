@@ -5,5 +5,7 @@
     "perDegreeMm": 0.004,
     "windFactorPerKph": 0.02,
     "perSunshineHourMm": 0.2
-  }
+  },
+  "rootUptakeShare": 0.3,
+  "rootUptakeCurve": 3
 }

@@ -21,12 +21,16 @@ public class MoistureContentTests
     [InlineData("\"perDegreeMm\": 0.004", "\"perDegreeMm\": -1", "perDegreeMm")]
     [InlineData("\"windFactorPerKph\": 0.02", "\"windFactorPerKph\": -1", "windFactorPerKph")]
     [InlineData("\"perSunshineHourMm\": 0.2", "\"perSunshineHourMm\": -1", "perSunshineHourMm")]
+    [InlineData("\"rootUptakeShare\": 0.3", "\"rootUptakeShare\": 1.5", "rootUptakeShare")]
+    [InlineData("\"rootUptakeCurve\": 3", "\"rootUptakeCurve\": 0.5", "rootUptakeCurve")]
     public void Rejects_invalid_values_naming_the_field(string original, string replacement, string field)
     {
         const string valid = @"{
             ""surfaceDepthMm"": 25,
             ""subsurfaceDepthMm"": 75,
-            ""evaporation"": { ""perDegreeMm"": 0.004, ""windFactorPerKph"": 0.02, ""perSunshineHourMm"": 0.2 }
+            ""evaporation"": { ""perDegreeMm"": 0.004, ""windFactorPerKph"": 0.02, ""perSunshineHourMm"": 0.2 },
+            ""rootUptakeShare"": 0.3,
+            ""rootUptakeCurve"": 3
         }";
 
         var error = Assert.Throws<ContentException>(() => ContentParser.ParseMoisture(valid.Replace(original, replacement)));

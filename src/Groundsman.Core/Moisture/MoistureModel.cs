@@ -73,6 +73,12 @@ namespace Groundsman.Core.Moisture
             var evaporation = Math.Min(potential * availability, Math.Max(0, surface - airDry));
             surface -= evaporation;
 
+            // Roots draw from the subsurface, falling away sharply as it dries towards air-dry.
+            var subsurfaceAirDry = ToMm(loam.AirDry, subsurfaceDepth);
+            var rootAvailability = Math.Pow(Clamp01((subsurface - subsurfaceAirDry) / (ToMm(loam.FieldCapacity, subsurfaceDepth) - subsurfaceAirDry)), _settings.RootUptakeCurve);
+            var uptake = Math.Min(potential * _settings.RootUptakeShare * rootAvailability, Math.Max(0, subsurface - subsurfaceAirDry));
+            subsurface -= uptake;
+
             strip.SurfaceMoisture = ToPercent(surface, surfaceDepth);
             strip.SubsurfaceMoisture = ToPercent(subsurface, subsurfaceDepth);
         }
