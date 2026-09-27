@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Groundsman.Core.Commands;
 using Groundsman.Core.Inspection;
+using Groundsman.Core.Moisture;
 using Groundsman.Core.Randomness;
 using Groundsman.Core.Readings;
 using Groundsman.Core.Simulation;
@@ -39,8 +40,9 @@ namespace Groundsman.Core
             _pace = new PaceRules(_paceContext);
             Square = new Square(content);
             Weather = new WeatherSystem(new WeatherGenerator(content.Climate, random.Get(RandomStream.Weather)), setup.Start.Date);
-            _tasks = new TasksSystem(Square, content.Tasks, content.Moisture);
-            _tick = new HourlyTick(new IHourlySystem[] { Weather, _tasks }.Concat(extraSystems));
+            _tasks = new TasksSystem();
+            Moisture = new MoistureSystem(Square, Weather, _tasks, new MoistureModel(content.Moisture), content.Tasks.WaterMm);
+            _tick = new HourlyTick(new IHourlySystem[] { Weather, Moisture, _tasks }.Concat(extraSystems));
             _knowledge = new KnowledgeStore(Square.Strips.Count);
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
             _now = setup.Start;
@@ -75,6 +77,8 @@ namespace Groundsman.Core
         }
 
         internal WeatherSystem Weather { get; }
+
+        internal MoistureSystem Moisture { get; }
 
         public CommandResult Submit(IGameCommand command)
         {

@@ -1,5 +1,6 @@
 using Groundsman.Core;
 using Groundsman.Core.Commands;
+using Groundsman.Core.Moisture;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Time;
 
@@ -9,7 +10,14 @@ public class WaterStripTests
 {
     private static readonly StripId Strip3 = new StripId(3);
 
-    private static Game NewGame() => new Game(TestContent.Setup(new GameTime(2027, 5, 10, 7)));
+    private static Game NewGame(ulong seed = 1) => new Game(TestContent.Setup(new GameTime(2027, 5, 10, 7), seed: seed));
+
+    private static double WaterMm(Game game, StripId id)
+    {
+        var strip = game.Square.Get(id);
+        return strip.SurfaceMoisture / 100 * TestMoisture.Settings.SurfaceDepthMm
+            + strip.SubsurfaceMoisture / 100 * TestMoisture.Settings.SubsurfaceDepthMm;
+    }
 
     [Fact]
     public void Watering_waits_for_the_next_advance()
@@ -24,54 +32,57 @@ public class WaterStripTests
     }
 
     [Fact]
-    public void Watering_raises_surface_moisture_by_the_content_amount()
+    public void Watering_goes_on_in_the_first_hour_of_the_advance()
     {
-        var game = NewGame();
-        var before = game.Square.Get(Strip3).SurfaceMoisture;
+        var watered = NewGame();
+        var dry = NewGame();
+        var model = new MoistureModel(TestMoisture.Settings);
+        var expected = new StripState(Strip3, TestLoams.Standard, dry.Square.Get(Strip3).SurfaceMoisture, dry.Square.Get(Strip3).SubsurfaceMoisture);
 
-        game.Submit(new WaterStrip(Strip3));
-        game.Advance();
+        watered.Submit(new WaterStrip(Strip3));
+        watered.Weather.RunHour(watered.View.Now);
+        model.RunHour(expected, watered.Weather.LastHour!.Value, covered: false, wateringMm: TestContent.Tasks.WaterMm);
+        watered.Moisture.RunHour(watered.View.Now);
 
-        Assert.Equal(before + TestContent.WaterGain, game.Square.Get(Strip3).SurfaceMoisture);
+        Assert.Equal(expected.SurfaceMoisture, watered.Square.Get(Strip3).SurfaceMoisture, 9);
+        Assert.Equal(expected.SubsurfaceMoisture, watered.Square.Get(Strip3).SubsurfaceMoisture, 9);
     }
 
     [Fact]
-    public void Watering_only_touches_the_chosen_strip_surface()
+    public void A_watered_strip_holds_more_water_than_the_same_strip_left_alone_unless_rain_filled_it()
     {
-        var game = NewGame();
-        var otherBefore = game.Square.Get(new StripId(4)).SurfaceMoisture;
-        var subsurfaceBefore = game.Square.Get(Strip3).SubsurfaceMoisture;
+        var dryDays = 0;
+        for (ulong seed = 1; seed <= 20; seed++)
+        {
+            var watered = NewGame(seed);
+            var dry = NewGame(seed);
 
-        game.Submit(new WaterStrip(Strip3));
-        game.Advance();
+            watered.Submit(new WaterStrip(Strip3));
+            watered.Advance();
+            dry.Advance();
 
-        Assert.Equal(otherBefore, game.Square.Get(new StripId(4)).SurfaceMoisture);
-        Assert.Equal(subsurfaceBefore, game.Square.Get(Strip3).SubsurfaceMoisture);
-    }
+            // Heavy rain can saturate both layers, and then the watering just runs off.
+            Assert.True(WaterMm(watered, Strip3) >= WaterMm(dry, Strip3) - 1e-9);
+            if (watered.View.Weather!.RainLast24HoursMm < 1)
+            {
+                dryDays++;
+                Assert.True(WaterMm(watered, Strip3) > WaterMm(dry, Strip3), $"seed {seed}");
+            }
+            Assert.Equal(WaterMm(dry, new StripId(4)), WaterMm(watered, new StripId(4)), 9);
+        }
 
-    [Fact]
-    public void Watering_never_takes_moisture_past_saturation()
-    {
-        var game = NewGame();
-        game.Square.Get(Strip3).SurfaceMoisture = TestLoams.Standard.Saturation - 1;
-
-        game.Submit(new WaterStrip(Strip3));
-        game.Advance();
-
-        Assert.Equal(TestLoams.Standard.Saturation, game.Square.Get(Strip3).SurfaceMoisture);
+        Assert.True(dryDays >= 5, "Too few dry days to test the ordinary case");
     }
 
     [Fact]
     public void Watering_applies_once_per_order()
     {
         var game = NewGame();
-        var before = game.Square.Get(Strip3).SurfaceMoisture;
 
         game.Submit(new WaterStrip(Strip3));
         game.Advance();
-        game.Advance();
 
-        Assert.Equal(before + TestContent.WaterGain, game.Square.Get(Strip3).SurfaceMoisture);
+        Assert.False(game.View.Strips[2].WateringQueued);
     }
 
     [Fact]
@@ -89,13 +100,11 @@ public class WaterStripTests
     public void Rejects_watering_a_strip_twice_in_one_turn()
     {
         var game = NewGame();
-        var before = game.Square.Get(Strip3).SurfaceMoisture;
 
         game.Submit(new WaterStrip(Strip3));
         var second = game.Submit(new WaterStrip(Strip3));
-        game.Advance();
 
         Assert.False(second.Accepted);
-        Assert.Equal(before + TestContent.WaterGain, game.Square.Get(Strip3).SurfaceMoisture);
+        Assert.Contains("already", second.Reason);
     }
 }
