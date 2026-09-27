@@ -44,6 +44,9 @@ In `content/climate.json`:
 - Rain day threshold 1 mm; wet-day persistence 0.35; rain spells 2 to 8 hours
 - Temperature anomaly: spread 2 °C, persistence 0.7 day to day
 - Wind variability 0.35 (log scale); wet-day sunshine 40% of a dry day's
+- Cloud: variability 1.2 (log-odds), persistence 0.5 day to day
+- Sunshine widens the daily range by 1.2× the sunshine-fraction deviation; rain cools each rainy hour by 1.5 °C; wet days are 1.3× windier than dry days
+- Sun warmth per month (°C per unit of sunshine fraction above average): −2 in midwinter up to +3 in summer
 
 In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Game start: 25 March 2027
@@ -74,4 +77,7 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - First replay snapshot (`tests/Groundsman.Tests/Snapshots/replay-season-start.json`): 80 turns of scripted play on test content. After an intended rule change, rerun with `UPDATE_SNAPSHOTS=1 dotnet test` and review the diff.
 - Harness: `weather --years N` (daily CSV plus monthly comparison with normals) and `trace` (truth at every decision point of an untouched season), writing to `harness-output/`. The harness links the Cli's `ContentLoader.cs`; move it to a shared project if more code ends up shared.
 - Weather check, 100 years from seed 1: all months close to normal. The largest gaps are rain in July (61 vs 55 mm) and September (60 vs 55 mm), about 10% over, which is within sampling noise. Sunshine is fixed per wet or dry day within a month, with no day-to-day variation; add some if days feel samey.
+- Weather revision, after play feedback that summer felt cold. Two causes: the screen showed the 06:00 temperature, near the overnight low, and hot days were too rare (about 2 days of 25 °C or more in July). Weather now follows one chain per day: wet or dry, then cloud (carried day to day), then sunshine (none while rain falls), then temperature. Sun widens the daily range and warms summer days or chills winter nights, and the warmth carries over, so heatwaves come from sunny dry spells. Wet days are windier. Every effect is centred on the monthly average, so the normals still hold.
+- Result over 200 years: July about 6 days of 25 °C or more (June 2, August 4), occasional 30 °C days, hottest 35 °C; averages unchanged. Winter sunshine runs about 4% under normal because rain spells can fill a short winter day, which was accepted rather than compensated.
+- The view shows yesterday's low and high from the max-min thermometer. Replay snapshot regenerated: only rain, temperature and wind changed.
 - Next: phase 2 task 3, loams and moisture.
