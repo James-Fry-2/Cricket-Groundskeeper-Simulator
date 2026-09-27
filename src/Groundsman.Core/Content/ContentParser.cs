@@ -107,7 +107,8 @@ namespace Groundsman.Core.Content
                     Required(file, path + ".rainTotalMm", m.RainTotalMm),
                     Required(file, path + ".sunshineHours", m.SunshineHours),
                     Required(file, path + ".meanWindKph", m.MeanWindKph),
-                    Required(file, path + ".daylightHours", m.DaylightHours));
+                    Required(file, path + ".daylightHours", m.DaylightHours),
+                    Required(file, path + ".sunWarmth", m.SunWarmth));
             }
 
             return new ClimateSettings(
@@ -119,6 +120,11 @@ namespace Groundsman.Core.Content
                 Required(file, "temperatureAnomalyPersistence", dto.TemperatureAnomalyPersistence),
                 Required(file, "windVariability", dto.WindVariability),
                 Required(file, "wetDaySunshineFactor", dto.WetDaySunshineFactor),
+                Required(file, "cloudVariability", dto.CloudVariability),
+                Required(file, "cloudPersistence", dto.CloudPersistence),
+                Required(file, "sunshineRangeEffect", dto.SunshineRangeEffect),
+                Required(file, "rainCooling", dto.RainCooling),
+                Required(file, "wetDayWindFactor", dto.WetDayWindFactor),
                 months);
         }
 
@@ -214,6 +220,11 @@ namespace Groundsman.Core.Content
             public double? TemperatureAnomalyPersistence { get; set; }
             public double? WindVariability { get; set; }
             public double? WetDaySunshineFactor { get; set; }
+            public double? CloudVariability { get; set; }
+            public double? CloudPersistence { get; set; }
+            public double? SunshineRangeEffect { get; set; }
+            public double? RainCooling { get; set; }
+            public double? WetDayWindFactor { get; set; }
             public List<MonthClimateDto>? Months { get; set; }
         }
 
@@ -233,6 +244,7 @@ namespace Groundsman.Core.Content
             public double? SunshineHours { get; set; }
             public double? MeanWindKph { get; set; }
             public double? DaylightHours { get; set; }
+            public double? SunWarmth { get; set; }
         }
     }
 }

@@ -37,6 +37,11 @@ public class ClimateContentTests
     [InlineData("\"sunshineHours\": 55,", "\"sunshineHours\": 300,", "sunshineHours")]
     [InlineData("\"daylightHours\": 8.3", "\"daylightHours\": 25", "daylightHours")]
     [InlineData("\"month\": 2,", "\"month\": 3,", "month")]
+    [InlineData("\"cloudPersistence\": 0.5", "\"cloudPersistence\": 1", "cloudPersistence")]
+    [InlineData("\"cloudVariability\": 1.2", "\"cloudVariability\": -1", "cloudVariability")]
+    [InlineData("\"rainCooling\": 1.5", "\"rainCooling\": -1", "rainCooling")]
+    [InlineData("\"wetDayWindFactor\": 1.3", "\"wetDayWindFactor\": 0", "wetDayWindFactor")]
+    [InlineData(", \"sunWarmth\": -2 }", " }", "sunWarmth")]
     public void Rejects_invalid_values_naming_the_field(string original, string replacement, string field)
     {
         var json = Shipped();

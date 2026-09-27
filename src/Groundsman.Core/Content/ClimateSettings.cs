@@ -14,6 +14,11 @@ namespace Groundsman.Core.Content
             double temperatureAnomalyPersistence,
             double windVariability,
             double wetDaySunshineFactor,
+            double cloudVariability,
+            double cloudPersistence,
+            double sunshineRangeEffect,
+            double rainCooling,
+            double wetDayWindFactor,
             IReadOnlyList<MonthClimate> months)
         {
             if (rainDayThresholdMm <= 0)
@@ -38,6 +43,23 @@ namespace Groundsman.Core.Content
             {
                 throw new ContentException($"climate.wetDaySunshineFactor ({wetDaySunshineFactor}) must be from 0 to 1.");
             }
+            if (cloudVariability < 0)
+            {
+                throw new ContentException($"climate.cloudVariability ({cloudVariability}) can't be negative.");
+            }
+            CheckFraction("cloudPersistence", cloudPersistence);
+            if (sunshineRangeEffect < 0)
+            {
+                throw new ContentException($"climate.sunshineRangeEffect ({sunshineRangeEffect}) can't be negative.");
+            }
+            if (rainCooling < 0)
+            {
+                throw new ContentException($"climate.rainCooling ({rainCooling}) can't be negative.");
+            }
+            if (wetDayWindFactor <= 0)
+            {
+                throw new ContentException($"climate.wetDayWindFactor ({wetDayWindFactor}) must be above 0.");
+            }
             if (months.Count != 12)
             {
                 throw new ContentException($"climate.months needs all 12 months, got {months.Count}.");
@@ -55,6 +77,11 @@ namespace Groundsman.Core.Content
             TemperatureAnomalyPersistence = temperatureAnomalyPersistence;
             WindVariability = windVariability;
             WetDaySunshineFactor = wetDaySunshineFactor;
+            CloudVariability = cloudVariability;
+            CloudPersistence = cloudPersistence;
+            SunshineRangeEffect = sunshineRangeEffect;
+            RainCooling = rainCooling;
+            WetDayWindFactor = wetDayWindFactor;
             Months = new List<MonthClimate>(months).AsReadOnly();
         }
 
@@ -78,6 +105,24 @@ namespace Groundsman.Core.Content
 
         /// <summary>Sunshine on a wet day as a fraction of a dry day's.</summary>
         public double WetDaySunshineFactor { get; }
+
+        /// <summary>Day-to-day spread of cloud cover, on a log-odds scale.</summary>
+        public double CloudVariability { get; }
+
+        /// <summary>How much of today's cloudiness carries into tomorrow, 0 to under 1.</summary>
+        public double CloudPersistence { get; }
+
+        /// <summary>
+        /// Daily temperature range grows by this share per unit of sunshine fraction above the
+        /// month's average: clear skies give warmer afternoons and colder nights.
+        /// </summary>
+        public double SunshineRangeEffect { get; }
+
+        /// <summary>°C taken off each hour with rain falling.</summary>
+        public double RainCooling { get; }
+
+        /// <summary>Mean wind on wet days as a multiple of dry days'.</summary>
+        public double WetDayWindFactor { get; }
 
         public IReadOnlyList<MonthClimate> Months { get; }
 
@@ -115,9 +160,9 @@ namespace Groundsman.Core.Content
                 throw new ContentException($"{path}.daylightHours ({month.DaylightHours}) must be above 0 and at most 24.");
             }
 
-            // Dry days get more sun than wet ones; the dry-day share must still fit in daylight.
-            var dryDaySunshine = month.SunshineHours / month.Days / (month.WetDayChance * wetSunFactor + 1 - month.WetDayChance);
-            if (month.SunshineHours < 0 || dryDaySunshine > month.DaylightHours)
+            // Dry days get more sun than wet ones. The dry-day average has to stay below all-day
+            // sun, or no spread of sunny and cloudy days could produce it.
+            if (month.SunshineHours <= 0 || month.DryDaySunshineFraction(wetSunFactor) >= 1)
             {
                 throw new ContentException($"{path}.sunshineHours ({month.SunshineHours}) doesn't fit in the month's daylight.");
             }

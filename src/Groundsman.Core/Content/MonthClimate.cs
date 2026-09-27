@@ -13,7 +13,8 @@ namespace Groundsman.Core.Content
             double rainTotalMm,
             double sunshineHours,
             double meanWindKph,
-            double daylightHours)
+            double daylightHours,
+            double sunWarmth)
         {
             Month = month;
             MeanTemperature = meanTemperature;
@@ -23,6 +24,7 @@ namespace Groundsman.Core.Content
             SunshineHours = sunshineHours;
             MeanWindKph = meanWindKph;
             DaylightHours = daylightHours;
+            SunWarmth = sunWarmth;
         }
 
         public int Month { get; }
@@ -46,11 +48,27 @@ namespace Groundsman.Core.Content
         /// <summary>Sunrise to sunset, mid-month.</summary>
         public double DaylightHours { get; }
 
+        /// <summary>
+        /// °C added to the day's mean per unit of sunshine fraction above the month's average.
+        /// Positive in summer (sun heats), negative in winter (clear skies mean cold nights).
+        /// </summary>
+        public double SunWarmth { get; }
+
         /// <summary>Days in the month, taking February as 28 so normals don't shift in leap years.</summary>
         public int Days => DateTime.DaysInMonth(2001, Month);
 
         public double WetDayChance => RainDays / Days;
 
         public double MeanWetDayRainMm => RainTotalMm / RainDays;
+
+        /// <summary>Average share of daylight in bright sunshine.</summary>
+        public double MeanSunshineFraction => SunshineHours / Days / DaylightHours;
+
+        /// <summary>
+        /// Average sunshine fraction on dry days, given that wet days get
+        /// <paramref name="wetDayFactor"/> of it, so the month still averages its normal.
+        /// </summary>
+        public double DryDaySunshineFraction(double wetDayFactor) =>
+            MeanSunshineFraction / (WetDayChance * wetDayFactor + 1 - WetDayChance);
     }
 }
