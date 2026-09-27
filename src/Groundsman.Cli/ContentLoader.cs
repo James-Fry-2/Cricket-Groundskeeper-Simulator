@@ -18,6 +18,7 @@ public static class ContentLoader
             ContentParser.ParseMoisture(Read("moisture.json")),
             ContentParser.ParseCovers(Read("covers.json")),
             ContentParser.ParseTasks(Read("tasks.json")),
+            ContentParser.ParseStaff(Read("staff.json")),
             ContentParser.ParseReadings(Read("readings.json")));
 
         return (content, ContentParser.ParseSeason(Read("season.json")));

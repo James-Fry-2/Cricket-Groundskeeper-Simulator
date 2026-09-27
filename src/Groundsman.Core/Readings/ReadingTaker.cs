@@ -1,5 +1,6 @@
 using Groundsman.Core.Content;
 using Groundsman.Core.Randomness;
+using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Time;
 
@@ -16,7 +17,7 @@ namespace Groundsman.Core.Readings
             _random = random;
         }
 
-        public Reading ProbeSurfaceMoisture(StripState strip, GameTime now)
+        public Reading ProbeSurfaceMoisture(StripState strip, GameTime now, StaffId takenBy)
         {
             // Place the true value at a random point in the range: a range centred on the truth
             // would give it away as the midpoint.
@@ -24,7 +25,7 @@ namespace Groundsman.Core.Readings
             var low = strip.SurfaceMoisture - _random.NextDouble() * width;
             var range = new ValueRange(low, low + width);
 
-            return new Reading(strip.Id, Quantity.SurfaceMoisture, range, now, ReadingSource.MoistureProbe);
+            return new Reading(strip.Id, Quantity.SurfaceMoisture, range, now, ReadingSource.MoistureProbe, takenBy);
         }
     }
 }

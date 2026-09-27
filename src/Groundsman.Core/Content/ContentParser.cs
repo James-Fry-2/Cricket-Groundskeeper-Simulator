@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 using Newtonsoft.Json;
 
@@ -119,6 +120,34 @@ namespace Groundsman.Core.Content
             return new CoverSettings(
                 Required(file, "count", dto.Count),
                 Required(file, "evaporationFactor", dto.EvaporationFactor));
+        }
+
+        public static StaffSettings ParseStaff(string json)
+        {
+            const string file = "staff";
+            var dto = Deserialise<StaffDto>(json, file);
+            var memberDtos = Required(file, "staff", dto.Staff);
+            var jobs = Required(file, "jobHours", dto.JobHours);
+
+            var members = new StaffMemberSettings[memberDtos.Count];
+            for (var i = 0; i < members.Length; i++)
+            {
+                var member = memberDtos[i];
+                var path = $"staff[{i}]";
+                members[i] = new StaffMemberSettings(
+                    new StaffId(Required(file, path + ".id", member.Id)),
+                    Required(file, path + ".name", member.Name),
+                    Required(file, path + ".hoursPerDay", member.HoursPerDay),
+                    Required(file, path + ".readingSkill", member.ReadingSkill));
+            }
+
+            return new StaffSettings(
+                members,
+                Required(file, "jobHours.water", jobs.Water),
+                Required(file, "jobHours.cover", jobs.Cover),
+                Required(file, "jobHours.uncover", jobs.Uncover),
+                Required(file, "jobHours.probeReading", jobs.ProbeReading),
+                Required(file, "jobHours.feelReading", jobs.FeelReading));
         }
 
         public static ReadingSettings ParseReadings(string json)
@@ -341,6 +370,29 @@ namespace Groundsman.Core.Content
         {
             public int? Count { get; set; }
             public double? EvaporationFactor { get; set; }
+        }
+
+        private sealed class StaffDto
+        {
+            public List<StaffMemberDto>? Staff { get; set; }
+            public JobHoursDto? JobHours { get; set; }
+        }
+
+        private sealed class StaffMemberDto
+        {
+            public string? Id { get; set; }
+            public string? Name { get; set; }
+            public double? HoursPerDay { get; set; }
+            public double? ReadingSkill { get; set; }
+        }
+
+        private sealed class JobHoursDto
+        {
+            public double? Water { get; set; }
+            public double? Cover { get; set; }
+            public double? Uncover { get; set; }
+            public double? ProbeReading { get; set; }
+            public double? FeelReading { get; set; }
         }
     }
 }

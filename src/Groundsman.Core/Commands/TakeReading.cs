@@ -1,14 +1,18 @@
+using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 
 namespace Groundsman.Core.Commands
 {
     public sealed class TakeReading : IGameCommand
     {
-        public TakeReading(StripId strip)
+        /// <param name="by">Who does the job; the player if not given.</param>
+        public TakeReading(StripId strip, StaffId? by = null)
         {
             Strip = strip;
+            By = by;
         }
 
         public StripId Strip { get; }
+        public StaffId? By { get; }
     }
 }

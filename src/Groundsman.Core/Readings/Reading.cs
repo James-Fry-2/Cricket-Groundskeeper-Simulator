@@ -1,3 +1,4 @@
+using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Time;
 
@@ -5,8 +6,9 @@ namespace Groundsman.Core.Readings
 {
     public sealed class Reading
     {
-        public Reading(StripId strip, Quantity quantity, ValueRange range, GameTime takenAt, ReadingSource source)
+        public Reading(StripId strip, Quantity quantity, ValueRange range, GameTime takenAt, ReadingSource source, StaffId takenBy)
         {
+            TakenBy = takenBy;
             Strip = strip;
             Quantity = quantity;
             Range = range;
@@ -19,5 +21,6 @@ namespace Groundsman.Core.Readings
         public ValueRange Range { get; }
         public GameTime TakenAt { get; }
         public ReadingSource Source { get; }
+        public StaffId TakenBy { get; }
     }
 }

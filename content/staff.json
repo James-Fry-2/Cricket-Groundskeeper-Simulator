@@ -1,0 +1,14 @@
+{
+  "staff": [
+    { "id": "you", "name": "You", "hoursPerDay": 8, "readingSkill": 1.0 },
+    { "id": "sam", "name": "Sam Hollis", "hoursPerDay": 8, "readingSkill": 0.8 },
+    { "id": "jo", "name": "Jo Pike", "hoursPerDay": 6, "readingSkill": 1.4 }
+  ],
+  "jobHours": {
+    "water": 1.0,
+    "cover": 0.25,
+    "uncover": 0.25,
+    "probeReading": 0.25,
+    "feelReading": 0.05
+  }
+}

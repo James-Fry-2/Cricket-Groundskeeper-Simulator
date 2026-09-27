@@ -14,6 +14,7 @@ namespace Groundsman.Core.Content
             MoistureSettings moisture,
             CoverSettings covers,
             TaskSettings tasks,
+            StaffSettings staff,
             ReadingSettings readings)
         {
             foreach (var loam in loams)
@@ -46,6 +47,7 @@ namespace Groundsman.Core.Content
             Moisture = moisture;
             Covers = covers;
             Tasks = tasks;
+            Staff = staff;
             Readings = readings;
         }
 
@@ -56,6 +58,7 @@ namespace Groundsman.Core.Content
         public MoistureSettings Moisture { get; }
         public CoverSettings Covers { get; }
         public TaskSettings Tasks { get; }
+        public StaffSettings Staff { get; }
         public ReadingSettings Readings { get; }
 
         public LoamSettings Loam(string id) => _loamsById[id];

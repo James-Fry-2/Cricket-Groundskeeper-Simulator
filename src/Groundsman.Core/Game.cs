@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Groundsman.Core.Commands;
+using Groundsman.Core.Content;
 using Groundsman.Core.Covers;
 using Groundsman.Core.Inspection;
 using Groundsman.Core.Moisture;
 using Groundsman.Core.Randomness;
 using Groundsman.Core.Readings;
 using Groundsman.Core.Simulation;
+using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Tasks;
 using Groundsman.Core.Time;
@@ -25,6 +27,8 @@ namespace Groundsman.Core
         private readonly HourlyTick _tick;
         private readonly KnowledgeStore _knowledge;
         private readonly ReadingTaker _readingTaker;
+        private readonly StaffSettings _staffSettings;
+        private readonly StaffRoster _staff;
         private readonly List<StripId> _readThisTurn = new List<StripId>();
         private GameTime _now;
 
@@ -50,6 +54,8 @@ namespace Groundsman.Core
             _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, _tasks }.Concat(extraSystems));
             _knowledge = new KnowledgeStore(Square.Strips.Count);
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
+            _staffSettings = content.Staff;
+            _staff = new StaffRoster(content.Staff, setup.Start.Date);
             _now = setup.Start;
         }
 
@@ -63,7 +69,10 @@ namespace Groundsman.Core
                     var id = Square.Strips[i].Id;
                     strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id), _tasks.IsWateringQueued(id), _covers.IsCovered(id), _covers.OrderFor(id));
                 }
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned);
+                var staff = _staffSettings.Members
+                    .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
+                    .ToArray();
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff);
             }
         }
 
@@ -94,9 +103,9 @@ namespace Groundsman.Core
                 case TakeReading reading:
                     return Read(reading);
                 case CoverStrip cover:
-                    return Cover(cover.Strip);
+                    return Cover(cover);
                 case UncoverStrip uncover:
-                    return Uncover(uncover.Strip);
+                    return Uncover(uncover);
                 default:
                     return CommandResult.Rejected($"Unknown command: {command.GetType().Name}.");
             }
@@ -114,6 +123,7 @@ namespace Groundsman.Core
 
             _now = to;
             _readThisTurn.Clear();
+            _staff.StartDay(_now.Date);
             return new AdvanceResult(from, to);
         }
 
@@ -139,13 +149,19 @@ namespace Groundsman.Core
             {
                 return CommandResult.Rejected($"{water.Strip} is already down for watering.");
             }
+            if (Assign(water.By, _staffSettings.WaterHours, out var who) is { } refused)
+            {
+                return refused;
+            }
 
             _tasks.QueueWatering(water.Strip);
+            _staff.Spend(who, _staffSettings.WaterHours);
             return CommandResult.Ok();
         }
 
-        private CommandResult Cover(StripId strip)
+        private CommandResult Cover(CoverStrip cover)
         {
+            var strip = cover.Strip;
             if (!Square.Contains(strip))
             {
                 return CommandResult.Rejected($"{strip} isn't on this square.");
@@ -162,13 +178,19 @@ namespace Groundsman.Core
             {
                 return CommandResult.Rejected("No covers free. Uncover another strip first.");
             }
+            if (Assign(cover.By, _staffSettings.CoverHours, out var who) is { } refused)
+            {
+                return refused;
+            }
 
             _covers.Order(strip, CoverOrder.Cover);
+            _staff.Spend(who, _staffSettings.CoverHours);
             return CommandResult.Ok();
         }
 
-        private CommandResult Uncover(StripId strip)
+        private CommandResult Uncover(UncoverStrip uncover)
         {
+            var strip = uncover.Strip;
             if (!Square.Contains(strip))
             {
                 return CommandResult.Rejected($"{strip} isn't on this square.");
@@ -181,8 +203,13 @@ namespace Groundsman.Core
             {
                 return CommandResult.Rejected($"{strip} isn't covered.");
             }
+            if (Assign(uncover.By, _staffSettings.UncoverHours, out var who) is { } refused)
+            {
+                return refused;
+            }
 
             _covers.Order(strip, CoverOrder.Uncover);
+            _staff.Spend(who, _staffSettings.UncoverHours);
             return CommandResult.Ok();
         }
 
@@ -198,10 +225,37 @@ namespace Groundsman.Core
             {
                 return CommandResult.Rejected($"{reading.Strip} has already been read this turn.");
             }
+            if (Assign(reading.By, _staffSettings.ProbeReadingHours, out var who) is { } refused)
+            {
+                return refused;
+            }
 
-            _knowledge.Record(_readingTaker.ProbeSurfaceMoisture(Square.Get(reading.Strip), _now));
+            _knowledge.Record(_readingTaker.ProbeSurfaceMoisture(Square.Get(reading.Strip), _now, who));
             _readThisTurn.Add(reading.Strip);
+            _staff.Spend(who, _staffSettings.ProbeReadingHours);
             return CommandResult.Ok();
+        }
+
+        /// <summary>
+        /// Picks who does a job (the player unless named) and returns a refusal if they don't
+        /// exist or haven't the hours left today; null if the job can go ahead.
+        /// </summary>
+        private CommandResult? Assign(StaffId? by, double hours, out StaffId who)
+        {
+            who = by ?? _staff.Player;
+            var member = _staff.Find(who);
+            if (member == null)
+            {
+                return CommandResult.Rejected($"No one called \"{who}\" works here.");
+            }
+
+            // A small tolerance so hours spent in quarters add up exactly to a full day.
+            var left = _staff.HoursLeft(who);
+            if (left + 1e-9 < hours)
+            {
+                return CommandResult.Rejected($"{member.Name} has {left:0.##} hours left today; that job takes {hours:0.##}.");
+            }
+            return null;
         }
     }
 }
