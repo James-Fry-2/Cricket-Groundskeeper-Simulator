@@ -1,0 +1,18 @@
+{
+  "name": "Kestrel Lane",
+  "saturation": 40,
+  "strips": [
+    { "number": 1, "surfaceMoisture": 27, "subsurfaceMoisture": 31 },
+    { "number": 2, "surfaceMoisture": 26, "subsurfaceMoisture": 30 },
+    { "number": 3, "surfaceMoisture": 25, "subsurfaceMoisture": 30 },
+    { "number": 4, "surfaceMoisture": 24, "subsurfaceMoisture": 29 },
+    { "number": 5, "surfaceMoisture": 23, "subsurfaceMoisture": 28 },
+    { "number": 6, "surfaceMoisture": 22, "subsurfaceMoisture": 27 },
+    { "number": 7, "surfaceMoisture": 22, "subsurfaceMoisture": 27 },
+    { "number": 8, "surfaceMoisture": 23, "subsurfaceMoisture": 28 },
+    { "number": 9, "surfaceMoisture": 24, "subsurfaceMoisture": 29 },
+    { "number": 10, "surfaceMoisture": 25, "subsurfaceMoisture": 30 },
+    { "number": 11, "surfaceMoisture": 27, "subsurfaceMoisture": 31 },
+    { "number": 12, "surfaceMoisture": 28, "subsurfaceMoisture": 32 }
+  ]
+}

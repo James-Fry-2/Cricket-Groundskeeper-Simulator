@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Groundsman.Core.Strips;
 using Newtonsoft.Json;
 
 namespace Groundsman.Core.Content
@@ -16,16 +17,40 @@ namespace Groundsman.Core.Content
 
         public static CalendarSettings ParseCalendar(string json)
         {
-            var dto = Deserialise<CalendarDto>(json, "calendar");
+            const string file = "calendar";
+            var dto = Deserialise<CalendarDto>(json, file);
 
             return new CalendarSettings(
-                ParseMonthDay("seasonStart", dto.SeasonStart),
-                ParseMonthDay("seasonEnd", dto.SeasonEnd),
-                Required("morningHour", dto.MorningHour),
-                Required("afternoonHour", dto.AfternoonHour),
-                Required("offSeasonStepDays", dto.OffSeasonStepDays),
-                Required("finalPrepDays", dto.FinalPrepDays),
-                dto.MatchDayDecisionHours ?? throw Missing("matchDayDecisionHours"));
+                ParseMonthDay(file, "seasonStart", dto.SeasonStart),
+                ParseMonthDay(file, "seasonEnd", dto.SeasonEnd),
+                Required(file, "morningHour", dto.MorningHour),
+                Required(file, "afternoonHour", dto.AfternoonHour),
+                Required(file, "offSeasonStepDays", dto.OffSeasonStepDays),
+                Required(file, "finalPrepDays", dto.FinalPrepDays),
+                Required(file, "matchDayDecisionHours", dto.MatchDayDecisionHours));
+        }
+
+        public static GroundSettings ParseGround(string json)
+        {
+            const string file = "ground";
+            var dto = Deserialise<GroundDto>(json, file);
+            var stripDtos = Required(file, "strips", dto.Strips);
+
+            var strips = new StripSettings[stripDtos.Count];
+            for (var i = 0; i < strips.Length; i++)
+            {
+                var strip = stripDtos[i];
+                var path = $"strips[{i}]";
+                strips[i] = new StripSettings(
+                    new StripId(Required(file, path + ".number", strip.Number)),
+                    Required(file, path + ".surfaceMoisture", strip.SurfaceMoisture),
+                    Required(file, path + ".subsurfaceMoisture", strip.SubsurfaceMoisture));
+            }
+
+            return new GroundSettings(
+                Required(file, "name", dto.Name),
+                Required(file, "saturation", dto.Saturation),
+                strips);
         }
 
         private static T Deserialise<T>(string json, string file)
@@ -42,22 +67,24 @@ namespace Groundsman.Core.Content
             }
         }
 
-        private static MonthDay ParseMonthDay(string field, string? text)
+        private static MonthDay ParseMonthDay(string file, string field, string? text)
         {
-            if (text == null)
+            if (!MonthDay.TryParse(Required(file, field, text), out var value))
             {
-                throw Missing(field);
-            }
-            if (!MonthDay.TryParse(text, out var value))
-            {
-                throw new ContentException($"calendar.{field} (\"{text}\") must be a date that occurs every year, as MM-dd.");
+                throw new ContentException($"{file}.{field} (\"{text}\") must be a date that occurs every year, as MM-dd.");
             }
             return value;
         }
 
-        private static int Required(string field, int? value) => value ?? throw Missing(field);
+        private static T Required<T>(string file, string field, T? value)
+            where T : class
+            => value ?? throw Missing(file, field);
 
-        private static ContentException Missing(string field) => new ContentException($"calendar.{field} is missing.");
+        private static T Required<T>(string file, string field, T? value)
+            where T : struct
+            => value ?? throw Missing(file, field);
+
+        private static ContentException Missing(string file, string field) => new ContentException($"{file}.{field} is missing.");
 
         private sealed class CalendarDto
         {
@@ -68,6 +95,20 @@ namespace Groundsman.Core.Content
             public int? OffSeasonStepDays { get; set; }
             public int? FinalPrepDays { get; set; }
             public List<int>? MatchDayDecisionHours { get; set; }
+        }
+
+        private sealed class GroundDto
+        {
+            public string? Name { get; set; }
+            public double? Saturation { get; set; }
+            public List<StripDto>? Strips { get; set; }
+        }
+
+        private sealed class StripDto
+        {
+            public int? Number { get; set; }
+            public double? SurfaceMoisture { get; set; }
+            public double? SubsurfaceMoisture { get; set; }
         }
     }
 }
