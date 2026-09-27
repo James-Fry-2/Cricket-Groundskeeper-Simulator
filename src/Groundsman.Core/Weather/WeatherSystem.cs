@@ -41,6 +41,8 @@ namespace Groundsman.Core.Weather
         /// True weather for a day, generating ahead as needed. Days are always generated in date
         /// order, so asking ahead (for a forecast) never changes what the day turns out to be.
         /// </summary>
+        public DateTime FirstDate => _firstDate;
+
         public DayWeather Day(DateTime date)
         {
             date = date.Date;

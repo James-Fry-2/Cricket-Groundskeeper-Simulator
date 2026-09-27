@@ -59,6 +59,35 @@ public class ObservedWeatherTests
     }
 
     [Fact]
+    public void Shows_yesterdays_low_and_high()
+    {
+        var game = NewGame(new GameTime(2027, 5, 10, 7));
+        game.Advance();
+
+        var yesterday = game.Weather.Day(new DateTime(2027, 5, 10));
+
+        Assert.Equal(yesterday.MinTemperature, game.View.Weather!.YesterdayLow);
+        Assert.Equal(yesterday.MaxTemperature, game.View.Weather.YesterdayHigh);
+    }
+
+    [Fact]
+    public void Has_no_yesterday_on_the_first_day()
+    {
+        var game = NewGame(new GameTime(2027, 5, 19, 13), seed: 1);
+        game.Advance();
+
+        Assert.Equal(new DateTime(2027, 5, 20), game.View.Now.Date);
+        Assert.NotNull(game.View.Weather!.YesterdayLow);
+
+        var sameDay = new Groundsman.Core.Game(TestContent.Setup(new GameTime(2027, 5, 10, 0), new[] { new DateTime(2027, 5, 10) }));
+        sameDay.Advance();
+
+        Assert.Equal(new DateTime(2027, 5, 10), sameDay.View.Now.Date);
+        Assert.Null(sameDay.View.Weather!.YesterdayLow);
+        Assert.Null(sameDay.View.Weather.YesterdayHigh);
+    }
+
+    [Fact]
     public void The_same_seed_gives_the_same_weather_in_the_game()
     {
         var a = NewGame(new GameTime(2027, 5, 10, 7), seed: 9);

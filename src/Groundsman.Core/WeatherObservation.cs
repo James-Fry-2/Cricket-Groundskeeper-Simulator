@@ -6,11 +6,13 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class WeatherObservation
     {
-        public WeatherObservation(double rainLast24HoursMm, double temperature, double windKph)
+        public WeatherObservation(double rainLast24HoursMm, double temperature, double windKph, double? yesterdayLow, double? yesterdayHigh)
         {
             RainLast24HoursMm = rainLast24HoursMm;
             Temperature = temperature;
             WindKph = windKph;
+            YesterdayLow = yesterdayLow;
+            YesterdayHigh = yesterdayHigh;
         }
 
         public double RainLast24HoursMm { get; }
@@ -19,5 +21,10 @@ namespace Groundsman.Core
         public double Temperature { get; }
 
         public double WindKph { get; }
+
+        /// <summary>From the max-min thermometer; null on the game's first day.</summary>
+        public double? YesterdayLow { get; }
+
+        public double? YesterdayHigh { get; }
     }
 }

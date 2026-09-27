@@ -31,8 +31,13 @@ public static class Format
         _ => pace.ToString(),
     };
 
-    public static string Weather(WeatherObservation weather) =>
-        $"Rain in the last 24 hours: {weather.RainLast24HoursMm:0.0} mm. Now {weather.Temperature:0}°C, wind {weather.WindKph:0} km/h.";
+    public static string Weather(WeatherObservation weather)
+    {
+        var text = $"Rain in the last 24 hours: {weather.RainLast24HoursMm:0.0} mm. Now {weather.Temperature:0}°C, wind {weather.WindKph:0} km/h.";
+        return weather.YesterdayLow is { } low && weather.YesterdayHigh is { } high
+            ? text + $" Yesterday {low:0}–{high:0}°C."
+            : text;
+    }
 
     public static string NextMatch(DateTime? matchDay, GameTime now)
     {

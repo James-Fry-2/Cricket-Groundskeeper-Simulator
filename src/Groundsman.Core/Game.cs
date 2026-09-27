@@ -111,7 +111,9 @@ namespace Groundsman.Core
                 return null;
             }
 
-            return new WeatherObservation(Weather.RainLast24HoursMm, lastHour.Temperature, lastHour.WindKph);
+            var yesterday = _now.Date.AddDays(-1);
+            var day = yesterday >= Weather.FirstDate ? Weather.Day(yesterday) : null;
+            return new WeatherObservation(Weather.RainLast24HoursMm, lastHour.Temperature, lastHour.WindKph, day?.MinTemperature, day?.MaxTemperature);
         }
 
         private CommandResult Water(WaterStrip water)

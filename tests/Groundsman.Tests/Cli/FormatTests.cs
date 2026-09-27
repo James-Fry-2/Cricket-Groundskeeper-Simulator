@@ -29,9 +29,17 @@ public class FormatTests
     [Fact]
     public void Weather_shows_gauge_temperature_and_wind()
     {
-        var text = Format.Weather(new Groundsman.Core.WeatherObservation(3.26, 11.4, 17.6));
+        var text = Format.Weather(new Groundsman.Core.WeatherObservation(3.26, 11.4, 17.6, 9.6, 22.4));
 
-        Assert.Equal("Rain in the last 24 hours: 3.3 mm. Now 11°C, wind 18 km/h.", text);
+        Assert.Equal("Rain in the last 24 hours: 3.3 mm. Now 11°C, wind 18 km/h. Yesterday 10–22°C.", text);
+    }
+
+    [Fact]
+    public void Weather_leaves_out_yesterday_when_there_was_none()
+    {
+        var text = Format.Weather(new Groundsman.Core.WeatherObservation(0, 11.4, 17.6, null, null));
+
+        Assert.Equal("Rain in the last 24 hours: 0.0 mm. Now 11°C, wind 18 km/h.", text);
     }
 
     [Fact]
