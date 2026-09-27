@@ -1,9 +1,23 @@
 # Progress
 
 ## Current phase
-Phase 2 complete: Gate A passed. Next is phase 3, matches and verdicts (plan it in detail first, as for phase 2).
+Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: prepared strips rate well and neglected ones earn demerits.
 
-## Phase 2 tasks
+## Phase 3 tasks
+- [ ] 1. Formats, teams and fixture details
+- [ ] 2. Grass: growth and mowing
+- [ ] 3. Compaction and rolling
+- [ ] 4. Pitch characteristics
+- [ ] 5. Wear and recovery
+- [ ] 6. Match engine (adds a Match step to the tick order; agree the CLAUDE.md change first)
+- [ ] 7. Commentary
+- [ ] 8. Rating and demerits
+- [ ] 9. Cli: rolling, mowing, repairs, match and verdict screens
+- [ ] 10. Harness and check 3
+
+Decided for phase 3: the ICC's current rating scale (very good, satisfactory, unsatisfactory, unfit; demerits 1 and 3 on a five-year window); rolling and mowing in scope; matches played session by session with Law 9 interval jobs.
+
+## Phase 2 tasks (done)
 Detail in `docs/phase-2-plan.md`.
 - [x] 1. Distributions: `NextGaussian` and `NextExponential`
 - [x] 2. Weather: `climate.json`, `WeatherSystem`, observed weather in the view, truth inspector, first replay snapshot, harness trace mode
@@ -131,3 +145,5 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Gate A over 1,000 seasons: neglect 13%, random 18%, by the book 50% on target. PASSED, 37-point lead (25 needed). On seeds 5001 to 6000, never seen while choosing thresholds: neglect 13%, by the book 49%, and an oracle that sees the truth 58%, so honest play with cores gets within 9 points of perfect knowledge.
 - Worth revisiting: a soil core leaves a hole in a real pitch; cores might later cost something on the match strip itself. Neglect's biggest miss is now too dry at depth (63%), since roots dry untended strips through the summer.
 - Phase 2 complete.
+- Phase 3 planned in `docs/phase-3-plan.md`: rating scale, rolling and mowing, and session-by-session matches decided with the user.
+- Next: phase 3 task 1, formats, teams and fixture details.
