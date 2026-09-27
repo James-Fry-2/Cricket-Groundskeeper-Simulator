@@ -24,4 +24,8 @@ public static class ContentLoader
 
         return (content, ContentParser.ParseSeason(Read("season.json")));
     }
+
+    /// <summary>The phase 2 stand-in score, used by the harness only.</summary>
+    public static ScoringSettings LoadScoring(string directory) =>
+        ContentParser.ParseScoring(File.ReadAllText(Path.Combine(directory, "scoring.json")));
 }

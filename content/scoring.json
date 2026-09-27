@@ -1,0 +1,7 @@
+{
+  "matchMorning": {
+    "subsurfaceMin": 24,
+    "subsurfaceMax": 30,
+    "surfaceMax": 22
+  }
+}

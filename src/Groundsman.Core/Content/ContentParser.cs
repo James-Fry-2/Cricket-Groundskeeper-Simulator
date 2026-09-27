@@ -166,6 +166,17 @@ namespace Groundsman.Core.Content
                 Required(file, "maxTemperature.growthPerDay", temperature.GrowthPerDay));
         }
 
+        public static ScoringSettings ParseScoring(string json)
+        {
+            const string file = "scoring";
+            var morning = Required(file, "matchMorning", Deserialise<ScoringDto>(json, file).MatchMorning);
+
+            return new ScoringSettings(
+                Required(file, "matchMorning.subsurfaceMin", morning.SubsurfaceMin),
+                Required(file, "matchMorning.subsurfaceMax", morning.SubsurfaceMax),
+                Required(file, "matchMorning.surfaceMax", morning.SurfaceMax));
+        }
+
         public static ReadingSettings ParseReadings(string json)
         {
             const string file = "readings";
@@ -483,6 +494,18 @@ namespace Groundsman.Core.Content
         {
             public double? ErrorSd { get; set; }
             public double? GrowthPerDay { get; set; }
+        }
+
+        private sealed class ScoringDto
+        {
+            public MatchMorningDto? MatchMorning { get; set; }
+        }
+
+        private sealed class MatchMorningDto
+        {
+            public double? SubsurfaceMin { get; set; }
+            public double? SubsurfaceMax { get; set; }
+            public double? SurfaceMax { get; set; }
         }
     }
 }

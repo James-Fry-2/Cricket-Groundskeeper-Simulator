@@ -5,6 +5,7 @@ const string usage = """
     Usage:
       weather [--seed N] [--years N] [--out FILE]   Daily weather CSV and a monthly check against the normals
       trace [--seed N] [--end yyyy-MM-dd] [--out FILE]   Truth at every decision point of an unplayed season
+      gate [--seasons N] [--lead 0.25] [--out FILE]   Gate A: by the book against neglect and random play
     """;
 
 if (args.Length == 0)
@@ -34,6 +35,21 @@ switch (args[0])
         var path = Write(Option("--out") ?? "harness-output/trace.csv", SeasonTrace.Run(content, season, seed, end));
         Console.WriteLine($"Season trace from seed {seed} written to {path}");
         return 0;
+    }
+    case "gate":
+    {
+        var seasons = int.Parse(Option("--seasons") ?? "1000");
+        var lead = double.Parse(Option("--lead") ?? "0.25", System.Globalization.CultureInfo.InvariantCulture);
+        var scoring = ContentLoader.LoadScoring(ContentLoader.DefaultDirectory);
+        var timer = System.Diagnostics.Stopwatch.StartNew();
+        var report = GateReport.Run(content, season, scoring, seasons, lead);
+        var path = Write(Option("--out") ?? "harness-output/gate.csv", report.Csv);
+        Console.WriteLine($"{seasons} seasons of {season.Fixtures.Count} fixtures per policy, in {timer.Elapsed.TotalSeconds:0} s.");
+        Console.WriteLine($"On target: subsurface {scoring.SubsurfaceMin}–{scoring.SubsurfaceMax}%, surface under {scoring.SurfaceMax}%, on each fixture's first morning.");
+        Console.WriteLine();
+        Console.WriteLine(report.SummaryTable());
+        Console.WriteLine($"Per-match results written to {path}");
+        return report.Passed ? 0 : 2;
     }
     default:
         Console.WriteLine(usage);
