@@ -12,9 +12,9 @@ Draft from `docs/mvp-plan.md`, to be planned in detail before starting:
 - [ ] Covers: cover and uncover commands; the Covers step keeps rain off covered strips
 - [ ] Readings: ageing (ranges widen each day, faster in changeable weather), miss rates per source, staff skill multipliers, feel readings (dry, damp, wet)
 - [ ] Harness: neglect and by-the-book policies over many seeded seasons, results to CSV
-- [ ] Gate A check
+- [ ] Gate A check: by the book lands match-morning moisture in the target band clearly more often than neglect
 
-Open question: match ratings arrive in phase 3, so Gate A needs a phase 2 measure of "beats", such as surface moisture on match mornings sitting inside a target band. Decide before building the harness.
+Decided: match ratings arrive in phase 3, so Gate A uses a stand-in score. It counts how often the match strip's true surface moisture sits inside a target band on each match morning. The band goes in content as a placeholder (for example 18 to 24%). Phase 3 replaces it with the referee's pitch rating.
 
 ## Phase 1 tasks (done)
 - [x] Solution skeleton: Core, Cli, Harness, Tests projects, references, one passing test, `IGame` interface
