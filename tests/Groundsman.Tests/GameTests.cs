@@ -10,7 +10,7 @@ public class GameTests
     private static readonly DateTime MatchDay = new DateTime(2027, 5, 20);
 
     private static Game NewGame(GameTime start, params IHourlySystem[] extraSystems) =>
-        new Game(TestContent.Setup(start, MatchDay), extraSystems);
+        new Game(TestContent.Setup(start, new[] { MatchDay }), extraSystems);
 
     [Fact]
     public void View_shows_the_start_time()

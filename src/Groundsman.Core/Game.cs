@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Groundsman.Core.Commands;
+using Groundsman.Core.Randomness;
+using Groundsman.Core.Readings;
 using Groundsman.Core.Simulation;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Tasks;
@@ -10,9 +12,13 @@ namespace Groundsman.Core
 {
     public sealed class Game : IGame
     {
+        private readonly string _groundName;
         private readonly PaceRules _pace;
         private readonly TasksSystem _tasks;
         private readonly HourlyTick _tick;
+        private readonly KnowledgeStore _knowledge;
+        private readonly ReadingTaker _readingTaker;
+        private readonly List<StripId> _readThisTurn = new List<StripId>();
         private GameTime _now;
 
         public Game(GameSetup setup)
@@ -23,14 +29,31 @@ namespace Groundsman.Core
         internal Game(GameSetup setup, IEnumerable<IHourlySystem> extraSystems)
         {
             var content = setup.Content;
+            var random = new RandomStreams(setup.Seed);
+
+            _groundName = content.Ground.Name;
             _pace = new PaceRules(new PaceContext(content.Calendar, setup.MatchDays));
             Square = new Square(content.Ground);
             _tasks = new TasksSystem(Square, content.Tasks);
             _tick = new HourlyTick(new IHourlySystem[] { _tasks }.Concat(extraSystems));
+            _knowledge = new KnowledgeStore(Square.Strips.Count);
+            _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
             _now = setup.Start;
         }
 
-        public GameView View => new GameView(_now);
+        public GameView View
+        {
+            get
+            {
+                var strips = new StripView[Square.Strips.Count];
+                for (var i = 0; i < strips.Length; i++)
+                {
+                    var id = Square.Strips[i].Id;
+                    strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id));
+                }
+                return new GameView(_now, _groundName, strips);
+            }
+        }
 
         internal Square Square { get; }
 
@@ -40,6 +63,8 @@ namespace Groundsman.Core
             {
                 case WaterStrip water:
                     return Water(water);
+                case TakeReading reading:
+                    return Read(reading);
                 default:
                     return CommandResult.Rejected($"Unknown command: {command.GetType().Name}.");
             }
@@ -56,6 +81,7 @@ namespace Groundsman.Core
             }
 
             _now = to;
+            _readThisTurn.Clear();
             return new AdvanceResult(from, to);
         }
 
@@ -71,6 +97,24 @@ namespace Groundsman.Core
             }
 
             _tasks.QueueWatering(water.Strip);
+            return CommandResult.Ok();
+        }
+
+        private CommandResult Read(TakeReading reading)
+        {
+            if (!Square.Contains(reading.Strip))
+            {
+                return CommandResult.Rejected($"{reading.Strip} isn't on this square.");
+            }
+
+            // Repeat readings of an unchanged strip could be intersected to pin down the truth.
+            if (_readThisTurn.Contains(reading.Strip))
+            {
+                return CommandResult.Rejected($"{reading.Strip} has already been read this turn.");
+            }
+
+            _knowledge.Record(_readingTaker.ProbeSurfaceMoisture(Square.Get(reading.Strip), _now));
+            _readThisTurn.Add(reading.Strip);
             return CommandResult.Ok();
         }
     }

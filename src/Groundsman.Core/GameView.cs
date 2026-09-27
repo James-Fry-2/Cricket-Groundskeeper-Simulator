@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Groundsman.Core.Time;
 
 namespace Groundsman.Core
@@ -7,11 +8,15 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
-        public GameView(GameTime now)
+        public GameView(GameTime now, string groundName, IReadOnlyList<StripView> strips)
         {
             Now = now;
+            GroundName = groundName;
+            Strips = strips;
         }
 
         public GameTime Now { get; }
+        public string GroundName { get; }
+        public IReadOnlyList<StripView> Strips { get; }
     }
 }

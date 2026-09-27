@@ -61,6 +61,14 @@ namespace Groundsman.Core.Content
             return new TaskSettings(Required(file, "waterSurfaceGain", dto.WaterSurfaceGain));
         }
 
+        public static ReadingSettings ParseReadings(string json)
+        {
+            const string file = "readings";
+            var dto = Deserialise<ReadingsDto>(json, file);
+
+            return new ReadingSettings(Required(file, "moistureProbeWidth", dto.MoistureProbeWidth));
+        }
+
         private static T Deserialise<T>(string json, string file)
             where T : class
         {
@@ -122,6 +130,11 @@ namespace Groundsman.Core.Content
         private sealed class TasksDto
         {
             public double? WaterSurfaceGain { get; set; }
+        }
+
+        private sealed class ReadingsDto
+        {
+            public double? MoistureProbeWidth { get; set; }
         }
     }
 }

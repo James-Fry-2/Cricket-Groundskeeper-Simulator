@@ -8,7 +8,10 @@ internal static class TestContent
 {
     public static TaskSettings Tasks { get; } = new TaskSettings(waterSurfaceGain: 4);
 
-    public static GameContent Content { get; } = new GameContent(TestCalendar.Settings, TestGround.Settings, Tasks);
+    public static ReadingSettings Readings { get; } = new ReadingSettings(moistureProbeWidth: 8);
 
-    public static GameSetup Setup(GameTime start, params DateTime[] matchDays) => new GameSetup(Content, start, matchDays);
+    public static GameContent Content { get; } = new GameContent(TestCalendar.Settings, TestGround.Settings, Tasks, Readings);
+
+    public static GameSetup Setup(GameTime start, IEnumerable<DateTime>? matchDays = null, ulong seed = 1) =>
+        new GameSetup(Content, start, matchDays ?? Array.Empty<DateTime>(), seed);
 }
