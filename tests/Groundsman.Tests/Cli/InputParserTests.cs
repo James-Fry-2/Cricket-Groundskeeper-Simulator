@@ -1,4 +1,5 @@
 using Groundsman.Cli;
+using Groundsman.Core.Readings;
 using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 
@@ -88,6 +89,18 @@ public class InputParserTests
         {
             Assert.Equal(new StripId(4), Assert.IsType<UncoverInput>(parsed).Strip);
         }
+    }
+
+    [Fact]
+    public void F_takes_a_feel_reading()
+    {
+        var feel = Assert.IsType<ReadInput>(InputParser.Parse("f 3 jo"));
+
+        Assert.Equal(new StripId(3), feel.Strip);
+        Assert.Equal(new StaffId("jo"), feel.By);
+        Assert.Equal(ReadingSource.Feel, feel.Tool);
+        Assert.Equal(ReadingSource.MoistureProbe, Assert.IsType<ReadInput>(InputParser.Parse("r 3")).Tool);
+        Assert.Equal(ReadingSource.Feel, Assert.IsType<ReadInput>(InputParser.Parse("feel all")).Tool);
     }
 
     [Fact]

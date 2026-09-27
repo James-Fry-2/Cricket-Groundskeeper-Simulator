@@ -126,6 +126,24 @@ public class GameLoopTests
     }
 
     [Fact]
+    public void A_feel_reading_reports_its_word()
+    {
+        var (console, game) = Play("f 3", "q");
+
+        Assert.Contains($"Strip 3 feels {game.View.Strips[2].SurfaceMoisture!.Word}", console.Output);
+    }
+
+    [Fact]
+    public void An_old_reading_shows_its_widened_range()
+    {
+        var (console, game) = Play("r 3", "", "", "q");
+        var strip = game.View.Strips[2];
+
+        Assert.Contains(Format.Percent(strip.SurfaceMoistureNow!.Value), console.Output);
+        Assert.Contains("2 days ago", console.Output);
+    }
+
+    [Fact]
     public void Readings_say_who_took_them()
     {
         var (console, _) = Play("r 3 sam", "s", "q");

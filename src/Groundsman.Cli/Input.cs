@@ -1,3 +1,4 @@
+using Groundsman.Core.Readings;
 using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 
@@ -15,7 +16,7 @@ public sealed record StatusInput : Input;
 
 /// <summary>Reads one strip, or every strip when <see cref="Strip"/> is null.</summary>
 /// <remarks>On every strip job, <c>By</c> names who does it; null means the player.</remarks>
-public sealed record ReadInput(StripId? Strip, StaffId? By = null) : Input;
+public sealed record ReadInput(StripId? Strip, StaffId? By = null, ReadingSource Tool = ReadingSource.MoistureProbe) : Input;
 
 public sealed record WaterInput(StripId Strip, StaffId? By = null) : Input;
 

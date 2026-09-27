@@ -1,3 +1,4 @@
+using Groundsman.Core.Readings;
 using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 
@@ -33,6 +34,10 @@ public static class InputParser
                 return new ReadInput(null, by);
             case ("r" or "read", >= 2) when TryStrip(words[1], out var strip):
                 return new ReadInput(strip, by);
+            case ("f" or "feel", >= 2) when words[1] == "all":
+                return new ReadInput(null, by, ReadingSource.Feel);
+            case ("f" or "feel", >= 2) when TryStrip(words[1], out var strip):
+                return new ReadInput(strip, by, ReadingSource.Feel);
             case ("w" or "water", >= 2) when TryStrip(words[1], out var strip):
                 return new WaterInput(strip, by);
             case ("c" or "cover", >= 2) when TryStrip(words[1], out var strip):

@@ -10,6 +10,10 @@ public static class Format
     // Round outwards so rounding for display never puts the true value outside the range shown.
     public static string Percent(ValueRange range) => $"{Math.Floor(range.Low):0}–{Math.Ceiling(range.High):0}%";
 
+    /// <summary>A feel reading's word, or a probe reading's range as it stands now.</summary>
+    public static string Reading(Reading reading, ValueRange now) =>
+        reading.Word ?? Percent(now);
+
     public static string Rain(ValueRange range) =>
         range.High <= 0 ? "dry" : $"{Math.Floor(range.Low):0}–{Math.Ceiling(range.High):0} mm";
 
