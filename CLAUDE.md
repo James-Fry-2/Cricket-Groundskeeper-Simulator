@@ -27,3 +27,4 @@ A management sim about preparing a cricket ground. Current goal: the MVP in docs
 - Write or update tests before changing a simulation rule. `dotnet test` must pass before a commit.
 - Don't invent balance numbers silently. Put them in content with a sensible placeholder and list them in the session summary so they can be tuned.
 - Keep commits small, one task per commit.
+- Don't add Claude or Claude Code as an author or co-author: no `Co-Authored-By` trailers and no "Generated with Claude Code" lines in commits or pull requests.
