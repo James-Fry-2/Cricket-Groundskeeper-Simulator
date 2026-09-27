@@ -58,7 +58,7 @@ namespace Groundsman.Core
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
             _staffSettings = content.Staff;
             _staff = new StaffRoster(content.Staff, setup.Start.Date);
-            _forecaster = new Forecaster(content.Forecast, Weather, random.Get(RandomStream.Forecast));
+            _forecaster = new Forecaster(content.Forecast, content.Climate, Weather, random.Get(RandomStream.Forecast));
             _now = setup.Start;
             _forecaster.IssueIfNewDay(_now.Date);
         }

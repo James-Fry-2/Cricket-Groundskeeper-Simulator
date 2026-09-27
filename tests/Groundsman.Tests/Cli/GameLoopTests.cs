@@ -42,6 +42,8 @@ public class GameLoopTests
         Assert.Contains("Today", console.Output);
         Assert.Contains("Sun 16", console.Output);
         Assert.Contains(Format.Temperature(today.MaxTemperature), console.Output);
+        Assert.Contains("Chance", console.Output);
+        Assert.Contains(Format.Chance(today.ChanceOfRain), console.Output);
     }
 
     [Fact]

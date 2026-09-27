@@ -14,14 +14,18 @@ namespace Groundsman.Core.Forecasting
     /// </summary>
     internal sealed class Forecaster
     {
+        private const double IntegrationStepMm = 0.25;
+
         private readonly ForecastSettings _settings;
+        private readonly ClimateSettings _climate;
         private readonly WeatherSystem _weather;
         private readonly RandomSource _random;
         private DateTime? _issuedOn;
 
-        public Forecaster(ForecastSettings settings, WeatherSystem weather, RandomSource random)
+        public Forecaster(ForecastSettings settings, ClimateSettings climate, WeatherSystem weather, RandomSource random)
         {
             _settings = settings;
+            _climate = climate;
             _weather = weather;
             _random = random;
         }
@@ -54,11 +58,52 @@ namespace Groundsman.Core.Forecasting
                     date,
                     today,
                     new ValueRange(Math.Max(0, rain - rainHalfWidth), Math.Max(0, rain + rainHalfWidth)),
+                    ChanceOfRain(rain, rainSpread, _climate.ForMonth(date.Month)),
                     new ValueRange(temperature - temperatureHalfWidth, temperature + temperatureHalfWidth));
             }
 
             Current = days;
             _issuedOn = today;
+        }
+
+        // How likely a rain day is, given the forecast value and the month's climate. Weighing by
+        // how often it rains matters: on its own a forecast value a little above the threshold
+        // is more often a dry day with a high error than a wet day. Uses only the forecast value
+        // and published normals, never the truth.
+        private double ChanceOfRain(double forecastMm, double spread, MonthClimate month)
+        {
+            var threshold = _climate.RainDayThresholdMm;
+            if (spread <= 0)
+            {
+                return forecastMm >= threshold ? 1 : 0;
+            }
+
+            var excessMean = month.MeanWetDayRainMm - threshold;
+            double wetLikelihood;
+            if (excessMean <= 0)
+            {
+                wetLikelihood = Likelihood(forecastMm, threshold, spread);
+            }
+            else
+            {
+                wetLikelihood = 0;
+                for (var amount = threshold; amount < threshold + 12 * excessMean; amount += IntegrationStepMm)
+                {
+                    var density = Math.Exp(-(amount - threshold) / excessMean) / excessMean;
+                    wetLikelihood += density * Likelihood(forecastMm, amount, spread) * IntegrationStepMm;
+                }
+            }
+
+            var wet = month.WetDayChance * wetLikelihood;
+            var dry = (1 - month.WetDayChance) * Likelihood(forecastMm, 0, spread);
+            return wet + dry > 0 ? wet / (wet + dry) : month.WetDayChance;
+        }
+
+        // Normal density up to a constant factor, which cancels in the ratio above.
+        private static double Likelihood(double forecast, double truth, double spread)
+        {
+            var z = (forecast - truth) / spread;
+            return Math.Exp(-z * z / 2);
         }
     }
 }

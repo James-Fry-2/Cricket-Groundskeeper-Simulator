@@ -60,7 +60,7 @@ public class ReplayTests
             surface = string.Join(" ", truth.Strips.Select(s => Round(s.SurfaceMoisture))),
             subsurface = string.Join(" ", truth.Strips.Select(s => Round(s.SubsurfaceMoisture))),
             forecast = view.Forecast
-                .Select(d => $"{d.Date:MM-dd} rain {Round(d.Rain.Low)} to {Round(d.Rain.High)}, high {Round(d.MaxTemperature.Low)} to {Round(d.MaxTemperature.High)}")
+                .Select(d => $"{d.Date:MM-dd} rain {Round(d.Rain.Low)} to {Round(d.Rain.High)} chance {Round(d.ChanceOfRain)}, high {Round(d.MaxTemperature.Low)} to {Round(d.MaxTemperature.High)}")
                 .ToArray(),
             readings = view.Strips
                 .Where(s => s.SurfaceMoisture != null)

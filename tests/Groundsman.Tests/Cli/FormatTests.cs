@@ -24,6 +24,16 @@ public class FormatTests
         Assert.Equal(expected, Format.Rain(new ValueRange(low, high)));
     }
 
+    [Theory]
+    [InlineData(0.02, "0%")]
+    [InlineData(0.34, "30%")]
+    [InlineData(0.36, "40%")]
+    [InlineData(0.999, "100%")]
+    public void Chance_of_rain_rounds_to_the_nearest_ten(double chance, string expected)
+    {
+        Assert.Equal(expected, Format.Chance(chance));
+    }
+
     [Fact]
     public void Temperature_ranges_round_outwards()
     {

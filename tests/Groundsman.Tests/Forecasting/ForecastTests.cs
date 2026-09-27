@@ -106,6 +106,31 @@ public class ForecastTests
     }
 
     [Fact]
+    public void Chance_of_rain_means_what_it_says()
+    {
+        var chances = new List<(double Chance, bool Wet)>();
+        for (ulong seed = 1; seed <= 1000; seed++)
+        {
+            var game = NewGame(seed);
+            foreach (var day in game.View.Forecast)
+            {
+                Assert.InRange(day.ChanceOfRain, 0, 1);
+                chances.Add((day.ChanceOfRain, game.Weather.Day(day.Date).RainMm >= TestClimate.Settings.RainDayThresholdMm));
+            }
+        }
+
+        double Observed(IEnumerable<(double Chance, bool Wet)> group) => group.Average(c => c.Wet ? 1.0 : 0.0);
+
+        Assert.InRange(chances.Average(c => c.Chance) - Observed(chances), -0.05, 0.05);
+        foreach (var (low, high) in new[] { (0.0, 0.2), (0.2, 0.5), (0.5, 0.8), (0.8, 1.01) })
+        {
+            var group = chances.Where(c => c.Chance >= low && c.Chance < high).ToList();
+            Assert.True(group.Count > 200, $"Only {group.Count} forecasts between {low:P0} and {high:P0}");
+            Assert.InRange(Observed(group) - group.Average(c => c.Chance), -0.08, 0.08);
+        }
+    }
+
+    [Fact]
     public void Looking_ahead_for_the_forecast_does_not_change_the_weather()
     {
         var game = NewGame(seed: 5);

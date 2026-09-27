@@ -13,6 +13,8 @@ public static class Format
     public static string Rain(ValueRange range) =>
         range.High <= 0 ? "dry" : $"{Math.Floor(range.Low):0}–{Math.Ceiling(range.High):0} mm";
 
+    public static string Chance(double chance) => $"{Math.Round(chance * 10, MidpointRounding.AwayFromZero) * 10:0}%";
+
     public static string Temperature(ValueRange range) => $"{Math.Floor(range.Low):0}–{Math.Ceiling(range.High):0}°C";
 
     public static string Age(GameTime takenAt, GameTime now) => (now.Date - takenAt.Date).Days switch

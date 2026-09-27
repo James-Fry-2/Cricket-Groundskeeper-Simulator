@@ -188,6 +188,7 @@ public sealed class GameLoop
         {
             table.AddColumn(day.Date == view.Now.Date ? "Today" : day.Date.ToString("ddd d", System.Globalization.CultureInfo.InvariantCulture));
         }
+        table.AddRow(new[] { "Chance" }.Concat(view.Forecast.Select(d => Format.Chance(d.ChanceOfRain))).ToArray());
         table.AddRow(new[] { "Rain" }.Concat(view.Forecast.Select(d => Format.Rain(d.Rain))).ToArray());
         table.AddRow(new[] { "High" }.Concat(view.Forecast.Select(d => Format.Temperature(d.MaxTemperature))).ToArray());
         _console.Write(table);
