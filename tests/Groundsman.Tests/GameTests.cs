@@ -9,8 +9,8 @@ public class GameTests
 {
     private static readonly DateTime MatchDay = new DateTime(2027, 5, 20);
 
-    private static Game NewGame(GameTime start, params IHourlySystem[] systems) =>
-        new Game(new PaceContext(TestCalendar.Settings, new[] { MatchDay }), start, systems);
+    private static Game NewGame(GameTime start, params IHourlySystem[] extraSystems) =>
+        new Game(TestContent.Setup(start, MatchDay), extraSystems);
 
     [Fact]
     public void View_shows_the_start_time()
@@ -67,16 +67,16 @@ public class GameTests
     }
 
     [Fact]
-    public void Submit_rejects_commands_until_there_are_some()
+    public void Rejects_a_command_it_does_not_know()
     {
         var game = NewGame(new GameTime(2027, 5, 10, 7));
 
-        var result = game.Submit(new NoCommand());
+        var result = game.Submit(new UnknownCommand());
 
         Assert.False(result.Accepted);
     }
 
-    private sealed class NoCommand : IGameCommand
+    private sealed class UnknownCommand : IGameCommand
     {
     }
 }

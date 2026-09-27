@@ -53,6 +53,14 @@ namespace Groundsman.Core.Content
                 strips);
         }
 
+        public static TaskSettings ParseTasks(string json)
+        {
+            const string file = "tasks";
+            var dto = Deserialise<TasksDto>(json, file);
+
+            return new TaskSettings(Required(file, "waterSurfaceGain", dto.WaterSurfaceGain));
+        }
+
         private static T Deserialise<T>(string json, string file)
             where T : class
         {
@@ -109,6 +117,11 @@ namespace Groundsman.Core.Content
             public int? Number { get; set; }
             public double? SurfaceMoisture { get; set; }
             public double? SubsurfaceMoisture { get; set; }
+        }
+
+        private sealed class TasksDto
+        {
+            public double? WaterSurfaceGain { get; set; }
         }
     }
 }
