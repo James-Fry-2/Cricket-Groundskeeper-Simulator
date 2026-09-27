@@ -59,6 +59,9 @@ public class ReplayTests
             wind = Round(view.Weather.WindKph),
             surface = string.Join(" ", truth.Strips.Select(s => Round(s.SurfaceMoisture))),
             subsurface = string.Join(" ", truth.Strips.Select(s => Round(s.SubsurfaceMoisture))),
+            forecast = view.Forecast
+                .Select(d => $"{d.Date:MM-dd} rain {Round(d.Rain.Low)} to {Round(d.Rain.High)}, high {Round(d.MaxTemperature.Low)} to {Round(d.MaxTemperature.High)}")
+                .ToArray(),
             readings = view.Strips
                 .Where(s => s.SurfaceMoisture != null)
                 .Select(s => $"{s.Id.Number}: {Round(s.SurfaceMoisture!.Range.Low)} to {Round(s.SurfaceMoisture.Range.High)} at {s.SurfaceMoisture.TakenAt}")

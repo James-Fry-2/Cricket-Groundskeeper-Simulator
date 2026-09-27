@@ -15,7 +15,8 @@ namespace Groundsman.Core.Content
             CoverSettings covers,
             TaskSettings tasks,
             StaffSettings staff,
-            ReadingSettings readings)
+            ReadingSettings readings,
+            ForecastSettings forecast)
         {
             foreach (var loam in loams)
             {
@@ -49,6 +50,7 @@ namespace Groundsman.Core.Content
             Tasks = tasks;
             Staff = staff;
             Readings = readings;
+            Forecast = forecast;
         }
 
         public CalendarSettings Calendar { get; }
@@ -60,6 +62,7 @@ namespace Groundsman.Core.Content
         public TaskSettings Tasks { get; }
         public StaffSettings Staff { get; }
         public ReadingSettings Readings { get; }
+        public ForecastSettings Forecast { get; }
 
         public LoamSettings Loam(string id) => _loamsById[id];
     }

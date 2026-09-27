@@ -150,6 +150,22 @@ namespace Groundsman.Core.Content
                 Required(file, "jobHours.feelReading", jobs.FeelReading));
         }
 
+        public static ForecastSettings ParseForecast(string json)
+        {
+            const string file = "forecast";
+            var dto = Deserialise<ForecastDto>(json, file);
+            var rain = Required(file, "rain", dto.Rain);
+            var temperature = Required(file, "maxTemperature", dto.MaxTemperature);
+
+            return new ForecastSettings(
+                Required(file, "days", dto.Days),
+                Required(file, "rangeSpreads", dto.RangeSpreads),
+                Required(file, "rain.errorSd", rain.ErrorSd),
+                Required(file, "rain.growthPerDay", rain.GrowthPerDay),
+                Required(file, "maxTemperature.errorSd", temperature.ErrorSd),
+                Required(file, "maxTemperature.growthPerDay", temperature.GrowthPerDay));
+        }
+
         public static ReadingSettings ParseReadings(string json)
         {
             const string file = "readings";
@@ -393,6 +409,20 @@ namespace Groundsman.Core.Content
             public double? Uncover { get; set; }
             public double? ProbeReading { get; set; }
             public double? FeelReading { get; set; }
+        }
+
+        private sealed class ForecastDto
+        {
+            public int? Days { get; set; }
+            public double? RangeSpreads { get; set; }
+            public ForecastErrorDto? Rain { get; set; }
+            public ForecastErrorDto? MaxTemperature { get; set; }
+        }
+
+        private sealed class ForecastErrorDto
+        {
+            public double? ErrorSd { get; set; }
+            public double? GrowthPerDay { get; set; }
         }
     }
 }

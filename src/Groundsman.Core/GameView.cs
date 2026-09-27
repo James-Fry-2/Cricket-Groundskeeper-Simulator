@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Groundsman.Core.Forecasting;
 using Groundsman.Core.Time;
 
 namespace Groundsman.Core
@@ -9,7 +10,7 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
-        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff)
+        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast)
         {
             Now = now;
             Pace = pace;
@@ -20,6 +21,7 @@ namespace Groundsman.Core
             CoversFree = coversFree;
             CoversOwned = coversOwned;
             Staff = staff;
+            Forecast = forecast;
         }
 
         public GameTime Now { get; }
@@ -41,5 +43,8 @@ namespace Groundsman.Core
 
         /// <summary>Everyone on the ground staff, the player first.</summary>
         public IReadOnlyList<StaffView> Staff { get; }
+
+        /// <summary>This morning's forecast, today first.</summary>
+        public IReadOnlyList<DayForecast> Forecast { get; }
     }
 }

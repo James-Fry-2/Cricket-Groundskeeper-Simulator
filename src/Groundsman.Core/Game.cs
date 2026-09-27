@@ -3,6 +3,7 @@ using System.Linq;
 using Groundsman.Core.Commands;
 using Groundsman.Core.Content;
 using Groundsman.Core.Covers;
+using Groundsman.Core.Forecasting;
 using Groundsman.Core.Inspection;
 using Groundsman.Core.Moisture;
 using Groundsman.Core.Randomness;
@@ -29,6 +30,7 @@ namespace Groundsman.Core
         private readonly ReadingTaker _readingTaker;
         private readonly StaffSettings _staffSettings;
         private readonly StaffRoster _staff;
+        private readonly Forecaster _forecaster;
         private readonly List<StripId> _readThisTurn = new List<StripId>();
         private GameTime _now;
 
@@ -56,7 +58,9 @@ namespace Groundsman.Core
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
             _staffSettings = content.Staff;
             _staff = new StaffRoster(content.Staff, setup.Start.Date);
+            _forecaster = new Forecaster(content.Forecast, Weather, random.Get(RandomStream.Forecast));
             _now = setup.Start;
+            _forecaster.IssueIfNewDay(_now.Date);
         }
 
         public GameView View
@@ -72,7 +76,7 @@ namespace Groundsman.Core
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
                     .ToArray();
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff);
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current);
             }
         }
 
@@ -124,6 +128,7 @@ namespace Groundsman.Core
             _now = to;
             _readThisTurn.Clear();
             _staff.StartDay(_now.Date);
+            _forecaster.IssueIfNewDay(_now.Date);
             return new AdvanceResult(from, to);
         }
 

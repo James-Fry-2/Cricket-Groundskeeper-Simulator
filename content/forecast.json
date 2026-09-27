@@ -1,0 +1,6 @@
+{
+  "days": 7,
+  "rangeSpreads": 1.5,
+  "rain": { "errorSd": 1.5, "growthPerDay": 0.4 },
+  "maxTemperature": { "errorSd": 1.0, "growthPerDay": 0.3 }
+}
