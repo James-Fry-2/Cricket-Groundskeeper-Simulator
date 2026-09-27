@@ -1,0 +1,43 @@
+using System.Globalization;
+using Groundsman.Core.Readings;
+using Groundsman.Core.Time;
+
+namespace Groundsman.Cli;
+
+public static class Format
+{
+    // Round outwards so rounding for display never puts the true value outside the range shown.
+    public static string Percent(ValueRange range) => $"{Math.Floor(range.Low):0}–{Math.Ceiling(range.High):0}%";
+
+    public static string Age(GameTime takenAt, GameTime now) => (now.Date - takenAt.Date).Days switch
+    {
+        0 => "today",
+        1 => "yesterday",
+        var days => $"{days} days ago",
+    };
+
+    public static string Time(GameTime time) =>
+        time.Date.ToString("ddd d MMM yyyy", CultureInfo.InvariantCulture) + $", {time.Hour:00}:00";
+
+    public static string Day(DateTime date) => date.ToString("ddd d MMM", CultureInfo.InvariantCulture);
+
+    public static string Pace(DayPace pace) => pace switch
+    {
+        DayPace.OffSeason => "Off-season",
+        DayPace.InSeason => "In season",
+        DayPace.FinalPrep => "Final prep",
+        DayPace.MatchDay => "Match day",
+        _ => pace.ToString(),
+    };
+
+    public static string NextMatch(DateTime? matchDay, GameTime now)
+    {
+        if (matchDay is not { } day)
+        {
+            return "none scheduled";
+        }
+
+        var days = (day - now.Date).Days;
+        return days == 0 ? "today" : $"{Day(day)} (in {days} day{(days == 1 ? "" : "s")})";
+    }
+}

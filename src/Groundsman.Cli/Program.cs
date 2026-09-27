@@ -9,7 +9,8 @@ var (content, season) = ContentLoader.Load(ContentLoader.DefaultDirectory);
 var start = GameTime.OnDate(season.Start, content.Calendar.MorningHour);
 var game = new Game(new GameSetup(content, start, season.MatchDays, seed));
 
-AnsiConsole.MarkupLine($"[green]Cricket Groundsman Simulator[/] at {game.View.GroundName}, seed {seed}");
+AnsiConsole.MarkupLine($"[green]Cricket Groundsman Simulator[/], seed {seed}");
+new GameLoop(AnsiConsole.Console, game, Console.IsInputRedirected ? Console.In : null).Run();
 
 static ulong? ParseSeed(string[] args)
 {

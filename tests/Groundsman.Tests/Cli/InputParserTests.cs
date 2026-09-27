@@ -1,0 +1,86 @@
+using Groundsman.Cli;
+using Groundsman.Core.Strips;
+
+namespace Groundsman.Tests.Cli;
+
+public class InputParserTests
+{
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData("a")]
+    [InlineData("advance")]
+    public void Blank_or_a_advances(string input)
+    {
+        Assert.IsType<AdvanceInput>(InputParser.Parse(input));
+    }
+
+    [Theory]
+    [InlineData("q")]
+    [InlineData("quit")]
+    public void Q_quits(string input)
+    {
+        Assert.IsType<QuitInput>(InputParser.Parse(input));
+    }
+
+    [Theory]
+    [InlineData("h")]
+    [InlineData("help")]
+    [InlineData("?")]
+    public void H_shows_help(string input)
+    {
+        Assert.IsType<HelpInput>(InputParser.Parse(input));
+    }
+
+    [Theory]
+    [InlineData("s")]
+    [InlineData("status")]
+    public void S_shows_the_status(string input)
+    {
+        Assert.IsType<StatusInput>(InputParser.Parse(input));
+    }
+
+    [Theory]
+    [InlineData("r 3")]
+    [InlineData("R 3")]
+    [InlineData("read 3")]
+    [InlineData("  r   3  ")]
+    public void R_with_a_number_reads_that_strip(string input)
+    {
+        var read = Assert.IsType<ReadInput>(InputParser.Parse(input));
+
+        Assert.Equal(new StripId(3), read.Strip);
+    }
+
+    [Fact]
+    public void R_all_reads_every_strip()
+    {
+        var read = Assert.IsType<ReadInput>(InputParser.Parse("r all"));
+
+        Assert.Null(read.Strip);
+    }
+
+    [Theory]
+    [InlineData("w 12")]
+    [InlineData("water 12")]
+    public void W_with_a_number_waters_that_strip(string input)
+    {
+        var water = Assert.IsType<WaterInput>(InputParser.Parse(input));
+
+        Assert.Equal(new StripId(12), water.Strip);
+    }
+
+    [Theory]
+    [InlineData("x")]
+    [InlineData("r")]
+    [InlineData("w")]
+    [InlineData("w all")]
+    [InlineData("r three")]
+    [InlineData("w 3 4")]
+    public void Anything_else_is_invalid_with_a_hint(string input)
+    {
+        var invalid = Assert.IsType<InvalidInput>(InputParser.Parse(input));
+
+        Assert.Contains("h", invalid.Message);
+    }
+}
