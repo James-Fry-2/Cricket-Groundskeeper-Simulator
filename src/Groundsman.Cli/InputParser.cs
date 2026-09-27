@@ -34,6 +34,10 @@ public static class InputParser
                 return new ReadInput(null, by);
             case ("r" or "read", >= 2) when TryStrip(words[1], out var strip):
                 return new ReadInput(strip, by);
+            case ("d" or "core", >= 2) when words[1] == "all":
+                return new ReadInput(null, by, ReadingSource.SoilCore);
+            case ("d" or "core", >= 2) when TryStrip(words[1], out var strip):
+                return new ReadInput(strip, by, ReadingSource.SoilCore);
             case ("f" or "feel", >= 2) when words[1] == "all":
                 return new ReadInput(null, by, ReadingSource.Feel);
             case ("f" or "feel", >= 2) when TryStrip(words[1], out var strip):

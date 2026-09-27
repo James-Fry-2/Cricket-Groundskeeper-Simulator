@@ -53,7 +53,8 @@ public sealed class GameLoop
                     break;
                 case ReadInput { Strip: null } all:
                     var now = _game.View.Now;
-                    foreach (var strip in _game.View.Strips.Where(s => s.SurfaceMoisture?.TakenAt != now))
+                    var core = all.Tool == ReadingSource.SoilCore;
+                    foreach (var strip in _game.View.Strips.Where(s => (core ? s.SubsurfaceMoisture : s.SurfaceMoisture)?.TakenAt != now))
                     {
                         if (!Read(strip.Id, all.By, all.Tool))
                         {
@@ -109,7 +110,14 @@ public sealed class GameLoop
             return false;
         }
 
-        var reading = _game.View.Strips.Single(s => s.Id == strip).SurfaceMoisture!;
+        var view = _game.View.Strips.Single(s => s.Id == strip);
+        if (tool == ReadingSource.SoilCore)
+        {
+            _console.MarkupLine($"{strip} cores [bold]{Format.Percent(view.SubsurfaceMoisture!.Range)}[/] below the surface.");
+            return true;
+        }
+
+        var reading = view.SurfaceMoisture!;
         _console.MarkupLine(reading.Word != null
             ? $"{strip} feels [bold]{Markup.Escape(reading.Word)}[/]."
             : $"{strip} reads [bold]{Format.Percent(reading.Range)}[/] surface moisture.");
@@ -148,8 +156,10 @@ public sealed class GameLoop
         var truth = _inspect?.Invoke();
         var table = new Table().Border(TableBorder.Simple)
             .AddColumn("Strip")
-            .AddColumn("Surface moisture")
+            .AddColumn("Surface")
             .AddColumn("Read")
+            .AddColumn("Below")
+            .AddColumn("Cored")
             .AddColumn("Cover")
             .AddColumn("Orders");
         if (truth != null)
@@ -166,6 +176,8 @@ public sealed class GameLoop
                 strip.Id.Number.ToString(),
                 reading == null ? "[grey]no reading[/]" : Markup.Escape(Format.Reading(reading, strip.SurfaceMoistureNow!.Value)),
                 reading == null ? "" : $"{Format.Age(reading.TakenAt, view.Now)}, {Markup.Escape(view.Staff.Single(s => s.Id == reading.TakenBy).Name)}",
+                strip.SubsurfaceMoisture == null ? "" : Markup.Escape(Format.Percent(strip.SubsurfaceMoistureNow!.Value)),
+                strip.SubsurfaceMoisture == null ? "" : Format.Age(strip.SubsurfaceMoisture.TakenAt, view.Now),
                 strip.Covered ? "covered" : "",
                 Format.Orders(strip),
             };
@@ -205,6 +217,7 @@ public sealed class GameLoop
             .AddRow("r <strip> [[name]]", "Take a moisture probe reading of a strip; add a name to send someone else")
             .AddRow("r all", "Read every strip")
             .AddRow("f <strip>", "Feel a strip: quick, gives dry, damp or wet, can be wrong")
+            .AddRow("d <strip>", "Take a soil core: slow, reads moisture below the surface")
             .AddRow("w <strip>", "Water a strip (done when time advances)")
             .AddRow("c <strip>", "Put a cover on a strip: keeps rain off, slows drying")
             .AddRow("u <strip>", "Take a strip's cover off")

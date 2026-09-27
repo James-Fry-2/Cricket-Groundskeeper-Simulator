@@ -144,6 +144,16 @@ public class GameLoopTests
     }
 
     [Fact]
+    public void A_soil_core_reports_and_shows_moisture_below()
+    {
+        var (console, game) = Play("d 3", "s", "q");
+        var core = game.View.Strips[2].SubsurfaceMoisture!;
+
+        Assert.Contains($"Strip 3 cores {Format.Percent(core.Range)} below the surface", console.Output);
+        Assert.Contains("Below", console.Output);
+    }
+
+    [Fact]
     public void Readings_say_who_took_them()
     {
         var (console, _) = Play("r 3 sam", "s", "q");
@@ -208,6 +218,7 @@ public class GameLoopTests
         Assert.Contains("r all", console.Output);
         Assert.Contains("w <strip>", console.Output);
         Assert.Contains("c <strip>", console.Output);
+        Assert.Contains("d <strip>", console.Output);
         Assert.Contains("u <strip>", console.Output);
     }
 }

@@ -104,6 +104,16 @@ public class InputParserTests
     }
 
     [Fact]
+    public void D_takes_a_soil_core()
+    {
+        var core = Assert.IsType<ReadInput>(InputParser.Parse("d 3 sam"));
+
+        Assert.Equal(new StripId(3), core.Strip);
+        Assert.Equal(ReadingSource.SoilCore, core.Tool);
+        Assert.Equal(ReadingSource.SoilCore, Assert.IsType<ReadInput>(InputParser.Parse("core all")).Tool);
+    }
+
+    [Fact]
     public void A_name_after_the_strip_says_who_does_the_job()
     {
         Assert.Equal(new StaffId("sam"), Assert.IsType<ReadInput>(InputParser.Parse("r 3 Sam")).By);
