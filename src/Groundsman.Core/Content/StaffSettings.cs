@@ -11,7 +11,8 @@ namespace Groundsman.Core.Content
             double coverHours,
             double uncoverHours,
             double probeReadingHours,
-            double feelReadingHours)
+            double feelReadingHours,
+            double soilCoreHours)
         {
             if (members.Count == 0)
             {
@@ -30,6 +31,7 @@ namespace Groundsman.Core.Content
             CheckHours("uncover", uncoverHours);
             CheckHours("probeReading", probeReadingHours);
             CheckHours("feelReading", feelReadingHours);
+            CheckHours("soilCore", soilCoreHours);
 
             Members = new List<StaffMemberSettings>(members).AsReadOnly();
             WaterHours = waterHours;
@@ -37,6 +39,7 @@ namespace Groundsman.Core.Content
             UncoverHours = uncoverHours;
             ProbeReadingHours = probeReadingHours;
             FeelReadingHours = feelReadingHours;
+            SoilCoreHours = soilCoreHours;
         }
 
         /// <summary>The first member is the player, who does any job not given to someone else.</summary>
@@ -47,6 +50,7 @@ namespace Groundsman.Core.Content
         public double UncoverHours { get; }
         public double ProbeReadingHours { get; }
         public double FeelReadingHours { get; }
+        public double SoilCoreHours { get; }
 
         private static void CheckHours(string job, double hours)
         {

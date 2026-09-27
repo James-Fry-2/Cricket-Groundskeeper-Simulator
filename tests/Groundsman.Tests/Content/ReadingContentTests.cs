@@ -13,6 +13,8 @@ public class ReadingContentTests
 
         Assert.Equal(8, readings.MoistureProbeWidth);
         Assert.Equal(0.08, readings.MoistureProbeMissRate);
+        Assert.Equal(6, readings.SoilCoreWidth);
+        Assert.Equal(0.05, readings.SoilCoreMissRate);
         Assert.Equal(2.5, readings.FeelJudgementSd);
         Assert.Equal(new[] { "dry", "damp", "wet" }, readings.FeelBands.Select(b => b.Word));
         Assert.Equal(1.0, readings.WidenPerDay);
@@ -22,6 +24,7 @@ public class ReadingContentTests
     [Theory]
     [InlineData("\"width\": 8", "\"width\": 0", "width")]
     [InlineData("\"missRate\": 0.08", "\"missRate\": 1.2", "missRate")]
+    [InlineData("\"width\": 6", "\"width\": -1", "soilCore.width")]
     [InlineData("\"judgementSd\": 2.5", "\"judgementSd\": -1", "judgementSd")]
     [InlineData("\"from\": 16, \"to\": 26", "\"from\": 17, \"to\": 26", "bands")]
     [InlineData("\"from\": 0, \"to\": 16", "\"from\": 1, \"to\": 16", "bands")]

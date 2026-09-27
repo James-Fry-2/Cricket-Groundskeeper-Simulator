@@ -7,6 +7,8 @@ namespace Groundsman.Core.Content
         public ReadingSettings(
             double moistureProbeWidth,
             double moistureProbeMissRate,
+            double soilCoreWidth,
+            double soilCoreMissRate,
             double feelJudgementSd,
             IReadOnlyList<FeelBand> feelBands,
             double widenPerDay,
@@ -19,6 +21,14 @@ namespace Groundsman.Core.Content
             if (moistureProbeMissRate < 0 || moistureProbeMissRate > 1)
             {
                 throw new ContentException($"readings.moistureProbe.missRate ({moistureProbeMissRate}) must be from 0 to 1.");
+            }
+            if (soilCoreWidth <= 0)
+            {
+                throw new ContentException($"readings.soilCore.width ({soilCoreWidth}) must be above 0.");
+            }
+            if (soilCoreMissRate < 0 || soilCoreMissRate > 1)
+            {
+                throw new ContentException($"readings.soilCore.missRate ({soilCoreMissRate}) must be from 0 to 1.");
             }
             if (feelJudgementSd < 0)
             {
@@ -36,6 +46,8 @@ namespace Groundsman.Core.Content
 
             MoistureProbeWidth = moistureProbeWidth;
             MoistureProbeMissRate = moistureProbeMissRate;
+            SoilCoreWidth = soilCoreWidth;
+            SoilCoreMissRate = soilCoreMissRate;
             FeelJudgementSd = feelJudgementSd;
             FeelBands = new List<FeelBand>(feelBands).AsReadOnly();
             WidenPerDay = widenPerDay;
@@ -47,6 +59,12 @@ namespace Groundsman.Core.Content
 
         /// <summary>Chance a probe reading by someone of skill 1 misses the true value.</summary>
         public double MoistureProbeMissRate { get; }
+
+        /// <summary>Width in percentage points of a soil core's reading of moisture at depth, at skill 1.</summary>
+        public double SoilCoreWidth { get; }
+
+        /// <summary>Chance a soil core by someone of skill 1 misses the true value.</summary>
+        public double SoilCoreMissRate { get; }
 
         /// <summary>Spread, in percentage points, of a feel judgement about the true value at skill 1.</summary>
         public double FeelJudgementSd { get; }

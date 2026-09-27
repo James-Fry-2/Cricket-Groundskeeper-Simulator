@@ -33,7 +33,7 @@ namespace Groundsman.Core
         private readonly StaffRoster _staff;
         private readonly Forecaster _forecaster;
         private readonly double _waterMm;
-        private readonly List<StripId> _readThisTurn = new List<StripId>();
+        private readonly List<(StripId Strip, Quantity Quantity)> _readThisTurn = new List<(StripId, Quantity)>();
         private GameTime _now;
 
         public Game(GameSetup setup)
@@ -75,7 +75,15 @@ namespace Groundsman.Core
                 for (var i = 0; i < strips.Length; i++)
                 {
                     var id = Square.Strips[i].Id;
-                    strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id), _knowledge.CurrentSurfaceMoisture(id, _now), _tasks.IsWateringQueued(id), _covers.IsCovered(id), _covers.OrderFor(id));
+                    strips[i] = new StripView(
+                        id,
+                        _knowledge.LatestSurfaceMoisture(id),
+                        _knowledge.CurrentSurfaceMoisture(id, _now),
+                        _knowledge.LatestSubsurfaceMoisture(id),
+                        _knowledge.CurrentSubsurfaceMoisture(id, _now),
+                        _tasks.IsWateringQueued(id),
+                        _covers.IsCovered(id),
+                        _covers.OrderFor(id));
                 }
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
@@ -258,12 +266,19 @@ namespace Groundsman.Core
             }
 
             // Repeat readings of an unchanged strip could be intersected to pin down the truth.
-            if (_readThisTurn.Contains(reading.Strip))
+            var quantity = reading.Tool == ReadingSource.SoilCore ? Quantity.SubsurfaceMoisture : Quantity.SurfaceMoisture;
+            if (_readThisTurn.Contains((reading.Strip, quantity)))
             {
-                return CommandResult.Rejected($"{reading.Strip} has already been read this turn.");
+                return CommandResult.Rejected(quantity == Quantity.SubsurfaceMoisture
+                    ? $"{reading.Strip} has already been cored this turn."
+                    : $"{reading.Strip} has already been read this turn.");
             }
-            var feel = reading.Tool == ReadingSource.Feel;
-            var hours = feel ? _staffSettings.FeelReadingHours : _staffSettings.ProbeReadingHours;
+            var hours = reading.Tool switch
+            {
+                ReadingSource.Feel => _staffSettings.FeelReadingHours,
+                ReadingSource.SoilCore => _staffSettings.SoilCoreHours,
+                _ => _staffSettings.ProbeReadingHours,
+            };
             if (Assign(reading.By, hours, out var who) is { } refused)
             {
                 return refused;
@@ -271,8 +286,13 @@ namespace Groundsman.Core
 
             var strip = Square.Get(reading.Strip);
             var taker = _staff.Find(who)!;
-            _knowledge.Record(feel ? _readingTaker.Feel(strip, _now, taker) : _readingTaker.Probe(strip, _now, taker));
-            _readThisTurn.Add(reading.Strip);
+            _knowledge.Record(reading.Tool switch
+            {
+                ReadingSource.Feel => _readingTaker.Feel(strip, _now, taker),
+                ReadingSource.SoilCore => _readingTaker.SoilCore(strip, _now, taker),
+                _ => _readingTaker.Probe(strip, _now, taker),
+            });
+            _readThisTurn.Add((reading.Strip, quantity));
             _staff.Spend(who, hours);
             return CommandResult.Ok();
         }

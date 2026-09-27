@@ -9,6 +9,7 @@
     "cover": 0.25,
     "uncover": 0.25,
     "probeReading": 0.25,
-    "feelReading": 0.05
+    "feelReading": 0.05,
+    "soilCore": 0.75
   }
 }

@@ -149,7 +149,8 @@ namespace Groundsman.Core.Content
                 Required(file, "jobHours.cover", jobs.Cover),
                 Required(file, "jobHours.uncover", jobs.Uncover),
                 Required(file, "jobHours.probeReading", jobs.ProbeReading),
-                Required(file, "jobHours.feelReading", jobs.FeelReading));
+                Required(file, "jobHours.feelReading", jobs.FeelReading),
+                Required(file, "jobHours.soilCore", jobs.SoilCore));
         }
 
         public static ForecastSettings ParseForecast(string json)
@@ -184,6 +185,7 @@ namespace Groundsman.Core.Content
             const string file = "readings";
             var dto = Deserialise<ReadingsDto>(json, file);
             var probe = Required(file, "moistureProbe", dto.MoistureProbe);
+            var core = Required(file, "soilCore", dto.SoilCore);
             var feel = Required(file, "feel", dto.Feel);
             var ageing = Required(file, "ageing", dto.Ageing);
             var bandDtos = Required(file, "feel.bands", feel.Bands);
@@ -202,6 +204,8 @@ namespace Groundsman.Core.Content
             return new ReadingSettings(
                 Required(file, "moistureProbe.width", probe.Width),
                 Required(file, "moistureProbe.missRate", probe.MissRate),
+                Required(file, "soilCore.width", core.Width),
+                Required(file, "soilCore.missRate", core.MissRate),
                 Required(file, "feel.judgementSd", feel.JudgementSd),
                 bands,
                 Required(file, "ageing.widenPerDay", ageing.WidenPerDay),
@@ -344,6 +348,7 @@ namespace Groundsman.Core.Content
         private sealed class ReadingsDto
         {
             public ProbeDto? MoistureProbe { get; set; }
+            public ProbeDto? SoilCore { get; set; }
             public FeelDto? Feel { get; set; }
             public AgeingDto? Ageing { get; set; }
         }
@@ -484,6 +489,7 @@ namespace Groundsman.Core.Content
             public double? Uncover { get; set; }
             public double? ProbeReading { get; set; }
             public double? FeelReading { get; set; }
+            public double? SoilCore { get; set; }
         }
 
         private sealed class ForecastDto

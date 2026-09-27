@@ -20,13 +20,18 @@ namespace Groundsman.Core.Readings
             _random = random;
         }
 
-        public Reading Probe(StripState strip, GameTime now, StaffMemberSettings takenBy)
+        public Reading Probe(StripState strip, GameTime now, StaffMemberSettings takenBy) =>
+            Measure(strip, Quantity.SurfaceMoisture, strip.SurfaceMoisture, ReadingSource.MoistureProbe, _settings.MoistureProbeWidth, _settings.MoistureProbeMissRate, now, takenBy);
+
+        public Reading SoilCore(StripState strip, GameTime now, StaffMemberSettings takenBy) =>
+            Measure(strip, Quantity.SubsurfaceMoisture, strip.SubsurfaceMoisture, ReadingSource.SoilCore, _settings.SoilCoreWidth, _settings.SoilCoreMissRate, now, takenBy);
+
+        private Reading Measure(StripState strip, Quantity quantity, double truth, ReadingSource source, double baseWidth, double missRate, GameTime now, StaffMemberSettings takenBy)
         {
-            var truth = strip.SurfaceMoisture;
-            var width = _settings.MoistureProbeWidth * takenBy.ReadingSkill;
+            var width = baseWidth * takenBy.ReadingSkill;
 
             // Draw order is fixed and part of the replay contract: miss, position, then side.
-            var missed = _random.Chance(Math.Min(1, _settings.MoistureProbeMissRate * takenBy.ReadingSkill));
+            var missed = _random.Chance(Math.Min(1, missRate * takenBy.ReadingSkill));
             double low;
             if (!missed)
             {
@@ -40,7 +45,7 @@ namespace Groundsman.Core.Readings
                 low = _random.Chance(0.5) ? truth + gap : truth - gap - width;
             }
 
-            return new Reading(strip.Id, Quantity.SurfaceMoisture, new ValueRange(low, low + width), now, ReadingSource.MoistureProbe, takenBy.Id);
+            return new Reading(strip.Id, quantity, new ValueRange(low, low + width), now, source, takenBy.Id);
         }
 
         public Reading Feel(StripState strip, GameTime now, StaffMemberSettings takenBy)

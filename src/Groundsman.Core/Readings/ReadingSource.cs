@@ -4,5 +4,6 @@ namespace Groundsman.Core.Readings
     {
         MoistureProbe = 1,
         Feel = 2,
+        SoilCore = 3,
     }
 }

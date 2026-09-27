@@ -20,5 +20,6 @@ internal static class TestStaff
         coverHours: 0.25,
         uncoverHours: 0.25,
         probeReadingHours: 0.25,
-        feelReadingHours: 0.05);
+        feelReadingHours: 0.05,
+        soilCoreHours: 0.75);
 }

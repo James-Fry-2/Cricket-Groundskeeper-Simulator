@@ -5,8 +5,10 @@ namespace Groundsman.Core
 {
     public sealed class StripView
     {
-        public StripView(StripId id, Reading? surfaceMoisture, ValueRange? surfaceMoistureNow, bool wateringQueued, bool covered, CoverOrder coverOrder)
+        public StripView(StripId id, Reading? surfaceMoisture, ValueRange? surfaceMoistureNow, Reading? subsurfaceMoisture, ValueRange? subsurfaceMoistureNow, bool wateringQueued, bool covered, CoverOrder coverOrder)
         {
+            SubsurfaceMoisture = subsurfaceMoisture;
+            SubsurfaceMoistureNow = subsurfaceMoistureNow;
             SurfaceMoistureNow = surfaceMoistureNow;
             Id = id;
             SurfaceMoisture = surfaceMoisture;
@@ -25,6 +27,12 @@ namespace Groundsman.Core
         /// strip has had since: what the reading can still tell you now.
         /// </summary>
         public ValueRange? SurfaceMoistureNow { get; }
+
+        /// <summary>The latest soil core's reading of moisture at depth, or null if none.</summary>
+        public Reading? SubsurfaceMoisture { get; }
+
+        /// <summary>The latest core's range widened as for surface readings.</summary>
+        public ValueRange? SubsurfaceMoistureNow { get; }
 
         /// <summary>Watering ordered this turn, carried out when time next advances.</summary>
         public bool WateringQueued { get; }

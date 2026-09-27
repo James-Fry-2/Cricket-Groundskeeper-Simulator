@@ -17,6 +17,8 @@ internal static class TestContent
     public static ReadingSettings Readings { get; } = new ReadingSettings(
         moistureProbeWidth: 8,
         moistureProbeMissRate: 0.08,
+        soilCoreWidth: 6,
+        soilCoreMissRate: 0.05,
         feelJudgementSd: 2.5,
         new[] { new FeelBand("dry", 0, 16), new FeelBand("damp", 16, 26), new FeelBand("wet", 26, 50) },
         widenPerDay: 1.0,
@@ -36,6 +38,8 @@ internal static class TestContent
     public static ReadingSettings ExactReadings { get; } = new ReadingSettings(
         moistureProbeWidth: 8,
         moistureProbeMissRate: 0,
+        soilCoreWidth: 6,
+        soilCoreMissRate: 0,
         feelJudgementSd: 0,
         Readings.FeelBands,
         widenPerDay: Readings.WidenPerDay,

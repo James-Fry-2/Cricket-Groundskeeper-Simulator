@@ -1,5 +1,6 @@
 {
   "moistureProbe": { "width": 8, "missRate": 0.08 },
+  "soilCore": { "width": 6, "missRate": 0.05 },
   "feel": {
     "judgementSd": 2.5,
     "bands": [
