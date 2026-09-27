@@ -8,7 +8,7 @@ Detail in `docs/phase-2-plan.md`.
 - [x] 1. Distributions: `NextGaussian` and `NextExponential`
 - [x] 2. Weather: `climate.json`, `WeatherSystem`, observed weather in the view, truth inspector, first replay snapshot, harness trace mode
 - [x] 3. Loams and moisture: `loams.json`, two-layer model in mm, watering in mm
-- [ ] 4. Covers: commands, cover limit, no rain and slower drying under covers
+- [x] 4. Covers: commands, cover limit, no rain and slower drying under covers
 - [ ] 5. Staff hours: `staff.json`, job costs, daily hours
 - [ ] 6. Forecast: 7-day ranges, error growing with lead time
 - [ ] 7. Readings: ageing, misses, staff skill, feel readings
@@ -44,6 +44,9 @@ In `content/loams.json`:
 In `content/moisture.json`:
 - Layers: surface 25 mm, subsurface 75 mm (together the top 100 mm the research talks about)
 - Potential evaporation per hour: 0.004 mm per °C above zero, times 1 + 0.02 per km/h of wind, plus 0.2 mm per hour of sunshine
+
+In `content/covers.json`:
+- 4 covers; evaporation under a cover 30% of an open strip's
 
 In `content/tasks.json` and `content/readings.json`:
 - One watering is 12 mm (a deep watering; 5 mm barely reached depth)
@@ -94,4 +97,5 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Tuning from harness traces, 8 seeds, untouched strips: surface dries from wet to about 12% in 2 to 3 days of summer weather, the subsurface loses about a point a day in a dry spell, and moist at depth with a dry surface emerges on its own. Untouched strips meet the Gate A target on 23% of May to September mornings, missing about equally from dry depth (38%), wet depth (32%) and wet surface (34%), which leaves room for play to matter.
 - Watering raised from 5 to 12 mm after a side-by-side run: 5 mm added about 1 point at depth and was gone in three days; 12 mm adds about 7 points at depth overnight and the surface dries back within two days, matching the research's water deeply then let it dry. Heavy rain soon after can push a watered strip near waterlogged, as the research warns.
 - Game-level watering tests now compare against the same seed unwatered, because moisture moves every hour. Replay snapshot regenerated for the moisture model.
-- Next: phase 2 task 4, covers.
+- Covers: `CoverStrip` and `UncoverStrip` commands, queued and applied in the Covers step before that hour's moisture. A covered strip takes no rain and evaporates at 30% of the open rate; watering still goes in, so water-then-sheet works as the research describes. The number of covers is limited; an uncover order frees its cover for another strip in the same turn. The view shows cover state, cover orders, and covers free out of owned. Cli: `c <strip>`, `u <strip>`, a Cover column and a covers-free line. The replay snapshot didn't change, confirming uncovered play is untouched.
+- Next: phase 2 task 5, staff hours.
