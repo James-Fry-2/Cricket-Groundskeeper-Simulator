@@ -23,6 +23,9 @@ Gate A stand-in score: a match strip lands when, on the match morning, subsurfac
 - [x] Strip state types, one command (water), a view built from readings
 - [x] Bare console loop that advances time and prints the day and strip summary
 
+## Later
+- Compare the weather model with recent detailed observations for a real Midlands station (hourly or daily Met Office data, for example Birmingham or Nottingham over the last 10 to 20 years). Check monthly means and also the shape: spell lengths, hot-day and frost counts, daily range on sunny and dull days, rain intensity per hour, and how sunshine and temperature move together. Retune `climate.json` from it and record the source.
+
 ## Balance numbers to tune
 All placeholders in `content/calendar.json`:
 - Season dates: 1 April to 30 September
