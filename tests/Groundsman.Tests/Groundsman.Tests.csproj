@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Groundsman.Core\Groundsman.Core.csproj" />
     <ProjectReference Include="..\..\src\Groundsman.Cli\Groundsman.Cli.csproj" />
+    <ProjectReference Include="..\..\src\Groundsman.Harness\Groundsman.Harness.csproj" />
   </ItemGroup>
 
 </Project>

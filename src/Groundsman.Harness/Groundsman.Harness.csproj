@@ -1,8 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <ItemGroup>
-    <ProjectReference Include="..\Groundsman.Core\Groundsman.Core.csproj" />
-  </ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,5 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Groundsman.Core\Groundsman.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Groundsman.Cli\ContentLoader.cs" Link="ContentLoader.cs" />
+    <None Include="..\..\content\*.json" LinkBase="content" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 
 </Project>
