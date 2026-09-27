@@ -7,7 +7,7 @@ Phase 2: weather, moisture and readings. Ends at Gate A: the by-the-book policy 
 Detail in `docs/phase-2-plan.md`.
 - [x] 1. Distributions: `NextGaussian` and `NextExponential`
 - [x] 2. Weather: `climate.json`, `WeatherSystem`, observed weather in the view, truth inspector, first replay snapshot, harness trace mode
-- [ ] 3. Loams and moisture: `loams.json`, two-layer model in mm, watering in mm
+- [x] 3. Loams and moisture: `loams.json`, two-layer model in mm, watering in mm
 - [ ] 4. Covers: commands, cover limit, no rain and slower drying under covers
 - [ ] 5. Staff hours: `staff.json`, job costs, daily hours
 - [ ] 6. Forecast: 7-day ranges, error growing with lead time
@@ -35,11 +35,18 @@ All placeholders in `content/calendar.json`:
 - Match-day decision hours: 08:00 (before play), 13:00 (lunch), 16:00 (tea), 18:00 (close)
 
 In `content/ground.json`:
-- Starting moisture per strip: 22 to 28% surface, 27 to 32% subsurface
-- Saturation: 40% (move to `loams.json` when loams arrive in phase 2)
+- Starting moisture per strip: 22 to 28% surface, 27 to 32% subsurface; all strips county loam
+
+In `content/loams.json`:
+- County loam: clay 30%, saturation 42%, field capacity 32%, air-dry 6%, drainage 0.08/h surface and 0.02/h subsurface, capillary 0.01/h, cracking 0.5
+- Heavy clay loam (not used by the ground yet): clay 40%, saturation 46%, field capacity 36%, air-dry 8%, drainage 0.04 and 0.01/h, capillary 0.008/h, cracking 0.8
+
+In `content/moisture.json`:
+- Layers: surface 25 mm, subsurface 75 mm (together the top 100 mm the research talks about)
+- Potential evaporation per hour: 0.004 mm per °C above zero, times 1 + 0.02 per km/h of wind, plus 0.2 mm per hour of sunshine
 
 In `content/tasks.json` and `content/readings.json`:
-- One watering adds 4 percentage points of surface moisture
+- One watering is 12 mm (a deep watering; 5 mm barely reached depth)
 - A moisture probe reading is 8 percentage points wide
 
 In `content/climate.json`:
@@ -83,4 +90,8 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Weather revision, after play feedback that summer felt cold. Two causes: the screen showed the 06:00 temperature, near the overnight low, and hot days were too rare (about 2 days of 25 °C or more in July). Weather now follows one chain per day: wet or dry, then cloud (carried day to day), then sunshine (none while rain falls), then temperature. Sun widens the daily range and warms summer days or chills winter nights, and the warmth carries over, so heatwaves come from sunny dry spells. Wet days are windier. Every effect is centred on the monthly average, so the normals still hold.
 - Result over 200 years: July about 6 days of 25 °C or more (June 2, August 4), occasional 30 °C days, hottest 35 °C; averages unchanged. Winter sunshine runs about 4% under normal because rain spells can fill a short winter day, which was accepted rather than compensated.
 - The view shows yesterday's low and high from the max-min thermometer. Replay snapshot regenerated: only rain, temperature and wind changed.
-- Next: phase 2 task 3, loams and moisture.
+- Loams and moisture: `loams.json` (per-loam saturation, field capacity, air-dry, drainage, capillary and cracking values); ground strips name their loam; `moisture.json` holds layer depths and evaporation coefficients. `MoistureModel` moves water in mm each hour: rain unless covered plus watering in, overflow soaks down then runs off, drainage above field capacity, capillary rise into a drier surface, evaporation from temperature, wind and sun slowing towards air-dry. `MoistureSystem` runs it in the Moisture step and takes queued watering as its input. The model has invariant tests (bounds, covers, drainage by clay, conservation, watering reaching depth over a day).
+- Tuning from harness traces, 8 seeds, untouched strips: surface dries from wet to about 12% in 2 to 3 days of summer weather, the subsurface loses about a point a day in a dry spell, and moist at depth with a dry surface emerges on its own. Untouched strips meet the Gate A target on 23% of May to September mornings, missing about equally from dry depth (38%), wet depth (32%) and wet surface (34%), which leaves room for play to matter.
+- Watering raised from 5 to 12 mm after a side-by-side run: 5 mm added about 1 point at depth and was gone in three days; 12 mm adds about 7 points at depth overnight and the surface dries back within two days, matching the research's water deeply then let it dry. Heavy rain soon after can push a watered strip near waterlogged, as the research warns.
+- Game-level watering tests now compare against the same seed unwatered, because moisture moves every hour. Replay snapshot regenerated for the moisture model.
+- Next: phase 2 task 4, covers.
