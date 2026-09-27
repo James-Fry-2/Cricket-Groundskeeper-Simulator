@@ -15,12 +15,14 @@ namespace Groundsman.Core.Tasks
     {
         private readonly Square _square;
         private readonly TaskSettings _settings;
+        private readonly MoistureSettings _moisture;
         private readonly List<StripId> _waterQueue = new List<StripId>();
 
-        public TasksSystem(Square square, TaskSettings settings)
+        public TasksSystem(Square square, TaskSettings settings, MoistureSettings moisture)
         {
             _square = square;
             _settings = settings;
+            _moisture = moisture;
         }
 
         public TickStep Step => TickStep.Tasks;
@@ -34,7 +36,8 @@ namespace Groundsman.Core.Tasks
             foreach (var id in _waterQueue)
             {
                 var strip = _square.Get(id);
-                strip.SurfaceMoisture = Math.Min(_square.Saturation, strip.SurfaceMoisture + _settings.WaterSurfaceGain);
+                var gain = _settings.WaterMm / _moisture.SurfaceDepthMm * 100;
+                strip.SurfaceMoisture = Math.Min(strip.Loam.Saturation, strip.SurfaceMoisture + gain);
             }
             _waterQueue.Clear();
         }

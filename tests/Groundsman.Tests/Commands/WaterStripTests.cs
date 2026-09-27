@@ -32,7 +32,7 @@ public class WaterStripTests
         game.Submit(new WaterStrip(Strip3));
         game.Advance();
 
-        Assert.Equal(before + TestContent.Tasks.WaterSurfaceGain, game.Square.Get(Strip3).SurfaceMoisture);
+        Assert.Equal(before + TestContent.WaterGain, game.Square.Get(Strip3).SurfaceMoisture);
     }
 
     [Fact]
@@ -53,12 +53,12 @@ public class WaterStripTests
     public void Watering_never_takes_moisture_past_saturation()
     {
         var game = NewGame();
-        game.Square.Get(Strip3).SurfaceMoisture = game.Square.Saturation - 1;
+        game.Square.Get(Strip3).SurfaceMoisture = TestLoams.Standard.Saturation - 1;
 
         game.Submit(new WaterStrip(Strip3));
         game.Advance();
 
-        Assert.Equal(game.Square.Saturation, game.Square.Get(Strip3).SurfaceMoisture);
+        Assert.Equal(TestLoams.Standard.Saturation, game.Square.Get(Strip3).SurfaceMoisture);
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class WaterStripTests
         game.Advance();
         game.Advance();
 
-        Assert.Equal(before + TestContent.Tasks.WaterSurfaceGain, game.Square.Get(Strip3).SurfaceMoisture);
+        Assert.Equal(before + TestContent.WaterGain, game.Square.Get(Strip3).SurfaceMoisture);
     }
 
     [Fact]
@@ -96,6 +96,6 @@ public class WaterStripTests
         game.Advance();
 
         Assert.False(second.Accepted);
-        Assert.Equal(before + TestContent.Tasks.WaterSurfaceGain, game.Square.Get(Strip3).SurfaceMoisture);
+        Assert.Equal(before + TestContent.WaterGain, game.Square.Get(Strip3).SurfaceMoisture);
     }
 }

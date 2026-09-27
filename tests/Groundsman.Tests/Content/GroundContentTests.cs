@@ -7,10 +7,9 @@ public class GroundContentTests
 {
     private const string Valid = @"{
         ""name"": ""Kestrel Lane"",
-        ""saturation"": 40,
         ""strips"": [
-            { ""number"": 1, ""surfaceMoisture"": 24, ""subsurfaceMoisture"": 28 },
-            { ""number"": 2, ""surfaceMoisture"": 26, ""subsurfaceMoisture"": 30 }
+            { ""number"": 1, ""loam"": ""county"", ""surfaceMoisture"": 24, ""subsurfaceMoisture"": 28 },
+            { ""number"": 2, ""loam"": ""heavy"", ""surfaceMoisture"": 26, ""subsurfaceMoisture"": 30 }
         ]
     }";
 
@@ -30,19 +29,18 @@ public class GroundContentTests
         var ground = ContentParser.ParseGround(Valid);
 
         Assert.Equal("Kestrel Lane", ground.Name);
-        Assert.Equal(40, ground.Saturation);
         Assert.Equal(2, ground.Strips.Count);
         Assert.Equal(new StripId(2), ground.Strips[1].Id);
+        Assert.Equal("heavy", ground.Strips[1].LoamId);
         Assert.Equal(26, ground.Strips[1].SurfaceMoisture);
         Assert.Equal(30, ground.Strips[1].SubsurfaceMoisture);
     }
 
     [Theory]
     [InlineData("\"name\": \"Kestrel Lane\"", "\"name\": \" \"", "name")]
-    [InlineData("\"saturation\": 40", "\"saturation\": 0", "saturation")]
-    [InlineData("\"saturation\": 40", "\"saturation\": 101", "saturation")]
     [InlineData("\"number\": 2", "\"number\": 3", "number")]
-    [InlineData("\"surfaceMoisture\": 26", "\"surfaceMoisture\": 41", "surfaceMoisture")]
+    [InlineData("\"loam\": \"heavy\"", "\"loam\": \"\"", "loam")]
+    [InlineData("\"surfaceMoisture\": 26", "\"surfaceMoisture\": 101", "surfaceMoisture")]
     [InlineData("\"subsurfaceMoisture\": 30", "\"subsurfaceMoisture\": -1", "subsurfaceMoisture")]
     public void Rejects_invalid_values_naming_the_field(string original, string replacement, string field)
     {
@@ -54,7 +52,7 @@ public class GroundContentTests
     [Fact]
     public void Rejects_a_ground_with_no_strips()
     {
-        var json = @"{ ""name"": ""Kestrel Lane"", ""saturation"": 40, ""strips"": [] }";
+        var json = @"{ ""name"": ""Kestrel Lane"", ""strips"": [] }";
 
         var error = Assert.Throws<ContentException>(() => ContentParser.ParseGround(json));
 

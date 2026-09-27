@@ -4,15 +4,11 @@ namespace Groundsman.Core.Content
 {
     public sealed class GroundSettings
     {
-        public GroundSettings(string name, double saturation, IReadOnlyList<StripSettings> strips)
+        public GroundSettings(string name, IReadOnlyList<StripSettings> strips)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ContentException("ground.name can't be blank.");
-            }
-            if (saturation <= 0 || saturation > 100)
-            {
-                throw new ContentException($"ground.saturation ({saturation}) must be above 0 and at most 100.");
             }
             if (strips.Count == 0)
             {
@@ -25,27 +21,27 @@ namespace Groundsman.Core.Content
                 {
                     throw new ContentException($"ground.strips[{i}].number ({strip.Id.Number}) must be {i + 1}: strips are numbered 1 to n in order.");
                 }
-                CheckMoisture(i, "surfaceMoisture", strip.SurfaceMoisture, saturation);
-                CheckMoisture(i, "subsurfaceMoisture", strip.SubsurfaceMoisture, saturation);
+                if (string.IsNullOrWhiteSpace(strip.LoamId))
+                {
+                    throw new ContentException($"ground.strips[{i}].loam can't be blank.");
+                }
+                CheckMoisture(i, "surfaceMoisture", strip.SurfaceMoisture);
+                CheckMoisture(i, "subsurfaceMoisture", strip.SubsurfaceMoisture);
             }
 
             Name = name;
-            Saturation = saturation;
             Strips = new List<StripSettings>(strips).AsReadOnly();
         }
 
         public string Name { get; }
 
-        /// <summary>Moisture % at which a layer holds no more water.</summary>
-        public double Saturation { get; }
-
         public IReadOnlyList<StripSettings> Strips { get; }
 
-        private static void CheckMoisture(int index, string field, double value, double saturation)
+        private static void CheckMoisture(int index, string field, double value)
         {
-            if (value < 0 || value > saturation)
+            if (value < 0 || value > 100)
             {
-                throw new ContentException($"ground.strips[{index}].{field} ({value}) must be from 0 to saturation ({saturation}).");
+                throw new ContentException($"ground.strips[{index}].{field} ({value}) must be from 0 to 100.");
             }
         }
     }

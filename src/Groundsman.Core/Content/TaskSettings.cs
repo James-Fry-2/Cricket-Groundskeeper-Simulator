@@ -2,17 +2,17 @@ namespace Groundsman.Core.Content
 {
     public sealed class TaskSettings
     {
-        public TaskSettings(double waterSurfaceGain)
+        public TaskSettings(double waterMm)
         {
-            if (waterSurfaceGain <= 0)
+            if (waterMm <= 0)
             {
-                throw new ContentException($"tasks.waterSurfaceGain ({waterSurfaceGain}) must be above 0.");
+                throw new ContentException($"tasks.waterMm ({waterMm}) must be above 0.");
             }
 
-            WaterSurfaceGain = waterSurfaceGain;
+            WaterMm = waterMm;
         }
 
-        /// <summary>Percentage points of surface moisture one watering adds.</summary>
-        public double WaterSurfaceGain { get; }
+        /// <summary>Water one watering puts on a strip, in mm.</summary>
+        public double WaterMm { get; }
     }
 }

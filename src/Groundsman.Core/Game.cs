@@ -37,9 +37,9 @@ namespace Groundsman.Core
             _groundName = content.Ground.Name;
             _paceContext = new PaceContext(content.Calendar, setup.MatchDays);
             _pace = new PaceRules(_paceContext);
-            Square = new Square(content.Ground);
+            Square = new Square(content);
             Weather = new WeatherSystem(new WeatherGenerator(content.Climate, random.Get(RandomStream.Weather)), setup.Start.Date);
-            _tasks = new TasksSystem(Square, content.Tasks);
+            _tasks = new TasksSystem(Square, content.Tasks, content.Moisture);
             _tick = new HourlyTick(new IHourlySystem[] { Weather, _tasks }.Concat(extraSystems));
             _knowledge = new KnowledgeStore(Square.Strips.Count);
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));

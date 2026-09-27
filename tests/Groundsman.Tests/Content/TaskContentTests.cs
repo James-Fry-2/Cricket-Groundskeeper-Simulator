@@ -11,16 +11,16 @@ public class TaskContentTests
 
         var tasks = ContentParser.ParseTasks(json);
 
-        Assert.True(tasks.WaterSurfaceGain > 0);
+        Assert.True(tasks.WaterMm > 0);
     }
 
     [Theory]
-    [InlineData("{ \"waterSurfaceGain\": 0 }")]
+    [InlineData("{ \"waterMm\": 0 }")]
     [InlineData("{ }")]
     public void Rejects_a_missing_or_non_positive_water_gain(string json)
     {
         var error = Assert.Throws<ContentException>(() => ContentParser.ParseTasks(json));
 
-        Assert.Contains("waterSurfaceGain", error.Message);
+        Assert.Contains("waterMm", error.Message);
     }
 }

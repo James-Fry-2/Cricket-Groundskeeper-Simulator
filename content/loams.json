@@ -1,0 +1,28 @@
+{
+  "loams": [
+    {
+      "id": "county",
+      "name": "County loam",
+      "clayPercent": 30,
+      "saturation": 42,
+      "fieldCapacity": 32,
+      "airDry": 6,
+      "surfaceDrainageRate": 0.08,
+      "subsurfaceDrainageRate": 0.02,
+      "capillaryRate": 0.01,
+      "crackingTendency": 0.5
+    },
+    {
+      "id": "heavy",
+      "name": "Heavy clay loam",
+      "clayPercent": 40,
+      "saturation": 46,
+      "fieldCapacity": 36,
+      "airDry": 8,
+      "surfaceDrainageRate": 0.04,
+      "subsurfaceDrainageRate": 0.01,
+      "capillaryRate": 0.008,
+      "crackingTendency": 0.8
+    }
+  ]
+}

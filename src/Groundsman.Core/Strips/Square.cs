@@ -8,18 +8,16 @@ namespace Groundsman.Core.Strips
     {
         private readonly StripState[] _strips;
 
-        public Square(GroundSettings ground)
+        public Square(GameContent content)
         {
-            Saturation = ground.Saturation;
+            var ground = content.Ground;
             _strips = new StripState[ground.Strips.Count];
             for (var i = 0; i < _strips.Length; i++)
             {
                 var strip = ground.Strips[i];
-                _strips[i] = new StripState(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture);
+                _strips[i] = new StripState(strip.Id, content.Loam(strip.LoamId), strip.SurfaceMoisture, strip.SubsurfaceMoisture);
             }
         }
-
-        public double Saturation { get; }
 
         public IReadOnlyList<StripState> Strips => _strips;
 

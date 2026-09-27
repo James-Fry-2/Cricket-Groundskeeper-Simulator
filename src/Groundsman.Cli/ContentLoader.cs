@@ -14,6 +14,8 @@ public static class ContentLoader
             ContentParser.ParseCalendar(Read("calendar.json")),
             ContentParser.ParseClimate(Read("climate.json")),
             ContentParser.ParseGround(Read("ground.json")),
+            ContentParser.ParseLoams(Read("loams.json")),
+            ContentParser.ParseMoisture(Read("moisture.json")),
             ContentParser.ParseTasks(Read("tasks.json")),
             ContentParser.ParseReadings(Read("readings.json")));
 

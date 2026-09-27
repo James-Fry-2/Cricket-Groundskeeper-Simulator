@@ -1,0 +1,9 @@
+{
+  "surfaceDepthMm": 25,
+  "subsurfaceDepthMm": 75,
+  "evaporation": {
+    "perDegreeMm": 0.004,
+    "windFactorPerKph": 0.02,
+    "perSunshineHourMm": 0.2
+  }
+}

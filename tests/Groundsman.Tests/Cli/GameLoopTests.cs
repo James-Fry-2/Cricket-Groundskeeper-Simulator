@@ -58,7 +58,7 @@ public class GameLoopTests
         Assert.Contains("Advanced 24 hours to Tue 11 May 2027, 07:00", console.Output);
         Assert.Contains("Rain in the last 24 hours:", console.Output);
         Assert.Equal(new GameTime(2027, 5, 11, 7), game.View.Now);
-        Assert.Equal(TestGround.Settings.Strips[2].SurfaceMoisture + TestContent.Tasks.WaterSurfaceGain, game.Square.Get(new Groundsman.Core.Strips.StripId(3)).SurfaceMoisture);
+        Assert.Equal(TestGround.Settings.Strips[2].SurfaceMoisture + TestContent.WaterGain, game.Square.Get(new Groundsman.Core.Strips.StripId(3)).SurfaceMoisture);
     }
 
     [Fact]
