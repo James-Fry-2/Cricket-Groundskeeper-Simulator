@@ -37,6 +37,15 @@ namespace Groundsman.Core.Time
             return DayPace.OffSeason;
         }
 
+        public DateTime? NextMatchDayFrom(DateTime date)
+        {
+            foreach (var day in _matchDays.GetViewBetween(date.Date, DateTime.MaxValue.Date))
+            {
+                return day;
+            }
+            return null;
+        }
+
         public IReadOnlyList<int> DecisionHoursOn(DateTime date)
         {
             switch (PaceOn(date))

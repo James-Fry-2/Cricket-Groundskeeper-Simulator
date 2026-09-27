@@ -13,6 +13,7 @@ namespace Groundsman.Core
     public sealed class Game : IGame
     {
         private readonly string _groundName;
+        private readonly PaceContext _paceContext;
         private readonly PaceRules _pace;
         private readonly TasksSystem _tasks;
         private readonly HourlyTick _tick;
@@ -32,7 +33,8 @@ namespace Groundsman.Core
             var random = new RandomStreams(setup.Seed);
 
             _groundName = content.Ground.Name;
-            _pace = new PaceRules(new PaceContext(content.Calendar, setup.MatchDays));
+            _paceContext = new PaceContext(content.Calendar, setup.MatchDays);
+            _pace = new PaceRules(_paceContext);
             Square = new Square(content.Ground);
             _tasks = new TasksSystem(Square, content.Tasks);
             _tick = new HourlyTick(new IHourlySystem[] { _tasks }.Concat(extraSystems));
@@ -49,9 +51,9 @@ namespace Groundsman.Core
                 for (var i = 0; i < strips.Length; i++)
                 {
                     var id = Square.Strips[i].Id;
-                    strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id));
+                    strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id), _tasks.IsWateringQueued(id));
                 }
-                return new GameView(_now, _groundName, strips);
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _groundName, strips);
             }
         }
 
