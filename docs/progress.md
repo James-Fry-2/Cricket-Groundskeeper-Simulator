@@ -9,7 +9,7 @@ Detail in `docs/phase-2-plan.md`.
 - [x] 2. Weather: `climate.json`, `WeatherSystem`, observed weather in the view, truth inspector, first replay snapshot, harness trace mode
 - [x] 3. Loams and moisture: `loams.json`, two-layer model in mm, watering in mm
 - [x] 4. Covers: commands, cover limit, no rain and slower drying under covers
-- [ ] 5. Staff hours: `staff.json`, job costs, daily hours
+- [x] 5. Staff hours: `staff.json`, job costs, daily hours
 - [ ] 6. Forecast: 7-day ranges, error growing with lead time
 - [ ] 7. Readings: ageing, misses, staff skill, feel readings
 - [ ] 8. Harness policies (neglect, random, by the book) and the Gate A check
@@ -47,6 +47,10 @@ In `content/moisture.json`:
 
 In `content/covers.json`:
 - 4 covers; evaporation under a cover 30% of an open strip's
+
+In `content/staff.json`:
+- You 8 h/day (reading skill 1.0), Sam Hollis deputy 8 h (0.8, tighter), Jo Pike casual 6 h (1.4, looser)
+- Job hours: water 1, cover 0.25, uncover 0.25, probe reading 0.25, feel reading 0.05
 
 In `content/tasks.json` and `content/readings.json`:
 - One watering is 12 mm (a deep watering; 5 mm barely reached depth)
@@ -98,4 +102,5 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Watering raised from 5 to 12 mm after a side-by-side run: 5 mm added about 1 point at depth and was gone in three days; 12 mm adds about 7 points at depth overnight and the surface dries back within two days, matching the research's water deeply then let it dry. Heavy rain soon after can push a watered strip near waterlogged, as the research warns.
 - Game-level watering tests now compare against the same seed unwatered, because moisture moves every hour. Replay snapshot regenerated for the moisture model.
 - Covers: `CoverStrip` and `UncoverStrip` commands, queued and applied in the Covers step before that hour's moisture. A covered strip takes no rain and evaporates at 30% of the open rate; watering still goes in, so water-then-sheet works as the research describes. The number of covers is limited; an uncover order frees its cover for another strip in the same turn. The view shows cover state, cover orders, and covers free out of owned. Cli: `c <strip>`, `u <strip>`, a Cover column and a covers-free line. The replay snapshot didn't change, confirming uncovered play is untouched.
-- Next: phase 2 task 5, staff hours.
+- Staff hours: `staff.json` lists the staff (the player first) with hours per day and a reading skill, plus hours per job. Every strip command takes an optional `StaffId` and defaults to the player; a job is refused if that person hasn't the hours left, and a refused job costs nothing. Hours belong to a calendar day and refill when an advance reaches a new date, so morning and afternoon turns share them. Readings record who took them. Reading skill is stored but not applied until task 7. Cli: `r 3 sam` style names, an hours-left line, readings show who took them, and `r all` skips strips already read this turn and stops at the first refusal.
+- Next: phase 2 task 6, forecast.
