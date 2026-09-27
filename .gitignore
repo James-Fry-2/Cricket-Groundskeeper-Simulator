@@ -1,0 +1,20 @@
+# .NET
+bin/
+obj/
+TestResults/
+publish/
+*.user
+*.suo
+
+# IDEs
+.vs/
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# macOS
+.DS_Store
+
+# Harness output
+harness-output/
