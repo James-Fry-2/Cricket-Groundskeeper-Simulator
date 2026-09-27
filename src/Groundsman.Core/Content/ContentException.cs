@@ -1,0 +1,17 @@
+using System;
+
+namespace Groundsman.Core.Content
+{
+    public sealed class ContentException : Exception
+    {
+        public ContentException(string message)
+            : base(message)
+        {
+        }
+
+        public ContentException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+}

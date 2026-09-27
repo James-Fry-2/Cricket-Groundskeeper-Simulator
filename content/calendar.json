@@ -1,0 +1,9 @@
+{
+  "seasonStart": "04-01",
+  "seasonEnd": "09-30",
+  "morningHour": 7,
+  "afternoonHour": 13,
+  "offSeasonStepDays": 7,
+  "finalPrepDays": 3,
+  "matchDayDecisionHours": [8, 13, 16, 18]
+}
