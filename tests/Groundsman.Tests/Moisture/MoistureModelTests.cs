@@ -8,7 +8,7 @@ namespace Groundsman.Tests.Moisture;
 
 public class MoistureModelTests
 {
-    private static readonly MoistureModel Model = new MoistureModel(TestMoisture.Settings);
+    private static readonly MoistureModel Model = new MoistureModel(TestMoisture.Settings, TestContent.Covers);
     private static readonly HourWeather Still = new HourWeather(rainMm: 0, temperature: 0, windKph: 0, sunshine: 0);
     private static readonly HourWeather HotSunny = new HourWeather(rainMm: 0, temperature: 25, windKph: 15, sunshine: 1);
 
@@ -111,6 +111,34 @@ public class MoistureModelTests
         Assert.True(DryingOver6Hours(new HourWeather(0, temperature: 15, windKph: 5, sunshine: 1)) > baseline);
         Assert.True(DryingOver6Hours(new HourWeather(0, temperature: 25, windKph: 5, sunshine: 0)) > baseline);
         Assert.True(DryingOver6Hours(new HourWeather(0, temperature: 15, windKph: 30, sunshine: 0)) > baseline);
+    }
+
+    [Fact]
+    public void A_covered_strip_dries_more_slowly()
+    {
+        var covered = Strip(28, 28);
+        var open = Strip(28, 28);
+
+        for (var hour = 0; hour < 6; hour++)
+        {
+            Model.RunHour(covered, HotSunny, covered: true, wateringMm: 0);
+            Model.RunHour(open, HotSunny, covered: false, wateringMm: 0);
+        }
+
+        var coveredLoss = 28 - covered.SurfaceMoisture;
+        var openLoss = 28 - open.SurfaceMoisture;
+        Assert.True(coveredLoss > 0, "Covers slow drying rather than stopping it");
+        Assert.True(coveredLoss < openLoss * 0.5, $"Covered lost {coveredLoss:0.00}, open {openLoss:0.00}");
+    }
+
+    [Fact]
+    public void Watering_still_goes_in_under_a_cover()
+    {
+        var strip = Strip(20, 20);
+
+        Model.RunHour(strip, Still, covered: true, wateringMm: 2);
+
+        Assert.True(strip.SurfaceMoisture > 20);
     }
 
     [Fact]

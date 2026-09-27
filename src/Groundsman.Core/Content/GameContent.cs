@@ -12,6 +12,7 @@ namespace Groundsman.Core.Content
             GroundSettings ground,
             IReadOnlyList<LoamSettings> loams,
             MoistureSettings moisture,
+            CoverSettings covers,
             TaskSettings tasks,
             ReadingSettings readings)
         {
@@ -43,6 +44,7 @@ namespace Groundsman.Core.Content
             Ground = ground;
             Loams = new List<LoamSettings>(loams).AsReadOnly();
             Moisture = moisture;
+            Covers = covers;
             Tasks = tasks;
             Readings = readings;
         }
@@ -52,6 +54,7 @@ namespace Groundsman.Core.Content
         public GroundSettings Ground { get; }
         public IReadOnlyList<LoamSettings> Loams { get; }
         public MoistureSettings Moisture { get; }
+        public CoverSettings Covers { get; }
         public TaskSettings Tasks { get; }
         public ReadingSettings Readings { get; }
 

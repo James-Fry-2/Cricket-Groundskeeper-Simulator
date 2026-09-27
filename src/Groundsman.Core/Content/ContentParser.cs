@@ -111,6 +111,16 @@ namespace Groundsman.Core.Content
                 Required(file, "evaporation.perSunshineHourMm", evaporation.PerSunshineHourMm));
         }
 
+        public static CoverSettings ParseCovers(string json)
+        {
+            const string file = "covers";
+            var dto = Deserialise<CoversDto>(json, file);
+
+            return new CoverSettings(
+                Required(file, "count", dto.Count),
+                Required(file, "evaporationFactor", dto.EvaporationFactor));
+        }
+
         public static ReadingSettings ParseReadings(string json)
         {
             const string file = "readings";
@@ -325,6 +335,12 @@ namespace Groundsman.Core.Content
             public double? PerDegreeMm { get; set; }
             public double? WindFactorPerKph { get; set; }
             public double? PerSunshineHourMm { get; set; }
+        }
+
+        private sealed class CoversDto
+        {
+            public int? Count { get; set; }
+            public double? EvaporationFactor { get; set; }
         }
     }
 }

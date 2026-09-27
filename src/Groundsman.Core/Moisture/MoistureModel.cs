@@ -13,10 +13,12 @@ namespace Groundsman.Core.Moisture
     internal sealed class MoistureModel
     {
         private readonly MoistureSettings _settings;
+        private readonly CoverSettings _covers;
 
-        public MoistureModel(MoistureSettings settings)
+        public MoistureModel(MoistureSettings settings, CoverSettings covers)
         {
             _settings = settings;
+            _covers = covers;
         }
 
         public void RunHour(StripState strip, HourWeather weather, bool covered, double wateringMm)
@@ -63,10 +65,12 @@ namespace Groundsman.Core.Moisture
                 subsurface -= rise;
             }
 
-            // Evaporation from the surface, slowing as it dries towards air-dry.
+            // Evaporation from the surface, slowing as it dries towards air-dry, and much slower
+            // under a sheet.
             var airDry = ToMm(loam.AirDry, surfaceDepth);
             var availability = Clamp01((surface - airDry) / (ToMm(loam.FieldCapacity, surfaceDepth) - airDry));
-            var evaporation = Math.Min(PotentialEvaporationMm(weather) * availability, Math.Max(0, surface - airDry));
+            var potential = PotentialEvaporationMm(weather) * (covered ? _covers.EvaporationFactor : 1);
+            var evaporation = Math.Min(potential * availability, Math.Max(0, surface - airDry));
             surface -= evaporation;
 
             strip.SurfaceMoisture = ToPercent(surface, surfaceDepth);

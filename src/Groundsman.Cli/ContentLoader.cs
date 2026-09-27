@@ -16,6 +16,7 @@ public static class ContentLoader
             ContentParser.ParseGround(Read("ground.json")),
             ContentParser.ParseLoams(Read("loams.json")),
             ContentParser.ParseMoisture(Read("moisture.json")),
+            ContentParser.ParseCovers(Read("covers.json")),
             ContentParser.ParseTasks(Read("tasks.json")),
             ContentParser.ParseReadings(Read("readings.json")));
 

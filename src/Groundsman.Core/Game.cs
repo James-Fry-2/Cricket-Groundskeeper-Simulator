@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Groundsman.Core.Commands;
+using Groundsman.Core.Covers;
 using Groundsman.Core.Inspection;
 using Groundsman.Core.Moisture;
 using Groundsman.Core.Randomness;
@@ -19,6 +20,7 @@ namespace Groundsman.Core
         private readonly PaceContext _paceContext;
         private readonly PaceRules _pace;
         private readonly TasksSystem _tasks;
+        private readonly CoversSystem _covers;
         private readonly HourlyTick _tick;
         private readonly KnowledgeStore _knowledge;
         private readonly ReadingTaker _readingTaker;
@@ -41,8 +43,9 @@ namespace Groundsman.Core
             Square = new Square(content);
             Weather = new WeatherSystem(new WeatherGenerator(content.Climate, random.Get(RandomStream.Weather)), setup.Start.Date);
             _tasks = new TasksSystem();
-            Moisture = new MoistureSystem(Square, Weather, _tasks, new MoistureModel(content.Moisture), content.Tasks.WaterMm);
-            _tick = new HourlyTick(new IHourlySystem[] { Weather, Moisture, _tasks }.Concat(extraSystems));
+            _covers = new CoversSystem(content.Covers.Count, Square.Strips.Count);
+            Moisture = new MoistureSystem(Square, Weather, _covers, _tasks, new MoistureModel(content.Moisture, content.Covers), content.Tasks.WaterMm);
+            _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, _tasks }.Concat(extraSystems));
             _knowledge = new KnowledgeStore(Square.Strips.Count);
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
             _now = setup.Start;
@@ -56,9 +59,9 @@ namespace Groundsman.Core
                 for (var i = 0; i < strips.Length; i++)
                 {
                     var id = Square.Strips[i].Id;
-                    strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id), _tasks.IsWateringQueued(id));
+                    strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id), _tasks.IsWateringQueued(id), _covers.IsCovered(id), _covers.OrderFor(id));
                 }
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), Observe(), _groundName, strips);
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), Observe(), _groundName, strips, _covers.Free);
             }
         }
 
@@ -88,6 +91,10 @@ namespace Groundsman.Core
                     return Water(water);
                 case TakeReading reading:
                     return Read(reading);
+                case CoverStrip cover:
+                    return Cover(cover.Strip);
+                case UncoverStrip uncover:
+                    return Uncover(uncover.Strip);
                 default:
                     return CommandResult.Rejected($"Unknown command: {command.GetType().Name}.");
             }
@@ -132,6 +139,48 @@ namespace Groundsman.Core
             }
 
             _tasks.QueueWatering(water.Strip);
+            return CommandResult.Ok();
+        }
+
+        private CommandResult Cover(StripId strip)
+        {
+            if (!Square.Contains(strip))
+            {
+                return CommandResult.Rejected($"{strip} isn't on this square.");
+            }
+            if (_covers.OrderFor(strip) != CoverOrder.None)
+            {
+                return CommandResult.Rejected($"{strip} already has a cover order this turn.");
+            }
+            if (_covers.IsCovered(strip))
+            {
+                return CommandResult.Rejected($"{strip} is already covered.");
+            }
+            if (_covers.Free == 0)
+            {
+                return CommandResult.Rejected("No covers free. Uncover another strip first.");
+            }
+
+            _covers.Order(strip, CoverOrder.Cover);
+            return CommandResult.Ok();
+        }
+
+        private CommandResult Uncover(StripId strip)
+        {
+            if (!Square.Contains(strip))
+            {
+                return CommandResult.Rejected($"{strip} isn't on this square.");
+            }
+            if (_covers.OrderFor(strip) != CoverOrder.None)
+            {
+                return CommandResult.Rejected($"{strip} already has a cover order this turn.");
+            }
+            if (!_covers.IsCovered(strip))
+            {
+                return CommandResult.Rejected($"{strip} isn't covered.");
+            }
+
+            _covers.Order(strip, CoverOrder.Uncover);
             return CommandResult.Ok();
         }
 

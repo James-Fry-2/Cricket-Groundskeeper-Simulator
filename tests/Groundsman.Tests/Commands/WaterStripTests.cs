@@ -36,7 +36,7 @@ public class WaterStripTests
     {
         var watered = NewGame();
         var dry = NewGame();
-        var model = new MoistureModel(TestMoisture.Settings);
+        var model = new MoistureModel(TestMoisture.Settings, TestContent.Covers);
         var expected = new StripState(Strip3, TestLoams.Standard, dry.Square.Get(Strip3).SurfaceMoisture, dry.Square.Get(Strip3).SubsurfaceMoisture);
 
         watered.Submit(new WaterStrip(Strip3));

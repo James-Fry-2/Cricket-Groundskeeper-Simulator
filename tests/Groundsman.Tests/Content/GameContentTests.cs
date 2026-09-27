@@ -6,7 +6,7 @@ namespace Groundsman.Tests.Content;
 public class GameContentTests
 {
     private static GameContent With(GroundSettings ground) => new GameContent(
-        TestCalendar.Settings, TestClimate.Settings, ground, TestLoams.All, TestMoisture.Settings, TestContent.Tasks, TestContent.Readings);
+        TestCalendar.Settings, TestClimate.Settings, ground, TestLoams.All, TestMoisture.Settings, TestContent.Covers, TestContent.Tasks, TestContent.Readings);
 
     [Fact]
     public void Rejects_a_strip_naming_an_unknown_loam()
