@@ -11,7 +11,7 @@ Detail in `docs/phase-2-plan.md`.
 - [x] 4. Covers: commands, cover limit, no rain and slower drying under covers
 - [x] 5. Staff hours: `staff.json`, job costs, daily hours
 - [x] 6. Forecast: 7-day ranges, error growing with lead time
-- [ ] 7. Readings: ageing, misses, staff skill, feel readings
+- [x] 7. Readings: ageing, misses, staff skill, feel readings
 - [ ] 8. Harness policies (neglect, random, by the book) and the Gate A check
 
 Gate A stand-in score: a match strip lands when, on the match morning, subsurface moisture is inside a target band and surface moisture is below a ceiling (placeholders: 24 to 30%, under 22%). By the book must land at least 25 percentage points more often than neglect over 1,000 seasons. Phase 3 replaces this with the referee's pitch rating.
@@ -59,7 +59,9 @@ In `content/forecast.json`:
 
 In `content/tasks.json` and `content/readings.json`:
 - One watering is 12 mm (a deep watering; 5 mm barely reached depth)
-- A moisture probe reading is 8 percentage points wide
+- Probe reading: 8 percentage points wide and an 8% miss rate at skill 1; a miss lands up to a quarter of the width off the truth
+- Feel reading: judgement spread 2.5 points at skill 1; bands dry below 16%, damp 16 to 26%, wet 26% and up
+- Ageing: ranges widen 1 point per day plus 0.5 points per mm of rain or watering since the reading
 
 In `content/climate.json`:
 - Monthly normals for the fictional ground (Midlands-like): mean temperature, daily range, rain days, rain total, sunshine, wind, daylight
@@ -110,4 +112,6 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Staff hours: `staff.json` lists the staff (the player first) with hours per day and a reading skill, plus hours per job. Every strip command takes an optional `StaffId` and defaults to the player; a job is refused if that person hasn't the hours left, and a refused job costs nothing. Hours belong to a calendar day and refill when an advance reaches a new date, so morning and afternoon turns share them. Readings record who took them. Reading skill is stored but not applied until task 7. Cli: `r 3 sam` style names, an hours-left line, readings show who took them, and `r all` skips strips already read this turn and stops at the first refusal.
 - Forecast: `Forecaster` issues one each morning (the first turn on a new date) covering today and six days on. Each day is the true weather plus an error drawn at issue from the Forecast stream, spread growing with lead; ranges are the value ± 1.5 spreads, so the truth sits inside about 87% of the time (tested over 400 seeds). Widths depend only on lead, so they can't leak the truth; rain ranges clamp at 0. Stable between turns on the same day. Looking ahead doesn't change the weather, since days are always generated in date order (tested against a standalone generator). The replay snapshot now includes the forecast, added without changing any existing line. Cli: a forecast panel of rain and high-temperature ranges.
 - Chance of rain added to the forecast. A naive figure from the forecast value alone was badly calibrated (it said 70 to 80% on days that rained 28% of the time), because most days are dry. It now weighs the forecast value against the month's rain-day rate and wet-day amounts, and a test over 1,000 seeds holds each band within 8 points of what actually happens. No truth and no extra random draws.
-- Next: phase 2 task 7, readings (ageing, misses, staff skill, feel readings).
+- Readings: probe width and miss rate both scale with the taker's reading skill (tested: Sam 0.8, you 1.0, Jo 1.4 miss about 6%, 8% and 11%). A missed probe reading lands up to a quarter of its width off the truth. Feel readings (`TakeReading` with `ReadingSource.Feel`) cost 0.05 h and give a word whose band is the range, judged on truth plus noise scaled by skill, so borderline strips can get the wrong word. `KnowledgeStore` tracks water known to have reached each strip since its reading (rain while uncovered, from the gauge and cover state, plus ordered watering) and `StripView.SurfaceMoistureNow` gives the range widened for age and that water, clamped at 0. One reading of either kind per strip per turn. Cli: `f <strip> [name]`, `f all`, and the table shows the feel word or the widened range. Replay snapshot updated; only reading lines changed.
+- Found and fixed while doing this: a parser edit briefly deleted `ParseSeason` and `ParseClimate`; the build caught it and they were restored from the last commit unchanged.
+- Next: phase 2 task 8, harness policies and the Gate A check.
