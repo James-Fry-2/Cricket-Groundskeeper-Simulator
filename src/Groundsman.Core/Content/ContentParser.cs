@@ -87,6 +87,41 @@ namespace Groundsman.Core.Content
             return new SeasonSettings(ParseDate(file, "start", dto.Start), matchDays);
         }
 
+        public static ClimateSettings ParseClimate(string json)
+        {
+            const string file = "climate";
+            var dto = Deserialise<ClimateDto>(json, file);
+            var spell = Required(file, "rainSpellHours", dto.RainSpellHours);
+            var monthDtos = Required(file, "months", dto.Months);
+
+            var months = new MonthClimate[monthDtos.Count];
+            for (var i = 0; i < months.Length; i++)
+            {
+                var m = monthDtos[i];
+                var path = $"months[{i}]";
+                months[i] = new MonthClimate(
+                    Required(file, path + ".month", m.Month),
+                    Required(file, path + ".meanTemperature", m.MeanTemperature),
+                    Required(file, path + ".dailyRange", m.DailyRange),
+                    Required(file, path + ".rainDays", m.RainDays),
+                    Required(file, path + ".rainTotalMm", m.RainTotalMm),
+                    Required(file, path + ".sunshineHours", m.SunshineHours),
+                    Required(file, path + ".meanWindKph", m.MeanWindKph),
+                    Required(file, path + ".daylightHours", m.DaylightHours));
+            }
+
+            return new ClimateSettings(
+                Required(file, "rainDayThresholdMm", dto.RainDayThresholdMm),
+                Required(file, "wetDayPersistence", dto.WetDayPersistence),
+                Required(file, "rainSpellHours.min", spell.Min),
+                Required(file, "rainSpellHours.max", spell.Max),
+                Required(file, "temperatureAnomalySd", dto.TemperatureAnomalySd),
+                Required(file, "temperatureAnomalyPersistence", dto.TemperatureAnomalyPersistence),
+                Required(file, "windVariability", dto.WindVariability),
+                Required(file, "wetDaySunshineFactor", dto.WetDaySunshineFactor),
+                months);
+        }
+
         private static T Deserialise<T>(string json, string file)
             where T : class
         {
@@ -168,6 +203,36 @@ namespace Groundsman.Core.Content
         {
             public string? Start { get; set; }
             public List<string>? MatchDays { get; set; }
+        }
+
+        private sealed class ClimateDto
+        {
+            public double? RainDayThresholdMm { get; set; }
+            public double? WetDayPersistence { get; set; }
+            public HourRangeDto? RainSpellHours { get; set; }
+            public double? TemperatureAnomalySd { get; set; }
+            public double? TemperatureAnomalyPersistence { get; set; }
+            public double? WindVariability { get; set; }
+            public double? WetDaySunshineFactor { get; set; }
+            public List<MonthClimateDto>? Months { get; set; }
+        }
+
+        private sealed class HourRangeDto
+        {
+            public int? Min { get; set; }
+            public int? Max { get; set; }
+        }
+
+        private sealed class MonthClimateDto
+        {
+            public int? Month { get; set; }
+            public double? MeanTemperature { get; set; }
+            public double? DailyRange { get; set; }
+            public double? RainDays { get; set; }
+            public double? RainTotalMm { get; set; }
+            public double? SunshineHours { get; set; }
+            public double? MeanWindKph { get; set; }
+            public double? DaylightHours { get; set; }
         }
     }
 }

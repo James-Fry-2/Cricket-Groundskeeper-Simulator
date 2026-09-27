@@ -1,0 +1,23 @@
+{
+  "rainDayThresholdMm": 1.0,
+  "wetDayPersistence": 0.35,
+  "rainSpellHours": { "min": 2, "max": 8 },
+  "temperatureAnomalySd": 2.0,
+  "temperatureAnomalyPersistence": 0.7,
+  "windVariability": 0.35,
+  "wetDaySunshineFactor": 0.4,
+  "months": [
+    { "month": 1,  "meanTemperature": 4.5,  "dailyRange": 5.5, "rainDays": 12, "rainTotalMm": 62, "sunshineHours": 55,  "meanWindKph": 19, "daylightHours": 8.3 },
+    { "month": 2,  "meanTemperature": 4.8,  "dailyRange": 6.0, "rainDays": 10, "rainTotalMm": 48, "sunshineHours": 75,  "meanWindKph": 18, "daylightHours": 9.9 },
+    { "month": 3,  "meanTemperature": 6.9,  "dailyRange": 7.5, "rainDays": 10, "rainTotalMm": 45, "sunshineHours": 110, "meanWindKph": 18, "daylightHours": 11.8 },
+    { "month": 4,  "meanTemperature": 9.0,  "dailyRange": 9.0, "rainDays": 9,  "rainTotalMm": 48, "sunshineHours": 150, "meanWindKph": 16, "daylightHours": 13.7 },
+    { "month": 5,  "meanTemperature": 12.2, "dailyRange": 9.5, "rainDays": 9,  "rainTotalMm": 52, "sunshineHours": 190, "meanWindKph": 15, "daylightHours": 15.4 },
+    { "month": 6,  "meanTemperature": 15.2, "dailyRange": 9.5, "rainDays": 9,  "rainTotalMm": 55, "sunshineHours": 185, "meanWindKph": 14, "daylightHours": 16.4 },
+    { "month": 7,  "meanTemperature": 17.3, "dailyRange": 9.5, "rainDays": 9,  "rainTotalMm": 55, "sunshineHours": 195, "meanWindKph": 13, "daylightHours": 15.9 },
+    { "month": 8,  "meanTemperature": 17.0, "dailyRange": 9.0, "rainDays": 9,  "rainTotalMm": 62, "sunshineHours": 180, "meanWindKph": 14, "daylightHours": 14.3 },
+    { "month": 9,  "meanTemperature": 14.4, "dailyRange": 8.5, "rainDays": 9,  "rainTotalMm": 55, "sunshineHours": 140, "meanWindKph": 15, "daylightHours": 12.5 },
+    { "month": 10, "meanTemperature": 10.8, "dailyRange": 7.0, "rainDays": 11, "rainTotalMm": 68, "sunshineHours": 100, "meanWindKph": 16, "daylightHours": 10.5 },
+    { "month": 11, "meanTemperature": 7.0,  "dailyRange": 5.5, "rainDays": 12, "rainTotalMm": 70, "sunshineHours": 65,  "meanWindKph": 18, "daylightHours": 8.8 },
+    { "month": 12, "meanTemperature": 4.6,  "dailyRange": 5.0, "rainDays": 12, "rainTotalMm": 68, "sunshineHours": 50,  "meanWindKph": 19, "daylightHours": 7.8 }
+  ]
+}
