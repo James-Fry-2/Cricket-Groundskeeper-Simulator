@@ -1,7 +1,7 @@
 # Progress
 
 ## Current phase
-Phase 2: weather, moisture and readings. Ends at Gate A: the by-the-book policy beats neglect in the harness.
+Phase 2 complete: Gate A passed. Next is phase 3, matches and verdicts (plan it in detail first, as for phase 2).
 
 ## Phase 2 tasks
 Detail in `docs/phase-2-plan.md`.
@@ -12,7 +12,7 @@ Detail in `docs/phase-2-plan.md`.
 - [x] 5. Staff hours: `staff.json`, job costs, daily hours
 - [x] 6. Forecast: 7-day ranges, error growing with lead time
 - [x] 7. Readings: ageing, misses, staff skill, feel readings
-- [ ] 8. Harness policies (neglect, random, by the book) and the Gate A check
+- [x] 8. Harness policies (neglect, random, by the book) and the Gate A check
 
 Gate A stand-in score: a match strip lands when, on the match morning, subsurface moisture is inside a target band and surface moisture is below a ceiling (placeholders: 24 to 30%, under 22%). By the book must land at least 25 percentage points more often than neglect over 1,000 seasons. Phase 3 replaces this with the referee's pitch rating.
 
@@ -44,6 +44,7 @@ In `content/loams.json`:
 
 In `content/moisture.json`:
 - Layers: surface 25 mm, subsurface 75 mm (together the top 100 mm the research talks about)
+- Root uptake from the subsurface: 0.3 of the hour's evaporation demand, curve 3 (strong near field capacity, weak when dry)
 - Potential evaporation per hour: 0.004 mm per °C above zero, times 1 + 0.02 per km/h of wind, plus 0.2 mm per hour of sunshine
 
 In `content/covers.json`:
@@ -63,6 +64,7 @@ In `content/season.json` and `content/scoring.json`:
 
 In `content/tasks.json` and `content/readings.json`:
 - One watering is 12 mm (a deep watering; 5 mm barely reached depth)
+- Soil core: 6 points wide, 5% miss rate at skill 1, 0.75 h
 - Probe reading: 8 percentage points wide and an 8% miss rate at skill 1; a miss lands up to a quarter of the width off the truth
 - Feel reading: judgement spread 2.5 points at skill 1; bands dry below 16%, damp 16 to 26%, wet 26% and up
 - Ageing: ranges widen 1 point per day plus 0.5 points per mm of rain or watering since the reading
@@ -122,4 +124,10 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Harness: `IPolicy` plays through `IGame`, which has no `Inspect`, so policies see only what a player sees. Neglect, random, and by the book (the research loop: Sam reads the strip each morning from 10 days out, water deeply 5 days out unless it reads wet or rain is likely, again 4 days out if still dryish, a top-up 3 days out only if parched, cover in the final 3 days when the chance of rain is 40% or more, uncover otherwise). `SeasonRunner` scores each fixture's strip from the truth at 08:00 on its first day, before the policy acts. `harness gate --seasons N` runs all three in parallel with fixed results order, prints a summary and writes per-match CSV; 1,000 seasons take about 2 seconds.
 - Gate A, first run over 1,000 seasons: neglect 20%, random 24%, by the book 37% on target. NOT PASSED (17-point lead, 25 needed). Not tuned to pass.
 - Diagnosis from policy variants over 400 seasons (scratch code, not committed): watering only 25% (too wet below 54%), covers only about 24% (too dry below about 50%), a smarter honest policy 35%, and an oracle that sees the true moisture 59% (still too wet below 31%). Two causes: (1) the target at depth (24 to 30%) sits just under the loam's field capacity (32%), and below field capacity the model only dries the subsurface by slow capillary rise, about a point a day, so after decent rain a strip stays too wet at depth for days whatever the player does; (2) the probe reads only the surface, so honest play is guessing about the thing that's scored, which is why it tops out near 36% while the oracle reaches 59%.
-- Next: decide how to address the Gate A result before phase 3.
+- Decision (user): fix both causes rather than widen the target or lower the bar.
+- Drying at depth: grass roots now draw a share of the hour's evaporation demand from the subsurface, falling away sharply as it dries (`rootUptakeShare` 0.3, `rootUptakeCurve` 3 in `moisture.json`). Chosen against a realism check from traces: a strip at field capacity dries into the 24 to 30% band in about 2.5 dry summer days; summer depth averages 22%; long droughts bottom out near 9%. A straight-line version strong enough to dry at depth over-dried the whole season.
+- Soil cores: `TakeReading` with `ReadingSource.SoilCore` reads the subsurface (6 points wide, 5% misses at skill 1, 0.75 h), counted separately from surface readings, ageing the same way. Cli: `d <strip> [name]`, `d all`, Below and Cored columns. The replay snapshot was unchanged by cores (the script doesn't use them).
+- By the book now cores the match strip each morning from 7 days out (Sam), probes the surface in the final 3 days, waters when the core reads under 25% and rain is unlikely (under 21% two days out), covers at 40% chance of rain when the profile is at 26% or more or in the final 3 days, and otherwise only covers a dry strip against heavy rain. Its depth thresholds sit inside the research's 25 to 30% working figure, which a groundsman would know; it doesn't read `scoring.json`.
+- Gate A over 1,000 seasons: neglect 13%, random 18%, by the book 50% on target. PASSED, 37-point lead (25 needed). On seeds 5001 to 6000, never seen while choosing thresholds: neglect 13%, by the book 49%, and an oracle that sees the truth 58%, so honest play with cores gets within 9 points of perfect knowledge.
+- Worth revisiting: a soil core leaves a hole in a real pitch; cores might later cost something on the match strip itself. Neglect's biggest miss is now too dry at depth (63%), since roots dry untended strips through the summer.
+- Phase 2 complete.
