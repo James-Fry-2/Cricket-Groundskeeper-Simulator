@@ -5,7 +5,7 @@ Phase 2: weather, moisture and readings. Ends at Gate A: the by-the-book policy 
 
 ## Phase 2 tasks
 Detail in `docs/phase-2-plan.md`.
-- [ ] 1. Distributions: `NextGaussian` and `NextExponential`
+- [x] 1. Distributions: `NextGaussian` and `NextExponential`
 - [ ] 2. Weather: `climate.json`, `WeatherSystem`, observed weather in the view, truth inspector, first replay snapshot, harness trace mode
 - [ ] 3. Loams and moisture: `loams.json`, two-layer model in mm, watering in mm
 - [ ] 4. Covers: commands, cover limit, no rain and slower drying under covers
@@ -61,4 +61,5 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - `GameView` gained `Pace` and `NextMatchDay`, and `StripView` gained `WateringQueued`.
 - Phase 1 complete. Try it with `dotnet run --project src/Groundsman.Cli -- --seed 7`.
 - Phase 2 planned in detail in `docs/phase-2-plan.md`, using the research notes (now `docs/research.md`). Staff hours come into phase 2 because the research makes labour hours the core resource. The Gate A score now checks moisture at depth plus a dry surface, matching the research's target.
-- Next: phase 2 task 1, distributions.
+- Distributions: `RandomSource.NextGaussian` (Box-Muller, one value per call so saves only need the generator state) and `NextExponential`. Pinned against the Python reference with a tolerance for maths-library differences, plus mean and spread checks over 100,000 draws.
+- Next: phase 2 task 2, weather.

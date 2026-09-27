@@ -74,6 +74,36 @@ namespace Groundsman.Core.Randomness
 
         public bool Chance(double probability) => NextDouble() < probability;
 
+        /// <summary>Standard normal, by Box-Muller.</summary>
+        public double NextGaussian()
+        {
+            // One value per call, discarding Box-Muller's second, so the generator's four words
+            // stay the only state that saves need to capture.
+            var u1 = 1.0 - NextDouble();
+            var u2 = NextDouble();
+            return Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2);
+        }
+
+        public double NextGaussian(double mean, double standardDeviation)
+        {
+            if (standardDeviation < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(standardDeviation), standardDeviation, "Can't be negative.");
+            }
+
+            return mean + standardDeviation * NextGaussian();
+        }
+
+        public double NextExponential(double mean)
+        {
+            if (mean <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(mean), mean, "Must be positive.");
+            }
+
+            return -mean * Math.Log(1.0 - NextDouble());
+        }
+
         // Rejection sampling: a plain modulo would favour low values whenever the bound
         // doesn't divide 2^64.
         private ulong NextBounded(ulong bound)
