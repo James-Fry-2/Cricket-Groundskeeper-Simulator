@@ -64,7 +64,7 @@ public class ReplayTests
                 .ToArray(),
             readings = view.Strips
                 .Where(s => s.SurfaceMoisture != null)
-                .Select(s => $"{s.Id.Number}: {Round(s.SurfaceMoisture!.Range.Low)} to {Round(s.SurfaceMoisture.Range.High)} at {s.SurfaceMoisture.TakenAt}")
+                .Select(s => $"{s.Id.Number}: {Round(s.SurfaceMoisture!.Range.Low)} to {Round(s.SurfaceMoisture.Range.High)} at {s.SurfaceMoisture.TakenAt}, now {Round(s.SurfaceMoistureNow!.Value.Low)} to {Round(s.SurfaceMoistureNow.Value.High)}")
                 .ToArray(),
         };
     }

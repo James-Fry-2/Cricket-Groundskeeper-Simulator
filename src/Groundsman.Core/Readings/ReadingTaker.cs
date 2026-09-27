@@ -1,6 +1,6 @@
+using System;
 using Groundsman.Core.Content;
 using Groundsman.Core.Randomness;
-using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Time;
 
@@ -8,6 +8,9 @@ namespace Groundsman.Core.Readings
 {
     internal sealed class ReadingTaker
     {
+        // How far past the truth a missed probe reading can land, as a share of its width.
+        private const double MaxMissGapShare = 0.25;
+
         private readonly ReadingSettings _settings;
         private readonly RandomSource _random;
 
@@ -17,15 +20,45 @@ namespace Groundsman.Core.Readings
             _random = random;
         }
 
-        public Reading ProbeSurfaceMoisture(StripState strip, GameTime now, StaffId takenBy)
+        public Reading Probe(StripState strip, GameTime now, StaffMemberSettings takenBy)
         {
-            // Place the true value at a random point in the range: a range centred on the truth
-            // would give it away as the midpoint.
-            var width = _settings.MoistureProbeWidth;
-            var low = strip.SurfaceMoisture - _random.NextDouble() * width;
-            var range = new ValueRange(low, low + width);
+            var truth = strip.SurfaceMoisture;
+            var width = _settings.MoistureProbeWidth * takenBy.ReadingSkill;
 
-            return new Reading(strip.Id, Quantity.SurfaceMoisture, range, now, ReadingSource.MoistureProbe, takenBy);
+            // Draw order is fixed and part of the replay contract: miss, position, then side.
+            var missed = _random.Chance(Math.Min(1, _settings.MoistureProbeMissRate * takenBy.ReadingSkill));
+            double low;
+            if (!missed)
+            {
+                // The true value sits at a random point in the range: a range centred on the
+                // truth would give it away as the midpoint.
+                low = truth - _random.NextDouble() * width;
+            }
+            else
+            {
+                var gap = _random.NextDouble() * MaxMissGapShare * width;
+                low = _random.Chance(0.5) ? truth + gap : truth - gap - width;
+            }
+
+            return new Reading(strip.Id, Quantity.SurfaceMoisture, new ValueRange(low, low + width), now, ReadingSource.MoistureProbe, takenBy.Id);
+        }
+
+        public Reading Feel(StripState strip, GameTime now, StaffMemberSettings takenBy)
+        {
+            var judged = _random.NextGaussian(strip.SurfaceMoisture, _settings.FeelJudgementSd * takenBy.ReadingSkill);
+
+            var bands = _settings.FeelBands;
+            var band = bands[bands.Count - 1];
+            for (var i = 0; i < bands.Count; i++)
+            {
+                if (judged < bands[i].To)
+                {
+                    band = bands[i];
+                    break;
+                }
+            }
+
+            return new Reading(strip.Id, Quantity.SurfaceMoisture, new ValueRange(band.From, band.To), now, ReadingSource.Feel, takenBy.Id, band.Word);
         }
     }
 }

@@ -1,5 +1,6 @@
 using Groundsman.Core;
 using Groundsman.Core.Commands;
+using Groundsman.Core.Content;
 using Groundsman.Core.Readings;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Time;
@@ -11,10 +12,12 @@ public class TakeReadingTests
     private static readonly GameTime Start = new GameTime(2027, 5, 10, 7);
     private static readonly StripId Strip3 = new StripId(3);
 
-    private static Game NewGame(ulong seed = 1) => new Game(TestContent.Setup(Start, seed: seed));
+    private static Game NewGame(ulong seed = 1, ReadingSettings? readings = null) =>
+        new Game(TestContent.Setup(Start, seed: seed, readings: readings));
 
-    private static Reading? LatestFor(Game game, StripId strip) =>
-        game.View.Strips.Single(s => s.Id == strip).SurfaceMoisture;
+    private static StripView ViewOf(Game game, StripId strip) => game.View.Strips[strip.Number - 1];
+
+    private static Reading? LatestFor(Game game, StripId strip) => ViewOf(game, strip).SurfaceMoisture;
 
     [Fact]
     public void Strips_show_no_reading_before_one_is_taken()
@@ -23,6 +26,7 @@ public class TakeReadingTests
 
         Assert.Equal(12, view.Strips.Count);
         Assert.All(view.Strips, strip => Assert.Null(strip.SurfaceMoisture));
+        Assert.All(view.Strips, strip => Assert.Null(strip.SurfaceMoistureNow));
     }
 
     [Fact]
@@ -38,16 +42,18 @@ public class TakeReadingTests
         Assert.Equal(Strip3, reading!.Strip);
         Assert.Equal(Quantity.SurfaceMoisture, reading.Quantity);
         Assert.Equal(ReadingSource.MoistureProbe, reading.Source);
+        Assert.Null(reading.Word);
         Assert.Equal(Start, reading.TakenAt);
         Assert.Equal(TestContent.Readings.MoistureProbeWidth, reading.Range.Width, 9);
+        Assert.Equal(reading.Range, ViewOf(game, Strip3).SurfaceMoistureNow);
     }
 
     [Fact]
-    public void The_range_always_contains_the_true_value()
+    public void Without_misses_the_range_always_contains_the_true_value()
     {
         for (ulong seed = 1; seed <= 200; seed++)
         {
-            var game = NewGame(seed);
+            var game = NewGame(seed, TestContent.ExactReadings);
             foreach (var strip in game.Square.Strips)
             {
                 game.Submit(new TakeReading(strip.Id));
@@ -63,7 +69,7 @@ public class TakeReadingTests
         var offsets = new HashSet<double>();
         for (ulong seed = 1; seed <= 20; seed++)
         {
-            var game = NewGame(seed);
+            var game = NewGame(seed, TestContent.ExactReadings);
             game.Submit(new TakeReading(Strip3));
 
             offsets.Add(Math.Round(game.Square.Get(Strip3).SurfaceMoisture - LatestFor(game, Strip3)!.Range.Low, 6));
@@ -87,7 +93,7 @@ public class TakeReadingTests
     [Fact]
     public void The_view_keeps_the_old_reading_after_watering_until_a_new_one_is_taken()
     {
-        var game = NewGame();
+        var game = NewGame(readings: TestContent.ExactReadings);
         game.Submit(new TakeReading(Strip3));
         var before = LatestFor(game, Strip3);
 
@@ -112,15 +118,14 @@ public class TakeReadingTests
     }
 
     [Fact]
-    public void Rejects_a_second_reading_of_a_strip_in_one_turn()
+    public void Rejects_a_second_reading_of_a_strip_in_one_turn_of_either_kind()
     {
         var game = NewGame();
         game.Submit(new TakeReading(Strip3));
         var first = LatestFor(game, Strip3);
 
-        var second = game.Submit(new TakeReading(Strip3));
-
-        Assert.False(second.Accepted);
+        Assert.False(game.Submit(new TakeReading(Strip3)).Accepted);
+        Assert.False(game.Submit(new TakeReading(Strip3, tool: ReadingSource.Feel)).Accepted);
         Assert.Same(first, LatestFor(game, Strip3));
     }
 

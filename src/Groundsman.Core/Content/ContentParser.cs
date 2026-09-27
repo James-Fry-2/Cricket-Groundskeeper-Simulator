@@ -170,8 +170,29 @@ namespace Groundsman.Core.Content
         {
             const string file = "readings";
             var dto = Deserialise<ReadingsDto>(json, file);
+            var probe = Required(file, "moistureProbe", dto.MoistureProbe);
+            var feel = Required(file, "feel", dto.Feel);
+            var ageing = Required(file, "ageing", dto.Ageing);
+            var bandDtos = Required(file, "feel.bands", feel.Bands);
 
-            return new ReadingSettings(Required(file, "moistureProbeWidth", dto.MoistureProbeWidth));
+            var bands = new FeelBand[bandDtos.Count];
+            for (var i = 0; i < bands.Length; i++)
+            {
+                var band = bandDtos[i];
+                var path = $"feel.bands[{i}]";
+                bands[i] = new FeelBand(
+                    Required(file, path + ".word", band.Word),
+                    Required(file, path + ".from", band.From),
+                    Required(file, path + ".to", band.To));
+            }
+
+            return new ReadingSettings(
+                Required(file, "moistureProbe.width", probe.Width),
+                Required(file, "moistureProbe.missRate", probe.MissRate),
+                Required(file, "feel.judgementSd", feel.JudgementSd),
+                bands,
+                Required(file, "ageing.widenPerDay", ageing.WidenPerDay),
+                Required(file, "ageing.widenPerMmWater", ageing.WidenPerMmWater));
         }
 
         public static SeasonSettings ParseSeason(string json)
@@ -304,7 +325,34 @@ namespace Groundsman.Core.Content
 
         private sealed class ReadingsDto
         {
-            public double? MoistureProbeWidth { get; set; }
+            public ProbeDto? MoistureProbe { get; set; }
+            public FeelDto? Feel { get; set; }
+            public AgeingDto? Ageing { get; set; }
+        }
+
+        private sealed class ProbeDto
+        {
+            public double? Width { get; set; }
+            public double? MissRate { get; set; }
+        }
+
+        private sealed class FeelDto
+        {
+            public double? JudgementSd { get; set; }
+            public List<FeelBandDto>? Bands { get; set; }
+        }
+
+        private sealed class FeelBandDto
+        {
+            public string? Word { get; set; }
+            public double? From { get; set; }
+            public double? To { get; set; }
+        }
+
+        private sealed class AgeingDto
+        {
+            public double? WidenPerDay { get; set; }
+            public double? WidenPerMmWater { get; set; }
         }
 
         private sealed class SeasonDto

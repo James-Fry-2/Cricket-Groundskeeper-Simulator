@@ -13,10 +13,28 @@ internal static class TestContent
 
     public static CoverSettings Covers { get; } = new CoverSettings(count: 4, evaporationFactor: 0.3);
 
-    public static ReadingSettings Readings { get; } = new ReadingSettings(moistureProbeWidth: 8);
+    public static ReadingSettings Readings { get; } = new ReadingSettings(
+        moistureProbeWidth: 8,
+        moistureProbeMissRate: 0.08,
+        feelJudgementSd: 2.5,
+        new[] { new FeelBand("dry", 0, 16), new FeelBand("damp", 16, 26), new FeelBand("wet", 26, 50) },
+        widenPerDay: 1.0,
+        widenPerMmWater: 0.5);
 
     public static GameContent Content { get; } = new GameContent(TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, Covers, Tasks, TestStaff.Settings, Readings, TestForecast.Settings);
 
-    public static GameSetup Setup(GameTime start, IEnumerable<DateTime>? matchDays = null, ulong seed = 1) =>
-        new GameSetup(Content, start, matchDays ?? Array.Empty<DateTime>(), seed);
+    public static GameSetup Setup(GameTime start, IEnumerable<DateTime>? matchDays = null, ulong seed = 1, ReadingSettings? readings = null) =>
+        new GameSetup(readings == null ? Content : WithReadings(readings), start, matchDays ?? Array.Empty<DateTime>(), seed);
+
+    /// <summary>Test readings with nothing left to chance except where the true value sits.</summary>
+    public static ReadingSettings ExactReadings { get; } = new ReadingSettings(
+        moistureProbeWidth: 8,
+        moistureProbeMissRate: 0,
+        feelJudgementSd: 0,
+        Readings.FeelBands,
+        widenPerDay: Readings.WidenPerDay,
+        widenPerMmWater: Readings.WidenPerMmWater);
+
+    private static GameContent WithReadings(ReadingSettings readings) => new GameContent(
+        TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, Covers, Tasks, TestStaff.Settings, readings, TestForecast.Settings);
 }

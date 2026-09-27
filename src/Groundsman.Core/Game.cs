@@ -31,6 +31,7 @@ namespace Groundsman.Core
         private readonly StaffSettings _staffSettings;
         private readonly StaffRoster _staff;
         private readonly Forecaster _forecaster;
+        private readonly double _waterMm;
         private readonly List<StripId> _readThisTurn = new List<StripId>();
         private GameTime _now;
 
@@ -54,9 +55,10 @@ namespace Groundsman.Core
             _covers = new CoversSystem(content.Covers.Count, Square.Strips.Count);
             Moisture = new MoistureSystem(Square, Weather, _covers, _tasks, new MoistureModel(content.Moisture, content.Covers), content.Tasks.WaterMm);
             _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, _tasks }.Concat(extraSystems));
-            _knowledge = new KnowledgeStore(Square.Strips.Count);
+            _knowledge = new KnowledgeStore(content.Readings, Square.Strips.Count);
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
             _staffSettings = content.Staff;
+            _waterMm = content.Tasks.WaterMm;
             _staff = new StaffRoster(content.Staff, setup.Start.Date);
             _forecaster = new Forecaster(content.Forecast, content.Climate, Weather, random.Get(RandomStream.Forecast));
             _now = setup.Start;
@@ -71,7 +73,7 @@ namespace Groundsman.Core
                 for (var i = 0; i < strips.Length; i++)
                 {
                     var id = Square.Strips[i].Id;
-                    strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id), _tasks.IsWateringQueued(id), _covers.IsCovered(id), _covers.OrderFor(id));
+                    strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id), _knowledge.CurrentSurfaceMoisture(id, _now), _tasks.IsWateringQueued(id), _covers.IsCovered(id), _covers.OrderFor(id));
                 }
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
@@ -120,9 +122,18 @@ namespace Groundsman.Core
             var from = _now;
             var to = _pace.NextDecisionPoint(from);
 
+            foreach (var strip in Square.Strips)
+            {
+                if (_tasks.IsWateringQueued(strip.Id))
+                {
+                    _knowledge.AddWater(strip.Id, _waterMm);
+                }
+            }
+
             for (var hour = from; hour < to; hour = hour.AddHours(1))
             {
                 _tick.RunHour(hour);
+                ObserveRain();
             }
 
             _now = to;
@@ -130,6 +141,25 @@ namespace Groundsman.Core
             _staff.StartDay(_now.Date);
             _forecaster.IssueIfNewDay(_now.Date);
             return new AdvanceResult(from, to);
+        }
+
+        // The rain gauge and the cover state are both known, so the player knows how much rain
+        // each open strip has taken; covered strips took none.
+        private void ObserveRain()
+        {
+            var rain = Weather.LastHour!.Value.RainMm;
+            if (rain <= 0)
+            {
+                return;
+            }
+
+            foreach (var strip in Square.Strips)
+            {
+                if (!_covers.IsCovered(strip.Id))
+                {
+                    _knowledge.AddWater(strip.Id, rain);
+                }
+            }
         }
 
         private WeatherObservation? Observe()
@@ -230,14 +260,18 @@ namespace Groundsman.Core
             {
                 return CommandResult.Rejected($"{reading.Strip} has already been read this turn.");
             }
-            if (Assign(reading.By, _staffSettings.ProbeReadingHours, out var who) is { } refused)
+            var feel = reading.Tool == ReadingSource.Feel;
+            var hours = feel ? _staffSettings.FeelReadingHours : _staffSettings.ProbeReadingHours;
+            if (Assign(reading.By, hours, out var who) is { } refused)
             {
                 return refused;
             }
 
-            _knowledge.Record(_readingTaker.ProbeSurfaceMoisture(Square.Get(reading.Strip), _now, who));
+            var strip = Square.Get(reading.Strip);
+            var taker = _staff.Find(who)!;
+            _knowledge.Record(feel ? _readingTaker.Feel(strip, _now, taker) : _readingTaker.Probe(strip, _now, taker));
             _readThisTurn.Add(reading.Strip);
-            _staff.Spend(who, _staffSettings.ProbeReadingHours);
+            _staff.Spend(who, hours);
             return CommandResult.Ok();
         }
 

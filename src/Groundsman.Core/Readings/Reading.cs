@@ -6,8 +6,9 @@ namespace Groundsman.Core.Readings
 {
     public sealed class Reading
     {
-        public Reading(StripId strip, Quantity quantity, ValueRange range, GameTime takenAt, ReadingSource source, StaffId takenBy)
+        public Reading(StripId strip, Quantity quantity, ValueRange range, GameTime takenAt, ReadingSource source, StaffId takenBy, string? word = null)
         {
+            Word = word;
             TakenBy = takenBy;
             Strip = strip;
             Quantity = quantity;
@@ -22,5 +23,8 @@ namespace Groundsman.Core.Readings
         public GameTime TakenAt { get; }
         public ReadingSource Source { get; }
         public StaffId TakenBy { get; }
+
+        /// <summary>For a feel reading, the word it gave; the range is that word's band.</summary>
+        public string? Word { get; }
     }
 }
