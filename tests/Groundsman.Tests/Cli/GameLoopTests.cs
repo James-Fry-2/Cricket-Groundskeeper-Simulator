@@ -63,6 +63,27 @@ public class GameLoopTests
     }
 
     [Fact]
+    public void Covering_is_confirmed_shown_as_an_order_then_as_covered()
+    {
+        var (console, game) = Play("c 5", "s", "", "q");
+
+        Assert.Contains("Strip 5 is down for covering", console.Output);
+        Assert.Contains("cover on", console.Output);
+        Assert.Contains("covered", console.Output);
+        Assert.Contains($"Covers free: {TestContent.Covers.Count - 1} of {TestContent.Covers.Count}", console.Output);
+        Assert.True(game.View.Strips[4].Covered);
+    }
+
+    [Fact]
+    public void Uncovering_is_confirmed()
+    {
+        var (console, game) = Play("c 5", "", "u 5", "", "q");
+
+        Assert.Contains("Strip 5 is down for uncovering", console.Output);
+        Assert.False(game.View.Strips[4].Covered);
+    }
+
+    [Fact]
     public void A_rejected_command_shows_the_reason()
     {
         var (console, _) = Play("w 3", "w 3", "q");
@@ -118,5 +139,7 @@ public class GameLoopTests
 
         Assert.Contains("r all", console.Output);
         Assert.Contains("w <strip>", console.Output);
+        Assert.Contains("c <strip>", console.Output);
+        Assert.Contains("u <strip>", console.Output);
     }
 }

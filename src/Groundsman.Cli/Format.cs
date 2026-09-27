@@ -39,6 +39,24 @@ public static class Format
             : text;
     }
 
+    public static string Orders(StripView strip)
+    {
+        var orders = new List<string>();
+        if (strip.WateringQueued)
+        {
+            orders.Add("[blue]water[/]");
+        }
+        if (strip.CoverOrder == CoverOrder.Cover)
+        {
+            orders.Add("[blue]cover on[/]");
+        }
+        if (strip.CoverOrder == CoverOrder.Uncover)
+        {
+            orders.Add("[blue]cover off[/]");
+        }
+        return string.Join(", ", orders);
+    }
+
     public static string NextMatch(DateTime? matchDay, GameTime now)
     {
         if (matchDay is not { } day)

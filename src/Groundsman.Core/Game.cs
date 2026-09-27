@@ -21,6 +21,7 @@ namespace Groundsman.Core
         private readonly PaceRules _pace;
         private readonly TasksSystem _tasks;
         private readonly CoversSystem _covers;
+        private readonly int _coversOwned;
         private readonly HourlyTick _tick;
         private readonly KnowledgeStore _knowledge;
         private readonly ReadingTaker _readingTaker;
@@ -43,6 +44,7 @@ namespace Groundsman.Core
             Square = new Square(content);
             Weather = new WeatherSystem(new WeatherGenerator(content.Climate, random.Get(RandomStream.Weather)), setup.Start.Date);
             _tasks = new TasksSystem();
+            _coversOwned = content.Covers.Count;
             _covers = new CoversSystem(content.Covers.Count, Square.Strips.Count);
             Moisture = new MoistureSystem(Square, Weather, _covers, _tasks, new MoistureModel(content.Moisture, content.Covers), content.Tasks.WaterMm);
             _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, _tasks }.Concat(extraSystems));
@@ -61,7 +63,7 @@ namespace Groundsman.Core
                     var id = Square.Strips[i].Id;
                     strips[i] = new StripView(id, _knowledge.LatestSurfaceMoisture(id), _tasks.IsWateringQueued(id), _covers.IsCovered(id), _covers.OrderFor(id));
                 }
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), Observe(), _groundName, strips, _covers.Free);
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned);
             }
         }
 

@@ -71,6 +71,27 @@ public class InputParserTests
     }
 
     [Theory]
+    [InlineData("c 4", true)]
+    [InlineData("cover 4", true)]
+    [InlineData("u 4", false)]
+    [InlineData("uncover 4", false)]
+    public void C_and_u_cover_and_uncover_a_strip(string input, bool cover)
+    {
+        var parsed = InputParser.Parse(input);
+
+        if (cover)
+        {
+            Assert.Equal(new StripId(4), Assert.IsType<CoverInput>(parsed).Strip);
+        }
+        else
+        {
+            Assert.Equal(new StripId(4), Assert.IsType<UncoverInput>(parsed).Strip);
+        }
+    }
+
+    [Theory]
+    [InlineData("c all")]
+    [InlineData("u")]
     [InlineData("x")]
     [InlineData("r")]
     [InlineData("w")]

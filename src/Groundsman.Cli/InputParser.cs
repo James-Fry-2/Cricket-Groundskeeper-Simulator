@@ -28,6 +28,10 @@ public static class InputParser
                 return new ReadInput(strip);
             case ("w" or "water", 2) when TryStrip(words[1], out var strip):
                 return new WaterInput(strip);
+            case ("c" or "cover", 2) when TryStrip(words[1], out var strip):
+                return new CoverInput(strip);
+            case ("u" or "uncover", 2) when TryStrip(words[1], out var strip):
+                return new UncoverInput(strip);
             default:
                 return new InvalidInput($"Didn't understand \"{text.Trim()}\". Type h for help.");
         }

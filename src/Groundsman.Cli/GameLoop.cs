@@ -61,6 +61,12 @@ public sealed class GameLoop
                 case WaterInput water:
                     Water(water.Strip);
                     break;
+                case CoverInput cover:
+                    Order(new CoverStrip(cover.Strip), $"{cover.Strip} is down for covering.");
+                    break;
+                case UncoverInput uncover:
+                    Order(new UncoverStrip(uncover.Strip), $"{uncover.Strip} is down for uncovering.");
+                    break;
                 case InvalidInput invalid:
                     _console.MarkupLine($"[yellow]{Markup.Escape(invalid.Message)}[/]");
                     break;
@@ -102,11 +108,13 @@ public sealed class GameLoop
         _console.MarkupLine($"{strip} reads [bold]{Format.Percent(reading.Range)}[/] surface moisture.");
     }
 
-    private void Water(StripId strip)
+    private void Water(StripId strip) => Order(new WaterStrip(strip), $"{strip} is down for watering.");
+
+    private void Order(IGameCommand command, string confirmation)
     {
-        if (Report(_game.Submit(new WaterStrip(strip))))
+        if (Report(_game.Submit(command)))
         {
-            _console.MarkupLine($"{strip} is down for watering.");
+            _console.MarkupLine(confirmation);
         }
     }
 
@@ -136,6 +144,7 @@ public sealed class GameLoop
             .AddColumn("Strip")
             .AddColumn("Surface moisture")
             .AddColumn("Read")
+            .AddColumn("Cover")
             .AddColumn("Orders");
         if (truth != null)
         {
@@ -151,7 +160,8 @@ public sealed class GameLoop
                 strip.Id.Number.ToString(),
                 reading == null ? "[grey]no reading[/]" : Format.Percent(reading.Range),
                 reading == null ? "" : Format.Age(reading.TakenAt, view.Now),
-                strip.WateringQueued ? "[blue]water[/]" : "",
+                strip.Covered ? "covered" : "",
+                Format.Orders(strip),
             };
             if (truth != null)
             {
@@ -162,6 +172,7 @@ public sealed class GameLoop
         }
 
         _console.Write(table);
+        _console.MarkupLine($"Covers free: {view.CoversFree} of {view.CoversOwned}.");
         _console.MarkupLine("[grey]Enter to advance, h for help.[/]");
     }
 
@@ -173,6 +184,8 @@ public sealed class GameLoop
             .AddRow("r <strip>", "Take a moisture probe reading of a strip")
             .AddRow("r all", "Read every strip")
             .AddRow("w <strip>", "Water a strip (done when time advances)")
+            .AddRow("c <strip>", "Put a cover on a strip: keeps rain off, slows drying")
+            .AddRow("u <strip>", "Take a strip's cover off")
             .AddRow("s", "Show the ground again")
             .AddRow("Enter or a", "Advance to the next decision point")
             .AddRow("q", "Quit");

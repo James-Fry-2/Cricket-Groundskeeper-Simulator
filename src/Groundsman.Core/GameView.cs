@@ -9,7 +9,7 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
-        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree)
+        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned)
         {
             Now = now;
             Pace = pace;
@@ -18,6 +18,7 @@ namespace Groundsman.Core
             GroundName = groundName;
             Strips = strips;
             CoversFree = coversFree;
+            CoversOwned = coversOwned;
         }
 
         public GameTime Now { get; }
@@ -34,5 +35,7 @@ namespace Groundsman.Core
 
         /// <summary>Covers neither on a strip nor ordered onto one this turn.</summary>
         public int CoversFree { get; }
+
+        public int CoversOwned { get; }
     }
 }

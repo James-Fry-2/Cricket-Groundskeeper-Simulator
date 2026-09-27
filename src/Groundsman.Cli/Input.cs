@@ -17,4 +17,8 @@ public sealed record ReadInput(StripId? Strip) : Input;
 
 public sealed record WaterInput(StripId Strip) : Input;
 
+public sealed record CoverInput(StripId Strip) : Input;
+
+public sealed record UncoverInput(StripId Strip) : Input;
+
 public sealed record InvalidInput(string Message) : Input;

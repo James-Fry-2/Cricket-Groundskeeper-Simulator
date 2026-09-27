@@ -27,6 +27,7 @@ public class CoverStripTests
 
         Assert.All(view.Strips, s => Assert.False(s.Covered));
         Assert.Equal(TestContent.Covers.Count, view.CoversFree);
+        Assert.Equal(TestContent.Covers.Count, view.CoversOwned);
     }
 
     [Fact]
