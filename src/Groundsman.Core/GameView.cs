@@ -1,3 +1,5 @@
+using Groundsman.Core.Time;
+
 namespace Groundsman.Core
 {
     /// <summary>
@@ -5,5 +7,11 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
+        public GameView(GameTime now)
+        {
+            Now = now;
+        }
+
+        public GameTime Now { get; }
     }
 }
