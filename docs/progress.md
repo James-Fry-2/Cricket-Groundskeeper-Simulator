@@ -6,7 +6,7 @@ Phase 2: weather, moisture and readings. Ends at Gate A: the by-the-book policy 
 ## Phase 2 tasks
 Detail in `docs/phase-2-plan.md`.
 - [x] 1. Distributions: `NextGaussian` and `NextExponential`
-- [ ] 2. Weather: `climate.json`, `WeatherSystem`, observed weather in the view, truth inspector, first replay snapshot, harness trace mode
+- [x] 2. Weather: `climate.json`, `WeatherSystem`, observed weather in the view, truth inspector, first replay snapshot, harness trace mode
 - [ ] 3. Loams and moisture: `loams.json`, two-layer model in mm, watering in mm
 - [ ] 4. Covers: commands, cover limit, no rain and slower drying under covers
 - [ ] 5. Staff hours: `staff.json`, job costs, daily hours
@@ -39,6 +39,12 @@ In `content/tasks.json` and `content/readings.json`:
 - One watering adds 4 percentage points of surface moisture
 - A moisture probe reading is 8 percentage points wide
 
+In `content/climate.json`:
+- Monthly normals for the fictional ground (Midlands-like): mean temperature, daily range, rain days, rain total, sunshine, wind, daylight
+- Rain day threshold 1 mm; wet-day persistence 0.35; rain spells 2 to 8 hours
+- Temperature anomaly: spread 2 °C, persistence 0.7 day to day
+- Wind variability 0.35 (log scale); wet-day sunshine 40% of a dry day's
+
 In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Game start: 25 March 2027
 - Match days: a four-day match 16 to 19 April, and a one-day match on 2 May
@@ -62,4 +68,10 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Phase 1 complete. Try it with `dotnet run --project src/Groundsman.Cli -- --seed 7`.
 - Phase 2 planned in detail in `docs/phase-2-plan.md`, using the research notes (now `docs/research.md`). Staff hours come into phase 2 because the research makes labour hours the core resource. The Gate A score now checks moisture at depth plus a dry surface, matching the research's target.
 - Distributions: `RandomSource.NextGaussian` (Box-Muller, one value per call so saves only need the generator state) and `NextExponential`. Pinned against the Python reference with a tolerance for maths-library differences, plus mean and spread checks over 100,000 draws.
-- Next: phase 2 task 2, weather.
+- Weather: `climate.json` monthly normals; `WeatherGenerator` makes a day at a time (two-state chain for wet spells, exponential wet-day totals above the 1 mm threshold in one spell, temperature anomaly carried day to day with a daily curve, log-normal wind, sunshine spread over daylight). `WeatherSystem` runs in the Weather step and generates days in date order, so looking ahead for forecasts won't change them. Over 200 simulated years, monthly rain, rain days, temperature, sunshine and wind all match the normals within tolerance.
+- The view shows observed weather: rain gauge for the last 24 hours, and the last hour's temperature and wind. These are exact, since instruments aren't part of the information puzzle.
+- Truth inspector: `Game.Inspect()` returns a `TruthSnapshot`, kept apart from `GameView`. The Cli's `--debug` flag shows it in a magenta column.
+- First replay snapshot (`tests/Groundsman.Tests/Snapshots/replay-season-start.json`): 80 turns of scripted play on test content. After an intended rule change, rerun with `UPDATE_SNAPSHOTS=1 dotnet test` and review the diff.
+- Harness: `weather --years N` (daily CSV plus monthly comparison with normals) and `trace` (truth at every decision point of an untouched season), writing to `harness-output/`. The harness links the Cli's `ContentLoader.cs`; move it to a shared project if more code ends up shared.
+- Weather check, 100 years from seed 1: all months close to normal. The largest gaps are rain in July (61 vs 55 mm) and September (60 vs 55 mm), about 10% over, which is within sampling noise. Sunshine is fixed per wet or dry day within a month, with no day-to-day variation; add some if days feel samey.
+- Next: phase 2 task 3, loams and moisture.
