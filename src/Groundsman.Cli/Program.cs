@@ -10,7 +10,12 @@ var start = GameTime.OnDate(season.Start, content.Calendar.MorningHour);
 var game = new Game(new GameSetup(content, start, season.MatchDays, seed));
 
 AnsiConsole.MarkupLine($"[green]Cricket Groundsman Simulator[/], seed {seed}");
-new GameLoop(AnsiConsole.Console, game, Console.IsInputRedirected ? Console.In : null).Run();
+var debug = args.Contains("--debug");
+if (debug)
+{
+    AnsiConsole.MarkupLine("[magenta]Debug mode: true values shown in magenta.[/]");
+}
+new GameLoop(AnsiConsole.Console, game, Console.IsInputRedirected ? Console.In : null, debug ? game.Inspect : null).Run();
 
 static ulong? ParseSeed(string[] args)
 {

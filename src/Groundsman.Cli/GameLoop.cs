@@ -1,5 +1,6 @@
 using Groundsman.Core;
 using Groundsman.Core.Commands;
+using Groundsman.Core.Inspection;
 using Groundsman.Core.Strips;
 using Spectre.Console;
 
@@ -10,15 +11,18 @@ public sealed class GameLoop
     private readonly IAnsiConsole _console;
     private readonly IGame _game;
     private readonly TextReader? _pipedInput;
+    private readonly Func<TruthSnapshot>? _inspect;
 
     /// <param name="pipedInput">
     /// Plain line source for when stdin is redirected, since Spectre's prompts refuse to read it.
     /// </param>
-    public GameLoop(IAnsiConsole console, IGame game, TextReader? pipedInput = null)
+    /// <param name="inspect">Debug mode: shows true values beside readings when given.</param>
+    public GameLoop(IAnsiConsole console, IGame game, TextReader? pipedInput = null, Func<TruthSnapshot>? inspect = null)
     {
         _console = console;
         _game = game;
         _pipedInput = pipedInput;
+        _inspect = inspect;
     }
 
     public void Run()
@@ -127,20 +131,34 @@ public sealed class GameLoop
             _console.MarkupLine(Format.Weather(weather));
         }
 
+        var truth = _inspect?.Invoke();
         var table = new Table().Border(TableBorder.Simple)
             .AddColumn("Strip")
             .AddColumn("Surface moisture")
             .AddColumn("Read")
             .AddColumn("Orders");
-
-        foreach (var strip in view.Strips)
+        if (truth != null)
         {
+            table.AddColumn("[magenta]Truth (surface / below)[/]");
+        }
+
+        for (var i = 0; i < view.Strips.Count; i++)
+        {
+            var strip = view.Strips[i];
             var reading = strip.SurfaceMoisture;
-            table.AddRow(
+            var cells = new List<string>
+            {
                 strip.Id.Number.ToString(),
                 reading == null ? "[grey]no reading[/]" : Format.Percent(reading.Range),
                 reading == null ? "" : Format.Age(reading.TakenAt, view.Now),
-                strip.WateringQueued ? "[blue]water[/]" : "");
+                strip.WateringQueued ? "[blue]water[/]" : "",
+            };
+            if (truth != null)
+            {
+                var t = truth.Strips[i];
+                cells.Add($"[magenta]{t.SurfaceMoisture:0.0}% / {t.SubsurfaceMoisture:0.0}%[/]");
+            }
+            table.AddRow(cells.ToArray());
         }
 
         _console.Write(table);

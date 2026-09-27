@@ -90,6 +90,27 @@ public class GameLoopTests
     }
 
     [Fact]
+    public void Debug_mode_shows_true_moisture_beside_readings()
+    {
+        var console = new TestConsole();
+        console.Profile.Width = 120;
+        var game = new Game(TestContent.Setup(new GameTime(2027, 5, 10, 7)));
+
+        new GameLoop(console, game, new StringReader(""), game.Inspect).Run();
+
+        Assert.Contains("Truth", console.Output);
+        Assert.Contains($"{TestGround.Settings.Strips[2].SurfaceMoisture:0.0}%", console.Output);
+    }
+
+    [Fact]
+    public void Normal_mode_never_shows_truth()
+    {
+        var (console, _) = Play("q");
+
+        Assert.DoesNotContain("Truth", console.Output);
+    }
+
+    [Fact]
     public void Help_lists_the_commands()
     {
         var (console, _) = Play("h", "q");

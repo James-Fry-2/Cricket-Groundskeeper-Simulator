@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Groundsman.Core.Commands;
+using Groundsman.Core.Inspection;
 using Groundsman.Core.Randomness;
 using Groundsman.Core.Readings;
 using Groundsman.Core.Simulation;
@@ -60,6 +61,18 @@ namespace Groundsman.Core
         }
 
         internal Square Square { get; }
+
+        /// <summary>True state, for the harness, replays and the debug view only.</summary>
+        public TruthSnapshot Inspect()
+        {
+            var strips = new StripTruth[Square.Strips.Count];
+            for (var i = 0; i < strips.Length; i++)
+            {
+                var strip = Square.Strips[i];
+                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture);
+            }
+            return new TruthSnapshot(_now, Weather.LastHour, strips);
+        }
 
         internal WeatherSystem Weather { get; }
 
