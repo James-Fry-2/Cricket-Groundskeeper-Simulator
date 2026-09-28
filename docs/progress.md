@@ -4,7 +4,7 @@
 Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: prepared strips rate well and neglected ones earn demerits.
 
 ## Phase 3 tasks
-- [ ] 1. Formats, teams and fixture details
+- [x] 1. Formats, teams and fixture details
 - [ ] 2. Grass: growth and mowing
 - [ ] 3. Compaction and rolling
 - [ ] 4. Pitch characteristics
@@ -47,7 +47,6 @@ All placeholders in `content/calendar.json`:
 - Morning and afternoon decision hours: 07:00 and 13:00
 - Off-season turn length: 7 days
 - Final prep (half-day turns) before a match: 3 days
-- Match-day decision hours: 08:00 (before play), 13:00 (lunch), 16:00 (tea), 18:00 (close)
 
 In `content/ground.json`:
 - Starting moisture per strip: 22 to 28% surface, 27 to 32% subsurface; all strips county loam
@@ -72,8 +71,16 @@ In `content/forecast.json`:
 - 7 days from today; ranges 1.5 error spreads either side (truth inside about 87% of the time)
 - Rain error spread 1.5 mm on the day, growing 40% per day ahead; top temperature 1.0 °C, growing 30% per day
 
+In `content/formats.json`:
+- Four-day: 2 innings each, 96 overs a day, play 11–13, 14–16, 16–18; turns at 08:00, 13:00, 16:00, 18:00
+- One-day: 50 overs an innings, play 11–14 and 15–18; turns at 08:00, 14:00, 18:00
+- T20: 20 overs an innings, play 18–20 and 20–22; turns at 08:00, 18:00, 20:00, 22:00
+
+In `content/teams.json`:
+- Home: Kestrelshire; opponents Harrowmere, Saltmarsh, Oakhollow, Brackenridge, Fenwick, each with batting and bowling strength (50–72) and an attack profile (seam 0.5–0.85, left-arm 0–0.35, heavy-footed 0.2–0.8)
+
 In `content/season.json` and `content/scoring.json`:
-- 18 placeholder fixtures, 16 April to 25 September, four-day and one-day, on rotating strips
+- 18 placeholder fixtures, 16 April to 25 September: four-day, one-day and T20 against rotating opponents, on rotating strips
 - Gate A stand-in: subsurface 24 to 30%, surface under 22% on the first morning
 
 In `content/tasks.json` and `content/readings.json`:
@@ -146,4 +153,5 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Worth revisiting: a soil core leaves a hole in a real pitch; cores might later cost something on the match strip itself. Neglect's biggest miss is now too dry at depth (63%), since roots dry untended strips through the summer.
 - Phase 2 complete.
 - Phase 3 planned in `docs/phase-3-plan.md`: rating scale, rolling and mowing, and session-by-session matches decided with the user.
-- Next: phase 3 task 1, formats, teams and fixture details.
+- Formats, teams and fixtures: `formats.json` (days, innings per side, overs per innings or per day, session play hours, match-day turns) and `teams.json` (home side and opponents, strengths, attack profile). Fixtures name a format and opponent; their length comes from the format. `PaceContext` takes fixtures and gives each match day its format's turns, so T20 days turn in the evening; match-day hours left `calendar.json`. Test formats keep the old turn times, so the replay snapshot didn't change, and Gate A is unchanged (neglect 13%, by the book 50%). Sessions, innings and overs are parsed and checked now and used by the match engine in task 6.
+- Next: phase 3 task 2, grass and mowing.
