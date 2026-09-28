@@ -10,8 +10,7 @@ namespace Groundsman.Core.Content
             int morningHour,
             int afternoonHour,
             int offSeasonStepDays,
-            int finalPrepDays,
-            IReadOnlyList<int> matchDayDecisionHours)
+            int finalPrepDays)
         {
             if (seasonEnd.CompareTo(seasonStart) <= 0)
             {
@@ -31,26 +30,12 @@ namespace Groundsman.Core.Content
             {
                 throw new ContentException($"calendar.finalPrepDays ({finalPrepDays}) can't be negative.");
             }
-            if (matchDayDecisionHours.Count == 0)
-            {
-                throw new ContentException("calendar.matchDayDecisionHours needs at least one hour.");
-            }
-            for (var i = 0; i < matchDayDecisionHours.Count; i++)
-            {
-                CheckHour("matchDayDecisionHours", matchDayDecisionHours[i]);
-                if (i > 0 && matchDayDecisionHours[i] <= matchDayDecisionHours[i - 1])
-                {
-                    throw new ContentException("calendar.matchDayDecisionHours must be in ascending order with no repeats.");
-                }
-            }
-
             SeasonStart = seasonStart;
             SeasonEnd = seasonEnd;
             MorningHour = morningHour;
             AfternoonHour = afternoonHour;
             OffSeasonStepDays = offSeasonStepDays;
             FinalPrepDays = finalPrepDays;
-            MatchDayDecisionHours = new List<int>(matchDayDecisionHours).AsReadOnly();
         }
 
         public MonthDay SeasonStart { get; }
@@ -59,7 +44,6 @@ namespace Groundsman.Core.Content
         public int AfternoonHour { get; }
         public int OffSeasonStepDays { get; }
         public int FinalPrepDays { get; }
-        public IReadOnlyList<int> MatchDayDecisionHours { get; }
 
         private static void CheckHour(string field, int hour)
         {

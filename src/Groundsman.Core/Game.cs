@@ -48,7 +48,7 @@ namespace Groundsman.Core
 
             _groundName = content.Ground.Name;
             _fixtures = setup.Fixtures;
-            _paceContext = new PaceContext(content.Calendar, setup.MatchDays);
+            _paceContext = new PaceContext(content.Calendar, setup.Fixtures);
             _pace = new PaceRules(_paceContext);
             Square = new Square(content);
             Weather = new WeatherSystem(new WeatherGenerator(content.Climate, random.Get(RandomStream.Weather)), setup.Start.Date);

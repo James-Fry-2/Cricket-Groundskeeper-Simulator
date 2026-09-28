@@ -11,7 +11,7 @@ public class SeasonTraceTests
     [Fact]
     public void Records_every_decision_point_up_to_the_end_with_truth_per_strip()
     {
-        var season = new SeasonSettings(new DateTime(2027, 4, 1), new[] { new Fixture(new DateTime(2027, 4, 10), 1, new StripId(1)) });
+        var season = new SeasonSettings(new DateTime(2027, 4, 1), new[] { new Fixture(new DateTime(2027, 4, 10), TestFormats.OneDay, new StripId(1), TestTeams.Opponent) });
 
         var csv = SeasonTrace.Run(TestContent.Content, season, seed: 4, end: new DateTime(2027, 4, 15));
         var lines = csv.TrimEnd().Split('\n');

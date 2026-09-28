@@ -11,6 +11,5 @@ internal static class TestCalendar
         morningHour: 7,
         afternoonHour: 13,
         offSeasonStepDays: 7,
-        finalPrepDays: 3,
-        matchDayDecisionHours: new[] { 8, 13, 16, 18 });
+        finalPrepDays: 3);
 }

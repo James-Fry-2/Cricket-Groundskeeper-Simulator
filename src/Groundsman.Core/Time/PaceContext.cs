@@ -7,13 +7,18 @@ namespace Groundsman.Core.Time
     public sealed class PaceContext
     {
         private readonly SortedSet<DateTime> _matchDays = new SortedSet<DateTime>();
+        private readonly Dictionary<DateTime, IReadOnlyList<int>> _matchDayHours = new Dictionary<DateTime, IReadOnlyList<int>>();
 
-        public PaceContext(CalendarSettings settings, IEnumerable<DateTime> matchDays)
+        public PaceContext(CalendarSettings settings, IEnumerable<Fixture> fixtures)
         {
             Settings = settings;
-            foreach (var day in matchDays)
+            foreach (var fixture in fixtures)
             {
-                _matchDays.Add(day.Date);
+                for (var day = fixture.Start; day <= fixture.End; day = day.AddDays(1))
+                {
+                    _matchDays.Add(day);
+                    _matchDayHours[day] = fixture.Format.DecisionHours;
+                }
             }
         }
 
@@ -51,7 +56,7 @@ namespace Groundsman.Core.Time
             switch (PaceOn(date))
             {
                 case DayPace.MatchDay:
-                    return Settings.MatchDayDecisionHours;
+                    return _matchDayHours[date.Date];
                 case DayPace.FinalPrep:
                     return new[] { Settings.MorningHour, Settings.AfternoonHour };
                 default:

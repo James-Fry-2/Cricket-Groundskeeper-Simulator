@@ -9,9 +9,9 @@ public class GateReportTests
 {
     private static readonly SeasonSettings Season = new SeasonSettings(new DateTime(2027, 4, 1), new[]
     {
-        new Fixture(new DateTime(2027, 5, 20), 4, new StripId(6)),
-        new Fixture(new DateTime(2027, 6, 10), 1, new StripId(8)),
-        new Fixture(new DateTime(2027, 7, 1), 4, new StripId(5)),
+        new Fixture(new DateTime(2027, 5, 20), TestFormats.FourDay, new StripId(6), TestTeams.Opponent),
+        new Fixture(new DateTime(2027, 6, 10), TestFormats.OneDay, new StripId(8), TestTeams.Opponent),
+        new Fixture(new DateTime(2027, 7, 1), TestFormats.FourDay, new StripId(5), TestTeams.Opponent),
     });
 
     [Fact]

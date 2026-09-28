@@ -10,8 +10,7 @@ public class CalendarContentTests
         ""morningHour"": 7,
         ""afternoonHour"": 13,
         ""offSeasonStepDays"": 7,
-        ""finalPrepDays"": 3,
-        ""matchDayDecisionHours"": [8, 13, 16, 18]
+        ""finalPrepDays"": 3
     }";
 
     [Fact]
@@ -35,7 +34,6 @@ public class CalendarContentTests
         Assert.Equal(13, settings.AfternoonHour);
         Assert.Equal(7, settings.OffSeasonStepDays);
         Assert.Equal(3, settings.FinalPrepDays);
-        Assert.Equal(new[] { 8, 13, 16, 18 }, settings.MatchDayDecisionHours);
     }
 
     [Theory]
@@ -43,9 +41,6 @@ public class CalendarContentTests
     [InlineData("\"afternoonHour\": 13", "\"afternoonHour\": 7", "afternoonHour")]
     [InlineData("\"offSeasonStepDays\": 7", "\"offSeasonStepDays\": 0", "offSeasonStepDays")]
     [InlineData("\"finalPrepDays\": 3", "\"finalPrepDays\": -1", "finalPrepDays")]
-    [InlineData("[8, 13, 16, 18]", "[]", "matchDayDecisionHours")]
-    [InlineData("[8, 13, 16, 18]", "[8, 16, 13]", "matchDayDecisionHours")]
-    [InlineData("[8, 13, 16, 18]", "[8, 13, 24]", "matchDayDecisionHours")]
     [InlineData("\"seasonEnd\": \"09-30\"", "\"seasonEnd\": \"03-01\"", "seasonEnd")]
     [InlineData("\"seasonStart\": \"04-01\"", "\"seasonStart\": \"02-29\"", "seasonStart")]
     [InlineData("\"seasonStart\": \"04-01\"", "\"seasonStart\": \"April\"", "seasonStart")]
@@ -61,7 +56,7 @@ public class CalendarContentTests
     [Fact]
     public void Rejects_a_missing_field()
     {
-        var json = Valid.Replace("\"finalPrepDays\": 3,", "");
+        var json = Valid.Replace(",\n        \"finalPrepDays\": 3", "");
 
         var error = Assert.Throws<ContentException>(() => ContentParser.ParseCalendar(json));
 

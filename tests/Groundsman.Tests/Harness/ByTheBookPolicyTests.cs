@@ -8,7 +8,7 @@ namespace Groundsman.Tests.Harness;
 
 public class ByTheBookPolicyTests
 {
-    private static readonly Fixture Match = new Fixture(new DateTime(2027, 6, 20), 4, new StripId(6));
+    private static readonly Fixture Match = new Fixture(new DateTime(2027, 6, 20), TestFormats.FourDay, new StripId(6), TestTeams.Opponent);
 
     private static Game GameAt(GameTime start, ulong seed = 1) =>
         new Game(new GameSetup(TestContent.Content, start, new[] { Match }, seed));

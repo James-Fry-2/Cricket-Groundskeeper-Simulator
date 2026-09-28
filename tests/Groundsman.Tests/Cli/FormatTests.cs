@@ -70,11 +70,11 @@ public class FormatTests
     [Fact]
     public void Next_match_names_the_day_and_strip()
     {
-        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), 4, new Groundsman.Core.Strips.StripId(6));
+        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), TestFormats.FourDay, new Groundsman.Core.Strips.StripId(6), TestTeams.Opponent);
 
-        Assert.Equal("Thu 20 May on strip 6 (in 10 days)", Format.NextMatch(fixture, new GameTime(2027, 5, 10, 7)));
-        Assert.Equal("Thu 20 May on strip 6 (in 1 day)", Format.NextMatch(fixture, new GameTime(2027, 5, 19, 7)));
-        Assert.Equal("day 2 of 4 on strip 6", Format.NextMatch(fixture, new GameTime(2027, 5, 21, 8)));
+        Assert.Equal("Four-day v Test Visitors, Thu 20 May on strip 6 (in 10 days)", Format.NextMatch(fixture, new GameTime(2027, 5, 10, 7)));
+        Assert.Equal("Four-day v Test Visitors, Thu 20 May on strip 6 (in 1 day)", Format.NextMatch(fixture, new GameTime(2027, 5, 19, 7)));
+        Assert.Equal("Four-day v Test Visitors, day 2 of 4 on strip 6", Format.NextMatch(fixture, new GameTime(2027, 5, 21, 8)));
         Assert.Equal("none scheduled", Format.NextMatch(null, new GameTime(2027, 5, 21, 8)));
     }
 

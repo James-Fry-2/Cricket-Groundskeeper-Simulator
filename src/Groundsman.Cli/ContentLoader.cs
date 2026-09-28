@@ -10,6 +10,8 @@ public static class ContentLoader
     {
         string Read(string file) => File.ReadAllText(Path.Combine(directory, file));
 
+        var formats = ContentParser.ParseFormats(Read("formats.json"));
+        var teams = ContentParser.ParseTeams(Read("teams.json"));
         var content = new GameContent(
             ContentParser.ParseCalendar(Read("calendar.json")),
             ContentParser.ParseClimate(Read("climate.json")),
@@ -20,9 +22,12 @@ public static class ContentLoader
             ContentParser.ParseTasks(Read("tasks.json")),
             ContentParser.ParseStaff(Read("staff.json")),
             ContentParser.ParseReadings(Read("readings.json")),
-            ContentParser.ParseForecast(Read("forecast.json")));
+            ContentParser.ParseForecast(Read("forecast.json")),
+            formats,
+            teams.Teams,
+            teams.HomeId);
 
-        return (content, ContentParser.ParseSeason(Read("season.json")));
+        return (content, ContentParser.ParseSeason(Read("season.json"), formats, teams));
     }
 
     /// <summary>The phase 2 stand-in score, used by the harness only.</summary>

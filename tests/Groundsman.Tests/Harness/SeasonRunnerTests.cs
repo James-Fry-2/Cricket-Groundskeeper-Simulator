@@ -13,8 +13,8 @@ public class SeasonRunnerTests
 
     private static readonly SeasonSettings Season = new SeasonSettings(new DateTime(2027, 4, 1), new[]
     {
-        new Fixture(new DateTime(2027, 4, 20), 4, new StripId(6)),
-        new Fixture(new DateTime(2027, 5, 5), 1, new StripId(8)),
+        new Fixture(new DateTime(2027, 4, 20), TestFormats.FourDay, new StripId(6), TestTeams.Opponent),
+        new Fixture(new DateTime(2027, 5, 5), TestFormats.OneDay, new StripId(8), TestTeams.Opponent),
     });
 
     [Fact]
@@ -23,7 +23,7 @@ public class SeasonRunnerTests
         var results = SeasonRunner.Run(TestContent.Content, Season, Scoring, new NeglectPolicy(), seed: 3);
 
         Assert.Equal(2, results.Count);
-        Assert.Equal(new GameTime(2027, 4, 20, TestCalendar.Settings.MatchDayDecisionHours[0]), results[0].CheckedAt);
+        Assert.Equal(new GameTime(2027, 4, 20, TestFormats.FourDay.DecisionHours[0]), results[0].CheckedAt);
         Assert.Equal(new StripId(6), results[0].Strip);
         Assert.Equal(new StripId(8), results[1].Strip);
         Assert.All(results, r => Assert.Equal(Scoring.Judge(r.Surface, r.Subsurface), r.Miss));

@@ -5,7 +5,10 @@ namespace Groundsman.Tests.Time;
 public class PaceRulesTests
 {
     private static PaceRules Rules(params DateTime[] matchDays) =>
-        new PaceRules(new PaceContext(TestCalendar.Settings, matchDays));
+        new PaceRules(new PaceContext(TestCalendar.Settings, OneDayFixtures(matchDays)));
+
+    private static Groundsman.Core.Fixture[] OneDayFixtures(params DateTime[] days) =>
+        days.Select(d => new Groundsman.Core.Fixture(d, TestFormats.OneDay, new Groundsman.Core.Strips.StripId(1), TestTeams.Opponent)).ToArray();
 
     [Fact]
     public void Off_season_steps_a_week()
@@ -120,7 +123,7 @@ public class PaceRulesTests
     [Fact]
     public void Classifies_days_by_the_finest_pace_that_applies()
     {
-        var context = new PaceContext(TestCalendar.Settings, new[] { new DateTime(2027, 3, 25) });
+        var context = new PaceContext(TestCalendar.Settings, OneDayFixtures(new DateTime(2027, 3, 25)));
 
         Assert.Equal(DayPace.OffSeason, context.PaceOn(new DateTime(2027, 3, 21)));
         Assert.Equal(DayPace.FinalPrep, context.PaceOn(new DateTime(2027, 3, 22)));
@@ -130,6 +133,21 @@ public class PaceRulesTests
         Assert.Equal(DayPace.InSeason, context.PaceOn(new DateTime(2027, 4, 1)));
         Assert.Equal(DayPace.InSeason, context.PaceOn(new DateTime(2027, 9, 30)));
         Assert.Equal(DayPace.OffSeason, context.PaceOn(new DateTime(2027, 10, 1)));
+    }
+
+    [Fact]
+    public void Match_day_turns_follow_the_fixtures_format()
+    {
+        var t20 = new Groundsman.Core.Fixture(new DateTime(2027, 6, 10), TestFormats.T20, new Groundsman.Core.Strips.StripId(1), TestTeams.Opponent);
+        var rules = new PaceRules(new PaceContext(TestCalendar.Settings, new[] { t20 }));
+
+        Assert.Equal(new[]
+        {
+            new GameTime(2027, 6, 10, 18),
+            new GameTime(2027, 6, 10, 20),
+            new GameTime(2027, 6, 10, 22),
+            new GameTime(2027, 6, 11, 7),
+        }, Walk(rules, new GameTime(2027, 6, 10, 8), 4));
     }
 
     private static GameTime[] Walk(PaceRules rules, GameTime from, int steps)

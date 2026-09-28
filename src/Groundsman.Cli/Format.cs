@@ -78,14 +78,15 @@ public static class Format
             return "none scheduled";
         }
 
+        var match = $"{fixture.Format.Name} v {fixture.Opponent.Name}";
         var strip = $"strip {fixture.Strip.Number}";
         if (fixture.Start <= now.Date)
         {
             var day = (now.Date - fixture.Start).Days + 1;
-            return fixture.Days == 1 ? $"today on {strip}" : $"day {day} of {fixture.Days} on {strip}";
+            return fixture.Days == 1 ? $"{match}, today on {strip}" : $"{match}, day {day} of {fixture.Days} on {strip}";
         }
 
         var days = (fixture.Start - now.Date).Days;
-        return $"{Day(fixture.Start)} on {strip} (in {days} day{(days == 1 ? "" : "s")})";
+        return $"{match}, {Day(fixture.Start)} on {strip} (in {days} day{(days == 1 ? "" : "s")})";
     }
 }

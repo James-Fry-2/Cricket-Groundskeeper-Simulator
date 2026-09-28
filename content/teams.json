@@ -1,0 +1,11 @@
+{
+  "home": "kestrelshire",
+  "teams": [
+    { "id": "kestrelshire", "name": "Kestrelshire", "batting": 62, "bowling": 64, "attack": { "seam": 0.75, "leftArm": 0.2, "heavyFooted": 0.5 } },
+    { "id": "harrowmere", "name": "Harrowmere", "batting": 68, "bowling": 55, "attack": { "seam": 0.6, "leftArm": 0.1, "heavyFooted": 0.3 } },
+    { "id": "saltmarsh", "name": "Saltmarsh", "batting": 55, "bowling": 70, "attack": { "seam": 0.85, "leftArm": 0.35, "heavyFooted": 0.8 } },
+    { "id": "oakhollow", "name": "Oakhollow", "batting": 60, "bowling": 60, "attack": { "seam": 0.5, "leftArm": 0.25, "heavyFooted": 0.2 } },
+    { "id": "brackenridge", "name": "Brackenridge", "batting": 72, "bowling": 58, "attack": { "seam": 0.7, "leftArm": 0.0, "heavyFooted": 0.6 } },
+    { "id": "fenwick", "name": "Fenwick", "batting": 50, "bowling": 52, "attack": { "seam": 0.65, "leftArm": 0.3, "heavyFooted": 0.4 } }
+  ]
+}

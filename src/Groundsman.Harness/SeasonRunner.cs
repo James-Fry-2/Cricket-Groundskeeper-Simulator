@@ -28,14 +28,13 @@ public static class SeasonRunner
     {
         var start = GameTime.OnDate(season.Start, content.Calendar.MorningHour);
         var game = new Game(new GameSetup(content, start, season.Fixtures, seed));
-        var firstHour = content.Calendar.MatchDayDecisionHours[0];
         var results = new List<MatchResult>();
 
         var next = 0;
         while (next < season.Fixtures.Count)
         {
             var fixture = season.Fixtures[next];
-            var check = GameTime.OnDate(fixture.Start, firstHour);
+            var check = GameTime.OnDate(fixture.Start, fixture.Format.DecisionHours[0]);
             var now = game.View.Now;
 
             if (now == check)

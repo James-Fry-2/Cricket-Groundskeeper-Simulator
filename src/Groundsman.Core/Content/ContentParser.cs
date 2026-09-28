@@ -30,8 +30,7 @@ namespace Groundsman.Core.Content
                 Required(file, "morningHour", dto.MorningHour),
                 Required(file, "afternoonHour", dto.AfternoonHour),
                 Required(file, "offSeasonStepDays", dto.OffSeasonStepDays),
-                Required(file, "finalPrepDays", dto.FinalPrepDays),
-                Required(file, "matchDayDecisionHours", dto.MatchDayDecisionHours));
+                Required(file, "finalPrepDays", dto.FinalPrepDays));
         }
 
         public static GroundSettings ParseGround(string json)
@@ -212,7 +211,7 @@ namespace Groundsman.Core.Content
                 Required(file, "ageing.widenPerMmWater", ageing.WidenPerMmWater));
         }
 
-        public static SeasonSettings ParseSeason(string json)
+        public static SeasonSettings ParseSeason(string json, IReadOnlyList<FormatSettings> formats, TeamsSettings teams)
         {
             const string file = "season";
             var dto = Deserialise<SeasonDto>(json, file);
@@ -223,13 +222,99 @@ namespace Groundsman.Core.Content
             {
                 var fixture = fixtureDtos[i];
                 var path = $"fixtures[{i}]";
+                var formatId = Required(file, path + ".format", fixture.Format);
+                var format = FindFormat(formats, formatId)
+                    ?? throw new ContentException($"{file}.{path}.format (\"{formatId}\") isn't in formats.json.");
+                var opponentId = Required(file, path + ".opponent", fixture.Opponent);
+                var opponent = teams.Find(opponentId)
+                    ?? throw new ContentException($"{file}.{path}.opponent (\"{opponentId}\") isn't in teams.json.");
+                if (opponentId == teams.HomeId)
+                {
+                    throw new ContentException($"{file}.{path}.opponent (\"{opponentId}\") is the home team.");
+                }
                 fixtures[i] = new Fixture(
                     ParseDate(file, path + ".start", fixture.Start),
-                    Required(file, path + ".days", fixture.Days),
-                    new StripId(Required(file, path + ".strip", fixture.Strip)));
+                    format,
+                    new StripId(Required(file, path + ".strip", fixture.Strip)),
+                    opponent);
             }
 
             return new SeasonSettings(ParseDate(file, "start", dto.Start), fixtures);
+        }
+
+        public static IReadOnlyList<FormatSettings> ParseFormats(string json)
+        {
+            const string file = "formats";
+            var dtos = Required(file, "formats", Deserialise<FormatsDto>(json, file).Formats);
+
+            var formats = new List<FormatSettings>();
+            var ids = new HashSet<string>();
+            for (var i = 0; i < dtos.Count; i++)
+            {
+                var format = dtos[i];
+                var path = $"formats[{i}]";
+                var id = Required(file, path + ".id", format.Id);
+                if (!ids.Add(id))
+                {
+                    throw new ContentException($"formats: two formats have the id \"{id}\".");
+                }
+                var sessionDtos = Required(file, path + ".sessions", format.Sessions);
+                var sessions = new PlaySession[sessionDtos.Count];
+                for (var s = 0; s < sessions.Length; s++)
+                {
+                    sessions[s] = new PlaySession(
+                        Required(file, $"{path}.sessions[{s}].start", sessionDtos[s].Start),
+                        Required(file, $"{path}.sessions[{s}].end", sessionDtos[s].End));
+                }
+                formats.Add(new FormatSettings(
+                    id,
+                    Required(file, path + ".name", format.Name),
+                    Required(file, path + ".days", format.Days),
+                    Required(file, path + ".inningsPerSide", format.InningsPerSide),
+                    format.OversPerInnings,
+                    format.OversPerDay,
+                    sessions,
+                    Required(file, path + ".decisionHours", format.DecisionHours)));
+            }
+            return formats.AsReadOnly();
+        }
+
+        public static TeamsSettings ParseTeams(string json)
+        {
+            const string file = "teams";
+            var dto = Deserialise<TeamsDto>(json, file);
+            var teamDtos = Required(file, "teams", dto.Teams);
+
+            var teams = new TeamSettings[teamDtos.Count];
+            for (var i = 0; i < teams.Length; i++)
+            {
+                var team = teamDtos[i];
+                var path = $"teams[{i}]";
+                var attack = Required(file, path + ".attack", team.Attack);
+                teams[i] = new TeamSettings(
+                    Required(file, path + ".id", team.Id),
+                    Required(file, path + ".name", team.Name),
+                    Required(file, path + ".batting", team.Batting),
+                    Required(file, path + ".bowling", team.Bowling),
+                    new AttackProfile(
+                        Required(file, path + ".attack.seam", attack.Seam),
+                        Required(file, path + ".attack.leftArm", attack.LeftArm),
+                        Required(file, path + ".attack.heavyFooted", attack.HeavyFooted)));
+            }
+
+            return new TeamsSettings(teams, Required(file, "home", dto.Home));
+        }
+
+        private static FormatSettings? FindFormat(IReadOnlyList<FormatSettings> formats, string id)
+        {
+            foreach (var format in formats)
+            {
+                if (format.Id == id)
+                {
+                    return format;
+                }
+            }
+            return null;
         }
 
         public static ClimateSettings ParseClimate(string json)
@@ -323,7 +408,6 @@ namespace Groundsman.Core.Content
             public int? AfternoonHour { get; set; }
             public int? OffSeasonStepDays { get; set; }
             public int? FinalPrepDays { get; set; }
-            public List<int>? MatchDayDecisionHours { get; set; }
         }
 
         private sealed class GroundDto
@@ -387,8 +471,54 @@ namespace Groundsman.Core.Content
         private sealed class FixtureDto
         {
             public string? Start { get; set; }
-            public int? Days { get; set; }
+            public string? Format { get; set; }
+            public string? Opponent { get; set; }
             public int? Strip { get; set; }
+        }
+
+        private sealed class FormatsDto
+        {
+            public List<FormatDto>? Formats { get; set; }
+        }
+
+        private sealed class FormatDto
+        {
+            public string? Id { get; set; }
+            public string? Name { get; set; }
+            public int? Days { get; set; }
+            public int? InningsPerSide { get; set; }
+            public int? OversPerInnings { get; set; }
+            public int? OversPerDay { get; set; }
+            public List<SessionDto>? Sessions { get; set; }
+            public List<int>? DecisionHours { get; set; }
+        }
+
+        private sealed class SessionDto
+        {
+            public int? Start { get; set; }
+            public int? End { get; set; }
+        }
+
+        private sealed class TeamsDto
+        {
+            public string? Home { get; set; }
+            public List<TeamDto>? Teams { get; set; }
+        }
+
+        private sealed class TeamDto
+        {
+            public string? Id { get; set; }
+            public string? Name { get; set; }
+            public double? Batting { get; set; }
+            public double? Bowling { get; set; }
+            public AttackDto? Attack { get; set; }
+        }
+
+        private sealed class AttackDto
+        {
+            public double? Seam { get; set; }
+            public double? LeftArm { get; set; }
+            public double? HeavyFooted { get; set; }
         }
 
         private sealed class ClimateDto

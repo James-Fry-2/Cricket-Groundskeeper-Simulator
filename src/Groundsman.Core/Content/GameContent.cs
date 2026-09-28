@@ -16,8 +16,12 @@ namespace Groundsman.Core.Content
             TaskSettings tasks,
             StaffSettings staff,
             ReadingSettings readings,
-            ForecastSettings forecast)
+            ForecastSettings forecast,
+            IReadOnlyList<FormatSettings> formats,
+            IReadOnlyList<TeamSettings> teams,
+            string homeTeamId)
         {
+            var teamList = new TeamsSettings(teams, homeTeamId);
             foreach (var loam in loams)
             {
                 if (_loamsById.ContainsKey(loam.Id))
@@ -51,6 +55,8 @@ namespace Groundsman.Core.Content
             Staff = staff;
             Readings = readings;
             Forecast = forecast;
+            Formats = new List<FormatSettings>(formats).AsReadOnly();
+            Teams = teamList;
         }
 
         public CalendarSettings Calendar { get; }
@@ -63,6 +69,9 @@ namespace Groundsman.Core.Content
         public StaffSettings Staff { get; }
         public ReadingSettings Readings { get; }
         public ForecastSettings Forecast { get; }
+        public IReadOnlyList<FormatSettings> Formats { get; }
+        public TeamsSettings Teams { get; }
+        public TeamSettings HomeTeam => Teams.Find(Teams.HomeId)!;
 
         public LoamSettings Loam(string id) => _loamsById[id];
     }

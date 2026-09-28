@@ -15,10 +15,6 @@ namespace Groundsman.Core.Content
             {
                 var fixture = fixtures[i];
                 var path = $"season.fixtures[{i}]";
-                if (fixture.Days < 1)
-                {
-                    throw new ContentException($"{path}.days ({fixture.Days}) must be at least 1.");
-                }
                 if (fixture.Strip.Number < 1)
                 {
                     throw new ContentException($"{path}.strip ({fixture.Strip.Number}) must be a strip number from 1.");
