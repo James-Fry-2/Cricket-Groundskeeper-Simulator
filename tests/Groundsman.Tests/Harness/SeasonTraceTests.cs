@@ -16,8 +16,8 @@ public class SeasonTraceTests
         var csv = SeasonTrace.Run(TestContent.Content, season, seed: 4, end: new DateTime(2027, 4, 15));
         var lines = csv.TrimEnd().Split('\n');
 
-        Assert.StartsWith("time,rain_24h_mm,temperature,s1_surface,s1_subsurface,s2_surface", lines[0]);
-        Assert.Equal(3 + 2 * 12, lines[0].Split(',').Length);
+        Assert.StartsWith("time,rain_24h_mm,temperature,s1_surface,s1_subsurface,s1_grass_mm,s1_cover,s2_surface", lines[0]);
+        Assert.Equal(3 + 4 * 12, lines[0].Split(',').Length);
         Assert.StartsWith("2027-04-01 07:00,", lines[1]);
         Assert.StartsWith("2027-04-15 07:00,", lines[^1]);
         Assert.Contains(lines, l => l.StartsWith("2027-04-10 13:00,"));

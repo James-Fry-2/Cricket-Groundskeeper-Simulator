@@ -20,7 +20,7 @@ public static class SeasonTrace
         var csv = new StringBuilder("time,rain_24h_mm,temperature");
         foreach (var strip in content.Ground.Strips)
         {
-            csv.Append($",s{strip.Id.Number}_surface,s{strip.Id.Number}_subsurface");
+            csv.Append($",s{strip.Id.Number}_surface,s{strip.Id.Number}_subsurface,s{strip.Id.Number}_grass_mm,s{strip.Id.Number}_cover");
         }
         csv.Append('\n');
 
@@ -35,6 +35,8 @@ public static class SeasonTrace
             {
                 csv.Append(',').Append(Csv.Number(strip.SurfaceMoisture));
                 csv.Append(',').Append(Csv.Number(strip.SubsurfaceMoisture));
+                csv.Append(',').Append(Csv.Number(strip.GrassHeightMm));
+                csv.Append(',').Append(Csv.Number(strip.GrassCover));
             }
             csv.Append('\n');
 

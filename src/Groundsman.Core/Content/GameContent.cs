@@ -19,7 +19,8 @@ namespace Groundsman.Core.Content
             ForecastSettings forecast,
             IReadOnlyList<FormatSettings> formats,
             IReadOnlyList<TeamSettings> teams,
-            string homeTeamId)
+            string homeTeamId,
+            GrassSettings grass)
         {
             var teamList = new TeamsSettings(teams, homeTeamId);
             foreach (var loam in loams)
@@ -57,6 +58,7 @@ namespace Groundsman.Core.Content
             Forecast = forecast;
             Formats = new List<FormatSettings>(formats).AsReadOnly();
             Teams = teamList;
+            Grass = grass;
         }
 
         public CalendarSettings Calendar { get; }
@@ -71,6 +73,7 @@ namespace Groundsman.Core.Content
         public ForecastSettings Forecast { get; }
         public IReadOnlyList<FormatSettings> Formats { get; }
         public TeamsSettings Teams { get; }
+        public GrassSettings Grass { get; }
         public TeamSettings HomeTeam => Teams.Find(Teams.HomeId)!;
 
         public LoamSettings Loam(string id) => _loamsById[id];

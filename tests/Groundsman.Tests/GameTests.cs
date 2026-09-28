@@ -23,17 +23,17 @@ public class GameTests
     [Fact]
     public void Advance_runs_every_hour_up_to_the_next_decision_point()
     {
-        var grass = new RecordingSystem(TickStep.Grass, new List<TickStep>());
-        var game = NewGame(new GameTime(2027, 5, 10, 7), grass);
+        var recorder = new RecordingSystem(TickStep.WearAndRecovery, new List<TickStep>());
+        var game = NewGame(new GameTime(2027, 5, 10, 7), recorder);
 
         var result = game.Advance();
 
         Assert.Equal(new GameTime(2027, 5, 10, 7), result.From);
         Assert.Equal(new GameTime(2027, 5, 11, 7), result.To);
         Assert.Equal(24, result.HoursRun);
-        Assert.Equal(24, grass.Hours.Count);
-        Assert.Equal(new GameTime(2027, 5, 10, 7), grass.Hours[0]);
-        Assert.Equal(new GameTime(2027, 5, 11, 6), grass.Hours[23]);
+        Assert.Equal(24, recorder.Hours.Count);
+        Assert.Equal(new GameTime(2027, 5, 10, 7), recorder.Hours[0]);
+        Assert.Equal(new GameTime(2027, 5, 11, 6), recorder.Hours[23]);
         Assert.Equal(new GameTime(2027, 5, 11, 7), game.View.Now);
     }
 
@@ -49,20 +49,20 @@ public class GameTests
     [Fact]
     public void Advancing_a_year_ticks_every_hour_exactly_once()
     {
-        var grass = new RecordingSystem(TickStep.Grass, new List<TickStep>());
+        var recorder = new RecordingSystem(TickStep.WearAndRecovery, new List<TickStep>());
         var start = new GameTime(2027, 1, 1, 7);
         var end = new GameTime(2028, 1, 1, 7);
-        var game = NewGame(start, grass);
+        var game = NewGame(start, recorder);
 
         while (game.View.Now < end)
         {
             game.Advance();
         }
 
-        Assert.Equal(start.HoursUntil(game.View.Now), grass.Hours.Count);
-        for (var i = 0; i < grass.Hours.Count; i++)
+        Assert.Equal(start.HoursUntil(game.View.Now), recorder.Hours.Count);
+        for (var i = 0; i < recorder.Hours.Count; i++)
         {
-            Assert.Equal(start.AddHours(i), grass.Hours[i]);
+            Assert.Equal(start.AddHours(i), recorder.Hours[i]);
         }
     }
 

@@ -5,8 +5,10 @@ namespace Groundsman.Core
 {
     public sealed class StripView
     {
-        public StripView(StripId id, Reading? surfaceMoisture, ValueRange? surfaceMoistureNow, Reading? subsurfaceMoisture, ValueRange? subsurfaceMoistureNow, bool wateringQueued, bool covered, CoverOrder coverOrder)
+        public StripView(StripId id, Reading? surfaceMoisture, ValueRange? surfaceMoistureNow, Reading? subsurfaceMoisture, ValueRange? subsurfaceMoistureNow, bool wateringQueued, bool covered, CoverOrder coverOrder, MowRecord? lastMown, bool mowingQueued)
         {
+            LastMown = lastMown;
+            MowingQueued = mowingQueued;
             SubsurfaceMoisture = subsurfaceMoisture;
             SubsurfaceMoistureNow = subsurfaceMoistureNow;
             SurfaceMoistureNow = surfaceMoistureNow;
@@ -42,5 +44,10 @@ namespace Groundsman.Core
 
         /// <summary>A cover going on or coming off when time next advances.</summary>
         public CoverOrder CoverOrder { get; }
+
+        /// <summary>The last cut ordered, or null if the strip hasn't been mown this game.</summary>
+        public MowRecord? LastMown { get; }
+
+        public bool MowingQueued { get; }
     }
 }

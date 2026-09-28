@@ -4,6 +4,7 @@ using Groundsman.Core.Commands;
 using Groundsman.Core.Content;
 using Groundsman.Core.Covers;
 using Groundsman.Core.Forecasting;
+using Groundsman.Core.Grass;
 using Groundsman.Core.Inspection;
 using Groundsman.Core.Moisture;
 using Groundsman.Core.Randomness;
@@ -33,6 +34,8 @@ namespace Groundsman.Core
         private readonly StaffRoster _staff;
         private readonly Forecaster _forecaster;
         private readonly double _waterMm;
+        private readonly GrassSettings _grassSettings;
+        private readonly MowRecord?[] _lastMown;
         private readonly List<(StripId Strip, Quantity Quantity)> _readThisTurn = new List<(StripId, Quantity)>();
         private GameTime _now;
 
@@ -56,7 +59,10 @@ namespace Groundsman.Core
             _coversOwned = content.Covers.Count;
             _covers = new CoversSystem(content.Covers.Count, Square.Strips.Count);
             Moisture = new MoistureSystem(Square, Weather, _covers, _tasks, new MoistureModel(content.Moisture, content.Covers), content.Tasks.WaterMm);
-            _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, _tasks }.Concat(extraSystems));
+            _grassSettings = content.Grass;
+            Grass = new GrassSystem(Square, Weather, _tasks, new GrassModel(content.Grass));
+            _lastMown = new MowRecord?[Square.Strips.Count];
+            _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, Grass, _tasks }.Concat(extraSystems));
             _knowledge = new KnowledgeStore(content.Readings, Square.Strips.Count);
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
             _staffSettings = content.Staff;
@@ -83,7 +89,9 @@ namespace Groundsman.Core
                         _knowledge.CurrentSubsurfaceMoisture(id, _now),
                         _tasks.IsWateringQueued(id),
                         _covers.IsCovered(id),
-                        _covers.OrderFor(id));
+                        _covers.OrderFor(id),
+                        _lastMown[i],
+                        _tasks.IsMowingQueued(id));
                 }
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
@@ -101,7 +109,7 @@ namespace Groundsman.Core
             for (var i = 0; i < strips.Length; i++)
             {
                 var strip = Square.Strips[i];
-                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture);
+                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture, strip.GrassCover, strip.GrassHeightMm, strip.RootDepthMm);
             }
             return new TruthSnapshot(_now, Weather.LastHour, strips);
         }
@@ -109,6 +117,8 @@ namespace Groundsman.Core
         internal WeatherSystem Weather { get; }
 
         internal MoistureSystem Moisture { get; }
+
+        internal GrassSystem Grass { get; }
 
         public CommandResult Submit(IGameCommand command)
         {
@@ -122,6 +132,8 @@ namespace Groundsman.Core
                     return Cover(cover);
                 case UncoverStrip uncover:
                     return Uncover(uncover);
+                case MowStrip mow:
+                    return Mow(mow);
                 default:
                     return CommandResult.Rejected($"Unknown command: {command.GetType().Name}.");
             }
@@ -201,6 +213,31 @@ namespace Groundsman.Core
 
             _tasks.QueueWatering(water.Strip);
             _staff.Spend(who, _staffSettings.WaterHours);
+            return CommandResult.Ok();
+        }
+
+        private CommandResult Mow(MowStrip mow)
+        {
+            if (!Square.Contains(mow.Strip))
+            {
+                return CommandResult.Rejected($"{mow.Strip} isn't on this square.");
+            }
+            if (mow.HeightMm < _grassSettings.MinMowHeightMm || mow.HeightMm > _grassSettings.MaxMowHeightMm)
+            {
+                return CommandResult.Rejected($"The mower cuts from {_grassSettings.MinMowHeightMm:0.#} to {_grassSettings.MaxMowHeightMm:0.#} mm.");
+            }
+            if (_tasks.IsMowingQueued(mow.Strip))
+            {
+                return CommandResult.Rejected($"{mow.Strip} is already down for mowing.");
+            }
+            if (Assign(mow.By, _staffSettings.MowHours, out var who) is { } refused)
+            {
+                return refused;
+            }
+
+            _tasks.QueueMowing(mow.Strip, mow.HeightMm);
+            _lastMown[mow.Strip.Number - 1] = new MowRecord(mow.HeightMm, _now);
+            _staff.Spend(who, _staffSettings.MowHours);
             return CommandResult.Ok();
         }
 

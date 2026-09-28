@@ -36,6 +36,10 @@ public class ReplayTests
             {
                 game.Submit(new TakeReading(new StripId(turn % 7 + 1)));
             }
+            if (turn % 4 == 0)
+            {
+                game.Submit(new MowStrip(new StripId(turn % 5 + 1), 8));
+            }
 
             game.Advance();
             turns.Add(Record(game));
@@ -59,6 +63,7 @@ public class ReplayTests
             wind = Round(view.Weather.WindKph),
             surface = string.Join(" ", truth.Strips.Select(s => Round(s.SurfaceMoisture))),
             subsurface = string.Join(" ", truth.Strips.Select(s => Round(s.SubsurfaceMoisture))),
+            grass = string.Join(" ", truth.Strips.Select(s => $"{Round(s.GrassHeightMm)}mm/{Round(s.GrassCover)}%")),
             forecast = view.Forecast
                 .Select(d => $"{d.Date:MM-dd} rain {Round(d.Rain.Low)} to {Round(d.Rain.High)} chance {Round(d.ChanceOfRain)}, high {Round(d.MaxTemperature.Low)} to {Round(d.MaxTemperature.High)}")
                 .ToArray(),

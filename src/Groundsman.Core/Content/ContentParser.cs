@@ -149,7 +149,8 @@ namespace Groundsman.Core.Content
                 Required(file, "jobHours.uncover", jobs.Uncover),
                 Required(file, "jobHours.probeReading", jobs.ProbeReading),
                 Required(file, "jobHours.feelReading", jobs.FeelReading),
-                Required(file, "jobHours.soilCore", jobs.SoilCore));
+                Required(file, "jobHours.soilCore", jobs.SoilCore),
+                Required(file, "jobHours.mow", jobs.Mow));
         }
 
         public static ForecastSettings ParseForecast(string json)
@@ -166,6 +167,36 @@ namespace Groundsman.Core.Content
                 Required(file, "rain.growthPerDay", rain.GrowthPerDay),
                 Required(file, "maxTemperature.errorSd", temperature.ErrorSd),
                 Required(file, "maxTemperature.growthPerDay", temperature.GrowthPerDay));
+        }
+
+        public static GrassSettings ParseGrass(string json)
+        {
+            const string file = "grass";
+            var dto = Deserialise<GrassDto>(json, file);
+            var starting = Required(file, "starting", dto.Starting);
+            var temperature = Required(file, "temperature", dto.Temperature);
+            var growth = Required(file, "growth", dto.Growth);
+            var drought = Required(file, "drought", dto.Drought);
+            var mowing = Required(file, "mowing", dto.Mowing);
+
+            return new GrassSettings(
+                Required(file, "starting.cover", starting.Cover),
+                Required(file, "starting.heightMm", starting.HeightMm),
+                Required(file, "starting.rootDepthMm", starting.RootDepthMm),
+                Required(file, "temperature.min", temperature.Min),
+                Required(file, "temperature.optimum", temperature.Optimum),
+                Required(file, "temperature.max", temperature.Max),
+                Required(file, "growth.heightPerDayMm", growth.HeightPerDayMm),
+                Required(file, "growth.coverPerDay", growth.CoverPerDay),
+                Required(file, "growth.maxCover", growth.MaxCover),
+                Required(file, "growth.rootsPerDayMm", growth.RootsPerDayMm),
+                Required(file, "growth.maxRootDepthMm", growth.MaxRootDepthMm),
+                Required(file, "drought.waterBelow", drought.WaterBelow),
+                Required(file, "drought.coverLossPerDay", drought.CoverLossPerDay),
+                Required(file, "mowing.minHeightMm", mowing.MinHeightMm),
+                Required(file, "mowing.maxHeightMm", mowing.MaxHeightMm),
+                Required(file, "mowing.scalpShare", mowing.ScalpShare),
+                Required(file, "mowing.scalpCoverLossPerMm", mowing.ScalpCoverLossPerMm));
         }
 
         public static ScoringSettings ParseScoring(string json)
@@ -620,6 +651,7 @@ namespace Groundsman.Core.Content
             public double? ProbeReading { get; set; }
             public double? FeelReading { get; set; }
             public double? SoilCore { get; set; }
+            public double? Mow { get; set; }
         }
 
         private sealed class ForecastDto
@@ -646,6 +678,52 @@ namespace Groundsman.Core.Content
             public double? SubsurfaceMin { get; set; }
             public double? SubsurfaceMax { get; set; }
             public double? SurfaceMax { get; set; }
+        }
+
+        private sealed class GrassDto
+        {
+            public GrassStartDto? Starting { get; set; }
+            public GrassTemperatureDto? Temperature { get; set; }
+            public GrassGrowthDto? Growth { get; set; }
+            public GrassDroughtDto? Drought { get; set; }
+            public MowingDto? Mowing { get; set; }
+        }
+
+        private sealed class GrassStartDto
+        {
+            public double? Cover { get; set; }
+            public double? HeightMm { get; set; }
+            public double? RootDepthMm { get; set; }
+        }
+
+        private sealed class GrassTemperatureDto
+        {
+            public double? Min { get; set; }
+            public double? Optimum { get; set; }
+            public double? Max { get; set; }
+        }
+
+        private sealed class GrassGrowthDto
+        {
+            public double? HeightPerDayMm { get; set; }
+            public double? CoverPerDay { get; set; }
+            public double? MaxCover { get; set; }
+            public double? RootsPerDayMm { get; set; }
+            public double? MaxRootDepthMm { get; set; }
+        }
+
+        private sealed class GrassDroughtDto
+        {
+            public double? WaterBelow { get; set; }
+            public double? CoverLossPerDay { get; set; }
+        }
+
+        private sealed class MowingDto
+        {
+            public double? MinHeightMm { get; set; }
+            public double? MaxHeightMm { get; set; }
+            public double? ScalpShare { get; set; }
+            public double? ScalpCoverLossPerMm { get; set; }
         }
     }
 }

@@ -1,0 +1,13 @@
+{
+  "starting": { "cover": 85, "heightMm": 15, "rootDepthMm": 60 },
+  "temperature": { "min": 5, "optimum": 18, "max": 30 },
+  "growth": {
+    "heightPerDayMm": 1.2,
+    "coverPerDay": 1.0,
+    "maxCover": 95,
+    "rootsPerDayMm": 1.0,
+    "maxRootDepthMm": 100
+  },
+  "drought": { "waterBelow": 0.15, "coverLossPerDay": 0.5 },
+  "mowing": { "minHeightMm": 3, "maxHeightMm": 50, "scalpShare": 0.34, "scalpCoverLossPerMm": 2.0 }
+}

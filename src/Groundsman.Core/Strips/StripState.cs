@@ -7,10 +7,13 @@ namespace Groundsman.Core.Strips
     /// </summary>
     internal sealed class StripState
     {
-        public StripState(StripId id, LoamSettings loam, double surfaceMoisture, double subsurfaceMoisture)
+        public StripState(StripId id, LoamSettings loam, double surfaceMoisture, double subsurfaceMoisture, GrassSettings? grass = null)
         {
             Id = id;
             Loam = loam;
+            GrassCover = grass?.StartingCover ?? 0;
+            GrassHeightMm = grass?.StartingHeightMm ?? 0;
+            RootDepthMm = grass?.StartingRootDepthMm ?? 0;
             SurfaceMoisture = surfaceMoisture;
             SubsurfaceMoisture = subsurfaceMoisture;
         }
@@ -24,5 +27,11 @@ namespace Groundsman.Core.Strips
 
         /// <summary>Volumetric water content of the subsurface layer, in %.</summary>
         public double SubsurfaceMoisture { get; set; }
+
+        /// <summary>Share of the surface covered by grass, in %.</summary>
+        public double GrassCover { get; set; }
+
+        public double GrassHeightMm { get; set; }
+        public double RootDepthMm { get; set; }
     }
 }

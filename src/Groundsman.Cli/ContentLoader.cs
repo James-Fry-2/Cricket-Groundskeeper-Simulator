@@ -25,7 +25,8 @@ public static class ContentLoader
             ContentParser.ParseForecast(Read("forecast.json")),
             formats,
             teams.Teams,
-            teams.HomeId);
+            teams.HomeId,
+            ContentParser.ParseGrass(Read("grass.json")));
 
         return (content, ContentParser.ParseSeason(Read("season.json"), formats, teams));
     }

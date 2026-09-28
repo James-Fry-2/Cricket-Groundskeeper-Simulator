@@ -17,6 +17,7 @@ public class StaffContentTests
         Assert.Equal(1.0, staff.WaterHours);
         Assert.Equal(0.25, staff.ProbeReadingHours);
         Assert.Equal(0.75, staff.SoilCoreHours);
+        Assert.Equal(0.5, staff.MowHours);
     }
 
     [Theory]
@@ -39,7 +40,7 @@ public class StaffContentTests
     [Fact]
     public void Rejects_an_empty_staff_list()
     {
-        var json = @"{ ""staff"": [], ""jobHours"": { ""water"": 1, ""cover"": 0.25, ""uncover"": 0.25, ""probeReading"": 0.25, ""feelReading"": 0.05, ""soilCore"": 0.75 } }";
+        var json = @"{ ""staff"": [], ""jobHours"": { ""water"": 1, ""cover"": 0.25, ""uncover"": 0.25, ""probeReading"": 0.25, ""feelReading"": 0.05, ""soilCore"": 0.75, ""mow"": 0.5 } }";
 
         var error = Assert.Throws<ContentException>(() => ContentParser.ParseStaff(json));
 
