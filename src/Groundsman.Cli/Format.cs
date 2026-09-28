@@ -61,6 +61,10 @@ public static class Format
         {
             orders.Add($"[blue]mow {strip.LastMown.HeightMm:0.#}[/]");
         }
+        if (strip.RollingQueued)
+        {
+            orders.Add("[blue]roll[/]");
+        }
         if (strip.CoverOrder == CoverOrder.Cover)
         {
             orders.Add("[blue]cover on[/]");

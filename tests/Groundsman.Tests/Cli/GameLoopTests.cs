@@ -165,6 +165,17 @@ public class GameLoopTests
     }
 
     [Fact]
+    public void Rolling_is_confirmed_ordered_then_shown_as_the_last_roll()
+    {
+        var (console, game) = Play("l 3 medium 20", "s", "", "q");
+
+        Assert.Contains("Strip 3 is down for 20 minutes with the Medium roller", console.Output);
+        Assert.Contains("roll", console.Output);
+        Assert.Contains("medium 20m yesterday", console.Output);
+        Assert.Equal("medium", game.View.Strips[2].LastRolled!.RollerId);
+    }
+
+    [Fact]
     public void Mowing_everything_stops_at_the_first_refusal()
     {
         var (_, game) = Play("m all 10 jo", "q");
@@ -239,6 +250,7 @@ public class GameLoopTests
         Assert.Contains("c <strip>", console.Output);
         Assert.Contains("d <strip>", console.Output);
         Assert.Contains("m <strip> <mm>", console.Output);
+        Assert.Contains("l <strip> <roller> <min>", console.Output);
         Assert.Contains("u <strip>", console.Output);
     }
 }

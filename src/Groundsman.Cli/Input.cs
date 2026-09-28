@@ -23,6 +23,9 @@ public sealed record WaterInput(StripId Strip, StaffId? By = null) : Input;
 /// <summary>Mows one strip, or every strip when <see cref="Strip"/> is null.</summary>
 public sealed record MowInput(StripId? Strip, double HeightMm, StaffId? By = null) : Input;
 
+/// <summary>Rolls one strip, or every strip when <see cref="Strip"/> is null.</summary>
+public sealed record RollInput(StripId? Strip, string RollerId, double Minutes, StaffId? By = null) : Input;
+
 public sealed record CoverInput(StripId Strip, StaffId? By = null) : Input;
 
 public sealed record UncoverInput(StripId Strip, StaffId? By = null) : Input;

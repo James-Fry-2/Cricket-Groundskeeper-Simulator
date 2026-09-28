@@ -18,6 +18,10 @@ public static class InputParser
         {
             return ParseMow(words, text);
         }
+        if (words[0] is "l" or "roll")
+        {
+            return ParseRoll(words, text);
+        }
         if (words.Length > 3)
         {
             return Invalid(text);
@@ -71,6 +75,22 @@ public static class InputParser
             return new MowInput(null, height, by);
         }
         return TryStrip(words[1], out var strip) ? new MowInput(strip, height, by) : Invalid(text);
+    }
+
+    private static Input ParseRoll(string[] words, string text)
+    {
+        if (words.Length < 4 || words.Length > 5
+            || !double.TryParse(words[3], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var minutes))
+        {
+            return Invalid(text);
+        }
+
+        StaffId? by = words.Length == 5 ? new StaffId(words[4]) : null;
+        if (words[1] == "all")
+        {
+            return new RollInput(null, words[2], minutes, by);
+        }
+        return TryStrip(words[1], out var strip) ? new RollInput(strip, words[2], minutes, by) : Invalid(text);
     }
 
     private static InvalidInput Invalid(string text) => new InvalidInput($"Didn't understand \"{text.Trim()}\". Type h for help.");

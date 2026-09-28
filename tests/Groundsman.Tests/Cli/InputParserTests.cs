@@ -127,6 +127,29 @@ public class InputParserTests
         Assert.Equal(new StaffId("jo"), all.By);
     }
 
+    [Fact]
+    public void L_rolls_with_a_roller_for_some_minutes()
+    {
+        var roll = Assert.IsType<RollInput>(InputParser.Parse("l 3 heavy 20"));
+        Assert.Equal(new StripId(3), roll.Strip);
+        Assert.Equal("heavy", roll.RollerId);
+        Assert.Equal(20, roll.Minutes);
+        Assert.Null(roll.By);
+
+        var all = Assert.IsType<RollInput>(InputParser.Parse("roll all light 30 sam"));
+        Assert.Null(all.Strip);
+        Assert.Equal(new StaffId("sam"), all.By);
+    }
+
+    [Theory]
+    [InlineData("l 3 heavy")]
+    [InlineData("l 3 heavy long")]
+    [InlineData("l 3 heavy 20 sam extra")]
+    public void Rolling_needs_a_roller_and_minutes(string input)
+    {
+        Assert.IsType<InvalidInput>(InputParser.Parse(input));
+    }
+
     [Theory]
     [InlineData("m 3")]
     [InlineData("m 3 tall")]

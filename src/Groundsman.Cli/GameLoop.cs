@@ -77,6 +77,18 @@ public sealed class GameLoop
                 case MowInput { Strip: { } mowStrip } mow:
                     Order(new MowStrip(mowStrip, mow.HeightMm, mow.By), $"{mowStrip} is down for mowing to {mow.HeightMm:0.#} mm.");
                     break;
+                case RollInput { Strip: null } rollAll:
+                    foreach (var strip in _game.View.Strips.Where(s => !s.RollingQueued))
+                    {
+                        if (!Order(new RollStrip(strip.Id, rollAll.RollerId, rollAll.Minutes, rollAll.By), RollConfirmation(strip.Id, rollAll)))
+                        {
+                            break;
+                        }
+                    }
+                    break;
+                case RollInput { Strip: { } rollStrip } roll:
+                    Order(new RollStrip(rollStrip, roll.RollerId, roll.Minutes, roll.By), RollConfirmation(rollStrip, roll));
+                    break;
                 case WaterInput water:
                     Order(new WaterStrip(water.Strip, water.By), $"{water.Strip} is down for watering.");
                     break;
@@ -136,6 +148,12 @@ public sealed class GameLoop
         return true;
     }
 
+    private string RollConfirmation(StripId strip, RollInput roll)
+    {
+        var name = _game.View.Rollers.FirstOrDefault(r => r.Id == roll.RollerId)?.Name ?? roll.RollerId;
+        return $"{strip} is down for {roll.Minutes:0} minutes with the {name}.";
+    }
+
     private bool Order(IGameCommand command, string confirmation)
     {
         if (!Report(_game.Submit(command)))
@@ -175,6 +193,7 @@ public sealed class GameLoop
             .AddColumn("Below")
             .AddColumn("Cored")
             .AddColumn("Cut")
+            .AddColumn("Rolled")
             .AddColumn("Cover")
             .AddColumn("Orders");
         if (truth != null)
@@ -194,6 +213,7 @@ public sealed class GameLoop
                 strip.SubsurfaceMoisture == null ? "" : Markup.Escape(Format.Percent(strip.SubsurfaceMoistureNow!.Value)),
                 strip.SubsurfaceMoisture == null ? "" : Format.Age(strip.SubsurfaceMoisture.TakenAt, view.Now),
                 strip.LastMown == null ? "" : $"{strip.LastMown.HeightMm:0.#}mm {Format.Age(strip.LastMown.OrderedAt, view.Now)}",
+                strip.LastRolled == null ? "" : $"{Markup.Escape(strip.LastRolled.RollerId)} {strip.LastRolled.Minutes:0}m {Format.Age(strip.LastRolled.OrderedAt, view.Now)}",
                 strip.Covered ? "covered" : "",
                 Format.Orders(strip),
             };
@@ -236,6 +256,7 @@ public sealed class GameLoop
             .AddRow("d <strip>", "Take a soil core: slow, reads moisture below the surface")
             .AddRow("w <strip>", "Water a strip (done when time advances)")
             .AddRow("m <strip> <mm>", "Mow a strip to a height; more than a third off at once scalps it")
+            .AddRow("l <strip> <roller> <min>", $"Roll a strip ({string.Join(", ", _game.View.Rollers.Select(r => r.Id))}): only moist, never wet")
             .AddRow("c <strip>", "Put a cover on a strip: keeps rain off, slows drying")
             .AddRow("u <strip>", "Take a strip's cover off")
             .AddRow("", "Every strip job takes a name, e.g. w 3 sam. You do it if none is given.")
