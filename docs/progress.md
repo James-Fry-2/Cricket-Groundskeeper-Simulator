@@ -5,7 +5,7 @@ Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: 
 
 ## Phase 3 tasks
 - [x] 1. Formats, teams and fixture details
-- [ ] 2. Grass: growth and mowing
+- [x] 2. Grass: growth and mowing
 - [ ] 3. Compaction and rolling
 - [ ] 4. Pitch characteristics
 - [ ] 5. Wear and recovery
@@ -70,6 +70,13 @@ In `content/staff.json`:
 In `content/forecast.json`:
 - 7 days from today; ranges 1.5 error spreads either side (truth inside about 87% of the time)
 - Rain error spread 1.5 mm on the day, growing 40% per day ahead; top temperature 1.0 °C, growing 30% per day
+
+In `content/grass.json`:
+- Start (late March): cover 85%, height 15 mm, roots 60 mm
+- Growth by temperature: none below 5 °C, best at 18 °C, none above 30 °C; scaled by water at depth
+- At best: 1.2 mm height, 1.0 point cover and 1.0 mm roots a day; cover up to 95%, roots up to 100 mm
+- Drought (water at depth under 0.15 of the way from air-dry to field capacity): no growth, cover thins 0.5 points a day
+- Mowing: 3 to 50 mm; taking more than 34% of the height at once scalps, costing 2 points of cover per mm over; 0.5 h a strip
 
 In `content/formats.json`:
 - Four-day: 2 innings each, 96 overs a day, play 11–13, 14–16, 16–18; turns at 08:00, 13:00, 16:00, 18:00
@@ -154,4 +161,5 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Phase 2 complete.
 - Phase 3 planned in `docs/phase-3-plan.md`: rating scale, rolling and mowing, and session-by-session matches decided with the user.
 - Formats, teams and fixtures: `formats.json` (days, innings per side, overs per innings or per day, session play hours, match-day turns) and `teams.json` (home side and opponents, strengths, attack profile). Fixtures name a format and opponent; their length comes from the format. `PaceContext` takes fixtures and gives each match day its format's turns, so T20 days turn in the evening; match-day hours left `calendar.json`. Test formats keep the old turn times, so the replay snapshot didn't change, and Gate A is unchanged (neglect 13%, by the book 50%). Sessions, innings and overs are parsed and checked now and used by the match engine in task 6.
-- Next: phase 3 task 2, grass and mowing.
+- Grass: strips carry cover, height and root depth. `GrassModel` grows them each hour in the Grass step by a temperature curve and water at depth, and thins cover in drought. `MowStrip` is queued and applied in the next hour's Grass step (like watering in the Moisture step); scalping costs cover; cutting above the current height does nothing but still costs the time. The view shows the last cut you ordered (`MowRecord`), not the true height, keeping to the readings-only rule; a way to judge height directly could come later as a reading. `Inspect()`, the season trace and the replay snapshot now include grass (the snapshot script mows too; only lines were added). Unmown growth over a traced season: about 0.2 mm a day in April, 0.7 to 0.8 in May, June and August, 0.3 in a dry July with cover thinning, so holding 6 to 8 mm takes 2 to 3 cuts a week as the research says. Cli: `m <strip> <mm> [name]`, `m all <mm>`, a Cut column; the table was compacted to wrap less at 80 columns.
+- Next: phase 3 task 3, compaction and rolling.
