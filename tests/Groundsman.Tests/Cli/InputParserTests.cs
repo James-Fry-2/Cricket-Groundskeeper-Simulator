@@ -114,6 +114,29 @@ public class InputParserTests
     }
 
     [Fact]
+    public void M_mows_to_a_height_with_an_optional_name()
+    {
+        var mow = Assert.IsType<MowInput>(InputParser.Parse("m 3 8"));
+        Assert.Equal(new StripId(3), mow.Strip);
+        Assert.Equal(8, mow.HeightMm);
+        Assert.Null(mow.By);
+
+        var all = Assert.IsType<MowInput>(InputParser.Parse("mow all 7.5 jo"));
+        Assert.Null(all.Strip);
+        Assert.Equal(7.5, all.HeightMm);
+        Assert.Equal(new StaffId("jo"), all.By);
+    }
+
+    [Theory]
+    [InlineData("m 3")]
+    [InlineData("m 3 tall")]
+    [InlineData("m 3 8 sam extra")]
+    public void Mowing_needs_a_height(string input)
+    {
+        Assert.IsType<InvalidInput>(InputParser.Parse(input));
+    }
+
+    [Fact]
     public void A_name_after_the_strip_says_who_does_the_job()
     {
         Assert.Equal(new StaffId("sam"), Assert.IsType<ReadInput>(InputParser.Parse("r 3 Sam")).By);

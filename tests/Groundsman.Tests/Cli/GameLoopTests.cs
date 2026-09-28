@@ -154,11 +154,30 @@ public class GameLoopTests
     }
 
     [Fact]
+    public void Mowing_is_confirmed_ordered_then_shown_as_the_last_cut()
+    {
+        var (console, game) = Play("m 3 10", "s", "", "q");
+
+        Assert.Contains("Strip 3 is down for mowing to 10 mm", console.Output);
+        Assert.Contains("mow 10", console.Output);
+        Assert.Contains("10mm yesterday", console.Output);
+        Assert.Equal(10, game.View.Strips[2].LastMown!.HeightMm);
+    }
+
+    [Fact]
+    public void Mowing_everything_stops_at_the_first_refusal()
+    {
+        var (_, game) = Play("m all 10 jo", "q");
+
+        Assert.Equal(8, game.View.Strips.Count(s => s.MowingQueued));
+    }
+
+    [Fact]
     public void Readings_say_who_took_them()
     {
         var (console, _) = Play("r 3 sam", "s", "q");
 
-        Assert.Contains("today, Sam Test", console.Output);
+        Assert.Contains("today, Sam", console.Output);
     }
 
     [Fact]
@@ -219,6 +238,7 @@ public class GameLoopTests
         Assert.Contains("w <strip>", console.Output);
         Assert.Contains("c <strip>", console.Output);
         Assert.Contains("d <strip>", console.Output);
+        Assert.Contains("m <strip> <mm>", console.Output);
         Assert.Contains("u <strip>", console.Output);
     }
 }

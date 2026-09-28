@@ -20,6 +20,9 @@ public sealed record ReadInput(StripId? Strip, StaffId? By = null, ReadingSource
 
 public sealed record WaterInput(StripId Strip, StaffId? By = null) : Input;
 
+/// <summary>Mows one strip, or every strip when <see cref="Strip"/> is null.</summary>
+public sealed record MowInput(StripId? Strip, double HeightMm, StaffId? By = null) : Input;
+
 public sealed record CoverInput(StripId Strip, StaffId? By = null) : Input;
 
 public sealed record UncoverInput(StripId Strip, StaffId? By = null) : Input;

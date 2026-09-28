@@ -65,6 +65,18 @@ public sealed class GameLoop
                 case ReadInput { Strip: { } strip } read:
                     Read(strip, read.By, read.Tool);
                     break;
+                case MowInput { Strip: null } mowAll:
+                    foreach (var strip in _game.View.Strips.Where(s => !s.MowingQueued))
+                    {
+                        if (!Order(new MowStrip(strip.Id, mowAll.HeightMm, mowAll.By), $"{strip.Id} is down for mowing to {mowAll.HeightMm:0.#} mm."))
+                        {
+                            break;
+                        }
+                    }
+                    break;
+                case MowInput { Strip: { } mowStrip } mow:
+                    Order(new MowStrip(mowStrip, mow.HeightMm, mow.By), $"{mowStrip} is down for mowing to {mow.HeightMm:0.#} mm.");
+                    break;
                 case WaterInput water:
                     Order(new WaterStrip(water.Strip, water.By), $"{water.Strip} is down for watering.");
                     break;
@@ -124,12 +136,14 @@ public sealed class GameLoop
         return true;
     }
 
-    private void Order(IGameCommand command, string confirmation)
+    private bool Order(IGameCommand command, string confirmation)
     {
-        if (Report(_game.Submit(command)))
+        if (!Report(_game.Submit(command)))
         {
-            _console.MarkupLine(confirmation);
+            return false;
         }
+        _console.MarkupLine(confirmation);
+        return true;
     }
 
     private bool Report(CommandResult result)
@@ -160,6 +174,7 @@ public sealed class GameLoop
             .AddColumn("Read")
             .AddColumn("Below")
             .AddColumn("Cored")
+            .AddColumn("Cut")
             .AddColumn("Cover")
             .AddColumn("Orders");
         if (truth != null)
@@ -174,10 +189,11 @@ public sealed class GameLoop
             var cells = new List<string>
             {
                 strip.Id.Number.ToString(),
-                reading == null ? "[grey]no reading[/]" : Markup.Escape(Format.Reading(reading, strip.SurfaceMoistureNow!.Value)),
-                reading == null ? "" : $"{Format.Age(reading.TakenAt, view.Now)}, {Markup.Escape(view.Staff.Single(s => s.Id == reading.TakenBy).Name)}",
+                reading == null ? "[grey]–[/]" : Markup.Escape(Format.Reading(reading, strip.SurfaceMoistureNow!.Value)),
+                reading == null ? "" : $"{Format.Age(reading.TakenAt, view.Now)}, {Markup.Escape(Format.FirstName(view.Staff.Single(s => s.Id == reading.TakenBy).Name))}",
                 strip.SubsurfaceMoisture == null ? "" : Markup.Escape(Format.Percent(strip.SubsurfaceMoistureNow!.Value)),
                 strip.SubsurfaceMoisture == null ? "" : Format.Age(strip.SubsurfaceMoisture.TakenAt, view.Now),
+                strip.LastMown == null ? "" : $"{strip.LastMown.HeightMm:0.#}mm {Format.Age(strip.LastMown.OrderedAt, view.Now)}",
                 strip.Covered ? "covered" : "",
                 Format.Orders(strip),
             };
@@ -219,6 +235,7 @@ public sealed class GameLoop
             .AddRow("f <strip>", "Feel a strip: quick, gives dry, damp or wet, can be wrong")
             .AddRow("d <strip>", "Take a soil core: slow, reads moisture below the surface")
             .AddRow("w <strip>", "Water a strip (done when time advances)")
+            .AddRow("m <strip> <mm>", "Mow a strip to a height; more than a third off at once scalps it")
             .AddRow("c <strip>", "Put a cover on a strip: keeps rain off, slows drying")
             .AddRow("u <strip>", "Take a strip's cover off")
             .AddRow("", "Every strip job takes a name, e.g. w 3 sam. You do it if none is given.")

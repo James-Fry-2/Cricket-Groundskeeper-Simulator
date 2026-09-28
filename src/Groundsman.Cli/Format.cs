@@ -57,6 +57,10 @@ public static class Format
         {
             orders.Add("[blue]water[/]");
         }
+        if (strip.MowingQueued && strip.LastMown != null)
+        {
+            orders.Add($"[blue]mow {strip.LastMown.HeightMm:0.#}[/]");
+        }
         if (strip.CoverOrder == CoverOrder.Cover)
         {
             orders.Add("[blue]cover on[/]");
@@ -70,6 +74,12 @@ public static class Format
 
     public static string Hours(IReadOnlyList<StaffView> staff) =>
         "Hours left today: " + string.Join(", ", staff.Select(s => $"{s.Name} {s.HoursLeft:0.##}/{s.HoursPerDay:0.##}")) + ".";
+
+    public static string FirstName(string name)
+    {
+        var space = name.IndexOf(' ');
+        return space > 0 ? name.Substring(0, space) : name;
+    }
 
     public static string NextMatch(Fixture? fixture, GameTime now)
     {
