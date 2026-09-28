@@ -6,7 +6,7 @@ Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: 
 ## Phase 3 tasks
 - [x] 1. Formats, teams and fixture details
 - [x] 2. Grass: growth and mowing
-- [ ] 3. Compaction and rolling
+- [x] 3. Compaction and rolling
 - [ ] 4. Pitch characteristics
 - [ ] 5. Wear and recovery
 - [ ] 6. Match engine (adds a Match step to the tick order; agree the CLAUDE.md change first)
@@ -70,6 +70,14 @@ In `content/staff.json`:
 In `content/forecast.json`:
 - 7 days from today; ranges 1.5 error spreads either side (truth inside about 87% of the time)
 - Rain error spread 1.5 mm on the day, growing 40% per day ahead; top temperature 1.0 °C, growing 30% per day
+
+In `content/rollers.json` and `content/compaction.json`:
+- Rollers (share of the remaining room to full compaction closed per hour in the window): light 0.04, medium 0.08, heavy 0.12
+- Wet-rolling damage per hour: light 0.01, medium 0.03, heavy 0.08, plus 10% more per point of surface moisture over the window
+- Heavy roller overuse: damage 0.05 per hour, scaled by how far compaction is above 0.8
+- Starting compaction 0.55, no structure damage; rolling 5 to 120 minutes
+- Hardness = compaction × (0.3 + 0.7 × surface dryness) × (clay / 30)^0.5, capped at 1
+- Rolling windows (surface moisture): county loam 18–26%, heavy clay 20–29%
 
 In `content/grass.json`:
 - Start (late March): cover 85%, height 15 mm, roots 60 mm
@@ -162,4 +170,5 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Phase 3 planned in `docs/phase-3-plan.md`: rating scale, rolling and mowing, and session-by-session matches decided with the user.
 - Formats, teams and fixtures: `formats.json` (days, innings per side, overs per innings or per day, session play hours, match-day turns) and `teams.json` (home side and opponents, strengths, attack profile). Fixtures name a format and opponent; their length comes from the format. `PaceContext` takes fixtures and gives each match day its format's turns, so T20 days turn in the evening; match-day hours left `calendar.json`. Test formats keep the old turn times, so the replay snapshot didn't change, and Gate A is unchanged (neglect 13%, by the book 50%). Sessions, innings and overs are parsed and checked now and used by the match engine in task 6.
 - Grass: strips carry cover, height and root depth. `GrassModel` grows them each hour in the Grass step by a temperature curve and water at depth, and thins cover in drought. `MowStrip` is queued and applied in the next hour's Grass step (like watering in the Moisture step); scalping costs cover; cutting above the current height does nothing but still costs the time. The view shows the last cut you ordered (`MowRecord`), not the true height, keeping to the readings-only rule; a way to judge height directly could come later as a reading. `Inspect()`, the season trace and the replay snapshot now include grass (the snapshot script mows too; only lines were added). Unmown growth over a traced season: about 0.2 mm a day in April, 0.7 to 0.8 in May, June and August, 0.3 in a dry July with cover thinning, so holding 6 to 8 mm takes 2 to 3 cuts a week as the research says. Cli: `m <strip> <mm> [name]`, `m all <mm>`, a Cut column; the table was compacted to wrap less at 80 columns.
-- Next: phase 3 task 3, compaction and rolling.
+- Compaction and rolling: strips carry compaction and hidden structure damage. `RollStrip` (roller id, minutes, optional staff) is queued and applied in the Tasks step, after that hour's moisture, so the window is judged on the strip as it stands; rolling costs its minutes. Inside the loam's window it compacts with diminishing returns; drier does nothing; wetter still compacts but damages structure, heavier rollers more; the heavy roller on a tight strip also damages. `RollingModel.Hardness` combines compaction, surface dryness and clay. The view shows your rolling record and lists the rollers, never compaction. `Inspect()`, trace and snapshot include compaction, damage and hardness; the snapshot script now rolls, including heavy rolling of a wet strip, which duly builds damage. An untouched strip's hardness ranges from 0.17 when wet to about 0.5 when dry at starting compaction. Cli: `l <strip> <roller> <min> [name]`, `l all`, a Rolled column.
+- Next: phase 3 task 4, pitch characteristics.
