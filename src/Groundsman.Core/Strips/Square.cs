@@ -15,7 +15,7 @@ namespace Groundsman.Core.Strips
             for (var i = 0; i < _strips.Length; i++)
             {
                 var strip = ground.Strips[i];
-                _strips[i] = new StripState(strip.Id, content.Loam(strip.LoamId), strip.SurfaceMoisture, strip.SubsurfaceMoisture, content.Grass);
+                _strips[i] = new StripState(strip.Id, content.Loam(strip.LoamId), strip.SurfaceMoisture, strip.SubsurfaceMoisture, content.Grass, content.Compaction);
             }
         }
 

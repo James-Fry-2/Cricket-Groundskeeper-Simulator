@@ -88,7 +88,9 @@ namespace Groundsman.Core.Content
                     Required(file, path + ".surfaceDrainageRate", loam.SurfaceDrainageRate),
                     Required(file, path + ".subsurfaceDrainageRate", loam.SubsurfaceDrainageRate),
                     Required(file, path + ".capillaryRate", loam.CapillaryRate),
-                    Required(file, path + ".crackingTendency", loam.CrackingTendency)));
+                    Required(file, path + ".crackingTendency", loam.CrackingTendency),
+                    Required(file, path + ".rollingWindow.min", Required(file, path + ".rollingWindow", loam.RollingWindow).Min),
+                    Required(file, path + ".rollingWindow.max", loam.RollingWindow!.Max)));
             }
             if (loams.Count == 0)
             {
@@ -167,6 +169,52 @@ namespace Groundsman.Core.Content
                 Required(file, "rain.growthPerDay", rain.GrowthPerDay),
                 Required(file, "maxTemperature.errorSd", temperature.ErrorSd),
                 Required(file, "maxTemperature.growthPerDay", temperature.GrowthPerDay));
+        }
+
+        public static IReadOnlyList<RollerSettings> ParseRollers(string json)
+        {
+            const string file = "rollers";
+            var dtos = Required(file, "rollers", Deserialise<RollersDto>(json, file).Rollers);
+
+            var rollers = new List<RollerSettings>();
+            var ids = new HashSet<string>();
+            for (var i = 0; i < dtos.Count; i++)
+            {
+                var roller = dtos[i];
+                var path = $"rollers[{i}]";
+                var id = Required(file, path + ".id", roller.Id);
+                if (!ids.Add(id))
+                {
+                    throw new ContentException($"rollers: two rollers have the id \"{id}\".");
+                }
+                rollers.Add(new RollerSettings(
+                    id,
+                    Required(file, path + ".name", roller.Name),
+                    Required(file, path + ".compactionPerHour", roller.CompactionPerHour),
+                    Required(file, path + ".wetDamagePerHour", roller.WetDamagePerHour),
+                    Required(file, path + ".overuseAbove", roller.OveruseAbove),
+                    Required(file, path + ".overuseDamagePerHour", roller.OveruseDamagePerHour)));
+            }
+            return rollers.AsReadOnly();
+        }
+
+        public static CompactionSettings ParseCompaction(string json)
+        {
+            const string file = "compaction";
+            var dto = Deserialise<CompactionDto>(json, file);
+            var starting = Required(file, "starting", dto.Starting);
+            var minutes = Required(file, "rollingMinutes", dto.RollingMinutes);
+            var hardness = Required(file, "hardness", dto.Hardness);
+
+            return new CompactionSettings(
+                Required(file, "starting.compaction", starting.Compaction),
+                Required(file, "starting.structureDamage", starting.StructureDamage),
+                Required(file, "rollingMinutes.min", minutes.Min),
+                Required(file, "rollingMinutes.max", minutes.Max),
+                Required(file, "wetDamagePerPoint", dto.WetDamagePerPoint),
+                Required(file, "hardness.dryWeight", hardness.DryWeight),
+                Required(file, "hardness.clayReference", hardness.ClayReference),
+                Required(file, "hardness.clayExponent", hardness.ClayExponent));
         }
 
         public static GrassSettings ParseGrass(string json)
@@ -605,6 +653,7 @@ namespace Groundsman.Core.Content
             public double? SubsurfaceDrainageRate { get; set; }
             public double? CapillaryRate { get; set; }
             public double? CrackingTendency { get; set; }
+            public RangeDto? RollingWindow { get; set; }
         }
 
         private sealed class MoistureDto
@@ -724,6 +773,48 @@ namespace Groundsman.Core.Content
             public double? MaxHeightMm { get; set; }
             public double? ScalpShare { get; set; }
             public double? ScalpCoverLossPerMm { get; set; }
+        }
+
+        private sealed class RangeDto
+        {
+            public double? Min { get; set; }
+            public double? Max { get; set; }
+        }
+
+        private sealed class RollersDto
+        {
+            public List<RollerDto>? Rollers { get; set; }
+        }
+
+        private sealed class RollerDto
+        {
+            public string? Id { get; set; }
+            public string? Name { get; set; }
+            public double? CompactionPerHour { get; set; }
+            public double? WetDamagePerHour { get; set; }
+            public double? OveruseAbove { get; set; }
+            public double? OveruseDamagePerHour { get; set; }
+        }
+
+        private sealed class CompactionDto
+        {
+            public CompactionStartDto? Starting { get; set; }
+            public RangeDto? RollingMinutes { get; set; }
+            public double? WetDamagePerPoint { get; set; }
+            public HardnessDto? Hardness { get; set; }
+        }
+
+        private sealed class CompactionStartDto
+        {
+            public double? Compaction { get; set; }
+            public double? StructureDamage { get; set; }
+        }
+
+        private sealed class HardnessDto
+        {
+            public double? DryWeight { get; set; }
+            public double? ClayReference { get; set; }
+            public double? ClayExponent { get; set; }
         }
     }
 }

@@ -1,0 +1,7 @@
+{
+  "rollers": [
+    { "id": "light", "name": "Light roller", "compactionPerHour": 0.04, "wetDamagePerHour": 0.01, "overuseAbove": 1.0, "overuseDamagePerHour": 0 },
+    { "id": "medium", "name": "Medium roller", "compactionPerHour": 0.08, "wetDamagePerHour": 0.03, "overuseAbove": 1.0, "overuseDamagePerHour": 0 },
+    { "id": "heavy", "name": "Heavy roller", "compactionPerHour": 0.12, "wetDamagePerHour": 0.08, "overuseAbove": 0.8, "overuseDamagePerHour": 0.05 }
+  ]
+}

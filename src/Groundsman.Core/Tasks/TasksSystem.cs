@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Groundsman.Core.Compaction;
+using Groundsman.Core.Content;
 using Groundsman.Core.Simulation;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Time;
@@ -12,7 +14,16 @@ namespace Groundsman.Core.Tasks
     /// </summary>
     internal sealed class TasksSystem : IHourlySystem
     {
+        private readonly Square _square;
+        private readonly RollingModel _rolling;
         private readonly List<StripId> _waterQueue = new List<StripId>();
+        private readonly List<(StripId Strip, RollerSettings Roller, double Minutes)> _rollQueue = new List<(StripId, RollerSettings, double)>();
+
+        public TasksSystem(Square square, RollingModel rolling)
+        {
+            _square = square;
+            _rolling = rolling;
+        }
         private readonly List<(StripId Strip, double HeightMm)> _mowQueue = new List<(StripId, double)>();
 
         public TickStep Step => TickStep.Tasks;
@@ -41,8 +52,18 @@ namespace Groundsman.Core.Tasks
             return height;
         }
 
+        public bool IsRollingQueued(StripId strip) => _rollQueue.Exists(r => r.Strip == strip);
+
+        public void QueueRolling(StripId strip, RollerSettings roller, double minutes) => _rollQueue.Add((strip, roller, minutes));
+
+        /// <summary>Rolling is carried out here, after the hour's moisture, so the window is judged on the strip as it is.</summary>
         public void RunHour(GameTime hour)
         {
+            foreach (var (strip, roller, minutes) in _rollQueue)
+            {
+                _rolling.Roll(_square.Get(strip), roller, minutes);
+            }
+            _rollQueue.Clear();
         }
     }
 }

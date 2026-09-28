@@ -10,7 +10,8 @@ public class LoamContentTests
                 ""id"": ""county"", ""name"": ""County loam"", ""clayPercent"": 30,
                 ""saturation"": 42, ""fieldCapacity"": 32, ""airDry"": 6,
                 ""surfaceDrainageRate"": 0.08, ""subsurfaceDrainageRate"": 0.02, ""capillaryRate"": 0.01,
-                ""crackingTendency"": 0.5
+                ""crackingTendency"": 0.5,
+                ""rollingWindow"": { ""min"": 18, ""max"": 26 }
             }
         ]
     }";
@@ -38,6 +39,8 @@ public class LoamContentTests
         Assert.Equal(0.02, loam.SubsurfaceDrainageRate);
         Assert.Equal(0.01, loam.CapillaryRate);
         Assert.Equal(0.5, loam.CrackingTendency);
+        Assert.Equal(18, loam.RollingWindowMin);
+        Assert.Equal(26, loam.RollingWindowMax);
     }
 
     [Theory]
@@ -49,6 +52,8 @@ public class LoamContentTests
     [InlineData("\"capillaryRate\": 0.01", "\"capillaryRate\": -0.1", "capillaryRate")]
     [InlineData("\"crackingTendency\": 0.5", "\"crackingTendency\": 2", "crackingTendency")]
     [InlineData("\"id\": \"county\"", "\"id\": \"\"", "id")]
+    [InlineData("\"max\": 26", "\"max\": 17", "rollingWindow")]
+    [InlineData("\"max\": 26", "\"max\": 43", "rollingWindow")]
     public void Rejects_invalid_values_naming_the_field(string original, string replacement, string field)
     {
         var error = Assert.Throws<ContentException>(() => ContentParser.ParseLoams(Valid.Replace(original, replacement)));

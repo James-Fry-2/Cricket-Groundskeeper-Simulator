@@ -15,7 +15,9 @@ namespace Groundsman.Core.Content
             double surfaceDrainageRate,
             double subsurfaceDrainageRate,
             double capillaryRate,
-            double crackingTendency)
+            double crackingTendency,
+            double rollingWindowMin,
+            double rollingWindowMax)
         {
             var path = $"loams[{id}]";
             if (string.IsNullOrWhiteSpace(id))
@@ -42,6 +44,10 @@ namespace Groundsman.Core.Content
             CheckRate(path, "subsurfaceDrainageRate", subsurfaceDrainageRate);
             CheckRate(path, "capillaryRate", capillaryRate);
             CheckRate(path, "crackingTendency", crackingTendency);
+            if (rollingWindowMin <= 0 || rollingWindowMax <= rollingWindowMin || rollingWindowMax > saturation)
+            {
+                throw new ContentException($"{path}.rollingWindow ({rollingWindowMin} to {rollingWindowMax}) must be above 0, max above min, and no wetter than saturation ({saturation}).");
+            }
 
             Id = id;
             Name = name;
@@ -53,6 +59,8 @@ namespace Groundsman.Core.Content
             SubsurfaceDrainageRate = subsurfaceDrainageRate;
             CapillaryRate = capillaryRate;
             CrackingTendency = crackingTendency;
+            RollingWindowMin = rollingWindowMin;
+            RollingWindowMax = rollingWindowMax;
         }
 
         public string Id { get; }
@@ -79,6 +87,12 @@ namespace Groundsman.Core.Content
 
         /// <summary>0 to 1. Stored for phase 3, when drying cracks strips.</summary>
         public double CrackingTendency { get; }
+
+        /// <summary>Surface moisture, %, from which rolling compacts: drier and it does nothing.</summary>
+        public double RollingWindowMin { get; }
+
+        /// <summary>Surface moisture, %, above which rolling damages the soil's structure.</summary>
+        public double RollingWindowMax { get; }
 
         private static void CheckRate(string path, string field, double value)
         {

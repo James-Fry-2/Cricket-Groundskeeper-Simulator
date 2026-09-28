@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Groundsman.Core.Commands;
+using Groundsman.Core.Compaction;
 using Groundsman.Core.Content;
 using Groundsman.Core.Covers;
 using Groundsman.Core.Forecasting;
@@ -36,6 +37,9 @@ namespace Groundsman.Core
         private readonly double _waterMm;
         private readonly GrassSettings _grassSettings;
         private readonly MowRecord?[] _lastMown;
+        private readonly RollRecord?[] _lastRolled;
+        private readonly GameContent _content;
+        private readonly RollingModel _rolling;
         private readonly List<(StripId Strip, Quantity Quantity)> _readThisTurn = new List<(StripId, Quantity)>();
         private GameTime _now;
 
@@ -55,13 +59,16 @@ namespace Groundsman.Core
             _pace = new PaceRules(_paceContext);
             Square = new Square(content);
             Weather = new WeatherSystem(new WeatherGenerator(content.Climate, random.Get(RandomStream.Weather)), setup.Start.Date);
-            _tasks = new TasksSystem();
+            _content = content;
+            _rolling = new RollingModel(content.Compaction);
+            _tasks = new TasksSystem(Square, _rolling);
             _coversOwned = content.Covers.Count;
             _covers = new CoversSystem(content.Covers.Count, Square.Strips.Count);
             Moisture = new MoistureSystem(Square, Weather, _covers, _tasks, new MoistureModel(content.Moisture, content.Covers), content.Tasks.WaterMm);
             _grassSettings = content.Grass;
             Grass = new GrassSystem(Square, Weather, _tasks, new GrassModel(content.Grass));
             _lastMown = new MowRecord?[Square.Strips.Count];
+            _lastRolled = new RollRecord?[Square.Strips.Count];
             _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, Grass, _tasks }.Concat(extraSystems));
             _knowledge = new KnowledgeStore(content.Readings, Square.Strips.Count);
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
@@ -91,7 +98,9 @@ namespace Groundsman.Core
                         _covers.IsCovered(id),
                         _covers.OrderFor(id),
                         _lastMown[i],
-                        _tasks.IsMowingQueued(id));
+                        _tasks.IsMowingQueued(id),
+                        _lastRolled[i],
+                        _tasks.IsRollingQueued(id));
                 }
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
@@ -109,7 +118,7 @@ namespace Groundsman.Core
             for (var i = 0; i < strips.Length; i++)
             {
                 var strip = Square.Strips[i];
-                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture, strip.GrassCover, strip.GrassHeightMm, strip.RootDepthMm);
+                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture, strip.GrassCover, strip.GrassHeightMm, strip.RootDepthMm, strip.Compaction, strip.StructureDamage, _rolling.Hardness(strip));
             }
             return new TruthSnapshot(_now, Weather.LastHour, strips);
         }
@@ -134,6 +143,8 @@ namespace Groundsman.Core
                     return Uncover(uncover);
                 case MowStrip mow:
                     return Mow(mow);
+                case RollStrip roll:
+                    return Roll(roll);
                 default:
                     return CommandResult.Rejected($"Unknown command: {command.GetType().Name}.");
             }
@@ -213,6 +224,38 @@ namespace Groundsman.Core
 
             _tasks.QueueWatering(water.Strip);
             _staff.Spend(who, _staffSettings.WaterHours);
+            return CommandResult.Ok();
+        }
+
+        private CommandResult Roll(RollStrip roll)
+        {
+            if (!Square.Contains(roll.Strip))
+            {
+                return CommandResult.Rejected($"{roll.Strip} isn't on this square.");
+            }
+            var roller = _content.Roller(roll.RollerId);
+            if (roller == null)
+            {
+                return CommandResult.Rejected($"There's no \"{roll.RollerId}\" roller. The ground has: {string.Join(", ", _content.Rollers.Select(r => r.Id))}.");
+            }
+            var compaction = _content.Compaction;
+            if (roll.Minutes < compaction.MinRollingMinutes || roll.Minutes > compaction.MaxRollingMinutes)
+            {
+                return CommandResult.Rejected($"Roll for {compaction.MinRollingMinutes:0} to {compaction.MaxRollingMinutes:0} minutes.");
+            }
+            if (_tasks.IsRollingQueued(roll.Strip))
+            {
+                return CommandResult.Rejected($"{roll.Strip} is already down for rolling.");
+            }
+            var hours = roll.Minutes / 60;
+            if (Assign(roll.By, hours, out var who) is { } refused)
+            {
+                return refused;
+            }
+
+            _tasks.QueueRolling(roll.Strip, roller, roll.Minutes);
+            _lastRolled[roll.Strip.Number - 1] = new RollRecord(roller.Id, roll.Minutes, _now);
+            _staff.Spend(who, hours);
             return CommandResult.Ok();
         }
 

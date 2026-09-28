@@ -4,8 +4,11 @@ namespace Groundsman.Core.Inspection
 {
     public sealed class StripTruth
     {
-        public StripTruth(StripId id, double surfaceMoisture, double subsurfaceMoisture, double grassCover, double grassHeightMm, double rootDepthMm)
+        public StripTruth(StripId id, double surfaceMoisture, double subsurfaceMoisture, double grassCover, double grassHeightMm, double rootDepthMm, double compaction, double structureDamage, double hardness)
         {
+            Compaction = compaction;
+            StructureDamage = structureDamage;
+            Hardness = hardness;
             GrassCover = grassCover;
             GrassHeightMm = grassHeightMm;
             RootDepthMm = rootDepthMm;
@@ -20,5 +23,8 @@ namespace Groundsman.Core.Inspection
         public double GrassCover { get; }
         public double GrassHeightMm { get; }
         public double RootDepthMm { get; }
+        public double Compaction { get; }
+        public double StructureDamage { get; }
+        public double Hardness { get; }
     }
 }

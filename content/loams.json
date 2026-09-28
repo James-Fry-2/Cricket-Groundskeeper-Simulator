@@ -10,7 +10,8 @@
       "surfaceDrainageRate": 0.08,
       "subsurfaceDrainageRate": 0.02,
       "capillaryRate": 0.01,
-      "crackingTendency": 0.5
+      "crackingTendency": 0.5,
+      "rollingWindow": { "min": 18, "max": 26 }
     },
     {
       "id": "heavy",
@@ -22,7 +23,8 @@
       "surfaceDrainageRate": 0.04,
       "subsurfaceDrainageRate": 0.01,
       "capillaryRate": 0.008,
-      "crackingTendency": 0.8
+      "crackingTendency": 0.8,
+      "rollingWindow": { "min": 20, "max": 29 }
     }
   ]
 }

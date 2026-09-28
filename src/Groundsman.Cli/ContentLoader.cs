@@ -26,7 +26,9 @@ public static class ContentLoader
             formats,
             teams.Teams,
             teams.HomeId,
-            ContentParser.ParseGrass(Read("grass.json")));
+            ContentParser.ParseGrass(Read("grass.json")),
+            ContentParser.ParseRollers(Read("rollers.json")),
+            ContentParser.ParseCompaction(Read("compaction.json")));
 
         return (content, ContentParser.ParseSeason(Read("season.json"), formats, teams));
     }

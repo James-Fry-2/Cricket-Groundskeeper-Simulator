@@ -20,7 +20,9 @@ namespace Groundsman.Core.Content
             IReadOnlyList<FormatSettings> formats,
             IReadOnlyList<TeamSettings> teams,
             string homeTeamId,
-            GrassSettings grass)
+            GrassSettings grass,
+            IReadOnlyList<RollerSettings> rollers,
+            CompactionSettings compaction)
         {
             var teamList = new TeamsSettings(teams, homeTeamId);
             foreach (var loam in loams)
@@ -59,6 +61,8 @@ namespace Groundsman.Core.Content
             Formats = new List<FormatSettings>(formats).AsReadOnly();
             Teams = teamList;
             Grass = grass;
+            Rollers = new List<RollerSettings>(rollers).AsReadOnly();
+            Compaction = compaction;
         }
 
         public CalendarSettings Calendar { get; }
@@ -74,6 +78,23 @@ namespace Groundsman.Core.Content
         public IReadOnlyList<FormatSettings> Formats { get; }
         public TeamsSettings Teams { get; }
         public GrassSettings Grass { get; }
+
+        /// <summary>The ground's rollers, lightest first.</summary>
+        public IReadOnlyList<RollerSettings> Rollers { get; }
+
+        public CompactionSettings Compaction { get; }
+
+        public RollerSettings? Roller(string id)
+        {
+            foreach (var roller in Rollers)
+            {
+                if (roller.Id == id)
+                {
+                    return roller;
+                }
+            }
+            return null;
+        }
         public TeamSettings HomeTeam => Teams.Find(Teams.HomeId)!;
 
         public LoamSettings Loam(string id) => _loamsById[id];
