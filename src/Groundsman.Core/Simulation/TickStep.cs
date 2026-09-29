@@ -11,6 +11,7 @@ namespace Groundsman.Core.Simulation
         Moisture = 2,
         Grass = 3,
         Tasks = 4,
-        WearAndRecovery = 5,
+        Match = 5,
+        WearAndRecovery = 6,
     }
 }

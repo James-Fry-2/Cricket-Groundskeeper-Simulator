@@ -17,6 +17,7 @@ public class HourlyTickTests
             new RecordingSystem(TickStep.Tasks, log),
             new RecordingSystem(TickStep.Covers, log),
             new RecordingSystem(TickStep.Grass, log),
+            new RecordingSystem(TickStep.Match, log),
         };
 
         new HourlyTick(systems).RunHour(new GameTime(2027, 5, 1, 7));
@@ -28,6 +29,7 @@ public class HourlyTickTests
             TickStep.Moisture,
             TickStep.Grass,
             TickStep.Tasks,
+            TickStep.Match,
             TickStep.WearAndRecovery,
         }, log);
     }

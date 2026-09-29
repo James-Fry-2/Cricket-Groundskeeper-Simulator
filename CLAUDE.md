@@ -19,7 +19,7 @@ A management sim about preparing a cricket ground. Current goal: the MVP in docs
 - True strip state never reaches `GameView`. Views are built from readings only.
 - Readings are ranges that widen with age. The true value usually sits inside the range but can occasionally fall outside it; miss rates per source live in content.
 - Randomness only through the core's seeded generator, one stream per system. No `System.Random`, no `DateTime.Now`, no logic that depends on dictionary iteration order.
-- The hourly tick runs in a fixed order: weather, covers, moisture, grass, tasks in progress, wear and recovery.
+- The hourly tick runs in a fixed order: weather, covers, moisture, grass, tasks in progress, match, wear and recovery.
 - Check any newer C# feature against Unity 6 support before using it in the core.
 - British spelling in code, text and content.
 - Comments only for non-obvious why (constraints, workarounds, invariants). No end-of-line comments. Don't restate what the code does.
