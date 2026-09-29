@@ -11,7 +11,7 @@ Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: 
 - [x] 5. Wear and recovery
 - [x] 6. Match engine
 - [x] 7. Commentary
-- [ ] 8. Rating and demerits
+- [x] 8. Rating and demerits
 - [ ] 9. Cli: rolling, mowing, repairs, match and verdict screens
 - [ ] 10. Harness and check 3
 
@@ -95,6 +95,12 @@ In `content/match.json` and the formats:
 In `content/commentary.json`:
 - Event thresholds: seam 6, dead (carry) 3, uneven (consistency) 6, keeping low (bounce) 3.5, turn 5, dust (surface wear) 0.4, cracks 0.3, footholes 0.3, referee inspects (consistency) 4, collapse 4 wickets in an hour, true pitch (consistency) 8.5 with carry 6 and little seam or turn
 - All wording is placeholder text to rewrite for tone
+
+In `content/rating.json`:
+- Unfit: consistency under 3 at any hour of play (3 demerits); the referee abandons play under 2.5
+- Unsatisfactory (1 demerit): average consistency under 6.5; average carry under 3.5; a multi-day result inside half the scheduled overs at under 20 runs a wicket; limited-overs innings both under half of par; a multi-day draw at over 50 runs a wicket with seam and turn never reaching 3
+- Very good: average consistency 8.5 or more, carry 5.5 or more, and in multi-day cricket seam of 4 on day one or turn of 4 later
+- Demerits count for 5 years; 5 in the window is a ban
 
 In `content/wear.json`:
 - Resistance = 0.5 × compaction + 0.3 × clay (full at 30%) + 0.2 × roots (share of 100 mm), halved when the surface is wetter than the rolling window
@@ -206,4 +212,6 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Found and fixed while building: the four-day base wicket rate of 0.03 was wrong by about three times (innings of 800 to 1,280, every match drawn); a rained-out first innings of 0 let the chase win by scoring 1. Tuned to 0.07 over 200 seeds: prepared pitch 28% draws, first innings about 320; untouched pitch 50% draws and lower scoring, the lifeless draw. One-day match tests now prepare the strip, since a neglected pitch scoring less is intended.
 - Gate A still passes on the stand-in score (neglect 13%, by the book 50%); 1,000 seasons now take about 8 seconds with matches playing.
 - Commentary: `Commentator` raises each of eleven events once a match when its characteristic crosses a content threshold, naming the biggest cause from `PitchModel.Explain` (a breakdown of each driver's share). Collapse causes weigh seam and spin by the bowling attack, after a first version blamed a dry surface for a collapse to seamers on a green day-one strip. Rain gets one line per spell; each break gets a score line (last two innings) at the hour the break starts. Ground ends are in `ground.json`, break names in `formats.json`. No random draws in commentary. The Cli prints new lines after each advance; the snapshot records commentary. Sample from a real run: "Kestrelshire lose 4 wickets in an hour. There's 21 mm of grass left on." on an unmown April strip; "The ball is keeping low. The strip wasn't rolled tight enough." late on day 2.
-- Next: phase 3 task 8, rating and demerits.
+- Rating: `Referee` rates each finished match from its hourly pitch log (dry hours only), scores and result on the ICC's scale, with reasons naming causes from the commentary or the worst hour's drivers (the hour log now keeps drivers and grass height). The referee abandons play when consistency falls under 2.5, rated unfit. `DemeritLedger` keeps a five-year window and a ban threshold; the view shows active demerits and whether the ground is banned; phase 4 adds consequences. The Cli shows the rating, demerits and reasons under the scoreboard. The stand-in score remains only in the harness.
+- First season-long comparison (100 seasons, 18 fixtures each, scratch code): neglect 100% unsatisfactory, nearly all for a slow low pitch, 17.7 demerits a season, banned every season; by the book as it stands (moisture only) the same; by the book plus a crude daily roll and a mow every three days 3% very good, 92% satisfactory, 5% unsatisfactory, 0.9 demerits a season, never banned. Rolling and mowing are what the referee rewards; moisture alone isn't enough. Very good is rare with that crude routine; check whether it's reachable once by the book has the research's schedule (task 10) before touching its thresholds.
+- Next: phase 3 task 9, the Cli screens (rolling, mowing and repairs are already in; match and verdict screens remain).
