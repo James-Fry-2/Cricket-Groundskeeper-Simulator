@@ -32,7 +32,8 @@ public static class ContentLoader
             ContentParser.ParsePitch(Read("pitch.json")),
             ContentParser.ParseWear(Read("wear.json")),
             ContentParser.ParseMatch(Read("match.json")),
-            ContentParser.ParseCommentary(Read("commentary.json")));
+            ContentParser.ParseCommentary(Read("commentary.json")),
+            ContentParser.ParseRating(Read("rating.json")));
 
         return (content, ContentParser.ParseSeason(Read("season.json"), formats, teams));
     }

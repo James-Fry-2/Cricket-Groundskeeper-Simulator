@@ -12,7 +12,7 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
-        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, Fixture? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, MatchView? latestMatch)
+        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, Fixture? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, MatchView? latestMatch, int demeritsActive, bool banned)
         {
             Now = now;
             Pace = pace;
@@ -27,6 +27,8 @@ namespace Groundsman.Core
             Forecast = forecast;
             Rollers = rollers;
             LatestMatch = latestMatch;
+            DemeritsActive = demeritsActive;
+            Banned = banned;
         }
 
         public GameTime Now { get; }
@@ -60,5 +62,11 @@ namespace Groundsman.Core
 
         /// <summary>The match in progress, or the last one played; null before the first.</summary>
         public MatchView? LatestMatch { get; }
+
+        /// <summary>Demerits within the rolling window.</summary>
+        public int DemeritsActive { get; }
+
+        /// <summary>Enough demerits to lose the right to host; phase 4 decides what follows.</summary>
+        public bool Banned { get; }
     }
 }

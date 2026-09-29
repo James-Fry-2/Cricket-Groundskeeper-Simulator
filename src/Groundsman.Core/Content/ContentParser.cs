@@ -220,6 +220,34 @@ namespace Groundsman.Core.Content
                 Required(file, "hardness.clayExponent", hardness.ClayExponent));
         }
 
+        public static RatingSettings ParseRating(string json)
+        {
+            const string file = "rating";
+            var dto = Deserialise<RatingDto>(json, file);
+            var unsatisfactory = Required(file, "unsatisfactory", dto.Unsatisfactory);
+            var veryGood = Required(file, "veryGood", dto.VeryGood);
+            var demerits = Required(file, "demerits", dto.Demerits);
+
+            return new RatingSettings(
+                Required(file, "unfitBelow", dto.UnfitBelow),
+                Required(file, "abandonBelow", dto.AbandonBelow),
+                Required(file, "unsatisfactory.consistencyBelow", unsatisfactory.ConsistencyBelow),
+                Required(file, "unsatisfactory.carryBelow", unsatisfactory.CarryBelow),
+                Required(file, "unsatisfactory.bowlersOversShare", unsatisfactory.BowlersOversShare),
+                Required(file, "unsatisfactory.bowlersRunsPerWicket", unsatisfactory.BowlersRunsPerWicket),
+                Required(file, "unsatisfactory.limitedParShare", unsatisfactory.LimitedParShare),
+                Required(file, "unsatisfactory.lifelessRunsPerWicket", unsatisfactory.LifelessRunsPerWicket),
+                Required(file, "unsatisfactory.lifelessMovementBelow", unsatisfactory.LifelessMovementBelow),
+                Required(file, "veryGood.consistencyAtLeast", veryGood.ConsistencyAtLeast),
+                Required(file, "veryGood.carryAtLeast", veryGood.CarryAtLeast),
+                Required(file, "veryGood.movementAtLeast", veryGood.MovementAtLeast),
+                Required(file, "demerits.unsatisfactory", demerits.Unsatisfactory),
+                Required(file, "demerits.unfit", demerits.Unfit),
+                Required(file, "demerits.windowYears", demerits.WindowYears),
+                Required(file, "demerits.banAt", demerits.BanAt),
+                Required(file, "reasons", dto.Reasons));
+        }
+
         public static CommentarySettings ParseCommentary(string json)
         {
             const string file = "commentary";
@@ -1076,6 +1104,42 @@ namespace Groundsman.Core.Content
         {
             public double? Threshold { get; set; }
             public string? Text { get; set; }
+        }
+
+        private sealed class RatingDto
+        {
+            public double? UnfitBelow { get; set; }
+            public double? AbandonBelow { get; set; }
+            public UnsatisfactoryDto? Unsatisfactory { get; set; }
+            public VeryGoodDto? VeryGood { get; set; }
+            public DemeritsDto? Demerits { get; set; }
+            public Dictionary<string, string>? Reasons { get; set; }
+        }
+
+        private sealed class UnsatisfactoryDto
+        {
+            public double? ConsistencyBelow { get; set; }
+            public double? CarryBelow { get; set; }
+            public double? BowlersOversShare { get; set; }
+            public double? BowlersRunsPerWicket { get; set; }
+            public double? LimitedParShare { get; set; }
+            public double? LifelessRunsPerWicket { get; set; }
+            public double? LifelessMovementBelow { get; set; }
+        }
+
+        private sealed class VeryGoodDto
+        {
+            public double? ConsistencyAtLeast { get; set; }
+            public double? CarryAtLeast { get; set; }
+            public double? MovementAtLeast { get; set; }
+        }
+
+        private sealed class DemeritsDto
+        {
+            public int? Unsatisfactory { get; set; }
+            public int? Unfit { get; set; }
+            public int? WindowYears { get; set; }
+            public int? BanAt { get; set; }
         }
     }
 }

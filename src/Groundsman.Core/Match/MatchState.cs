@@ -32,8 +32,10 @@ namespace Groundsman.Core.Match
     /// <summary>One hour of a match, kept for the referee's rating: truth, not for the player.</summary>
     internal sealed class MatchHour
     {
-        public MatchHour(GameTime hour, bool rained, double overs, double runs, int wickets, PitchCharacteristics pitch)
+        public MatchHour(GameTime hour, bool rained, double overs, double runs, int wickets, PitchCharacteristics pitch, PitchDrivers drivers, double grassMm)
         {
+            Drivers = drivers;
+            GrassMm = grassMm;
             Hour = hour;
             Rained = rained;
             Overs = overs;
@@ -48,6 +50,8 @@ namespace Groundsman.Core.Match
         public double Runs { get; }
         public int Wickets { get; }
         public PitchCharacteristics Pitch { get; }
+        public PitchDrivers Drivers { get; }
+        public double GrassMm { get; }
     }
 
     internal sealed class MatchState
@@ -73,6 +77,11 @@ namespace Groundsman.Core.Match
         public bool Finished { get; set; }
         public ResultView? Result { get; set; }
 
+        /// <summary>The referee stopped play because the pitch was unsafe.</summary>
+        public bool Abandoned { get; set; }
+
+        public RatingView? Rating { get; set; }
+
         public InningsState? Current => Innings.Count == 0 ? null : Innings[Innings.Count - 1];
 
         public double TotalFor(TeamSettings team) => Innings.Where(i => i.Batting == team).Sum(i => i.Runs);
@@ -82,6 +91,7 @@ namespace Groundsman.Core.Match
             Innings.Select(i => new InningsView(i.Batting.Name, (int)Math.Round(i.Runs), i.Wickets, Math.Round(i.Overs, 1), i.Declared)).ToArray(),
             Finished,
             Result,
-            Commentary.ToArray());
+            Commentary.ToArray(),
+            Rating);
     }
 }

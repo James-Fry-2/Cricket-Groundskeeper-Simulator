@@ -26,6 +26,9 @@ namespace Groundsman.Core.Match
 
         /// <summary>For example "Kestrelshire won by 45 runs".</summary>
         public string Text { get; }
+
+        /// <summary>The cause's own words, as filled into the line.</summary>
+        public string? CauseText { get; }
     }
 
     public sealed class InningsView
@@ -48,8 +51,9 @@ namespace Groundsman.Core.Match
 
     public sealed class CommentaryLine
     {
-        public CommentaryLine(Groundsman.Core.Time.GameTime hour, string? eventId, string? causeId, string text)
+        public CommentaryLine(Groundsman.Core.Time.GameTime hour, string? eventId, string? causeId, string text, string? causeText = null)
         {
+            CauseText = causeText;
             Hour = hour;
             EventId = eventId;
             CauseId = causeId;
@@ -65,13 +69,17 @@ namespace Groundsman.Core.Match
         public string? CauseId { get; }
 
         public string Text { get; }
+
+        /// <summary>The cause's own words, as filled into the line.</summary>
+        public string? CauseText { get; }
     }
 
     /// <summary>The scoreboard and commentary: public, unlike the pitch behaviour behind them.</summary>
     public sealed class MatchView
     {
-        public MatchView(Fixture fixture, IReadOnlyList<InningsView> innings, bool finished, ResultView? result, IReadOnlyList<CommentaryLine> commentary)
+        public MatchView(Fixture fixture, IReadOnlyList<InningsView> innings, bool finished, ResultView? result, IReadOnlyList<CommentaryLine> commentary, RatingView? rating)
         {
+            Rating = rating;
             Commentary = commentary;
             Fixture = fixture;
             Innings = innings;
@@ -84,5 +92,8 @@ namespace Groundsman.Core.Match
         public bool Finished { get; }
         public ResultView? Result { get; }
         public IReadOnlyList<CommentaryLine> Commentary { get; }
+
+        /// <summary>The match referee's rating, once the match is over.</summary>
+        public RatingView? Rating { get; }
     }
 }

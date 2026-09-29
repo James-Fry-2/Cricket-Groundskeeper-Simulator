@@ -29,6 +29,8 @@ namespace Groundsman.Core.Match
         private readonly MatchModel _model;
         private readonly RandomSource _random;
         private readonly Commentator _commentator;
+        private readonly Referee _referee;
+        private readonly RatingSettings _rating;
 
         public MatchSystem(
             IReadOnlyList<Fixture> fixtures,
@@ -39,8 +41,14 @@ namespace Groundsman.Core.Match
             PitchModel pitch,
             WearModel wear,
             RandomSource random,
-            Commentator commentator)
+            Commentator commentator,
+            Referee referee,
+            RatingSettings rating,
+            DemeritLedger ledger)
         {
+            _referee = referee;
+            _rating = rating;
+            Ledger = ledger;
             _commentator = commentator;
             _fixtures = fixtures;
             _home = home;
@@ -54,6 +62,8 @@ namespace Groundsman.Core.Match
         }
 
         public TickStep Step => TickStep.Match;
+
+        public DemeritLedger Ledger { get; }
 
         /// <summary>The match in progress, or the last one played.</summary>
         public MatchState? Latest { get; private set; }
@@ -105,6 +115,12 @@ namespace Groundsman.Core.Match
             {
                 Conclude(match);
             }
+
+            if (match.Finished && match.Rating == null && _referee.Rate(match) is { } rating)
+            {
+                match.Rating = rating;
+                Ledger.Add(rating);
+            }
         }
 
         private void PlayHour(MatchState match, GameTime hour)
@@ -143,8 +159,20 @@ namespace Groundsman.Core.Match
             if (_weather.LastHour!.Value.RainMm > 0)
             {
                 match.RestartDelay = true;
-                match.Hours.Add(new MatchHour(hour, true, 0, 0, 0, pitch));
+                match.Hours.Add(new MatchHour(hour, true, 0, 0, 0, pitch, _pitch.Explain(strip), strip.GrassHeightMm));
                 _commentator.Rain(match, hour);
+                return;
+            }
+
+            // The referee stops play on a pitch that has become unsafe.
+            if (pitch.Consistency < _rating.AbandonBelow)
+            {
+                var explained = _pitch.Explain(strip);
+                match.Hours.Add(new MatchHour(hour, false, 0, 0, 0, pitch, explained, strip.GrassHeightMm));
+                _commentator.Play(match, hour, strip, pitch, explained, innings, 0);
+                match.Abandoned = true;
+                match.Finished = true;
+                match.Result = new ResultView(ResultKind.NoResult, null, "Abandoned: the pitch was unsafe");
                 return;
             }
 
@@ -175,8 +203,9 @@ namespace Groundsman.Core.Match
             innings.Wickets += wickets;
             innings.Overs += oversUsed;
             _wear.ApplyOvers(strip, oversUsed, innings.Bowling.Attack);
-            match.Hours.Add(new MatchHour(hour, false, oversUsed, runs, wickets, pitch));
-            _commentator.Play(match, hour, strip, pitch, _pitch.Explain(strip), innings, wickets);
+            var drivers = _pitch.Explain(strip);
+            match.Hours.Add(new MatchHour(hour, false, oversUsed, runs, wickets, pitch, drivers, strip.GrassHeightMm));
+            _commentator.Play(match, hour, strip, pitch, drivers, innings, wickets);
 
             var day = (hour.Date - match.Fixture.Start).Days + 1;
             var allOut = innings.Wickets >= 10;

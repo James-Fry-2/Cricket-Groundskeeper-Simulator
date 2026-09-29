@@ -96,7 +96,7 @@ namespace Groundsman.Core.Match
             var cause = causes.OrderByDescending(c => c.Weight).First().Id;
             match.Fired.Add(id);
             var causeText = Fill(_settings.Cause(cause), match, hour, strip, innings, null, null, wickets, null);
-            match.Commentary.Add(new CommentaryLine(hour, id, cause, Fill(_settings.Event(id).Text, match, hour, strip, innings, null, null, wickets, causeText)));
+            match.Commentary.Add(new CommentaryLine(hour, id, cause, Fill(_settings.Event(id).Text, match, hour, strip, innings, null, null, wickets, causeText), causeText));
         }
 
         private string Fill(string template, MatchState match, GameTime hour, StripState? strip, InningsState? innings, string? breakName, string? score, int wickets, string? cause)

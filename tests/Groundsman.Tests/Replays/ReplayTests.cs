@@ -78,6 +78,8 @@ public class ReplayTests
                 ? null
                 : string.Join(" / ", view.LatestMatch.Innings.Select(i => $"{i.Batting} {i.Runs}-{i.Wickets} ({i.Overs})")) + $" {view.LatestMatch.Result?.Text}",
             commentary = view.LatestMatch?.Commentary.Select(c => $"{c.Hour} {c.Text}").ToArray(),
+            rating = view.LatestMatch?.Rating == null ? null : $"{view.LatestMatch.Rating.Grade} ({view.LatestMatch.Rating.Demerits}): {string.Join(" | ", view.LatestMatch.Rating.Reasons)}",
+            demerits = view.DemeritsActive,
             readings = view.Strips
                 .Where(s => s.SurfaceMoisture != null)
                 .Select(s => $"{s.Id.Number}: {Round(s.SurfaceMoisture!.Range.Low)} to {Round(s.SurfaceMoisture.Range.High)} at {s.SurfaceMoisture.TakenAt}, now {Round(s.SurfaceMoistureNow!.Value.Low)} to {Round(s.SurfaceMoistureNow.Value.High)}")

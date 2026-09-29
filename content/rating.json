@@ -1,0 +1,28 @@
+{
+  "unfitBelow": 3.0,
+  "abandonBelow": 2.5,
+  "unsatisfactory": {
+    "consistencyBelow": 6.5,
+    "carryBelow": 3.5,
+    "bowlersOversShare": 0.5,
+    "bowlersRunsPerWicket": 20,
+    "limitedParShare": 0.5,
+    "lifelessRunsPerWicket": 50,
+    "lifelessMovementBelow": 3
+  },
+  "veryGood": { "consistencyAtLeast": 8.5, "carryAtLeast": 5.5, "movementAtLeast": 4 },
+  "demerits": { "unsatisfactory": 1, "unfit": 3, "windowYears": 5, "banAt": 5 },
+  "reasons": {
+    "dangerous": "The referee judged the bounce dangerous (at worst {value}/10): {cause}",
+    "abandoned": "Play was abandoned because the pitch was unsafe: {cause}",
+    "uneven": "Bounce was uneven (average {value}/10): {cause}",
+    "dead": "It was slow and low, with little carry (average {value}/10): {cause}",
+    "bowlers": "Too much in the bowlers' favour: the match was over in {value}% of its scheduled overs",
+    "limitedLow": "Too much in the bowlers' favour: neither side got near a par score",
+    "lifeless": "Lifeless: a high-scoring draw with no seam or turn at any stage",
+    "consistent": "Consistent bounce throughout (average {value}/10)",
+    "carry": "Good carry (average {value}/10)",
+    "movement": "Something in it for the bowlers as the match went on",
+    "flat": "A fair contest, though not much for the bowlers"
+  }
+}

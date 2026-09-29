@@ -34,6 +34,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 16.918297 to 32.418297"
     ]
@@ -73,6 +75,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 14.790367 to 34.546226"
     ]
@@ -112,6 +116,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 14.290367 to 35.046226"
     ]
@@ -151,6 +157,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 13.790367 to 35.546226",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 19.607432 to 28.607432"
@@ -191,6 +199,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 13.290367 to 36.046226",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 19.107432 to 29.107432"
@@ -231,6 +241,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 12.790367 to 36.546226",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 18.607432 to 29.607432"
@@ -271,6 +283,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 12.290367 to 37.046226",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 18.107432 to 30.107432",
@@ -312,6 +326,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 11.790367 to 37.546226",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 17.607432 to 30.607432",
@@ -353,6 +369,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 11.167765 to 38.168828",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 16.98483 to 31.230033",
@@ -394,6 +412,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 10.422562 to 38.914032",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 6.194438 to 15.684845",
@@ -436,6 +456,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 8.845008 to 40.491586",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 4.616884 to 17.262399",
@@ -478,6 +500,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 6.918978 to 42.417615",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 2.690855 to 19.188429",
@@ -520,6 +544,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 6.418978 to 42.917615",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 2.190855 to 19.688429",
@@ -563,6 +589,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 6.293978 to 43.042615",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 2.065855 to 19.813429",
@@ -606,6 +634,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 5.918978 to 43.417615",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 1.690855 to 20.188429",
@@ -649,6 +679,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 5.793978 to 43.542615",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 10.824748 to 19.074748",
@@ -693,6 +725,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 4.986963 to 44.349631",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 10.017733 to 19.881763",
@@ -737,6 +771,8 @@
     ],
     "match": null,
     "commentary": null,
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 3.997932 to 45.338661",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 9.028702 to 20.870793",
@@ -781,6 +817,8 @@
     ],
     "match": " ",
     "commentary": [],
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 3.602099 to 45.734494",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 8.131652 to 21.767843",
@@ -829,6 +867,8 @@
       "2027-04-16 11:00 SEAM for Test Visitors against Test County. cause:damp.",
       "2027-04-16 12:00 COLLAPSE Test County lose 4. cause:damp."
     ],
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 3.497932 to 45.838661",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.693341 to 22.206155",
@@ -878,6 +918,8 @@
       "2027-04-16 12:00 COLLAPSE Test County lose 4. cause:damp.",
       "2027-04-16 14:00 Innings break: Test County 229 all out"
     ],
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 3.435432 to 45.901161",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.630841 to 22.268655",
@@ -928,6 +970,8 @@
       "2027-04-16 14:00 Innings break: Test County 229 all out",
       "2027-04-16 18:00 Close: Test County 229 all out; Test Visitors 230-9"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.6 | R:carry 3.9 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.695902 to 21.779235",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.589174 to 22.310321",
@@ -973,6 +1017,8 @@
     ],
     "match": " ",
     "commentary": [],
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.404235 to 22.070902",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.297507 to 22.601988",
@@ -1018,6 +1064,8 @@
     ],
     "match": "Test Visitors 165-4 (33.3) ",
     "commentary": [],
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.300069 to 22.175069",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.193341 to 22.706155",
@@ -1065,6 +1113,8 @@
     "commentary": [
       "2027-04-17 14:00 Innings break: Test Visitors 243-7"
     ],
+    "rating": null,
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.237569 to 22.237569",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.130841 to 22.768655",
@@ -1114,6 +1164,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.195902 to 22.279235",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 6.839174 to 23.060321",
@@ -1163,6 +1215,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 12.925069 to 22.550069",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 6.568341 to 23.331155",
@@ -1212,6 +1266,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 12.132605 to 23.342532",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 5.775877 to 24.123619",
@@ -1261,6 +1317,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 10.011956 to 25.463181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 3.655228 to 26.244267",
@@ -1310,6 +1368,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 9.511956 to 25.963181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 3.155228 to 26.744267",
@@ -1359,6 +1419,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 9.011956 to 26.463181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 2.655228 to 27.244267",
@@ -1408,6 +1470,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 8.511956 to 26.963181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 2.155228 to 27.744267",
@@ -1457,6 +1521,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 8.011956 to 27.463181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 1.655228 to 28.244267",
@@ -1506,6 +1572,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 7.511956 to 27.963181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 1.155228 to 28.744267",
@@ -1555,6 +1623,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 7.011956 to 28.463181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 0.655228 to 29.244267",
@@ -1604,6 +1674,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 6.250445 to 29.224692",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 0 to 30.005778",
@@ -1653,6 +1725,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 5.215387 to 30.259751",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 11.4995 to 21.569617",
@@ -1702,6 +1776,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 4.182245 to 31.292892",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 10.466359 to 22.602759",
@@ -1751,6 +1827,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 3.682245 to 31.792892",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 9.966359 to 23.102759",
@@ -1800,6 +1878,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 3.182245 to 32.292892",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 9.466359 to 23.602759",
@@ -1849,6 +1929,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 2.682245 to 32.792892",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 8.966359 to 24.102759",
@@ -1898,6 +1980,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 2.182245 to 33.292892",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 8.466359 to 24.602759",
@@ -1947,6 +2031,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 11.607126 to 20.82856",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 7.855642 to 25.213476",
@@ -1996,6 +2082,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 10.553542 to 21.882144",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 6.802057 to 26.26706",
@@ -2045,6 +2133,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 10.053542 to 22.382144",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 6.302057 to 26.76706",
@@ -2094,6 +2184,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 9.553542 to 22.882144",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 5.802057 to 27.26706",
@@ -2143,6 +2235,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 9.053542 to 23.382144",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 5.302057 to 27.76706",
@@ -2192,6 +2286,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 5.3799 to 27.055786",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 1.628415 to 31.440703",
@@ -2241,6 +2337,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 4.8799 to 27.555786",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 1.128415 to 31.940703",
@@ -2290,6 +2388,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 3.17734 to 29.258346",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 33.643262",
@@ -2339,6 +2439,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 1.971755 to 30.463931",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 34.848847",
@@ -2388,6 +2490,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0.835728 to 31.599958",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 35.984874",
@@ -2437,6 +2541,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 33.325087",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 37.710003",
@@ -2486,6 +2592,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 34.738164",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 39.12308",
@@ -2535,6 +2643,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 35.784174",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 40.16909",
@@ -2584,6 +2694,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 36.284174",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 40.66909",
@@ -2633,6 +2745,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 36.784174",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 41.16909",
@@ -2682,6 +2796,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 37.284174",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 12.712735 to 21.712735",
@@ -2731,6 +2847,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 38.078455",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 11.918454 to 22.507016",
@@ -2780,6 +2898,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 39.023913",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 10.972996 to 23.452474",
@@ -2829,6 +2949,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 40.224632",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 10.022277 to 24.403193",
@@ -2878,6 +3000,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 40.724632",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 9.522277 to 24.903193",
@@ -2927,6 +3051,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 41.224632",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 9.022277 to 25.403193",
@@ -2976,6 +3102,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 10.312756 to 23.996929",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 6.180191 to 28.245279",
@@ -3025,6 +3153,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 9.812756 to 24.496929",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 5.680191 to 28.745279",
@@ -3074,6 +3204,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 9.312756 to 24.996929",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 5.180191 to 29.245279",
@@ -3123,6 +3255,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 5.040481 to 29.269204",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0.907916 to 33.517555",
@@ -3172,6 +3306,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 4.540481 to 29.769204",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0.407916 to 34.017555",
@@ -3221,6 +3357,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 4.040481 to 30.269204",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 34.517555",
@@ -3270,6 +3408,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 3.540481 to 30.769204",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 35.017555",
@@ -3319,6 +3459,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0.646634 to 33.663052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 37.911402",
@@ -3368,6 +3510,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0.146634 to 34.163052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 38.411402",
@@ -3417,6 +3561,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 34.663052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 38.911402",
@@ -3466,6 +3612,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 35.163052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 39.411402",
@@ -3515,6 +3663,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 35.663052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 39.911402",
@@ -3564,6 +3714,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 36.163052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 40.411402",
@@ -3613,6 +3765,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 36.663052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 40.911402",
@@ -3662,6 +3816,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 37.163052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 41.411402",
@@ -3711,6 +3867,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 37.663052",
       "2: 5.381986 to 13.381986 at 2027-06-08 07:00, now 4.881986 to 13.881986",
@@ -3760,6 +3918,8 @@
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
       "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
     ],
+    "rating": "Satisfactory (0): R:consistent 8.1 | R:carry 4.7 | R:movement",
+    "demerits": 0,
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 38.163052",
       "2: 5.381986 to 13.381986 at 2027-06-08 07:00, now 4.381986 to 14.381986",

@@ -92,7 +92,10 @@ namespace Groundsman.Core
                 _pitch,
                 WearModel,
                 random.Get(RandomStream.Match),
-                new Commentator(content.Commentary, content.Ground.Ends));
+                new Commentator(content.Commentary, content.Ground.Ends),
+                new Referee(content.Rating, content.Commentary),
+                content.Rating,
+                new DemeritLedger(content.Rating));
             _covers.Override = Matches.CoverOverride;
             _covers.At(setup.Start);
             _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, Grass, _tasks, Matches, _wear });
@@ -133,7 +136,7 @@ namespace Groundsman.Core
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
                     .ToArray();
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.FirstOrDefault(f => f.End >= _now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Latest?.ToView());
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.FirstOrDefault(f => f.End >= _now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Latest?.ToView(), Matches.Ledger.Active(_now.Date), Matches.Ledger.Banned(_now.Date));
             }
         }
 
