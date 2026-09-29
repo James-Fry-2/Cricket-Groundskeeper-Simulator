@@ -217,6 +217,34 @@ namespace Groundsman.Core.Content
                 Required(file, "hardness.clayExponent", hardness.ClayExponent));
         }
 
+        public static PitchSettings ParsePitch(string json)
+        {
+            const string file = "pitch";
+            var dto = Deserialise<PitchDto>(json, file);
+            var bounce = Required(file, "bounce", dto.Bounce);
+            var consistency = Required(file, "consistency", dto.Consistency);
+            var seam = Required(file, "seam", dto.Seam);
+            var spin = Required(file, "spin", dto.Spin);
+            var cracking = Required(file, "cracking", dto.Cracking);
+
+            return new PitchSettings(
+                Required(file, "grassReferenceMm", dto.GrassReferenceMm),
+                Required(file, "grassCushion", dto.GrassCushion),
+                Required(file, "bounce.depthBase", bounce.DepthBase),
+                Required(file, "bounce.clayReference", bounce.ClayReference),
+                Required(file, "bounce.clayExponent", bounce.ClayExponent),
+                Required(file, "consistency.damageWeight", consistency.DamageWeight),
+                Required(file, "consistency.looseBelow", consistency.LooseBelow),
+                Required(file, "consistency.looseWeight", consistency.LooseWeight),
+                Required(file, "consistency.crackWeight", consistency.CrackWeight),
+                Required(file, "seam.base", seam.Base),
+                Required(file, "seam.wetWeight", seam.WetWeight),
+                Required(file, "spin.dryWeight", spin.DryWeight),
+                Required(file, "spin.crackWeight", spin.CrackWeight),
+                Required(file, "spin.grassWeight", spin.GrassWeight),
+                Required(file, "cracking.dryExponent", cracking.DryExponent));
+        }
+
         public static GrassSettings ParseGrass(string json)
         {
             const string file = "grass";
@@ -815,6 +843,50 @@ namespace Groundsman.Core.Content
             public double? DryWeight { get; set; }
             public double? ClayReference { get; set; }
             public double? ClayExponent { get; set; }
+        }
+
+        private sealed class PitchDto
+        {
+            public double? GrassReferenceMm { get; set; }
+            public double? GrassCushion { get; set; }
+            public BounceDto? Bounce { get; set; }
+            public ConsistencyDto? Consistency { get; set; }
+            public SeamDto? Seam { get; set; }
+            public SpinDto? Spin { get; set; }
+            public CrackingDto? Cracking { get; set; }
+        }
+
+        private sealed class BounceDto
+        {
+            public double? DepthBase { get; set; }
+            public double? ClayReference { get; set; }
+            public double? ClayExponent { get; set; }
+        }
+
+        private sealed class ConsistencyDto
+        {
+            public double? DamageWeight { get; set; }
+            public double? LooseBelow { get; set; }
+            public double? LooseWeight { get; set; }
+            public double? CrackWeight { get; set; }
+        }
+
+        private sealed class SeamDto
+        {
+            public double? Base { get; set; }
+            public double? WetWeight { get; set; }
+        }
+
+        private sealed class SpinDto
+        {
+            public double? DryWeight { get; set; }
+            public double? CrackWeight { get; set; }
+            public double? GrassWeight { get; set; }
+        }
+
+        private sealed class CrackingDto
+        {
+            public double? DryExponent { get; set; }
         }
     }
 }

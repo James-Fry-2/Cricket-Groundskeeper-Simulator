@@ -8,6 +8,7 @@ using Groundsman.Core.Forecasting;
 using Groundsman.Core.Grass;
 using Groundsman.Core.Inspection;
 using Groundsman.Core.Moisture;
+using Groundsman.Core.Pitch;
 using Groundsman.Core.Randomness;
 using Groundsman.Core.Readings;
 using Groundsman.Core.Simulation;
@@ -40,6 +41,7 @@ namespace Groundsman.Core
         private readonly RollRecord?[] _lastRolled;
         private readonly GameContent _content;
         private readonly RollingModel _rolling;
+        private readonly PitchModel _pitch;
         private readonly List<(StripId Strip, Quantity Quantity)> _readThisTurn = new List<(StripId, Quantity)>();
         private GameTime _now;
 
@@ -61,6 +63,7 @@ namespace Groundsman.Core
             Weather = new WeatherSystem(new WeatherGenerator(content.Climate, random.Get(RandomStream.Weather)), setup.Start.Date);
             _content = content;
             _rolling = new RollingModel(content.Compaction);
+            _pitch = new PitchModel(content.Pitch, _rolling);
             _tasks = new TasksSystem(Square, _rolling);
             _coversOwned = content.Covers.Count;
             _covers = new CoversSystem(content.Covers.Count, Square.Strips.Count);
@@ -118,7 +121,7 @@ namespace Groundsman.Core
             for (var i = 0; i < strips.Length; i++)
             {
                 var strip = Square.Strips[i];
-                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture, strip.GrassCover, strip.GrassHeightMm, strip.RootDepthMm, strip.Compaction, strip.StructureDamage, _rolling.Hardness(strip));
+                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture, strip.GrassCover, strip.GrassHeightMm, strip.RootDepthMm, strip.Compaction, strip.StructureDamage, _rolling.Hardness(strip), _pitch.Characterise(strip));
             }
             return new TruthSnapshot(_now, Weather.LastHour, strips);
         }

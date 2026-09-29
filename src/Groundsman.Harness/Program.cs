@@ -5,6 +5,7 @@ const string usage = """
     Usage:
       weather [--seed N] [--years N] [--out FILE]   Daily weather CSV and a monthly check against the normals
       trace [--seed N] [--end yyyy-MM-dd] [--out FILE]   Truth at every decision point of an unplayed season
+      pitch [--seasons N] [--out FILE]   How an untouched strip plays each morning, averaged by month
       gate [--seasons N] [--lead 0.25] [--out FILE]   Gate A: by the book against neglect and random play
     """;
 
@@ -34,6 +35,16 @@ switch (args[0])
         var end = DateTime.Parse(Option("--end") ?? $"{season.Start.Year}-09-30");
         var path = Write(Option("--out") ?? "harness-output/trace.csv", SeasonTrace.Run(content, season, seed, end));
         Console.WriteLine($"Season trace from seed {seed} written to {path}");
+        return 0;
+    }
+    case "pitch":
+    {
+        var seasons = int.Parse(Option("--seasons") ?? "50");
+        var report = PitchReport.Run(content, season, seasons, new DateTime(season.Start.Year, 9, 30));
+        var path = Write(Option("--out") ?? "harness-output/pitch.csv", report.Csv);
+        Console.WriteLine($"An untouched strip each morning over {seasons} seasons, averaged by month (0 to 10):");
+        Console.WriteLine(report.SummaryTable());
+        Console.WriteLine($"Daily values written to {path}");
         return 0;
     }
     case "gate":
