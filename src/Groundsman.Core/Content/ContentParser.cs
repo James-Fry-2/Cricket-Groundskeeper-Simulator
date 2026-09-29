@@ -153,7 +153,9 @@ namespace Groundsman.Core.Content
                 Required(file, "jobHours.feelReading", jobs.FeelReading),
                 Required(file, "jobHours.soilCore", jobs.SoilCore),
                 Required(file, "jobHours.mow", jobs.Mow),
-                Required(file, "jobHours.repairEnds", jobs.RepairEnds));
+                Required(file, "jobHours.repairEnds", jobs.RepairEnds),
+                Required(file, "jobHours.cleanFootholes", jobs.CleanFootholes),
+                Required(file, "jobHours.fillFootholes", jobs.FillFootholes));
         }
 
         public static ForecastSettings ParseForecast(string json)
@@ -250,6 +252,7 @@ namespace Groundsman.Core.Content
             var perOver = Required(file, "perOver", dto.PerOver);
             var cracks = Required(file, "cracks", dto.Cracks);
             var recovery = Required(file, "recovery", dto.Recovery);
+            var duringMatch = Required(file, "duringMatch", dto.DuringMatch);
 
             return new WearSettings(
                 Required(file, "resistance.compactionWeight", resistance.CompactionWeight),
@@ -271,7 +274,9 @@ namespace Groundsman.Core.Content
                 Required(file, "cracks.closePerHour", cracks.ClosePerHour),
                 Required(file, "recovery.perDay", recovery.PerDay),
                 Required(file, "recovery.repairedPerDay", recovery.RepairedPerDay),
-                Required(file, "recovery.repairFills", recovery.RepairFills));
+                Required(file, "recovery.repairFills", recovery.RepairFills),
+                Required(file, "duringMatch.cleanShare", duringMatch.CleanShare),
+                Required(file, "duringMatch.fillShare", duringMatch.FillShare));
         }
 
         public static PitchSettings ParsePitch(string json)
@@ -793,6 +798,8 @@ namespace Groundsman.Core.Content
             public double? SoilCore { get; set; }
             public double? Mow { get; set; }
             public double? RepairEnds { get; set; }
+            public double? CleanFootholes { get; set; }
+            public double? FillFootholes { get; set; }
         }
 
         private sealed class ForecastDto
@@ -958,6 +965,7 @@ namespace Groundsman.Core.Content
             public double? WetPlay { get; set; }
             public CracksDto? Cracks { get; set; }
             public RecoveryDto? Recovery { get; set; }
+            public DuringMatchDto? DuringMatch { get; set; }
         }
 
         private sealed class ResistanceDto
@@ -1025,6 +1033,12 @@ namespace Groundsman.Core.Content
         {
             public double? Lead { get; set; }
             public int? FromDay { get; set; }
+        }
+
+        private sealed class DuringMatchDto
+        {
+            public double? CleanShare { get; set; }
+            public double? FillShare { get; set; }
         }
     }
 }

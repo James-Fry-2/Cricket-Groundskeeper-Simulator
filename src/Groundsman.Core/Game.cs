@@ -154,6 +154,8 @@ namespace Groundsman.Core
 
         internal CoversSystem Covers => _covers;
 
+        internal WearSystem Wear => _wear;
+
         public CommandResult Submit(IGameCommand command)
         {
             switch (command)
@@ -172,6 +174,10 @@ namespace Groundsman.Core
                     return Roll(roll);
                 case RepairEnds repair:
                     return Repair(repair);
+                case CleanFootholes clean:
+                    return FootholeJob(clean.Strip, clean.By, Tasks.FootholeJob.Clean);
+                case FillFootholes fill:
+                    return FootholeJob(fill.Strip, fill.By, Tasks.FootholeJob.Fill);
                 default:
                     return CommandResult.Rejected($"Unknown command: {command.GetType().Name}.");
             }
@@ -269,6 +275,10 @@ namespace Groundsman.Core
             {
                 return CommandResult.Rejected($"{repair.Strip} is already down for end repairs.");
             }
+            if (Matches.FixtureOn(_now.Date)?.Strip == repair.Strip)
+            {
+                return CommandResult.Rejected($"Law 9: {repair.Strip}'s ends can't be repaired until the match is over. Clean the footholes at a break, or fill them at close of play in a multi-day match.");
+            }
             if (Assign(repair.By, _staffSettings.RepairEndsHours, out var who) is { } refused)
             {
                 return refused;
@@ -277,6 +287,36 @@ namespace Groundsman.Core
             _tasks.QueueRepair(repair.Strip);
             _lastRepaired[repair.Strip.Number - 1] = _now;
             _staff.Spend(who, _staffSettings.RepairEndsHours);
+            return CommandResult.Ok();
+        }
+
+        private CommandResult FootholeJob(StripId strip, StaffId? by, FootholeJob job)
+        {
+            var fixture = Matches.FixtureOn(_now.Date);
+            if (fixture == null || fixture.Strip != strip)
+            {
+                return CommandResult.Rejected($"Footholes are cleaned and filled during a match, on the match strip. {strip} isn't being played on.");
+            }
+            if (job == Tasks.FootholeJob.Fill)
+            {
+                var closeOfPlay = fixture.Format.DecisionHours[fixture.Format.DecisionHours.Count - 1];
+                if (fixture.Days < 2 || _now.Hour != closeOfPlay || _now.Date >= fixture.End)
+                {
+                    return CommandResult.Rejected("Law 9: footholes can only be filled at close of play on a day with more cricket to come in a match over one day.");
+                }
+            }
+            if (_tasks.IsFootholeJobQueued(strip, job))
+            {
+                return CommandResult.Rejected($"That's already ordered for {strip}.");
+            }
+            var hours = job == Tasks.FootholeJob.Clean ? _staffSettings.CleanFootholesHours : _staffSettings.FillFootholesHours;
+            if (Assign(by, hours, out var who) is { } refused)
+            {
+                return refused;
+            }
+
+            _tasks.QueueFootholeJob(strip, job);
+            _staff.Spend(who, hours);
             return CommandResult.Ok();
         }
 
@@ -340,6 +380,10 @@ namespace Groundsman.Core
         private CommandResult Cover(CoverStrip cover)
         {
             var strip = cover.Strip;
+            if (Matches.FixtureOn(_now.Date)?.Strip == strip)
+            {
+                return CommandResult.Rejected($"{strip} is being played on: the ground staff cover it under the playing conditions until the match is over.");
+            }
             if (!Square.Contains(strip))
             {
                 return CommandResult.Rejected($"{strip} isn't on this square.");
@@ -369,6 +413,10 @@ namespace Groundsman.Core
         private CommandResult Uncover(UncoverStrip uncover)
         {
             var strip = uncover.Strip;
+            if (Matches.FixtureOn(_now.Date)?.Strip == strip)
+            {
+                return CommandResult.Rejected($"{strip} is being played on: the ground staff cover it under the playing conditions until the match is over.");
+            }
             if (!Square.Contains(strip))
             {
                 return CommandResult.Rejected($"{strip} isn't on this square.");

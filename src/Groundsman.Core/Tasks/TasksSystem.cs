@@ -7,6 +7,12 @@ using Groundsman.Core.Time;
 
 namespace Groundsman.Core.Tasks
 {
+    internal enum FootholeJob
+    {
+        Clean = 1,
+        Fill = 2,
+    }
+
     /// <summary>
     /// Jobs ordered during a turn. Each job is carried out by the system it affects, in its
     /// own step of the next hour, so every change to true state happens inside the tick:
@@ -53,6 +59,13 @@ namespace Groundsman.Core.Tasks
         }
 
         private readonly List<StripId> _repairQueue = new List<StripId>();
+        private readonly List<(StripId Strip, FootholeJob Job)> _footholeQueue = new List<(StripId, FootholeJob)>();
+
+        public bool IsFootholeJobQueued(StripId strip, FootholeJob job) => _footholeQueue.Contains((strip, job));
+
+        public void QueueFootholeJob(StripId strip, FootholeJob job) => _footholeQueue.Add((strip, job));
+
+        public bool TakeFootholeJob(StripId strip, FootholeJob job) => _footholeQueue.Remove((strip, job));
 
         public bool IsRepairQueued(StripId strip) => _repairQueue.Contains(strip);
 

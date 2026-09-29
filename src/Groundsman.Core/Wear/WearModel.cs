@@ -79,6 +79,10 @@ namespace Groundsman.Core.Wear
             strip.EndsRepaired = true;
         }
 
+        public void CleanFootholes(StripState strip) => strip.Footholes *= 1 - _settings.CleanShare;
+
+        public void FillFootholes(StripState strip) => strip.Footholes *= 1 - _settings.FillShare;
+
         private static bool IsWet(StripState strip) => strip.SurfaceMoisture > strip.Loam.RollingWindowMax;
 
         private static double Clamp01(double value) => value < 0 ? 0 : value > 1 ? 1 : value;

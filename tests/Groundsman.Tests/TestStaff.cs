@@ -23,5 +23,7 @@ internal static class TestStaff
         feelReadingHours: 0.05,
         soilCoreHours: 0.75,
         mowHours: 0.5,
-        repairEndsHours: 2.0);
+        repairEndsHours: 2.0,
+        cleanFootholesHours: 0.25,
+        fillFootholesHours: 1.0);
 }

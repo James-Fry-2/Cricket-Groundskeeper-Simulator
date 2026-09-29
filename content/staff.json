@@ -12,6 +12,8 @@
     "feelReading": 0.05,
     "soilCore": 0.75,
     "mow": 0.5,
-    "repairEnds": 2.0
+    "repairEnds": 2.0,
+    "cleanFootholes": 0.25,
+    "fillFootholes": 1.0
   }
 }

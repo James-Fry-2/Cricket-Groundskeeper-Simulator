@@ -35,6 +35,14 @@ namespace Groundsman.Core.Wear
                 {
                     _model.Repair(strip);
                 }
+                if (_tasks.TakeFootholeJob(strip.Id, FootholeJob.Clean))
+                {
+                    _model.CleanFootholes(strip);
+                }
+                if (_tasks.TakeFootholeJob(strip.Id, FootholeJob.Fill))
+                {
+                    _model.FillFootholes(strip);
+                }
                 _model.RunHour(strip, _grass.GrowthFactor(strip, weather));
             }
         }
