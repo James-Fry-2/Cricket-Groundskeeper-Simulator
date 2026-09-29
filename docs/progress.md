@@ -7,7 +7,7 @@ Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: 
 - [x] 1. Formats, teams and fixture details
 - [x] 2. Grass: growth and mowing
 - [x] 3. Compaction and rolling
-- [ ] 4. Pitch characteristics
+- [x] 4. Pitch characteristics
 - [ ] 5. Wear and recovery
 - [ ] 6. Match engine (adds a Match step to the tick order; agree the CLAUDE.md change first)
 - [ ] 7. Commentary
@@ -78,6 +78,13 @@ In `content/rollers.json` and `content/compaction.json`:
 - Starting compaction 0.55, no structure damage; rolling 5 to 120 minutes
 - Hardness = compaction × (0.3 + 0.7 × surface dryness) × (clay / 30)^0.5, capped at 1
 - Rolling windows (surface moisture): county loam 18–26%, heavy clay 20–29%
+
+In `content/pitch.json` (all characteristics 0 to 10):
+- Pace = hardness × grass cushion; grass cushions up to 40% of pace and bounce from 10 mm (none) to 20 mm or more (full)
+- Bounce = cushion × compaction × (clay / 30)^0.5 × (0.6 + 0.4 × moisture at depth)
+- Consistency = 1 − 0.6 × structure damage − 1.0 × looseness below 0.65 compaction − 0.3 × cracking
+- Carry = √(pace × bounce); seam = grass × (0.3 + 0.7 × surface wetness), grass = cover × height / 10 mm (capped)
+- Spin = 0.6 × surface dryness + 0.3 × cracking − 0.4 × grass; cracking = loam tendency × surface dryness²
 
 In `content/grass.json`:
 - Start (late March): cover 85%, height 15 mm, roots 60 mm
@@ -171,4 +178,6 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Formats, teams and fixtures: `formats.json` (days, innings per side, overs per innings or per day, session play hours, match-day turns) and `teams.json` (home side and opponents, strengths, attack profile). Fixtures name a format and opponent; their length comes from the format. `PaceContext` takes fixtures and gives each match day its format's turns, so T20 days turn in the evening; match-day hours left `calendar.json`. Test formats keep the old turn times, so the replay snapshot didn't change, and Gate A is unchanged (neglect 13%, by the book 50%). Sessions, innings and overs are parsed and checked now and used by the match engine in task 6.
 - Grass: strips carry cover, height and root depth. `GrassModel` grows them each hour in the Grass step by a temperature curve and water at depth, and thins cover in drought. `MowStrip` is queued and applied in the next hour's Grass step (like watering in the Moisture step); scalping costs cover; cutting above the current height does nothing but still costs the time. The view shows the last cut you ordered (`MowRecord`), not the true height, keeping to the readings-only rule; a way to judge height directly could come later as a reading. `Inspect()`, the season trace and the replay snapshot now include grass (the snapshot script mows too; only lines were added). Unmown growth over a traced season: about 0.2 mm a day in April, 0.7 to 0.8 in May, June and August, 0.3 in a dry July with cover thinning, so holding 6 to 8 mm takes 2 to 3 cuts a week as the research says. Cli: `m <strip> <mm> [name]`, `m all <mm>`, a Cut column; the table was compacted to wrap less at 80 columns.
 - Compaction and rolling: strips carry compaction and hidden structure damage. `RollStrip` (roller id, minutes, optional staff) is queued and applied in the Tasks step, after that hour's moisture, so the window is judged on the strip as it stands; rolling costs its minutes. Inside the loam's window it compacts with diminishing returns; drier does nothing; wetter still compacts but damages structure, heavier rollers more; the heavy roller on a tight strip also damages. `RollingModel.Hardness` combines compaction, surface dryness and clay. The view shows your rolling record and lists the rollers, never compaction. `Inspect()`, trace and snapshot include compaction, damage and hardness; the snapshot script now rolls, including heavy rolling of a wet strip, which duly builds damage. An untouched strip's hardness ranges from 0.17 when wet to about 0.5 when dry at starting compaction. Cli: `l <strip> <roller> <min> [name]`, `l all`, a Rolled column.
-- Next: phase 3 task 4, pitch characteristics.
+- Pitch characteristics: `PitchModel.Characterise` gives pace, bounce, consistency, carry, seam, spin and cracking from true state. It's internal and reaches outside code only through `Inspect()`; the player will learn pitch character from commentary and verdicts. Direction tests per driver, plus a 5,000-state fuzz keeping every value in 0–10. Cracking is from loam tendency and surface dryness for now; task 5 replaces it with accumulated cracks. Harness `pitch --seasons N` averages an untouched strip each morning by month.
+- Tuning: first run gave an untouched strip near-perfect consistency (9.5), because 0.5 looseness sat below the 0.55 starting compaction and long grass had no effect. Raising looseness to 0.65 and adding grass cushioning now gives an untouched strip pace 2.3, bounce 2.8, consistency 8.4, seam 6, spin about 1: slow, low, uneven and green, the research's failure state for poor preparation. A clay-reference literal in the bounce formula was moved into content.
+- Next: phase 3 task 5, wear and recovery.
