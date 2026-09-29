@@ -52,6 +52,10 @@ public static class InputParser
                 return new ReadInput(strip, by, ReadingSource.Feel);
             case ("w" or "water", >= 2) when TryStrip(words[1], out var strip):
                 return new WaterInput(strip, by);
+            case ("clean", >= 2) when TryStrip(words[1], out var strip):
+                return new CleanInput(strip, by);
+            case ("fill", >= 2) when TryStrip(words[1], out var strip):
+                return new FillInput(strip, by);
             case ("e" or "repair", >= 2) when TryStrip(words[1], out var strip):
                 return new RepairInput(strip, by);
             case ("c" or "cover", >= 2) when TryStrip(words[1], out var strip):

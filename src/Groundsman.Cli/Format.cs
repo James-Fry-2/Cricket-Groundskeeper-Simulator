@@ -83,6 +83,14 @@ public static class Format
     public static string Hours(IReadOnlyList<StaffView> staff) =>
         "Hours left today: " + string.Join(", ", staff.Select(s => $"{s.Name} {s.HoursLeft:0.##}/{s.HoursPerDay:0.##}")) + ".";
 
+    public static string Innings(Groundsman.Core.Match.InningsView innings)
+    {
+        var score = innings.Wickets == 10
+            ? $"{innings.Runs} all out"
+            : $"{innings.Runs}-{innings.Wickets}{(innings.Declared ? "d" : "")}";
+        return $"{innings.Batting} {score} ({innings.Overs.ToString("0.#", CultureInfo.InvariantCulture)} ov)";
+    }
+
     public static string FirstName(string name)
     {
         var space = name.IndexOf(' ');

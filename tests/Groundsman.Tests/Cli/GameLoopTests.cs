@@ -251,6 +251,22 @@ public class GameLoopTests
     }
 
     [Fact]
+    public void A_match_shows_its_scoreboard_and_result()
+    {
+        var console = new TestConsole();
+        console.Profile.Width = 120;
+        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), TestFormats.OneDay, new Groundsman.Core.Strips.StripId(6), TestTeams.Opponent);
+        var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 5, 19, 13), new[] { fixture }, 2));
+
+        new GameLoop(console, game, new StringReader("\n\n\n\n\n")).Run();
+
+        var match = game.View.LatestMatch!;
+        Assert.True(match.Finished);
+        Assert.Contains(Format.Innings(match.Innings[0]), console.Output);
+        Assert.Contains(match.Result!.Text, console.Output);
+    }
+
+    [Fact]
     public void Help_lists_the_commands()
     {
         var (console, _) = Play("h", "q");
@@ -262,6 +278,8 @@ public class GameLoopTests
         Assert.Contains("m <strip> <mm>", console.Output);
         Assert.Contains("l <strip> <roller> <min>", console.Output);
         Assert.Contains("e <strip>", console.Output);
+        Assert.Contains("clean <strip>", console.Output);
+        Assert.Contains("fill <strip>", console.Output);
         Assert.Contains("u <strip>", console.Output);
     }
 }

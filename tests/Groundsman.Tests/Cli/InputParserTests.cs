@@ -161,6 +161,13 @@ public class InputParserTests
         Assert.Equal(by, repair.By?.Value);
     }
 
+    [Fact]
+    public void Clean_and_fill_act_on_footholes()
+    {
+        Assert.Equal(new StripId(6), Assert.IsType<CleanInput>(InputParser.Parse("clean 6")).Strip);
+        Assert.Equal(new StaffId("sam"), Assert.IsType<FillInput>(InputParser.Parse("fill 6 sam")).By);
+    }
+
     [Theory]
     [InlineData("m 3")]
     [InlineData("m 3 tall")]

@@ -28,6 +28,10 @@ public sealed record RollInput(StripId? Strip, string RollerId, double Minutes, 
 
 public sealed record RepairInput(StripId Strip, StaffId? By = null) : Input;
 
+public sealed record CleanInput(StripId Strip, StaffId? By = null) : Input;
+
+public sealed record FillInput(StripId Strip, StaffId? By = null) : Input;
+
 public sealed record CoverInput(StripId Strip, StaffId? By = null) : Input;
 
 public sealed record UncoverInput(StripId Strip, StaffId? By = null) : Input;

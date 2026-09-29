@@ -92,6 +92,12 @@ public sealed class GameLoop
                 case WaterInput water:
                     Order(new WaterStrip(water.Strip, water.By), $"{water.Strip} is down for watering.");
                     break;
+                case CleanInput clean:
+                    Order(new CleanFootholes(clean.Strip, clean.By), $"{clean.Strip}'s footholes will be cleaned and dried.");
+                    break;
+                case FillInput fill:
+                    Order(new FillFootholes(fill.Strip, fill.By), $"{fill.Strip}'s footholes will be filled overnight.");
+                    break;
                 case RepairInput repair:
                     Order(new RepairEnds(repair.Strip, repair.By), $"{repair.Strip} is down for end repairs.");
                     break;
@@ -183,6 +189,7 @@ public sealed class GameLoop
         _console.WriteLine();
         _console.Write(new Rule($"[green]{Markup.Escape(view.GroundName)}[/]  {Format.Time(view.Now)}").LeftJustified());
         _console.MarkupLine($"{Format.Pace(view.Pace)}. Next match: {Format.NextMatch(view.NextFixture, view.Now)}.");
+        ShowMatch(view);
         if (view.Weather is { } weather)
         {
             _console.MarkupLine(Format.Weather(weather));
@@ -237,6 +244,26 @@ public sealed class GameLoop
         _console.MarkupLine("[grey]Enter to advance, h for help.[/]");
     }
 
+    /// <summary>The scoreboard, from the start of a match until the day after it ends.</summary>
+    private void ShowMatch(GameView view)
+    {
+        var match = view.LatestMatch;
+        if (match == null || view.Now.Date > match.Fixture.End.AddDays(1) || match.Innings.Count == 0)
+        {
+            return;
+        }
+
+        _console.MarkupLine($"[bold]{Markup.Escape(match.Fixture.Format.Name)} v {Markup.Escape(match.Fixture.Opponent.Name)} on strip {match.Fixture.Strip.Number}[/]");
+        foreach (var innings in match.Innings)
+        {
+            _console.MarkupLine("  " + Markup.Escape(Format.Innings(innings)));
+        }
+        if (match.Result != null)
+        {
+            _console.MarkupLine($"  [bold]{Markup.Escape(match.Result.Text)}[/]");
+        }
+    }
+
     private void ShowForecast(GameView view)
     {
         var table = new Table().Border(TableBorder.Simple).Title("Forecast").AddColumn("");
@@ -263,6 +290,8 @@ public sealed class GameLoop
             .AddRow("m <strip> <mm>", "Mow a strip to a height; more than a third off at once scalps it")
             .AddRow("l <strip> <roller> <min>", $"Roll a strip ({string.Join(", ", _game.View.Rollers.Select(r => r.Id))}): only moist, never wet")
             .AddRow("e <strip>", "Repair the ends after a match: fill and seed footholes and rough")
+            .AddRow("clean <strip>", "During a match: clean and dry the footholes at a break")
+            .AddRow("fill <strip>", "During a match over one day: fill the footholes at close of play")
             .AddRow("c <strip>", "Put a cover on a strip: keeps rain off, slows drying")
             .AddRow("u <strip>", "Take a strip's cover off")
             .AddRow("", "Every strip job takes a name, e.g. w 3 sam. You do it if none is given.")

@@ -78,6 +78,15 @@ public class FormatTests
         Assert.Equal("none scheduled", Format.NextMatch(null, new GameTime(2027, 5, 21, 8)));
     }
 
+    [Theory]
+    [InlineData(312, 8, 96.0, false, "Kestrelshire 312-8 (96 ov)")]
+    [InlineData(412, 6, 101.3, true, "Kestrelshire 412-6d (101.3 ov)")]
+    [InlineData(187, 10, 54.2, false, "Kestrelshire 187 all out (54.2 ov)")]
+    public void Innings_read_like_a_scoreboard(int runs, int wickets, double overs, bool declared, string expected)
+    {
+        Assert.Equal(expected, Format.Innings(new Groundsman.Core.Match.InningsView("Kestrelshire", runs, wickets, overs, declared)));
+    }
+
     [Fact]
     public void Times_show_day_date_and_hour()
     {
