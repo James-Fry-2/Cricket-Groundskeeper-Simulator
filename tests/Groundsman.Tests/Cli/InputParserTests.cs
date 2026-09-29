@@ -151,6 +151,17 @@ public class InputParserTests
     }
 
     [Theory]
+    [InlineData("e 3", null)]
+    [InlineData("repair 3 jo", "jo")]
+    public void E_repairs_the_ends(string input, string? by)
+    {
+        var repair = Assert.IsType<RepairInput>(InputParser.Parse(input));
+
+        Assert.Equal(new StripId(3), repair.Strip);
+        Assert.Equal(by, repair.By?.Value);
+    }
+
+    [Theory]
     [InlineData("m 3")]
     [InlineData("m 3 tall")]
     [InlineData("m 3 8 sam extra")]

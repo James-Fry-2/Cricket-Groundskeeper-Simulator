@@ -92,6 +92,9 @@ public sealed class GameLoop
                 case WaterInput water:
                     Order(new WaterStrip(water.Strip, water.By), $"{water.Strip} is down for watering.");
                     break;
+                case RepairInput repair:
+                    Order(new RepairEnds(repair.Strip, repair.By), $"{repair.Strip} is down for end repairs.");
+                    break;
                 case CoverInput cover:
                     Order(new CoverStrip(cover.Strip, cover.By), $"{cover.Strip} is down for covering.");
                     break;
@@ -194,6 +197,7 @@ public sealed class GameLoop
             .AddColumn("Cored")
             .AddColumn("Cut")
             .AddColumn("Rolled")
+            .AddColumn("Ends")
             .AddColumn("Cover")
             .AddColumn("Orders");
         if (truth != null)
@@ -214,6 +218,7 @@ public sealed class GameLoop
                 strip.SubsurfaceMoisture == null ? "" : Format.Age(strip.SubsurfaceMoisture.TakenAt, view.Now),
                 strip.LastMown == null ? "" : $"{strip.LastMown.HeightMm:0.#}mm {Format.Age(strip.LastMown.OrderedAt, view.Now)}",
                 strip.LastRolled == null ? "" : $"{Markup.Escape(strip.LastRolled.RollerId)} {strip.LastRolled.Minutes:0}m {Format.Age(strip.LastRolled.OrderedAt, view.Now)}",
+                strip.LastRepaired is { } repaired ? $"repaired {Format.Age(repaired, view.Now)}" : "",
                 strip.Covered ? "covered" : "",
                 Format.Orders(strip),
             };
@@ -257,6 +262,7 @@ public sealed class GameLoop
             .AddRow("w <strip>", "Water a strip (done when time advances)")
             .AddRow("m <strip> <mm>", "Mow a strip to a height; more than a third off at once scalps it")
             .AddRow("l <strip> <roller> <min>", $"Roll a strip ({string.Join(", ", _game.View.Rollers.Select(r => r.Id))}): only moist, never wet")
+            .AddRow("e <strip>", "Repair the ends after a match: fill and seed footholes and rough")
             .AddRow("c <strip>", "Put a cover on a strip: keeps rain off, slows drying")
             .AddRow("u <strip>", "Take a strip's cover off")
             .AddRow("", "Every strip job takes a name, e.g. w 3 sam. You do it if none is given.")

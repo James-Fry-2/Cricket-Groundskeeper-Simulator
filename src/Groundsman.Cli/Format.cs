@@ -65,6 +65,10 @@ public static class Format
         {
             orders.Add("[blue]roll[/]");
         }
+        if (strip.RepairQueued)
+        {
+            orders.Add("[blue]repair[/]");
+        }
         if (strip.CoverOrder == CoverOrder.Cover)
         {
             orders.Add("[blue]cover on[/]");
