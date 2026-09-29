@@ -4,8 +4,12 @@ namespace Groundsman.Core.Content
 {
     public sealed class GroundSettings
     {
-        public GroundSettings(string name, IReadOnlyList<StripSettings> strips)
+        public GroundSettings(string name, IReadOnlyList<string> ends, IReadOnlyList<StripSettings> strips)
         {
+            if (ends.Count != 2 || string.IsNullOrWhiteSpace(ends[0]) || string.IsNullOrWhiteSpace(ends[1]))
+            {
+                throw new ContentException("ground.ends needs the names of both ends.");
+            }
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ContentException("ground.name can't be blank.");
@@ -30,10 +34,14 @@ namespace Groundsman.Core.Content
             }
 
             Name = name;
+            Ends = new List<string>(ends).AsReadOnly();
             Strips = new List<StripSettings>(strips).AsReadOnly();
         }
 
         public string Name { get; }
+
+        /// <summary>The two ends of the ground, which commentary names.</summary>
+        public IReadOnlyList<string> Ends { get; }
 
         public IReadOnlyList<StripSettings> Strips { get; }
 

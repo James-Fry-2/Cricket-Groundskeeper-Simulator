@@ -83,7 +83,16 @@ namespace Groundsman.Core
             _lastRepaired = new GameTime?[Square.Strips.Count];
             _lastMown = new MowRecord?[Square.Strips.Count];
             _lastRolled = new RollRecord?[Square.Strips.Count];
-            Matches = new MatchSystem(setup.Fixtures, content.HomeTeam, content.Match, Square, Weather, _pitch, WearModel, random.Get(RandomStream.Match));
+            Matches = new MatchSystem(
+                setup.Fixtures,
+                content.HomeTeam,
+                content.Match,
+                Square,
+                Weather,
+                _pitch,
+                WearModel,
+                random.Get(RandomStream.Match),
+                new Commentator(content.Commentary, content.Ground.Ends));
             _covers.Override = Matches.CoverOverride;
             _covers.At(setup.Start);
             _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, Grass, _tasks, Matches, _wear });

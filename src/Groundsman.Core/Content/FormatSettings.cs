@@ -14,6 +14,7 @@ namespace Groundsman.Core.Content
             double runsPerOver,
             double wicketsPerOver,
             IReadOnlyList<PlaySession> sessions,
+            IReadOnlyList<string> breakNames,
             IReadOnlyList<int> decisionHours)
         {
             var path = $"formats[{id}]";
@@ -50,6 +51,10 @@ namespace Groundsman.Core.Content
                 throw new ContentException($"{path}.wicketsPerOver ({wicketsPerOver}) must be above 0.");
             }
             CheckSessions(path, sessions);
+            if (breakNames.Count != sessions.Count)
+            {
+                throw new ContentException($"{path}.breakNames needs one name for the break after each session ({sessions.Count}).");
+            }
             CheckDecisionHours(path, decisionHours, sessions);
 
             Id = id;
@@ -61,6 +66,7 @@ namespace Groundsman.Core.Content
             RunsPerOver = runsPerOver;
             WicketsPerOver = wicketsPerOver;
             Sessions = new List<PlaySession>(sessions).AsReadOnly();
+            BreakNames = new List<string>(breakNames).AsReadOnly();
             DecisionHours = new List<int>(decisionHours).AsReadOnly();
         }
 
@@ -83,6 +89,9 @@ namespace Groundsman.Core.Content
 
         /// <summary>Each day's sessions of play.</summary>
         public IReadOnlyList<PlaySession> Sessions { get; }
+
+        /// <summary>What the break after each session is called, such as lunch, tea or stumps.</summary>
+        public IReadOnlyList<string> BreakNames { get; }
 
         /// <summary>The player's turns on a match day: before play and at each break.</summary>
         public IReadOnlyList<int> DecisionHours { get; }

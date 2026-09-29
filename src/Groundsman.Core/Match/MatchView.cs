@@ -46,11 +46,33 @@ namespace Groundsman.Core.Match
         public bool Declared { get; }
     }
 
-    /// <summary>The scoreboard: public, unlike the pitch behaviour behind it.</summary>
+    public sealed class CommentaryLine
+    {
+        public CommentaryLine(Groundsman.Core.Time.GameTime hour, string? eventId, string? causeId, string text)
+        {
+            Hour = hour;
+            EventId = eventId;
+            CauseId = causeId;
+            Text = text;
+        }
+
+        public Groundsman.Core.Time.GameTime Hour { get; }
+
+        /// <summary>The event that raised the line, or null for a break's score line.</summary>
+        public string? EventId { get; }
+
+        /// <summary>The cause the line names, if any.</summary>
+        public string? CauseId { get; }
+
+        public string Text { get; }
+    }
+
+    /// <summary>The scoreboard and commentary: public, unlike the pitch behaviour behind them.</summary>
     public sealed class MatchView
     {
-        public MatchView(Fixture fixture, IReadOnlyList<InningsView> innings, bool finished, ResultView? result)
+        public MatchView(Fixture fixture, IReadOnlyList<InningsView> innings, bool finished, ResultView? result, IReadOnlyList<CommentaryLine> commentary)
         {
+            Commentary = commentary;
             Fixture = fixture;
             Innings = innings;
             Finished = finished;
@@ -61,5 +83,6 @@ namespace Groundsman.Core.Match
         public IReadOnlyList<InningsView> Innings { get; }
         public bool Finished { get; }
         public ResultView? Result { get; }
+        public IReadOnlyList<CommentaryLine> Commentary { get; }
     }
 }

@@ -25,7 +25,8 @@ namespace Groundsman.Core.Content
             CompactionSettings compaction,
             PitchSettings pitch,
             WearSettings wear,
-            MatchSettings match)
+            MatchSettings match,
+            CommentarySettings commentary)
         {
             var teamList = new TeamsSettings(teams, homeTeamId);
             foreach (var loam in loams)
@@ -69,6 +70,7 @@ namespace Groundsman.Core.Content
             Pitch = pitch;
             Wear = wear;
             Match = match;
+            Commentary = commentary;
         }
 
         public CalendarSettings Calendar { get; }
@@ -92,6 +94,7 @@ namespace Groundsman.Core.Content
         public PitchSettings Pitch { get; }
         public WearSettings Wear { get; }
         public MatchSettings Match { get; }
+        public CommentarySettings Commentary { get; }
 
         public RollerSettings? Roller(string id)
         {

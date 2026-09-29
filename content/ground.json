@@ -1,5 +1,6 @@
 {
   "name": "Kestrel Lane",
+  "ends": ["Pavilion End", "Kestrel Road End"],
   "strips": [
     { "number": 1, "loam": "county", "surfaceMoisture": 27, "subsurfaceMoisture": 31 },
     { "number": 2, "loam": "county", "surfaceMoisture": 26, "subsurfaceMoisture": 30 },

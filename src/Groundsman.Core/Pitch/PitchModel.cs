@@ -59,6 +59,33 @@ namespace Groundsman.Core.Pitch
             return new PitchCharacteristics(10 * pace, 10 * bounce, 10 * consistency, 10 * carry, 10 * seam, 10 * spin, 10 * cracking);
         }
 
+        /// <summary>
+        /// How much each driver is doing right now, in the same units as the formulas above, so
+        /// commentary can name the biggest cause of what it describes.
+        /// </summary>
+        public PitchDrivers Explain(StripState strip)
+        {
+            var loam = strip.Loam;
+            var dryness = Share(loam.FieldCapacity - strip.SurfaceMoisture, loam.FieldCapacity - loam.AirDry);
+            var grass = strip.GrassCover / 100 * Math.Min(1, strip.GrassHeightMm / _settings.GrassReferenceMm);
+            var cushion = _settings.GrassCushion * Clamp01((strip.GrassHeightMm - _settings.GrassReferenceMm) / _settings.GrassReferenceMm);
+
+            return new PitchDrivers(
+                grassSeam: grass * _settings.SeamBase,
+                dampSeam: grass * _settings.SeamWetWeight * (1 - dryness),
+                structureDamage: _settings.ConsistencyDamageWeight * strip.StructureDamage,
+                loose: _settings.ConsistencyLooseWeight * Math.Max(0, _settings.ConsistencyLooseBelow - strip.Compaction),
+                cracks: _settings.ConsistencyCrackWeight * strip.Cracks,
+                footholes: _settings.ConsistencyFootholeWeight * strip.Footholes,
+                surfaceWear: _settings.ConsistencySurfaceWearWeight * strip.SurfaceWear,
+                drySpin: _settings.SpinDryWeight * dryness,
+                roughSpin: _settings.SpinRoughWeight * strip.Rough,
+                crackSpin: _settings.SpinCrackWeight * strip.Cracks,
+                wearSpin: _settings.SpinSurfaceWearWeight * strip.SurfaceWear,
+                cushion: cushion,
+                wetness: 1 - dryness);
+        }
+
         private static double Share(double part, double whole) => Clamp01(part / whole);
 
         private static double Clamp01(double value) => value < 0 ? 0 : value > 1 ? 1 : value;

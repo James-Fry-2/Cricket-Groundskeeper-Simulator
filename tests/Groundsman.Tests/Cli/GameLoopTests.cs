@@ -264,6 +264,8 @@ public class GameLoopTests
         Assert.True(match.Finished);
         Assert.Contains(Format.Innings(match.Innings[0]), console.Output);
         Assert.Contains(match.Result!.Text, console.Output);
+        Assert.All(match.Commentary, line => Assert.Contains(line.Text, console.Output));
+        Assert.Single(console.Output.Split('\n'), l => l.Contains(match.Commentary[0].Text));
     }
 
     [Fact]

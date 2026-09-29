@@ -28,6 +28,7 @@ namespace Groundsman.Core.Match
         private readonly WearModel _wear;
         private readonly MatchModel _model;
         private readonly RandomSource _random;
+        private readonly Commentator _commentator;
 
         public MatchSystem(
             IReadOnlyList<Fixture> fixtures,
@@ -37,8 +38,10 @@ namespace Groundsman.Core.Match
             WeatherSystem weather,
             PitchModel pitch,
             WearModel wear,
-            RandomSource random)
+            RandomSource random,
+            Commentator commentator)
         {
+            _commentator = commentator;
             _fixtures = fixtures;
             _home = home;
             _settings = settings;
@@ -90,6 +93,11 @@ namespace Groundsman.Core.Match
             if (!match.Finished && IsPlayHour(fixture, hour))
             {
                 PlayHour(match, hour);
+                var session = SessionIndex(fixture.Format, hour);
+                if (hour.Hour + 1 == fixture.Format.Sessions[session].End)
+                {
+                    _commentator.Break(match, hour, fixture.Format.BreakNames[session]);
+                }
             }
 
             var lastEnd = fixture.Format.Sessions[fixture.Format.Sessions.Count - 1].End;
@@ -136,6 +144,7 @@ namespace Groundsman.Core.Match
             {
                 match.RestartDelay = true;
                 match.Hours.Add(new MatchHour(hour, true, 0, 0, 0, pitch));
+                _commentator.Rain(match, hour);
                 return;
             }
 
@@ -167,6 +176,7 @@ namespace Groundsman.Core.Match
             innings.Overs += oversUsed;
             _wear.ApplyOvers(strip, oversUsed, innings.Bowling.Attack);
             match.Hours.Add(new MatchHour(hour, false, oversUsed, runs, wickets, pitch));
+            _commentator.Play(match, hour, strip, pitch, _pitch.Explain(strip), innings, wickets);
 
             var day = (hour.Date - match.Fixture.Start).Days + 1;
             var allOut = innings.Wickets >= 10;

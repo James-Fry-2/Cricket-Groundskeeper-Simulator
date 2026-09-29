@@ -14,6 +14,8 @@ public sealed class GameLoop
     private readonly IGame _game;
     private readonly TextReader? _pipedInput;
     private readonly Func<TruthSnapshot>? _inspect;
+    private Groundsman.Core.Fixture? _commentaryFixture;
+    private int _commentaryShown;
 
     /// <param name="pipedInput">
     /// Plain line source for when stdin is redirected, since Spectre's prompts refuse to read it.
@@ -133,6 +135,7 @@ public sealed class GameLoop
     {
         var result = _game.Advance();
         _console.MarkupLine($"[grey]Advanced {result.HoursRun} hours to {Format.Time(result.To)}[/]");
+        ShowNewCommentary(_game.View);
         ShowStatus();
     }
 
@@ -242,6 +245,27 @@ public sealed class GameLoop
         _console.MarkupLine($"Covers free: {view.CoversFree} of {view.CoversOwned}.");
         _console.MarkupLine(Markup.Escape(Format.Hours(view.Staff)));
         _console.MarkupLine("[grey]Enter to advance, h for help.[/]");
+    }
+
+    /// <summary>Commentary added since the last turn, each line once.</summary>
+    private void ShowNewCommentary(GameView view)
+    {
+        var match = view.LatestMatch;
+        if (match == null)
+        {
+            return;
+        }
+        if (match.Fixture != _commentaryFixture)
+        {
+            _commentaryFixture = match.Fixture;
+            _commentaryShown = 0;
+        }
+
+        foreach (var line in match.Commentary.Skip(_commentaryShown))
+        {
+            _console.MarkupLine($"  [italic]{line.Hour.Hour:00}:00[/] {Markup.Escape(line.Text)}");
+        }
+        _commentaryShown = match.Commentary.Count;
     }
 
     /// <summary>The scoreboard, from the start of a match until the day after it ends.</summary>

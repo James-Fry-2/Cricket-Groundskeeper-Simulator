@@ -1,0 +1,31 @@
+{
+  "events": {
+    "seam": { "threshold": 6, "text": "The ball is nipping about off the seam and {batting} are struggling. {cause}." },
+    "dead": { "threshold": 3, "text": "It's a slow, low pitch and the ball is dying on its way through. {cause}." },
+    "uneven": { "threshold": 6, "text": "Bounce is getting uneven: one rears, the next skids through. {cause}." },
+    "keepingLow": { "threshold": 3.5, "text": "The ball is keeping low. {cause}." },
+    "turn": { "threshold": 5, "text": "The spinners are finding real turn now. {cause}." },
+    "dust": { "threshold": 0.4, "text": "Puffs of dust as the ball lands. {cause}." },
+    "cracks": { "threshold": 0.3, "text": "Cracks are opening across the strip. {cause}." },
+    "footholes": { "threshold": 0.3, "text": "The footholes at the {end} are deepening. {cause}." },
+    "danger": { "threshold": 4, "text": "The match referee walks out to inspect the pitch. {cause}." },
+    "collapse": { "threshold": 4, "text": "{batting} lose {wickets} wickets in an hour. {cause}." },
+    "true": { "threshold": 8.5, "text": "A true pitch with good carry, and {batting} are making the most of it. {cause}." }
+  },
+  "causes": {
+    "grass": "There's {grassMm} mm of grass left on",
+    "damp": "The surface is still damp",
+    "wet": "The surface is wet",
+    "loose": "The strip wasn't rolled tight enough",
+    "longGrass": "The long grass is cushioning the ball",
+    "structureDamage": "The strip was rolled when it was too wet, and it's breaking up",
+    "cracks": "The clay has dried out and cracked",
+    "footholes": "The footholes have been dug out by the seamers",
+    "surfaceWear": "The surface is worn and crumbling",
+    "dry": "The surface has dried out",
+    "rough": "The bowlers' follow-through has roughed up the surface",
+    "hard": "It's been well rolled and has dried hard"
+  },
+  "rain": "Rain stops play. The covers come on.",
+  "session": "{break}: {score}."
+}

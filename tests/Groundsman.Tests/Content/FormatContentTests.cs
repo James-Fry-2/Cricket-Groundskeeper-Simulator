@@ -23,6 +23,7 @@ public class FormatContentTests
         Assert.Equal(new[] { 8, 13, 16, 18 }, fourDay.DecisionHours);
         Assert.Equal(20, formats[2].OversPerInnings);
         Assert.Equal(18, formats[2].Sessions[0].Start);
+        Assert.Equal(new[] { "Lunch", "Tea", "Stumps" }, fourDay.BreakNames);
     }
 
     [Theory]
@@ -33,6 +34,7 @@ public class FormatContentTests
     [InlineData("{ \"start\": 14, \"end\": 16 }", "{ \"start\": 12, \"end\": 16 }", "sessions")]
     [InlineData("{ \"start\": 18, \"end\": 20 }", "{ \"start\": 18, \"end\": 18 }", "sessions")]
     [InlineData("[8, 14, 18]", "[12, 14, 18]", "decisionHours")]
+    [InlineData("[\"Lunch\", \"Tea\", \"Stumps\"]", "[\"Lunch\"]", "breakNames")]
     [InlineData("[8, 14, 18]", "[8, 18, 14]", "decisionHours")]
     [InlineData("\"id\": \"t20\"", "\"id\": \"oneDay\"", "oneDay")]
     [InlineData("\"runsPerOver\": 3.2", "\"runsPerOver\": 0", "runsPerOver")]

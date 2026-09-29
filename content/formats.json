@@ -9,6 +9,7 @@
       "runsPerOver": 3.2,
       "wicketsPerOver": 0.07,
       "sessions": [ { "start": 11, "end": 13 }, { "start": 14, "end": 16 }, { "start": 16, "end": 18 } ],
+      "breakNames": ["Lunch", "Tea", "Stumps"],
       "decisionHours": [8, 13, 16, 18]
     },
     {
@@ -20,6 +21,7 @@
       "runsPerOver": 5.2,
       "wicketsPerOver": 0.14,
       "sessions": [ { "start": 11, "end": 14 }, { "start": 15, "end": 18 } ],
+      "breakNames": ["Innings break", "Close"],
       "decisionHours": [8, 14, 18]
     },
     {
@@ -31,6 +33,7 @@
       "runsPerOver": 8.0,
       "wicketsPerOver": 0.3,
       "sessions": [ { "start": 18, "end": 20 }, { "start": 20, "end": 22 } ],
+      "breakNames": ["Innings break", "Close"],
       "decisionHours": [8, 18, 20, 22]
     }
   ]

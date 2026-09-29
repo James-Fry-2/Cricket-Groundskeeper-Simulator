@@ -11,6 +11,7 @@ internal static class TestGround
     /// </summary>
     public static GroundSettings Settings { get; } = new GroundSettings(
         "Test Ground",
+        new[] { "North End", "South End" },
         Enumerable.Range(1, 12)
             .Select(n => new StripSettings(new StripId(n), TestLoams.Standard.Id, 22 + n % 5, 26 + n % 5))
             .ToArray());

@@ -33,6 +33,7 @@
       "04-07 rain 0 to 7.925466 chance 0.26141, high 12.751746 to 21.151746"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 16.918297 to 32.418297"
     ]
@@ -71,6 +72,7 @@
       "04-08 rain 0 to 1.136343 chance 0.146616, high 11.452796 to 19.852796"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 14.790367 to 34.546226"
     ]
@@ -109,6 +111,7 @@
       "04-09 rain 0 to 2.362642 chance 0.161847, high 5.962278 to 14.362278"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 14.290367 to 35.046226"
     ]
@@ -147,6 +150,7 @@
       "04-10 rain 0 to 8.269302 chance 0.269727, high 5.933891 to 14.333891"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 13.790367 to 35.546226",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 19.607432 to 28.607432"
@@ -186,6 +190,7 @@
       "04-11 rain 2.631904 to 17.931904 chance 0.658937, high 12.283815 to 20.683815"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 13.290367 to 36.046226",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 19.107432 to 29.107432"
@@ -225,6 +230,7 @@
       "04-12 rain 0 to 5.706862 chance 0.214571, high 10.497222 to 18.897222"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 12.790367 to 36.546226",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 18.607432 to 29.607432"
@@ -264,6 +270,7 @@
       "04-13 rain 0 to 9.116624 chance 0.291593, high 13.105627 to 21.505627"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 12.290367 to 37.046226",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 18.107432 to 30.107432",
@@ -304,6 +311,7 @@
       "04-14 rain 0 to 4.289117 chance 0.18996, high 10.819054 to 19.219054"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 11.790367 to 37.546226",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 17.607432 to 30.607432",
@@ -344,6 +352,7 @@
       "04-15 rain 0 to 14.694545 chance 0.494444, high 12.53018 to 20.93018"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 11.167765 to 38.168828",
       "4: 20.107432 to 28.107432 at 2027-04-03 07:00, now 16.98483 to 31.230033",
@@ -384,6 +393,7 @@
       "04-16 rain 0 to 4.504395 chance 0.193464, high 12.042867 to 20.442867"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 10.422562 to 38.914032",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 6.194438 to 15.684845",
@@ -425,6 +435,7 @@
       "04-17 rain 0 to 3.440931 chance 0.176893, high 18.865638 to 27.265638"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 8.845008 to 40.491586",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 4.616884 to 17.262399",
@@ -466,6 +477,7 @@
       "04-18 rain 0 to 2.775084 chance 0.167407, high 13.41813 to 21.81813"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 6.918978 to 42.417615",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 2.690855 to 19.188429",
@@ -507,6 +519,7 @@
       "04-19 rain 0 to 14.598354 chance 0.489999, high 13.171453 to 21.571453"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 6.418978 to 42.917615",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 2.190855 to 19.688429",
@@ -549,6 +562,7 @@
       "04-19 rain 0 to 14.598354 chance 0.489999, high 13.171453 to 21.571453"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 6.293978 to 43.042615",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 2.065855 to 19.813429",
@@ -591,6 +605,7 @@
       "04-20 rain 0 to 9.756412 chance 0.309479, high 15.490495 to 23.890495"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 5.918978 to 43.417615",
       "3: 6.939642 to 14.939642 at 2027-04-09 07:00, now 1.690855 to 20.188429",
@@ -633,6 +648,7 @@
       "04-20 rain 0 to 9.756412 chance 0.309479, high 15.490495 to 23.890495"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 5.793978 to 43.542615",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 10.824748 to 19.074748",
@@ -676,6 +692,7 @@
       "04-21 rain 0 to 8.39636 chance 0.27288, high 12.8319 to 21.2319"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 4.986963 to 44.349631",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 10.017733 to 19.881763",
@@ -719,6 +736,7 @@
       "04-21 rain 0 to 8.39636 chance 0.27288, high 12.8319 to 21.2319"
     ],
     "match": null,
+    "commentary": null,
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 3.997932 to 45.338661",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 9.028702 to 20.870793",
@@ -762,6 +780,7 @@
       "04-22 rain 0 to 6.703402 chance 0.234233, high 7.412542 to 15.812542"
     ],
     "match": " ",
+    "commentary": [],
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 3.602099 to 45.734494",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 8.131652 to 21.767843",
@@ -806,6 +825,10 @@
       "04-22 rain 0 to 6.703402 chance 0.234233, high 7.412542 to 15.812542"
     ],
     "match": "Test County 139-7 (33.3) ",
+    "commentary": [
+      "2027-04-16 11:00 SEAM for Test Visitors against Test County. cause:damp.",
+      "2027-04-16 12:00 COLLAPSE Test County lose 4. cause:damp."
+    ],
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 3.497932 to 45.838661",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.693341 to 22.206155",
@@ -850,6 +873,11 @@
       "04-22 rain 0 to 6.703402 chance 0.234233, high 7.412542 to 15.812542"
     ],
     "match": "Test County 229-10 (50) / Test Visitors 75-4 (16.7) ",
+    "commentary": [
+      "2027-04-16 11:00 SEAM for Test Visitors against Test County. cause:damp.",
+      "2027-04-16 12:00 COLLAPSE Test County lose 4. cause:damp.",
+      "2027-04-16 14:00 Innings break: Test County 229 all out"
+    ],
     "readings": [
       "1: 20.668297 to 28.668297 at 2027-03-25 07:00, now 3.435432 to 45.901161",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.630841 to 22.268655",
@@ -894,6 +922,12 @@
       "04-22 rain 0 to 6.703402 chance 0.234233, high 7.412542 to 15.812542"
     ],
     "match": "Test County 229-10 (50) / Test Visitors 230-9 (48.3) Test Visitors won by 1 wicket",
+    "commentary": [
+      "2027-04-16 11:00 SEAM for Test Visitors against Test County. cause:damp.",
+      "2027-04-16 12:00 COLLAPSE Test County lose 4. cause:damp.",
+      "2027-04-16 14:00 Innings break: Test County 229 all out",
+      "2027-04-16 18:00 Close: Test County 229 all out; Test Visitors 230-9"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.695902 to 21.779235",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.589174 to 22.310321",
@@ -938,6 +972,7 @@
       "04-23 rain 0 to 8.816765 chance 0.283625, high 12.220667 to 20.620667"
     ],
     "match": " ",
+    "commentary": [],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.404235 to 22.070902",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.297507 to 22.601988",
@@ -982,6 +1017,7 @@
       "04-23 rain 0 to 8.816765 chance 0.283625, high 12.220667 to 20.620667"
     ],
     "match": "Test Visitors 165-4 (33.3) ",
+    "commentary": [],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.300069 to 22.175069",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.193341 to 22.706155",
@@ -1026,6 +1062,9 @@
       "04-23 rain 0 to 8.816765 chance 0.283625, high 12.220667 to 20.620667"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 72-3 (16.7) ",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.237569 to 22.237569",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 7.130841 to 22.768655",
@@ -1070,6 +1109,11 @@
       "04-23 rain 0 to 8.816765 chance 0.283625, high 12.220667 to 20.620667"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.195902 to 22.279235",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 6.839174 to 23.060321",
@@ -1114,6 +1158,11 @@
       "04-24 rain 0.025206 to 15.325206 chance 0.524363, high 8.384948 to 16.784948"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 12.925069 to 22.550069",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 6.568341 to 23.331155",
@@ -1158,6 +1207,11 @@
       "04-25 rain 0 to 5.797277 chance 0.21627, high 7.08561 to 15.48561"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 12.132605 to 23.342532",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 5.775877 to 24.123619",
@@ -1202,6 +1256,11 @@
       "04-26 rain 1.173749 to 16.473749 chance 0.581933, high 6.133052 to 14.533052"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 10.011956 to 25.463181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 3.655228 to 26.244267",
@@ -1246,6 +1305,11 @@
       "04-27 rain 0 to 12.361939 chance 0.396123, high 13.223029 to 21.623029"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 9.511956 to 25.963181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 3.155228 to 26.744267",
@@ -1290,6 +1354,11 @@
       "04-28 rain 0 to 11.966877 chance 0.381459, high 10.263948 to 18.663948"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 9.011956 to 26.463181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 2.655228 to 27.244267",
@@ -1334,6 +1403,11 @@
       "04-29 rain 0 to 9.645802 chance 0.306298, high 11.459623 to 19.859623"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 8.511956 to 26.963181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 2.155228 to 27.744267",
@@ -1378,6 +1452,11 @@
       "04-30 rain 0 to 14.183037 chance 0.47118, high 13.666464 to 22.066464"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 8.011956 to 27.463181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 1.655228 to 28.244267",
@@ -1422,6 +1501,11 @@
       "05-01 rain 0 to 0 chance 0.101603, high 8.386042 to 16.786042"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 7.511956 to 27.963181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 1.155228 to 28.744267",
@@ -1466,6 +1550,11 @@
       "05-02 rain 0 to 12.976499 chance 0.408239, high 10.136756 to 18.536756"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 7.011956 to 28.463181",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 0.655228 to 29.244267",
@@ -1510,6 +1599,11 @@
       "05-03 rain 0 to 10.560594 chance 0.323006, high 19.370176 to 27.770176"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 6.250445 to 29.224692",
       "2: 10.949748 to 18.949748 at 2027-04-14 07:00, now 0 to 30.005778",
@@ -1554,6 +1648,11 @@
       "05-04 rain 0 to 3.271364 chance 0.167501, high 8.214628 to 16.614628"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 5.215387 to 30.259751",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 11.4995 to 21.569617",
@@ -1598,6 +1697,11 @@
       "05-05 rain 0 to 12.975837 chance 0.408212, high 14.092979 to 22.492979"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 4.182245 to 31.292892",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 10.466359 to 22.602759",
@@ -1642,6 +1746,11 @@
       "05-06 rain 0 to 11.774489 chance 0.363166, high 16.217032 to 24.617032"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 3.682245 to 31.792892",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 9.966359 to 23.102759",
@@ -1686,6 +1795,11 @@
       "05-07 rain 0 to 4.182544 chance 0.180911, high 6.016224 to 14.416224"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 3.182245 to 32.292892",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 9.466359 to 23.602759",
@@ -1730,6 +1844,11 @@
       "05-08 rain 9.976724 to 25.276724 chance 0.95375, high 6.561991 to 14.961991"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 2.682245 to 32.792892",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 8.966359 to 24.102759",
@@ -1774,6 +1893,11 @@
       "05-09 rain 0 to 12.486828 chance 0.389218, high 13.499893 to 21.899893"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 2.182245 to 33.292892",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 8.466359 to 24.602759",
@@ -1818,6 +1942,11 @@
       "05-10 rain 0 to 6.896134 chance 0.229542, high 7.754 to 16.154"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 11.607126 to 20.82856",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 7.855642 to 25.213476",
@@ -1862,6 +1991,11 @@
       "05-11 rain 0 to 4.182159 chance 0.180905, high 15.729391 to 24.129391"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 10.553542 to 21.882144",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 6.802057 to 26.26706",
@@ -1906,6 +2040,11 @@
       "05-12 rain 0 to 11.139121 chance 0.3415, high 14.380101 to 22.780101"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 10.053542 to 22.382144",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 6.302057 to 26.76706",
@@ -1950,6 +2089,11 @@
       "05-13 rain 0 to 4.704301 chance 0.189192, high 11.216185 to 19.616185"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 9.553542 to 22.882144",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 5.802057 to 27.26706",
@@ -1994,6 +2138,11 @@
       "05-14 rain 0 to 9.882191 chance 0.302745, high 14.325701 to 22.725701"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 9.053542 to 23.382144",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 5.302057 to 27.76706",
@@ -2038,6 +2187,11 @@
       "05-15 rain 0 to 10.391347 chance 0.31781, high 12.789715 to 21.189715"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 5.3799 to 27.055786",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 1.628415 to 31.440703",
@@ -2082,6 +2236,11 @@
       "05-16 rain 0 to 8.528697 chance 0.266563, high 10.480216 to 18.880216"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 4.8799 to 27.555786",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 1.128415 to 31.940703",
@@ -2126,6 +2285,11 @@
       "05-17 rain 0 to 3.149818 chance 0.165807, high 13.497339 to 21.897339"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 3.17734 to 29.258346",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 33.643262",
@@ -2170,6 +2334,11 @@
       "05-18 rain 0 to 7.065032 chance 0.23307, high 15.644629 to 24.044629"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 1.971755 to 30.463931",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 34.848847",
@@ -2214,6 +2383,11 @@
       "05-19 rain 0 to 12.542603 chance 0.391338, high 10.015237 to 18.415237"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0.835728 to 31.599958",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 35.984874",
@@ -2258,6 +2432,11 @@
       "05-20 rain 0 to 7.000884 chance 0.231723, high 10.397195 to 18.797195"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 33.325087",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 37.710003",
@@ -2302,6 +2481,11 @@
       "05-21 rain 0 to 5.774524 chance 0.207697, high 15.277413 to 23.677413"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 34.738164",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 39.12308",
@@ -2346,6 +2530,11 @@
       "05-22 rain 0 to 3.04876 chance 0.164415, high 15.130538 to 23.530538"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 35.784174",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 40.16909",
@@ -2390,6 +2579,11 @@
       "05-23 rain 0 to 11.767071 chance 0.362905, high 11.345374 to 19.745374"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 36.284174",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 40.66909",
@@ -2434,6 +2628,11 @@
       "05-24 rain 2.597871 to 17.897871 chance 0.646039, high 12.808507 to 21.208507"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 36.784174",
       "2: 12.534559 to 20.534559 at 2027-04-27 07:00, now 0 to 41.16909",
@@ -2478,6 +2677,11 @@
       "05-25 rain 0 to 3.048472 chance 0.164411, high 7.378875 to 15.778875"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 37.284174",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 12.712735 to 21.712735",
@@ -2522,6 +2726,11 @@
       "05-26 rain 0 to 9.01942 chance 0.279061, high 14.150251 to 22.550251"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 38.078455",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 11.918454 to 22.507016",
@@ -2566,6 +2775,11 @@
       "05-27 rain 7.592721 to 22.892721 chance 0.888448, high 5.585462 to 13.985462"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 39.023913",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 10.972996 to 23.452474",
@@ -2610,6 +2824,11 @@
       "05-28 rain 0 to 3.01435 chance 0.163944, high 12.368928 to 20.768928"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 40.224632",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 10.022277 to 24.403193",
@@ -2654,6 +2873,11 @@
       "05-29 rain 0 to 8.54391 chance 0.26694, high 14.109899 to 22.509899"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 40.724632",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 9.522277 to 24.903193",
@@ -2698,6 +2922,11 @@
       "05-30 rain 0 to 8.751011 chance 0.272141, high 16.453728 to 24.853728"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 12.217843 to 20.217843 at 2027-05-03 07:00, now 0 to 41.224632",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 9.022277 to 25.403193",
@@ -2742,6 +2971,11 @@
       "05-31 rain 0 to 11.115904 chance 0.340735, high 17.498562 to 25.898562"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 10.312756 to 23.996929",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 6.180191 to 28.245279",
@@ -2786,6 +3020,11 @@
       "06-01 rain 0 to 12.621089 chance 0.406053, high 14.76333 to 23.16333"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 9.812756 to 24.496929",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 5.680191 to 28.745279",
@@ -2830,6 +3069,11 @@
       "06-02 rain 0 to 8.741199 chance 0.281657, high 11.390684 to 19.790684"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 9.312756 to 24.996929",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 5.180191 to 29.245279",
@@ -2874,6 +3118,11 @@
       "06-03 rain 0 to 14.850517 chance 0.50172, high 8.8188 to 17.2188"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 5.040481 to 29.269204",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0.907916 to 33.517555",
@@ -2918,6 +3167,11 @@
       "06-04 rain 0 to 0.695982 chance 0.141583, high 17.24533 to 25.64533"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 4.540481 to 29.769204",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0.407916 to 34.017555",
@@ -2962,6 +3216,11 @@
       "06-05 rain 0 to 10.09287 chance 0.319388, high 12.082079 to 20.482079"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 4.040481 to 30.269204",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 34.517555",
@@ -3006,6 +3265,11 @@
       "06-06 rain 0 to 13.549158 chance 0.44366, high 18.758211 to 27.158211"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 3.540481 to 30.769204",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 35.017555",
@@ -3050,6 +3314,11 @@
       "06-07 rain 0 to 0 chance 0.113199, high 15.592782 to 23.992782"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0.646634 to 33.663052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 37.911402",
@@ -3094,6 +3363,11 @@
       "06-08 rain 0 to 7.227226 chance 0.245444, high 14.750944 to 23.150944"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0.146634 to 34.163052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 38.411402",
@@ -3138,6 +3412,11 @@
       "06-09 rain 0 to 6.138318 chance 0.222827, high 11.255831 to 19.655831"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 34.663052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 38.911402",
@@ -3182,6 +3461,11 @@
       "06-10 rain 0 to 5.439712 chance 0.209647, high 15.001944 to 23.401944"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 35.163052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 39.411402",
@@ -3226,6 +3510,11 @@
       "06-11 rain 0 to 0.254815 chance 0.136755, high 7.379474 to 15.779474"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 35.663052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 39.911402",
@@ -3270,6 +3559,11 @@
       "06-12 rain 0 to 7.0154 chance 0.240834, high 10.826496 to 19.226496"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 36.163052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 40.411402",
@@ -3314,6 +3608,11 @@
       "06-13 rain 0 to 5.987737 chance 0.219902, high 11.967491 to 20.367491"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 36.663052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 40.911402",
@@ -3358,6 +3657,11 @@
       "06-14 rain 0 to 8.299308 chance 0.270468, high 11.370819 to 19.770819"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 37.163052",
       "2: 13.212735 to 21.212735 at 2027-05-18 07:00, now 0 to 41.411402",
@@ -3402,6 +3706,11 @@
       "06-15 rain 0 to 0.75398 chance 0.142234, high 13.903898 to 22.303898"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 37.663052",
       "2: 5.381986 to 13.381986 at 2027-06-08 07:00, now 4.881986 to 13.881986",
@@ -3446,6 +3755,11 @@
       "06-16 rain 0 to 1.456997 chance 0.15042, high 11.897311 to 20.297311"
     ],
     "match": "Test Visitors 243-7 (50) / Test County 209-10 (44.4) Test Visitors won by 34 runs",
+    "commentary": [
+      "2027-04-17 14:00 Innings break: Test Visitors 243-7",
+      "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:dry.",
+      "2027-04-17 18:00 Close: Test Visitors 243-7; Test County 209 all out"
+    ],
     "readings": [
       "1: 13.154843 to 21.154843 at 2027-05-24 07:00, now 0 to 38.163052",
       "2: 5.381986 to 13.381986 at 2027-06-08 07:00, now 4.381986 to 14.381986",

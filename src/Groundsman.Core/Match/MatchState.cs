@@ -63,6 +63,9 @@ namespace Groundsman.Core.Match
         public TeamSettings Away => Fixture.Opponent;
         public List<InningsState> Innings { get; } = new List<InningsState>();
         public List<MatchHour> Hours { get; } = new List<MatchHour>();
+        public List<CommentaryLine> Commentary { get; } = new List<CommentaryLine>();
+        public HashSet<string> Fired { get; } = new HashSet<string>();
+        public GameTime? LastRainHour { get; set; }
         public bool RestartDelay { get; set; }
 
         /// <summary>A limited-overs chase's overs, cut to what the first innings faced if rain shortened it.</summary>
@@ -78,6 +81,7 @@ namespace Groundsman.Core.Match
             Fixture,
             Innings.Select(i => new InningsView(i.Batting.Name, (int)Math.Round(i.Runs), i.Wickets, Math.Round(i.Overs, 1), i.Declared)).ToArray(),
             Finished,
-            Result);
+            Result,
+            Commentary.ToArray());
     }
 }

@@ -51,7 +51,7 @@ namespace Groundsman.Core.Content
                     Required(file, path + ".subsurfaceMoisture", strip.SubsurfaceMoisture));
             }
 
-            return new GroundSettings(Required(file, "name", dto.Name), strips);
+            return new GroundSettings(Required(file, "name", dto.Name), Required(file, "ends", dto.Ends), strips);
         }
 
         public static TaskSettings ParseTasks(string json)
@@ -218,6 +218,26 @@ namespace Groundsman.Core.Content
                 Required(file, "hardness.dryWeight", hardness.DryWeight),
                 Required(file, "hardness.clayReference", hardness.ClayReference),
                 Required(file, "hardness.clayExponent", hardness.ClayExponent));
+        }
+
+        public static CommentarySettings ParseCommentary(string json)
+        {
+            const string file = "commentary";
+            var dto = Deserialise<CommentaryDto>(json, file);
+            var eventDtos = Required(file, "events", dto.Events);
+            var events = new Dictionary<string, CommentaryEvent>();
+            foreach (var pair in eventDtos)
+            {
+                events[pair.Key] = new CommentaryEvent(
+                    Required(file, $"events.{pair.Key}.threshold", pair.Value.Threshold),
+                    Required(file, $"events.{pair.Key}.text", pair.Value.Text));
+            }
+
+            return new CommentarySettings(
+                events,
+                Required(file, "causes", dto.Causes),
+                Required(file, "rain", dto.Rain),
+                Required(file, "session", dto.Session));
         }
 
         public static MatchSettings ParseMatch(string json)
@@ -447,6 +467,7 @@ namespace Groundsman.Core.Content
                     Required(file, path + ".runsPerOver", format.RunsPerOver),
                     Required(file, path + ".wicketsPerOver", format.WicketsPerOver),
                     sessions,
+                    Required(file, path + ".breakNames", format.BreakNames),
                     Required(file, path + ".decisionHours", format.DecisionHours)));
             }
             return formats.AsReadOnly();
@@ -586,6 +607,7 @@ namespace Groundsman.Core.Content
         private sealed class GroundDto
         {
             public string? Name { get; set; }
+            public List<string>? Ends { get; set; }
             public List<StripDto>? Strips { get; set; }
         }
 
@@ -665,6 +687,7 @@ namespace Groundsman.Core.Content
             public double? RunsPerOver { get; set; }
             public double? WicketsPerOver { get; set; }
             public List<SessionDto>? Sessions { get; set; }
+            public List<string>? BreakNames { get; set; }
             public List<int>? DecisionHours { get; set; }
         }
 
@@ -1039,6 +1062,20 @@ namespace Groundsman.Core.Content
         {
             public double? CleanShare { get; set; }
             public double? FillShare { get; set; }
+        }
+
+        private sealed class CommentaryDto
+        {
+            public Dictionary<string, CommentaryEventDto>? Events { get; set; }
+            public Dictionary<string, string>? Causes { get; set; }
+            public string? Rain { get; set; }
+            public string? Session { get; set; }
+        }
+
+        private sealed class CommentaryEventDto
+        {
+            public double? Threshold { get; set; }
+            public string? Text { get; set; }
         }
     }
 }
