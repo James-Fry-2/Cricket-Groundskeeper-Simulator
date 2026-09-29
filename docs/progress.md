@@ -9,7 +9,7 @@ Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: 
 - [x] 3. Compaction and rolling
 - [x] 4. Pitch characteristics
 - [x] 5. Wear and recovery
-- [ ] 6. Match engine (adds a Match step to the tick order; agree the CLAUDE.md change first)
+- [x] 6. Match engine
 - [ ] 7. Commentary
 - [ ] 8. Rating and demerits
 - [ ] 9. Cli: rolling, mowing, repairs, match and verdict screens
@@ -85,6 +85,12 @@ In `content/pitch.json` (all characteristics 0 to 10):
 - Consistency = 1 − 0.6 × structure damage − 1.0 × looseness below 0.65 compaction − 0.4 × cracks − 0.4 × footholes − 0.2 × surface wear
 - Carry = √(pace × bounce); seam = grass × (0.3 + 0.7 × surface wetness), grass = cover × height / 10 mm (capped)
 - Spin = 0.6 × surface dryness + 0.3 × cracks + 0.5 × rough + 0.4 × surface wear − 0.4 × grass; cracking = cracks
+
+In `content/match.json` and the formats:
+- Base rates per over on a true, neutral pitch between even sides: four-day 3.2 runs and 0.07 wickets; one-day 5.2 and 0.14; T20 8.0 and 0.3
+- Strength: rates shift by e^(0.8 × gap / 50); wickets +1.2 × seam share × seam/10, +1.2 × spin share × spin/10, +2.0 × unevenness, −0.4 × deadness; runs +0.4 × (carry/10 − 0.5), −0.3 × unevenness, −0.3 × deadness; deadness = 2 × max(0, 0.5 − carry/10); runs spread 0.35
+- Declaration from day 3 at a lead of 250; half the next hour lost after rain; the toss winner bowls first when seam is over 6
+- Law 9 jobs: cleaning takes 10% off footholes (0.25 h), filling at close of play 40% (1 h)
 
 In `content/wear.json`:
 - Resistance = 0.5 × compaction + 0.3 × clay (full at 30%) + 0.2 × roots (share of 100 mm), halved when the surface is wetter than the rolling window
@@ -190,4 +196,9 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Wear and recovery: strips carry footholes, rough, surface wear and cracks (0 to 1) and whether the ends are repaired. `WearModel.ApplyOvers` (called by the match engine in task 6) adds wear from an attack profile, resisted by compaction, clay, roots and moisture, and scuffs grass. The new Wear system runs each hour: cracks open as the surface dries past a threshold (faster on clay and with structure damage) and close when it's wetted to field capacity; wear heals at the grass growth rate, faster once repaired. `RepairEnds` is queued and applied in the Wear step. Pitch consistency and spin now use footholes, rough, surface wear and real cracks; the cracking stand-in and its content went. Every tick step now has a real system, so the game's test hook runs extra systems as observers after each hour.
 - Scale check: a prepared strip gets footholes of about 0.07 after one day of a four-day match and 0.25 by the end; an unprepared one about 0.46. Untouched strips crack through dry summers (visible on half of July and August mornings, severe on a fifth), the research's cracking failure mode; a strip prepared to under 22% surface moisture stays below the cracking threshold until it dries further during a match.
 - Law 9 limits on repairs during a match come with the match engine in task 6; for now repairs are allowed any time. Cli: `e <strip> [name]` and an Ends column.
-- Next: phase 3 task 6, the match engine. It needs a Match step in the tick order: agree the CLAUDE.md change first.
+- Tick order: agreed with the user, `CLAUDE.md` now fixes weather, covers, moisture, grass, tasks, match, wear and recovery.
+- Match engine: `MatchModel` resolves an hour of overs from pitch characteristics, attack make-up and strengths (Poisson wickets, normal runs, Match stream). `MatchSystem` plays each fixture in its session hours: toss, innings, all out, overs limits, four-day declarations, chases stopping at the target, results by runs, wickets or an innings, ties, draws and no results. Rain stops play and costs half the next hour; a limited-overs first innings rained under half its overs is abandoned, otherwise the chase gets the overs faced. Through a fixture the match strip is covered by the playing conditions except for dry play (a covers override hook). Each hour of play wears the strip and is logged with its pitch for the referee. The view and Cli show the latest scoreboard.
+- Law 9: `CleanFootholes` at any break and `FillFootholes` at close of play in multi-day matches, on the match strip only; full repairs and cover orders on the match strip are refused until the match is over.
+- Found and fixed while building: the four-day base wicket rate of 0.03 was wrong by about three times (innings of 800 to 1,280, every match drawn); a rained-out first innings of 0 let the chase win by scoring 1. Tuned to 0.07 over 200 seeds: prepared pitch 28% draws, first innings about 320; untouched pitch 50% draws and lower scoring, the lifeless draw. One-day match tests now prepare the strip, since a neglected pitch scoring less is intended.
+- Gate A still passes on the stand-in score (neglect 13%, by the book 50%); 1,000 seasons now take about 8 seconds with matches playing.
+- Next: phase 3 task 7, commentary.
