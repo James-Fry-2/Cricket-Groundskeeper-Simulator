@@ -8,7 +8,7 @@ Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: 
 - [x] 2. Grass: growth and mowing
 - [x] 3. Compaction and rolling
 - [x] 4. Pitch characteristics
-- [ ] 5. Wear and recovery
+- [x] 5. Wear and recovery
 - [ ] 6. Match engine (adds a Match step to the tick order; agree the CLAUDE.md change first)
 - [ ] 7. Commentary
 - [ ] 8. Rating and demerits
@@ -82,9 +82,16 @@ In `content/rollers.json` and `content/compaction.json`:
 In `content/pitch.json` (all characteristics 0 to 10):
 - Pace = hardness × grass cushion; grass cushions up to 40% of pace and bounce from 10 mm (none) to 20 mm or more (full)
 - Bounce = cushion × compaction × (clay / 30)^0.5 × (0.6 + 0.4 × moisture at depth)
-- Consistency = 1 − 0.6 × structure damage − 1.0 × looseness below 0.65 compaction − 0.3 × cracking
+- Consistency = 1 − 0.6 × structure damage − 1.0 × looseness below 0.65 compaction − 0.4 × cracks − 0.4 × footholes − 0.2 × surface wear
 - Carry = √(pace × bounce); seam = grass × (0.3 + 0.7 × surface wetness), grass = cover × height / 10 mm (capped)
-- Spin = 0.6 × surface dryness + 0.3 × cracking − 0.4 × grass; cracking = loam tendency × surface dryness²
+- Spin = 0.6 × surface dryness + 0.3 × cracks + 0.5 × rough + 0.4 × surface wear − 0.4 × grass; cracking = cracks
+
+In `content/wear.json`:
+- Resistance = 0.5 × compaction + 0.3 × clay (full at 30%) + 0.2 × roots (share of 100 mm), halved when the surface is wetter than the rolling window
+- Per over, before resistance: footholes 0.004 × seam share × (1 + heavy-footedness); rough 0.003 × (1 + 0.5 × left-arm share); surface wear 0.002 (1.5× when drier than the window); grass cover 0.05 points
+- Play in the wet: all wear × 2
+- Cracks open once surface dryness passes 0.6, up to 0.01 an hour × loam tendency, ×(1 + 2 × structure damage); close 0.02 an hour at or above field capacity
+- Recovery: 0.02 a day at full grass growth, 0.08 once the ends are repaired; a repair fills 60% of footholes and rough; 2 h in `staff.json`
 
 In `content/grass.json`:
 - Start (late March): cover 85%, height 15 mm, roots 60 mm
@@ -180,4 +187,7 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Compaction and rolling: strips carry compaction and hidden structure damage. `RollStrip` (roller id, minutes, optional staff) is queued and applied in the Tasks step, after that hour's moisture, so the window is judged on the strip as it stands; rolling costs its minutes. Inside the loam's window it compacts with diminishing returns; drier does nothing; wetter still compacts but damages structure, heavier rollers more; the heavy roller on a tight strip also damages. `RollingModel.Hardness` combines compaction, surface dryness and clay. The view shows your rolling record and lists the rollers, never compaction. `Inspect()`, trace and snapshot include compaction, damage and hardness; the snapshot script now rolls, including heavy rolling of a wet strip, which duly builds damage. An untouched strip's hardness ranges from 0.17 when wet to about 0.5 when dry at starting compaction. Cli: `l <strip> <roller> <min> [name]`, `l all`, a Rolled column.
 - Pitch characteristics: `PitchModel.Characterise` gives pace, bounce, consistency, carry, seam, spin and cracking from true state. It's internal and reaches outside code only through `Inspect()`; the player will learn pitch character from commentary and verdicts. Direction tests per driver, plus a 5,000-state fuzz keeping every value in 0–10. Cracking is from loam tendency and surface dryness for now; task 5 replaces it with accumulated cracks. Harness `pitch --seasons N` averages an untouched strip each morning by month.
 - Tuning: first run gave an untouched strip near-perfect consistency (9.5), because 0.5 looseness sat below the 0.55 starting compaction and long grass had no effect. Raising looseness to 0.65 and adding grass cushioning now gives an untouched strip pace 2.3, bounce 2.8, consistency 8.4, seam 6, spin about 1: slow, low, uneven and green, the research's failure state for poor preparation. A clay-reference literal in the bounce formula was moved into content.
-- Next: phase 3 task 5, wear and recovery.
+- Wear and recovery: strips carry footholes, rough, surface wear and cracks (0 to 1) and whether the ends are repaired. `WearModel.ApplyOvers` (called by the match engine in task 6) adds wear from an attack profile, resisted by compaction, clay, roots and moisture, and scuffs grass. The new Wear system runs each hour: cracks open as the surface dries past a threshold (faster on clay and with structure damage) and close when it's wetted to field capacity; wear heals at the grass growth rate, faster once repaired. `RepairEnds` is queued and applied in the Wear step. Pitch consistency and spin now use footholes, rough, surface wear and real cracks; the cracking stand-in and its content went. Every tick step now has a real system, so the game's test hook runs extra systems as observers after each hour.
+- Scale check: a prepared strip gets footholes of about 0.07 after one day of a four-day match and 0.25 by the end; an unprepared one about 0.46. Untouched strips crack through dry summers (visible on half of July and August mornings, severe on a fifth), the research's cracking failure mode; a strip prepared to under 22% surface moisture stays below the cracking threshold until it dries further during a match.
+- Law 9 limits on repairs during a match come with the match engine in task 6; for now repairs are allowed any time. Cli: `e <strip> [name]` and an Ends column.
+- Next: phase 3 task 6, the match engine. It needs a Match step in the tick order: agree the CLAUDE.md change first.
