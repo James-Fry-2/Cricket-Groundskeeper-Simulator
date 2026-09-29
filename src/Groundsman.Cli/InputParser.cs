@@ -38,6 +38,8 @@ public static class InputParser
                 return new HelpInput();
             case ("s" or "status", 1):
                 return new StatusInput();
+            case ("v" or "record", 1):
+                return new RecordInput();
             case ("r" or "read", >= 2) when words[1] == "all":
                 return new ReadInput(null, by);
             case ("r" or "read", >= 2) when TryStrip(words[1], out var strip):

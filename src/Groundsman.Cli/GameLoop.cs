@@ -16,6 +16,7 @@ public sealed class GameLoop
     private readonly Func<TruthSnapshot>? _inspect;
     private Groundsman.Core.Fixture? _commentaryFixture;
     private int _commentaryShown;
+    private Groundsman.Core.Fixture? _verdictShown;
 
     /// <param name="pipedInput">
     /// Plain line source for when stdin is redirected, since Spectre's prompts refuse to read it.
@@ -31,7 +32,7 @@ public sealed class GameLoop
 
     public void Run()
     {
-        ShowStatus();
+        ShowStatus(withScoreboard: true);
         while (true)
         {
             var text = ReadLine();
@@ -51,7 +52,10 @@ public sealed class GameLoop
                     ShowHelp();
                     break;
                 case StatusInput:
-                    ShowStatus();
+                    ShowStatus(withScoreboard: true);
+                    break;
+                case RecordInput:
+                    ShowRecord();
                     break;
                 case ReadInput { Strip: null } all:
                     var now = _game.View.Now;
@@ -135,8 +139,14 @@ public sealed class GameLoop
     {
         var result = _game.Advance();
         _console.MarkupLine($"[grey]Advanced {result.HoursRun} hours to {Format.Time(result.To)}[/]");
-        ShowNewCommentary(_game.View);
-        ShowStatus();
+        var view = _game.View;
+        if (view.Interval != null || HasNewCommentary(view))
+        {
+            ShowScoreboard(view);
+            ShowNewCommentary(view);
+        }
+        ShowVerdictOnce(view);
+        ShowStatus(withScoreboard: false);
     }
 
     private bool Read(StripId strip, StaffId? by, ReadingSource tool)
@@ -185,14 +195,17 @@ public sealed class GameLoop
         return result.Accepted;
     }
 
-    private void ShowStatus()
+    private void ShowStatus(bool withScoreboard)
     {
         var view = _game.View;
 
         _console.WriteLine();
         _console.Write(new Rule($"[green]{Markup.Escape(view.GroundName)}[/]  {Format.Time(view.Now)}").LeftJustified());
         _console.MarkupLine($"{Format.Pace(view.Pace)}. Next match: {Format.NextMatch(view.NextFixture, view.Now)}.");
-        ShowMatch(view);
+        if (withScoreboard && view.Interval != null)
+        {
+            ShowScoreboard(view);
+        }
         if (view.Weather is { } weather)
         {
             _console.MarkupLine(Format.Weather(weather));
@@ -248,8 +261,15 @@ public sealed class GameLoop
             _console.MarkupLine($"[{(view.Banned ? "red" : "yellow")}]Demerits in the last five years: {view.DemeritsActive}{(view.Banned ? ". The ground has lost the right to host." : ".")}[/]");
         }
         _console.MarkupLine(Markup.Escape(Format.Hours(view.Staff)));
+        if (view.Interval is { } interval)
+        {
+            _console.MarkupLine($"[bold]{Markup.Escape(Format.Interval(interval))}[/]");
+        }
         _console.MarkupLine("[grey]Enter to advance, h for help.[/]");
     }
+
+    private bool HasNewCommentary(GameView view) =>
+        view.LatestMatch is { } match && (match.Fixture != _commentaryFixture || match.Commentary.Count > _commentaryShown);
 
     /// <summary>Commentary added since the last turn, each line once.</summary>
     private void ShowNewCommentary(GameView view)
@@ -272,17 +292,18 @@ public sealed class GameLoop
         _commentaryShown = match.Commentary.Count;
     }
 
-    /// <summary>The scoreboard, from the start of a match until the day after it ends.</summary>
-    private void ShowMatch(GameView view)
+    private void ShowScoreboard(GameView view)
     {
         var match = view.LatestMatch;
-        if (match == null || view.Now.Date > match.Fixture.End.AddDays(1) || match.Innings.Count == 0)
+        if (match == null || match.Innings.Count == 0)
         {
             return;
         }
 
-        _console.MarkupLine($"[bold]{Markup.Escape(match.Fixture.Format.Name)} v {Markup.Escape(match.Fixture.Opponent.Name)} on strip {match.Fixture.Strip.Number}[/]");
-        foreach (var innings in match.Innings)
+        var fixture = match.Fixture;
+        var day = fixture.Days > 1 && !match.Finished ? $", day {(view.Now.Date - fixture.Start).Days + 1} of {fixture.Days}" : "";
+        _console.MarkupLine($"[bold]{Markup.Escape(fixture.Format.Name)} v {Markup.Escape(fixture.Opponent.Name)}{day}, strip {fixture.Strip.Number}[/]");
+        foreach (var innings in Format.Started(match))
         {
             _console.MarkupLine("  " + Markup.Escape(Format.Innings(innings)));
         }
@@ -290,17 +311,66 @@ public sealed class GameLoop
         {
             _console.MarkupLine($"  [bold]{Markup.Escape(match.Result.Text)}[/]");
         }
-        if (match.Rating is { } rating)
-        {
-            var colour = rating.Grade <= Groundsman.Core.Match.PitchGrade.Satisfactory ? "green" : "red";
-            var demerits = rating.Demerits > 0 ? $", {rating.Demerits} demerit{(rating.Demerits == 1 ? "" : "s")}" : "";
-            _console.MarkupLine($"  [{colour}]Referee: {Format.Grade(rating.Grade)}{demerits}[/]");
-            foreach (var reason in rating.Reasons)
-            {
-                _console.MarkupLine($"    {Markup.Escape(reason)}");
-            }
-        }
     }
+
+    /// <summary>The referee's verdict, the first time a turn finds it.</summary>
+    private void ShowVerdictOnce(GameView view)
+    {
+        var match = view.LatestMatch;
+        if (match?.Rating is not { } rating || match.Fixture == _verdictShown)
+        {
+            return;
+        }
+        _verdictShown = match.Fixture;
+
+        var colour = GradeColour(rating.Grade);
+        var lines = new List<string> { $"[bold {colour}]{Format.Grade(rating.Grade)}[/]" };
+        lines.AddRange(rating.Reasons.Select(r => "  " + Markup.Escape(r)));
+        lines.Add("");
+        lines.AddRange(Format.Started(match).Select(i => Markup.Escape(Format.Innings(i))));
+        if (match.Result != null)
+        {
+            lines.Add(Markup.Escape(match.Result.Text));
+        }
+        lines.Add("");
+        var demerits = rating.Demerits == 0 ? "No demerits" : $"[{colour}]{Format.Demerits(rating.Demerits)}[/]";
+        lines.Add($"{demerits} for this match. {Format.Demerits(view.DemeritsActive)} in the last five years.");
+
+        var title = $"The referee's verdict: {Markup.Escape(match.Fixture.Format.Name)} v {Markup.Escape(match.Fixture.Opponent.Name)}, strip {match.Fixture.Strip.Number}";
+        _console.Write(new Panel(new Markup(string.Join("\n", lines))).Header(title).Border(BoxBorder.Rounded));
+    }
+
+    private void ShowRecord()
+    {
+        var finished = _game.View.Matches.Where(m => m.Finished).ToList();
+        if (finished.Count == 0)
+        {
+            _console.MarkupLine("No matches played yet.");
+            return;
+        }
+
+        var table = new Table().Border(TableBorder.Simple).Title("Season record")
+            .AddColumn(new TableColumn("Date").NoWrap())
+            .AddColumn(new TableColumn("Match").NoWrap())
+            .AddColumn("Strip")
+            .AddColumn("Result")
+            .AddColumn(new TableColumn("Rating").NoWrap());
+        foreach (var match in finished)
+        {
+            var rating = match.Rating;
+            table.AddRow(
+                match.Fixture.Start.ToString("d MMM", System.Globalization.CultureInfo.InvariantCulture),
+                Markup.Escape($"{match.Fixture.Format.Name} v {match.Fixture.Opponent.Name}"),
+                match.Fixture.Strip.Number.ToString(),
+                Markup.Escape(match.Result?.Text ?? ""),
+                rating == null ? "[grey]not rated[/]" : $"[{GradeColour(rating.Grade)}]{Format.Grade(rating.Grade)}{(rating.Demerits > 0 ? $" ({rating.Demerits})" : "")}[/]");
+        }
+        _console.Write(table);
+        _console.MarkupLine($"{Format.Demerits(_game.View.DemeritsActive)} in the last five years.");
+    }
+
+    private static string GradeColour(Groundsman.Core.Match.PitchGrade grade) =>
+        grade <= Groundsman.Core.Match.PitchGrade.Satisfactory ? "green" : "red";
 
     private void ShowForecast(GameView view)
     {
@@ -328,12 +398,13 @@ public sealed class GameLoop
             .AddRow("m <strip> <mm>", "Mow a strip to a height; more than a third off at once scalps it")
             .AddRow("l <strip> <roller> <min>", $"Roll a strip ({string.Join(", ", _game.View.Rollers.Select(r => r.Id))}): only moist, never wet")
             .AddRow("e <strip>", "Repair the ends after a match: fill and seed footholes and rough")
-            .AddRow("clean <strip>", "During a match: clean and dry the footholes at a break")
+            .AddRow("clean <strip>", "During a match: clean and dry the footholes before play or at a break")
             .AddRow("fill <strip>", "During a match over one day: fill the footholes at close of play")
             .AddRow("c <strip>", "Put a cover on a strip: keeps rain off, slows drying")
             .AddRow("u <strip>", "Take a strip's cover off")
             .AddRow("", "Every strip job takes a name, e.g. w 3 sam. You do it if none is given.")
             .AddRow("s", "Show the ground again")
+            .AddRow("v", "The season record: every match, its result and the referee's rating")
             .AddRow("Enter or a", "Advance to the next decision point")
             .AddRow("q", "Quit");
 

@@ -100,4 +100,35 @@ public class FormatTests
     {
         Assert.Equal("Thu 25 Mar 2027, 07:00", Format.Time(new GameTime(2027, 3, 25, 7)));
     }
+
+    [Fact]
+    public void Intervals_say_what_can_be_done_on_the_match_strip()
+    {
+        var strip = new Groundsman.Core.Strips.StripId(6);
+
+        Assert.Equal("Tea. On strip 6 you can clean the footholes (clean 6).",
+            Format.Interval(new Groundsman.Core.Match.IntervalView("Tea", strip, canClean: true, canFill: false)));
+        Assert.Equal("Stumps. On strip 6 you can clean the footholes (clean 6) or fill them for the night (fill 6).",
+            Format.Interval(new Groundsman.Core.Match.IntervalView("Stumps", strip, canClean: true, canFill: true)));
+    }
+
+    [Theory]
+    [InlineData(0, "0 demerits")]
+    [InlineData(1, "1 demerit")]
+    [InlineData(3, "3 demerits")]
+    public void Demerits_are_counted_in_words(int count, string expected)
+    {
+        Assert.Equal(expected, Format.Demerits(count));
+    }
+
+    [Fact]
+    public void The_scoreboard_leaves_off_an_innings_with_no_overs_faced()
+    {
+        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), TestFormats.FourDay, new Groundsman.Core.Strips.StripId(6), TestTeams.Opponent);
+        var first = new Groundsman.Core.Match.InningsView("Kestrelshire", 242, 10, 88.4, false);
+        var next = new Groundsman.Core.Match.InningsView("Test Visitors", 0, 0, 0, false);
+        var match = new Groundsman.Core.Match.MatchView(fixture, new[] { first, next }, false, null, Array.Empty<Groundsman.Core.Match.CommentaryLine>(), null);
+
+        Assert.Equal(new[] { first }, Format.Started(match));
+    }
 }

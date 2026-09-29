@@ -91,6 +91,13 @@ public static class Format
         return $"{innings.Batting} {score} ({innings.Overs.ToString("0.#", CultureInfo.InvariantCulture)} ov)";
     }
 
+    /// <summary>
+    /// The innings to show. One begun at close of play with no overs faced is left off, as on
+    /// a real scoreboard.
+    /// </summary>
+    public static IEnumerable<Groundsman.Core.Match.InningsView> Started(Groundsman.Core.Match.MatchView match) =>
+        match.Innings.Where((innings, i) => i == 0 || innings.Overs > 0);
+
     public static string Grade(Groundsman.Core.Match.PitchGrade grade) => grade switch
     {
         Groundsman.Core.Match.PitchGrade.VeryGood => "Very good",
@@ -98,6 +105,26 @@ public static class Format
         Groundsman.Core.Match.PitchGrade.Unsatisfactory => "Unsatisfactory",
         _ => "Unfit",
     };
+
+    public static string Demerits(int count) => $"{count} demerit{(count == 1 ? "" : "s")}";
+
+    /// <summary>What Law 9 allows on the match strip this turn.</summary>
+    public static string Interval(Groundsman.Core.Match.IntervalView interval)
+    {
+        var strip = interval.Strip.Number;
+        var jobs = new List<string>();
+        if (interval.CanClean)
+        {
+            jobs.Add($"clean the footholes (clean {strip})");
+        }
+        if (interval.CanFill)
+        {
+            jobs.Add($"fill them for the night (fill {strip})");
+        }
+        return jobs.Count == 0
+            ? $"{interval.Name}."
+            : $"{interval.Name}. On strip {strip} you can {string.Join(" or ", jobs)}.";
+    }
 
     public static string FirstName(string name)
     {

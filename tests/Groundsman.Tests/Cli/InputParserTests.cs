@@ -43,6 +43,14 @@ public class InputParserTests
     }
 
     [Theory]
+    [InlineData("v")]
+    [InlineData("record")]
+    public void V_shows_the_season_record(string input)
+    {
+        Assert.IsType<RecordInput>(InputParser.Parse(input));
+    }
+
+    [Theory]
     [InlineData("r 3")]
     [InlineData("R 3")]
     [InlineData("read 3")]

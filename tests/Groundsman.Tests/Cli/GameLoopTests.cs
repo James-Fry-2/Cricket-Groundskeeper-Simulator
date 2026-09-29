@@ -1,5 +1,6 @@
 using Groundsman.Cli;
 using Groundsman.Core;
+using Groundsman.Core.Content;
 using Groundsman.Core.Time;
 using Spectre.Console.Testing;
 
@@ -250,24 +251,77 @@ public class GameLoopTests
         Assert.DoesNotContain("Truth", console.Output);
     }
 
-    [Fact]
-    public void A_match_shows_its_scoreboard_and_result()
+    private static (TestConsole Console, Game Game) PlayMatch(FormatSettings format, string input)
     {
         var console = new TestConsole();
         console.Profile.Width = 120;
-        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), TestFormats.OneDay, new Groundsman.Core.Strips.StripId(6), TestTeams.Opponent);
+        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), format, new Groundsman.Core.Strips.StripId(6), TestTeams.Opponent);
         var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 5, 19, 13), new[] { fixture }, 2));
+        new GameLoop(console, game, new StringReader(input)).Run();
+        return (console, game);
+    }
 
-        new GameLoop(console, game, new StringReader("\n\n\n\n\n")).Run();
+    [Fact]
+    public void A_match_shows_its_scoreboard_commentary_and_verdict()
+    {
+        var (console, game) = PlayMatch(TestFormats.OneDay, "\n\n\n\n\n");
 
         var match = game.View.LatestMatch!;
         Assert.True(match.Finished);
         Assert.Contains(Format.Innings(match.Innings[0]), console.Output);
         Assert.Contains(match.Result!.Text, console.Output);
-        Assert.Contains($"Referee: {Format.Grade(match.Rating!.Grade)}", console.Output);
+        Assert.Single(console.Output.Split('\n'), l => l.Contains("The referee's verdict: One-day v Test Visitors, strip 6"));
+        Assert.Contains(Format.Grade(match.Rating!.Grade), console.Output);
         Assert.Contains(match.Rating.Reasons[0], console.Output);
+        Assert.Contains($"for this match. {Format.Demerits(game.View.DemeritsActive)} in the last five years.", console.Output);
         Assert.All(match.Commentary, line => Assert.Contains(line.Text, console.Output));
         Assert.Single(console.Output.Split('\n'), l => l.Contains(match.Commentary[0].Text));
+    }
+
+    [Fact]
+    public void A_match_day_turn_shows_the_scoreboard_then_commentary_then_the_interval()
+    {
+        var (console, game) = PlayMatch(TestFormats.FourDay, "\n\n\n\n");
+        Assert.Equal(new GameTime(2027, 5, 20, 18), game.View.Now);
+
+        var output = console.Output;
+        var turn = output.LastIndexOf("Advanced", StringComparison.Ordinal);
+        var score = output.IndexOf(Format.Innings(game.View.LatestMatch!.Innings[0]), turn, StringComparison.Ordinal);
+        var commentary = output.IndexOf(game.View.LatestMatch.Commentary[^1].Text, turn, StringComparison.Ordinal);
+        var interval = output.IndexOf("Stumps. On strip 6 you can clean the footholes (clean 6) or fill them for the night (fill 6).", turn, StringComparison.Ordinal);
+
+        Assert.True(turn < score && score < commentary && commentary < interval, $"{turn} {score} {commentary} {interval}");
+    }
+
+    [Fact]
+    public void Status_repeats_the_scoreboard_during_a_match()
+    {
+        var (console, game) = PlayMatch(TestFormats.FourDay, "\n\n\n\ns\n");
+
+        var line = Format.Innings(game.View.LatestMatch!.Innings[0]);
+        var status = console.Output.LastIndexOf("> s", StringComparison.Ordinal);
+        Assert.True(console.Output.IndexOf(line, status, StringComparison.Ordinal) > status);
+    }
+
+    [Fact]
+    public void The_record_lists_each_finished_match_with_its_rating()
+    {
+        var (console, game) = PlayMatch(TestFormats.OneDay, "\n\n\n\n\nv\n");
+        var match = game.View.LatestMatch!;
+
+        var record = console.Output.Substring(console.Output.LastIndexOf("Season record", StringComparison.Ordinal));
+        Assert.Contains("20 May", record);
+        Assert.Contains("One-day v Test Visitors", record);
+        Assert.Contains(match.Result!.Text, record);
+        Assert.Contains(Format.Grade(match.Rating!.Grade), record);
+    }
+
+    [Fact]
+    public void The_record_says_when_nothing_has_been_played()
+    {
+        var (console, _) = Play("v", "q");
+
+        Assert.Contains("No matches played yet.", console.Output);
     }
 
     [Fact]
@@ -285,5 +339,6 @@ public class GameLoopTests
         Assert.Contains("clean <strip>", console.Output);
         Assert.Contains("fill <strip>", console.Output);
         Assert.Contains("u <strip>", console.Output);
+        Assert.Contains("season record", console.Output);
     }
 }
