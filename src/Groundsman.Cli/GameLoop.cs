@@ -243,6 +243,10 @@ public sealed class GameLoop
         _console.Write(table);
         ShowForecast(view);
         _console.MarkupLine($"Covers free: {view.CoversFree} of {view.CoversOwned}.");
+        if (view.DemeritsActive > 0)
+        {
+            _console.MarkupLine($"[{(view.Banned ? "red" : "yellow")}]Demerits in the last five years: {view.DemeritsActive}{(view.Banned ? ". The ground has lost the right to host." : ".")}[/]");
+        }
         _console.MarkupLine(Markup.Escape(Format.Hours(view.Staff)));
         _console.MarkupLine("[grey]Enter to advance, h for help.[/]");
     }
@@ -285,6 +289,16 @@ public sealed class GameLoop
         if (match.Result != null)
         {
             _console.MarkupLine($"  [bold]{Markup.Escape(match.Result.Text)}[/]");
+        }
+        if (match.Rating is { } rating)
+        {
+            var colour = rating.Grade <= Groundsman.Core.Match.PitchGrade.Satisfactory ? "green" : "red";
+            var demerits = rating.Demerits > 0 ? $", {rating.Demerits} demerit{(rating.Demerits == 1 ? "" : "s")}" : "";
+            _console.MarkupLine($"  [{colour}]Referee: {Format.Grade(rating.Grade)}{demerits}[/]");
+            foreach (var reason in rating.Reasons)
+            {
+                _console.MarkupLine($"    {Markup.Escape(reason)}");
+            }
         }
     }
 

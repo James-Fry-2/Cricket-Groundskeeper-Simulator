@@ -87,6 +87,14 @@ public class FormatTests
         Assert.Equal(expected, Format.Innings(new Groundsman.Core.Match.InningsView("Kestrelshire", runs, wickets, overs, declared)));
     }
 
+    [Theory]
+    [InlineData(Groundsman.Core.Match.PitchGrade.VeryGood, "Very good")]
+    [InlineData(Groundsman.Core.Match.PitchGrade.Unfit, "Unfit")]
+    public void Grades_read_as_words(Groundsman.Core.Match.PitchGrade grade, string expected)
+    {
+        Assert.Equal(expected, Format.Grade(grade));
+    }
+
     [Fact]
     public void Times_show_day_date_and_hour()
     {

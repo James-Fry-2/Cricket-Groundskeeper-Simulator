@@ -91,6 +91,14 @@ public static class Format
         return $"{innings.Batting} {score} ({innings.Overs.ToString("0.#", CultureInfo.InvariantCulture)} ov)";
     }
 
+    public static string Grade(Groundsman.Core.Match.PitchGrade grade) => grade switch
+    {
+        Groundsman.Core.Match.PitchGrade.VeryGood => "Very good",
+        Groundsman.Core.Match.PitchGrade.Satisfactory => "Satisfactory",
+        Groundsman.Core.Match.PitchGrade.Unsatisfactory => "Unsatisfactory",
+        _ => "Unfit",
+    };
+
     public static string FirstName(string name)
     {
         var space = name.IndexOf(' ');
