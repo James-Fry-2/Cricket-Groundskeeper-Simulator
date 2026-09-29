@@ -119,6 +119,26 @@ public class MatchModelTests
     }
 
     [Fact]
+    public void A_last_wicket_falling_alone_in_a_block_falls_part_way_through_on_average()
+    {
+        var model = new MatchModel(TestMatch.Settings, new RandomStreams(4).Get(RandomStream.Match));
+        var shares = new List<double>();
+
+        for (var i = 0; i < Blocks; i++)
+        {
+            var block = model.PlayBlock(Flat, Team(), Team(), TestFormats.FourDay, overs: 16, wicketsInHand: 1);
+            if (block.Wickets == 1)
+            {
+                Assert.True(block.Overs < 16, "A bowled-out innings never lasts the whole block.");
+                shares.Add(block.Overs / 16);
+            }
+        }
+
+        Assert.True(shares.Count > 500);
+        Assert.InRange(shares.Average(), 0.35, 0.5);
+    }
+
+    [Fact]
     public void The_same_seed_plays_the_same()
     {
         Assert.Equal(Average(Flat, seed: 9), Average(Flat, seed: 9));

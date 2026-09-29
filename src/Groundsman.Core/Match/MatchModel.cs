@@ -66,8 +66,10 @@ namespace Groundsman.Core.Match
 
             if (wickets >= wicketsInHand)
             {
-                // Bowled out part-way: the innings only lasted as long as the wickets took.
-                var share = (double)wicketsInHand / wickets;
+                // Bowled out part-way. Wickets in a block fall at evenly spread random times,
+                // so the k-th of n falls k / (n + 1) of the way through on average. Using k / n
+                // would put the last wicket at the block's end whenever k equals n.
+                var share = (double)wicketsInHand / (wickets + 1);
                 return new BlockResult(overs * share, runs * share, wicketsInHand);
             }
             return new BlockResult(overs, runs, wickets);
