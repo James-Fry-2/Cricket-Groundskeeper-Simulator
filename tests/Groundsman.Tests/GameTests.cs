@@ -9,8 +9,8 @@ public class GameTests
 {
     private static readonly DateTime MatchDay = new DateTime(2027, 5, 20);
 
-    private static Game NewGame(GameTime start, params IHourlySystem[] extraSystems) =>
-        new Game(TestContent.Setup(start, new[] { MatchDay }), extraSystems);
+    private static Game NewGame(GameTime start, params IHourlySystem[] observers) =>
+        new Game(TestContent.Setup(start, new[] { MatchDay }), observers);
 
     [Fact]
     public void View_shows_the_start_time()
@@ -23,7 +23,7 @@ public class GameTests
     [Fact]
     public void Advance_runs_every_hour_up_to_the_next_decision_point()
     {
-        var recorder = new RecordingSystem(TickStep.WearAndRecovery, new List<TickStep>());
+        var recorder = new RecordingSystem(TickStep.Tasks, new List<TickStep>());
         var game = NewGame(new GameTime(2027, 5, 10, 7), recorder);
 
         var result = game.Advance();
@@ -49,7 +49,7 @@ public class GameTests
     [Fact]
     public void Advancing_a_year_ticks_every_hour_exactly_once()
     {
-        var recorder = new RecordingSystem(TickStep.WearAndRecovery, new List<TickStep>());
+        var recorder = new RecordingSystem(TickStep.Tasks, new List<TickStep>());
         var start = new GameTime(2027, 1, 1, 7);
         var end = new GameTime(2028, 1, 1, 7);
         var game = NewGame(start, recorder);

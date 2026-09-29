@@ -8,8 +8,8 @@ namespace Groundsman.Core.Pitch
     /// <summary>
     /// Turns a strip's true state into how it plays, following the design's driver table:
     /// pace from hardness; bounce from compaction, clay and water at depth; consistency lost to
-    /// structure damage, loose soil and cracks; seam from grass and a damp surface; spin from a
-    /// dry, bare, cracked surface.
+    /// structure damage, loose soil, cracks, footholes and wear; seam from grass and a damp
+    /// surface; spin from a dry, bare, cracked, rough and worn surface.
     /// </summary>
     internal sealed class PitchModel
     {
@@ -29,7 +29,7 @@ namespace Groundsman.Core.Pitch
             var depthMoisture = Share(strip.SubsurfaceMoisture - loam.AirDry, loam.FieldCapacity - loam.AirDry);
             var grass = strip.GrassCover / 100 * Math.Min(1, strip.GrassHeightMm / _settings.GrassReferenceMm);
 
-            var cracking = Clamp01(loam.CrackingTendency * Math.Pow(dryness, _settings.CrackingDryExponent));
+            var cracking = strip.Cracks;
 
             // Long grass cushions the ball, taking pace and bounce off it.
             var cushion = 1 - _settings.GrassCushion * Clamp01((strip.GrassHeightMm - _settings.GrassReferenceMm) / _settings.GrassReferenceMm);
@@ -44,12 +44,16 @@ namespace Groundsman.Core.Pitch
                 1
                 - _settings.ConsistencyDamageWeight * strip.StructureDamage
                 - _settings.ConsistencyLooseWeight * Math.Max(0, _settings.ConsistencyLooseBelow - strip.Compaction)
-                - _settings.ConsistencyCrackWeight * cracking);
+                - _settings.ConsistencyCrackWeight * cracking
+                - _settings.ConsistencyFootholeWeight * strip.Footholes
+                - _settings.ConsistencySurfaceWearWeight * strip.SurfaceWear);
             var carry = Math.Sqrt(pace * bounce);
             var seam = Clamp01(grass * (_settings.SeamBase + _settings.SeamWetWeight * (1 - dryness)));
             var spin = Clamp01(
                 _settings.SpinDryWeight * dryness
                 + _settings.SpinCrackWeight * cracking
+                + _settings.SpinRoughWeight * strip.Rough
+                + _settings.SpinSurfaceWearWeight * strip.SurfaceWear
                 - _settings.SpinGrassWeight * grass);
 
             return new PitchCharacteristics(10 * pace, 10 * bounce, 10 * consistency, 10 * carry, 10 * seam, 10 * spin, 10 * cracking);

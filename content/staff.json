@@ -11,6 +11,7 @@
     "probeReading": 0.25,
     "feelReading": 0.05,
     "soilCore": 0.75,
-    "mow": 0.5
+    "mow": 0.5,
+    "repairEnds": 2.0
   }
 }

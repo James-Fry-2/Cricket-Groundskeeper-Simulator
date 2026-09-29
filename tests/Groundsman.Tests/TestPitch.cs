@@ -13,11 +13,14 @@ internal static class TestPitch
         consistencyDamageWeight: 0.6,
         consistencyLooseBelow: 0.65,
         consistencyLooseWeight: 1.0,
-        consistencyCrackWeight: 0.3,
+        consistencyCrackWeight: 0.4,
+        consistencyFootholeWeight: 0.4,
+        consistencySurfaceWearWeight: 0.2,
         seamBase: 0.3,
         seamWetWeight: 0.7,
         spinDryWeight: 0.6,
         spinCrackWeight: 0.3,
         spinGrassWeight: 0.4,
-        crackingDryExponent: 2);
+        spinRoughWeight: 0.5,
+        spinSurfaceWearWeight: 0.4);
 }

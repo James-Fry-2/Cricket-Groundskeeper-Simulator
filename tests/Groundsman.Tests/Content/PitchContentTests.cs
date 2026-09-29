@@ -14,7 +14,8 @@ public class PitchContentTests
         Assert.Equal(10, pitch.GrassReferenceMm);
         Assert.Equal(0.6, pitch.ConsistencyDamageWeight);
         Assert.Equal(0.7, pitch.SeamWetWeight);
-        Assert.Equal(2, pitch.CrackingDryExponent);
+        Assert.Equal(0.4, pitch.ConsistencyFootholeWeight);
+        Assert.Equal(0.5, pitch.SpinRoughWeight);
     }
 
     [Theory]
@@ -25,7 +26,8 @@ public class PitchContentTests
     [InlineData("\"looseBelow\": 0.65", "\"looseBelow\": 2", "looseBelow")]
     [InlineData("\"grassCushion\": 0.4", "\"grassCushion\": 1.5", "grassCushion")]
     [InlineData("\"wetWeight\": 0.7", "\"wetWeight\": -1", "wetWeight")]
-    [InlineData("\"dryExponent\": 2", "\"dryExponent\": 0", "dryExponent")]
+    [InlineData("\"footholeWeight\": 0.4", "\"footholeWeight\": -1", "footholeWeight")]
+    [InlineData("\"roughWeight\": 0.5", "\"roughWeight\": -1", "roughWeight")]
     public void Rejects_invalid_values_naming_the_field(string original, string replacement, string field)
     {
         var error = Assert.Throws<ContentException>(() => ContentParser.ParsePitch(Shipped().Replace(original, replacement)));

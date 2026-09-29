@@ -1,12 +1,15 @@
 using Groundsman.Core.Readings;
 using Groundsman.Core.Strips;
+using Groundsman.Core.Time;
 
 namespace Groundsman.Core
 {
     public sealed class StripView
     {
-        public StripView(StripId id, Reading? surfaceMoisture, ValueRange? surfaceMoistureNow, Reading? subsurfaceMoisture, ValueRange? subsurfaceMoistureNow, bool wateringQueued, bool covered, CoverOrder coverOrder, MowRecord? lastMown, bool mowingQueued, RollRecord? lastRolled, bool rollingQueued)
+        public StripView(StripId id, Reading? surfaceMoisture, ValueRange? surfaceMoistureNow, Reading? subsurfaceMoisture, ValueRange? subsurfaceMoistureNow, bool wateringQueued, bool covered, CoverOrder coverOrder, MowRecord? lastMown, bool mowingQueued, RollRecord? lastRolled, bool rollingQueued, GameTime? lastRepaired, bool repairQueued)
         {
+            LastRepaired = lastRepaired;
+            RepairQueued = repairQueued;
             LastRolled = lastRolled;
             RollingQueued = rollingQueued;
             LastMown = lastMown;
@@ -56,5 +59,10 @@ namespace Groundsman.Core
         public RollRecord? LastRolled { get; }
 
         public bool RollingQueued { get; }
+
+        /// <summary>When you last ordered the ends repaired, or null if never this game.</summary>
+        public GameTime? LastRepaired { get; }
+
+        public bool RepairQueued { get; }
     }
 }

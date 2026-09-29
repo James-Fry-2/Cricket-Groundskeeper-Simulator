@@ -13,12 +13,15 @@ namespace Groundsman.Core.Content
             double consistencyLooseBelow,
             double consistencyLooseWeight,
             double consistencyCrackWeight,
+            double consistencyFootholeWeight,
+            double consistencySurfaceWearWeight,
             double seamBase,
             double seamWetWeight,
             double spinDryWeight,
             double spinCrackWeight,
             double spinGrassWeight,
-            double crackingDryExponent)
+            double spinRoughWeight,
+            double spinSurfaceWearWeight)
         {
             if (grassReferenceMm <= 0)
             {
@@ -40,10 +43,10 @@ namespace Groundsman.Core.Content
             CheckNotNegative("spin.dryWeight", spinDryWeight);
             CheckNotNegative("spin.crackWeight", spinCrackWeight);
             CheckNotNegative("spin.grassWeight", spinGrassWeight);
-            if (crackingDryExponent <= 0)
-            {
-                throw new ContentException($"pitch.cracking.dryExponent ({crackingDryExponent}) must be above 0.");
-            }
+            CheckNotNegative("consistency.footholeWeight", consistencyFootholeWeight);
+            CheckNotNegative("consistency.surfaceWearWeight", consistencySurfaceWearWeight);
+            CheckNotNegative("spin.roughWeight", spinRoughWeight);
+            CheckNotNegative("spin.surfaceWearWeight", spinSurfaceWearWeight);
 
             GrassReferenceMm = grassReferenceMm;
             GrassCushion = grassCushion;
@@ -59,7 +62,10 @@ namespace Groundsman.Core.Content
             SpinDryWeight = spinDryWeight;
             SpinCrackWeight = spinCrackWeight;
             SpinGrassWeight = spinGrassWeight;
-            CrackingDryExponent = crackingDryExponent;
+            ConsistencyFootholeWeight = consistencyFootholeWeight;
+            ConsistencySurfaceWearWeight = consistencySurfaceWearWeight;
+            SpinRoughWeight = spinRoughWeight;
+            SpinSurfaceWearWeight = spinSurfaceWearWeight;
         }
 
         /// <summary>Grass height at which a full sward gives the seamers all it can.</summary>
@@ -96,8 +102,10 @@ namespace Groundsman.Core.Content
         public double SpinCrackWeight { get; }
         public double SpinGrassWeight { get; }
 
-        /// <summary>How sharply cracking rises as the surface dries.</summary>
-        public double CrackingDryExponent { get; }
+        public double ConsistencyFootholeWeight { get; }
+        public double ConsistencySurfaceWearWeight { get; }
+        public double SpinRoughWeight { get; }
+        public double SpinSurfaceWearWeight { get; }
 
         private static void CheckNotNegative(string field, double value)
         {

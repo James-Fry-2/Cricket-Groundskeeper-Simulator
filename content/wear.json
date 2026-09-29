@@ -1,0 +1,15 @@
+{
+  "resistance": { "compactionWeight": 0.5, "clayWeight": 0.3, "clayReference": 30, "rootWeight": 0.2, "wetLoss": 0.5 },
+  "perOver": {
+    "footholes": 0.004,
+    "heavyFootedExtra": 1.0,
+    "rough": 0.003,
+    "leftArmExtra": 0.5,
+    "surface": 0.002,
+    "dryDustExtra": 0.5,
+    "coverLoss": 0.05
+  },
+  "wetPlay": 2.0,
+  "cracks": { "startDryness": 0.6, "perHour": 0.01, "damageExtra": 2.0, "closePerHour": 0.02 },
+  "recovery": { "perDay": 0.02, "repairedPerDay": 0.08, "repairFills": 0.6 }
+}

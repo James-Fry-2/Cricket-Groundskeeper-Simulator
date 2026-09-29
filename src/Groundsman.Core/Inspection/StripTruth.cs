@@ -5,8 +5,12 @@ namespace Groundsman.Core.Inspection
 {
     public sealed class StripTruth
     {
-        public StripTruth(StripId id, double surfaceMoisture, double subsurfaceMoisture, double grassCover, double grassHeightMm, double rootDepthMm, double compaction, double structureDamage, double hardness, PitchCharacteristics pitch)
+        public StripTruth(StripId id, double surfaceMoisture, double subsurfaceMoisture, double grassCover, double grassHeightMm, double rootDepthMm, double compaction, double structureDamage, double hardness, PitchCharacteristics pitch, double footholes, double rough, double surfaceWear, double cracks)
         {
+            Footholes = footholes;
+            Rough = rough;
+            SurfaceWear = surfaceWear;
+            Cracks = cracks;
             Pitch = pitch;
             Compaction = compaction;
             StructureDamage = structureDamage;
@@ -28,6 +32,10 @@ namespace Groundsman.Core.Inspection
         public double Compaction { get; }
         public double StructureDamage { get; }
         public double Hardness { get; }
+        public double Footholes { get; }
+        public double Rough { get; }
+        public double SurfaceWear { get; }
+        public double Cracks { get; }
 
         /// <summary>How the strip would play now.</summary>
         public PitchCharacteristics Pitch { get; }

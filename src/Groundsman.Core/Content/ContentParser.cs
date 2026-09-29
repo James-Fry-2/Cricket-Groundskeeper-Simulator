@@ -152,7 +152,8 @@ namespace Groundsman.Core.Content
                 Required(file, "jobHours.probeReading", jobs.ProbeReading),
                 Required(file, "jobHours.feelReading", jobs.FeelReading),
                 Required(file, "jobHours.soilCore", jobs.SoilCore),
-                Required(file, "jobHours.mow", jobs.Mow));
+                Required(file, "jobHours.mow", jobs.Mow),
+                Required(file, "jobHours.repairEnds", jobs.RepairEnds));
         }
 
         public static ForecastSettings ParseForecast(string json)
@@ -217,6 +218,38 @@ namespace Groundsman.Core.Content
                 Required(file, "hardness.clayExponent", hardness.ClayExponent));
         }
 
+        public static WearSettings ParseWear(string json)
+        {
+            const string file = "wear";
+            var dto = Deserialise<WearDto>(json, file);
+            var resistance = Required(file, "resistance", dto.Resistance);
+            var perOver = Required(file, "perOver", dto.PerOver);
+            var cracks = Required(file, "cracks", dto.Cracks);
+            var recovery = Required(file, "recovery", dto.Recovery);
+
+            return new WearSettings(
+                Required(file, "resistance.compactionWeight", resistance.CompactionWeight),
+                Required(file, "resistance.clayWeight", resistance.ClayWeight),
+                Required(file, "resistance.clayReference", resistance.ClayReference),
+                Required(file, "resistance.rootWeight", resistance.RootWeight),
+                Required(file, "resistance.wetLoss", resistance.WetLoss),
+                Required(file, "perOver.footholes", perOver.Footholes),
+                Required(file, "perOver.heavyFootedExtra", perOver.HeavyFootedExtra),
+                Required(file, "perOver.rough", perOver.Rough),
+                Required(file, "perOver.leftArmExtra", perOver.LeftArmExtra),
+                Required(file, "perOver.surface", perOver.Surface),
+                Required(file, "perOver.dryDustExtra", perOver.DryDustExtra),
+                Required(file, "perOver.coverLoss", perOver.CoverLoss),
+                Required(file, "wetPlay", dto.WetPlay),
+                Required(file, "cracks.startDryness", cracks.StartDryness),
+                Required(file, "cracks.perHour", cracks.PerHour),
+                Required(file, "cracks.damageExtra", cracks.DamageExtra),
+                Required(file, "cracks.closePerHour", cracks.ClosePerHour),
+                Required(file, "recovery.perDay", recovery.PerDay),
+                Required(file, "recovery.repairedPerDay", recovery.RepairedPerDay),
+                Required(file, "recovery.repairFills", recovery.RepairFills));
+        }
+
         public static PitchSettings ParsePitch(string json)
         {
             const string file = "pitch";
@@ -225,7 +258,6 @@ namespace Groundsman.Core.Content
             var consistency = Required(file, "consistency", dto.Consistency);
             var seam = Required(file, "seam", dto.Seam);
             var spin = Required(file, "spin", dto.Spin);
-            var cracking = Required(file, "cracking", dto.Cracking);
 
             return new PitchSettings(
                 Required(file, "grassReferenceMm", dto.GrassReferenceMm),
@@ -237,12 +269,15 @@ namespace Groundsman.Core.Content
                 Required(file, "consistency.looseBelow", consistency.LooseBelow),
                 Required(file, "consistency.looseWeight", consistency.LooseWeight),
                 Required(file, "consistency.crackWeight", consistency.CrackWeight),
+                Required(file, "consistency.footholeWeight", consistency.FootholeWeight),
+                Required(file, "consistency.surfaceWearWeight", consistency.SurfaceWearWeight),
                 Required(file, "seam.base", seam.Base),
                 Required(file, "seam.wetWeight", seam.WetWeight),
                 Required(file, "spin.dryWeight", spin.DryWeight),
                 Required(file, "spin.crackWeight", spin.CrackWeight),
                 Required(file, "spin.grassWeight", spin.GrassWeight),
-                Required(file, "cracking.dryExponent", cracking.DryExponent));
+                Required(file, "spin.roughWeight", spin.RoughWeight),
+                Required(file, "spin.surfaceWearWeight", spin.SurfaceWearWeight));
         }
 
         public static GrassSettings ParseGrass(string json)
@@ -729,6 +764,7 @@ namespace Groundsman.Core.Content
             public double? FeelReading { get; set; }
             public double? SoilCore { get; set; }
             public double? Mow { get; set; }
+            public double? RepairEnds { get; set; }
         }
 
         private sealed class ForecastDto
@@ -853,7 +889,6 @@ namespace Groundsman.Core.Content
             public ConsistencyDto? Consistency { get; set; }
             public SeamDto? Seam { get; set; }
             public SpinDto? Spin { get; set; }
-            public CrackingDto? Cracking { get; set; }
         }
 
         private sealed class BounceDto
@@ -869,6 +904,8 @@ namespace Groundsman.Core.Content
             public double? LooseBelow { get; set; }
             public double? LooseWeight { get; set; }
             public double? CrackWeight { get; set; }
+            public double? FootholeWeight { get; set; }
+            public double? SurfaceWearWeight { get; set; }
         }
 
         private sealed class SeamDto
@@ -882,11 +919,52 @@ namespace Groundsman.Core.Content
             public double? DryWeight { get; set; }
             public double? CrackWeight { get; set; }
             public double? GrassWeight { get; set; }
+            public double? RoughWeight { get; set; }
+            public double? SurfaceWearWeight { get; set; }
         }
 
-        private sealed class CrackingDto
+        private sealed class WearDto
         {
-            public double? DryExponent { get; set; }
+            public ResistanceDto? Resistance { get; set; }
+            public PerOverDto? PerOver { get; set; }
+            public double? WetPlay { get; set; }
+            public CracksDto? Cracks { get; set; }
+            public RecoveryDto? Recovery { get; set; }
+        }
+
+        private sealed class ResistanceDto
+        {
+            public double? CompactionWeight { get; set; }
+            public double? ClayWeight { get; set; }
+            public double? ClayReference { get; set; }
+            public double? RootWeight { get; set; }
+            public double? WetLoss { get; set; }
+        }
+
+        private sealed class PerOverDto
+        {
+            public double? Footholes { get; set; }
+            public double? HeavyFootedExtra { get; set; }
+            public double? Rough { get; set; }
+            public double? LeftArmExtra { get; set; }
+            public double? Surface { get; set; }
+            public double? DryDustExtra { get; set; }
+            public double? CoverLoss { get; set; }
+        }
+
+        private sealed class CracksDto
+        {
+            public double? StartDryness { get; set; }
+            public double? PerHour { get; set; }
+            public double? DamageExtra { get; set; }
+            public double? ClosePerHour { get; set; }
+        }
+
+        private sealed class RecoveryDto
+        {
+            public double? PerDay { get; set; }
+            public double? RepairedPerDay { get; set; }
+            public double? RepairFills { get; set; }
         }
     }
 }

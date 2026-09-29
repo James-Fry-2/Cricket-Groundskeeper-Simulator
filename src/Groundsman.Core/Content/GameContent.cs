@@ -23,7 +23,8 @@ namespace Groundsman.Core.Content
             GrassSettings grass,
             IReadOnlyList<RollerSettings> rollers,
             CompactionSettings compaction,
-            PitchSettings pitch)
+            PitchSettings pitch,
+            WearSettings wear)
         {
             var teamList = new TeamsSettings(teams, homeTeamId);
             foreach (var loam in loams)
@@ -65,6 +66,7 @@ namespace Groundsman.Core.Content
             Rollers = new List<RollerSettings>(rollers).AsReadOnly();
             Compaction = compaction;
             Pitch = pitch;
+            Wear = wear;
         }
 
         public CalendarSettings Calendar { get; }
@@ -86,6 +88,7 @@ namespace Groundsman.Core.Content
 
         public CompactionSettings Compaction { get; }
         public PitchSettings Pitch { get; }
+        public WearSettings Wear { get; }
 
         public RollerSettings? Roller(string id)
         {

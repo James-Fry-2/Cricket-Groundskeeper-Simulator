@@ -22,5 +22,6 @@ internal static class TestStaff
         probeReadingHours: 0.25,
         feelReadingHours: 0.05,
         soilCoreHours: 0.75,
-        mowHours: 0.5);
+        mowHours: 0.5,
+        repairEndsHours: 2.0);
 }

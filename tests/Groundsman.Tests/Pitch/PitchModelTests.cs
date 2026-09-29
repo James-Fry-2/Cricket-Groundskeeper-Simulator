@@ -18,13 +18,21 @@ public class PitchModelTests
         double damage = 0,
         double cover = 80,
         double heightMm = 7,
-        LoamSettings? loam = null)
+        LoamSettings? loam = null,
+        double cracks = 0,
+        double footholes = 0,
+        double rough = 0,
+        double surfaceWear = 0)
     {
         var strip = new StripState(new StripId(1), loam ?? TestLoams.Standard, surface, subsurface);
         strip.Compaction = compaction;
         strip.StructureDamage = damage;
         strip.GrassCover = cover;
         strip.GrassHeightMm = heightMm;
+        strip.Cracks = cracks;
+        strip.Footholes = footholes;
+        strip.Rough = rough;
+        strip.SurfaceWear = surfaceWear;
         return strip;
     }
 
@@ -53,7 +61,9 @@ public class PitchModelTests
 
         Assert.True(Of(Strip(damage: 0.4)).Consistency < baseline);
         Assert.True(Of(Strip(compaction: 0.35)).Consistency < baseline);
-        Assert.True(Of(Strip(surface: TestLoams.Heavy.AirDry + 1, loam: TestLoams.Heavy)).Consistency < Of(Strip(loam: TestLoams.Heavy)).Consistency);
+        Assert.True(Of(Strip(cracks: 0.5)).Consistency < baseline);
+        Assert.True(Of(Strip(footholes: 0.5)).Consistency < baseline);
+        Assert.True(Of(Strip(surfaceWear: 0.5)).Consistency < baseline);
     }
 
     [Fact]
@@ -109,10 +119,20 @@ public class PitchModelTests
     }
 
     [Fact]
-    public void Clay_that_dries_hard_cracks()
+    public void Cracking_is_the_cracks_that_have_opened()
     {
-        Assert.True(Of(Strip(surface: 9, loam: TestLoams.Heavy)).Cracking > Of(Strip(surface: 9)).Cracking);
-        Assert.True(Of(Strip(surface: 9)).Cracking > Of(Strip(surface: 22)).Cracking);
+        Assert.Equal(0, Of(Strip()).Cracking);
+        Assert.Equal(6, Of(Strip(cracks: 0.6)).Cracking, 9);
+    }
+
+    [Fact]
+    public void Rough_and_a_worn_surface_help_the_spinners()
+    {
+        var baseline = Of(Strip()).Spin;
+
+        Assert.True(Of(Strip(rough: 0.5)).Spin > baseline);
+        Assert.True(Of(Strip(surfaceWear: 0.5)).Spin > baseline);
+        Assert.True(Of(Strip(cracks: 0.5)).Spin > baseline);
     }
 
     [Fact]
@@ -139,7 +159,11 @@ public class PitchModelTests
                 damage: random.NextDouble(),
                 cover: random.NextDouble(0, 100),
                 heightMm: random.NextDouble(0, 60),
-                loam: loam));
+                loam: loam,
+                cracks: random.NextDouble(),
+                footholes: random.NextDouble(),
+                rough: random.NextDouble(),
+                surfaceWear: random.NextDouble()));
 
             foreach (var value in new[] { pitch.Pace, pitch.Bounce, pitch.Consistency, pitch.Carry, pitch.Seam, pitch.Spin, pitch.Cracking })
             {

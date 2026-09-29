@@ -15,6 +15,13 @@ namespace Groundsman.Core.Grass
             _settings = settings;
         }
 
+        /// <summary>How fast grass is growing on the strip now, 0 to 1; 0 in drought.</summary>
+        public double GrowthFactor(StripState strip, HourWeather weather)
+        {
+            var water = WaterFactor(strip);
+            return water < _settings.DroughtWaterBelow ? 0 : TemperatureFactor(weather.Temperature) * water;
+        }
+
         public void RunHour(StripState strip, HourWeather weather)
         {
             var temperature = TemperatureFactor(weather.Temperature);

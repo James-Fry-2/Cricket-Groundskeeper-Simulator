@@ -52,6 +52,15 @@ namespace Groundsman.Core.Tasks
             return height;
         }
 
+        private readonly List<StripId> _repairQueue = new List<StripId>();
+
+        public bool IsRepairQueued(StripId strip) => _repairQueue.Contains(strip);
+
+        public void QueueRepair(StripId strip) => _repairQueue.Add(strip);
+
+        /// <summary>True, and removes the order, if the strip was down for end repairs.</summary>
+        public bool TakeRepair(StripId strip) => _repairQueue.Remove(strip);
+
         public bool IsRollingQueued(StripId strip) => _rollQueue.Exists(r => r.Strip == strip);
 
         public void QueueRolling(StripId strip, RollerSettings roller, double minutes) => _rollQueue.Add((strip, roller, minutes));

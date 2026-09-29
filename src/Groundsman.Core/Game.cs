@@ -16,6 +16,7 @@ using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Tasks;
 using Groundsman.Core.Time;
+using Groundsman.Core.Wear;
 using Groundsman.Core.Weather;
 
 namespace Groundsman.Core
@@ -30,6 +31,7 @@ namespace Groundsman.Core
         private readonly CoversSystem _covers;
         private readonly int _coversOwned;
         private readonly HourlyTick _tick;
+        private readonly IHourlySystem[] _observers;
         private readonly KnowledgeStore _knowledge;
         private readonly ReadingTaker _readingTaker;
         private readonly StaffSettings _staffSettings;
@@ -42,6 +44,8 @@ namespace Groundsman.Core
         private readonly GameContent _content;
         private readonly RollingModel _rolling;
         private readonly PitchModel _pitch;
+        private readonly WearSystem _wear;
+        private readonly GameTime?[] _lastRepaired;
         private readonly List<(StripId Strip, Quantity Quantity)> _readThisTurn = new List<(StripId, Quantity)>();
         private GameTime _now;
 
@@ -50,8 +54,10 @@ namespace Groundsman.Core
         {
         }
 
-        internal Game(GameSetup setup, IEnumerable<IHourlySystem> extraSystems)
+        /// <param name="observers">Test hooks run after every hour's steps; they take no step of their own.</param>
+        internal Game(GameSetup setup, IEnumerable<IHourlySystem> observers)
         {
+            _observers = observers.ToArray();
             var content = setup.Content;
             var random = new RandomStreams(setup.Seed);
 
@@ -69,10 +75,14 @@ namespace Groundsman.Core
             _covers = new CoversSystem(content.Covers.Count, Square.Strips.Count);
             Moisture = new MoistureSystem(Square, Weather, _covers, _tasks, new MoistureModel(content.Moisture, content.Covers), content.Tasks.WaterMm);
             _grassSettings = content.Grass;
-            Grass = new GrassSystem(Square, Weather, _tasks, new GrassModel(content.Grass));
+            var grassModel = new GrassModel(content.Grass);
+            Grass = new GrassSystem(Square, Weather, _tasks, grassModel);
+            WearModel = new WearModel(content.Wear, content.Grass);
+            _wear = new WearSystem(Square, Weather, _tasks, grassModel, WearModel);
+            _lastRepaired = new GameTime?[Square.Strips.Count];
             _lastMown = new MowRecord?[Square.Strips.Count];
             _lastRolled = new RollRecord?[Square.Strips.Count];
-            _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, Grass, _tasks }.Concat(extraSystems));
+            _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, Grass, _tasks, _wear });
             _knowledge = new KnowledgeStore(content.Readings, Square.Strips.Count);
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
             _staffSettings = content.Staff;
@@ -103,7 +113,9 @@ namespace Groundsman.Core
                         _lastMown[i],
                         _tasks.IsMowingQueued(id),
                         _lastRolled[i],
-                        _tasks.IsRollingQueued(id));
+                        _tasks.IsRollingQueued(id),
+                        _lastRepaired[i],
+                        _tasks.IsRepairQueued(id));
                 }
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
@@ -121,7 +133,7 @@ namespace Groundsman.Core
             for (var i = 0; i < strips.Length; i++)
             {
                 var strip = Square.Strips[i];
-                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture, strip.GrassCover, strip.GrassHeightMm, strip.RootDepthMm, strip.Compaction, strip.StructureDamage, _rolling.Hardness(strip), _pitch.Characterise(strip));
+                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture, strip.GrassCover, strip.GrassHeightMm, strip.RootDepthMm, strip.Compaction, strip.StructureDamage, _rolling.Hardness(strip), _pitch.Characterise(strip), strip.Footholes, strip.Rough, strip.SurfaceWear, strip.Cracks);
             }
             return new TruthSnapshot(_now, Weather.LastHour, strips);
         }
@@ -131,6 +143,8 @@ namespace Groundsman.Core
         internal MoistureSystem Moisture { get; }
 
         internal GrassSystem Grass { get; }
+
+        internal WearModel WearModel { get; }
 
         public CommandResult Submit(IGameCommand command)
         {
@@ -148,6 +162,8 @@ namespace Groundsman.Core
                     return Mow(mow);
                 case RollStrip roll:
                     return Roll(roll);
+                case RepairEnds repair:
+                    return Repair(repair);
                 default:
                     return CommandResult.Rejected($"Unknown command: {command.GetType().Name}.");
             }
@@ -169,6 +185,10 @@ namespace Groundsman.Core
             for (var hour = from; hour < to; hour = hour.AddHours(1))
             {
                 _tick.RunHour(hour);
+                foreach (var observer in _observers)
+                {
+                    observer.RunHour(hour);
+                }
                 ObserveRain();
             }
 
@@ -227,6 +247,27 @@ namespace Groundsman.Core
 
             _tasks.QueueWatering(water.Strip);
             _staff.Spend(who, _staffSettings.WaterHours);
+            return CommandResult.Ok();
+        }
+
+        private CommandResult Repair(RepairEnds repair)
+        {
+            if (!Square.Contains(repair.Strip))
+            {
+                return CommandResult.Rejected($"{repair.Strip} isn't on this square.");
+            }
+            if (_tasks.IsRepairQueued(repair.Strip))
+            {
+                return CommandResult.Rejected($"{repair.Strip} is already down for end repairs.");
+            }
+            if (Assign(repair.By, _staffSettings.RepairEndsHours, out var who) is { } refused)
+            {
+                return refused;
+            }
+
+            _tasks.QueueRepair(repair.Strip);
+            _lastRepaired[repair.Strip.Number - 1] = _now;
+            _staff.Spend(who, _staffSettings.RepairEndsHours);
             return CommandResult.Ok();
         }
 
