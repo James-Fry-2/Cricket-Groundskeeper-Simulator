@@ -10,7 +10,7 @@ Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: 
 - [x] 4. Pitch characteristics
 - [x] 5. Wear and recovery
 - [x] 6. Match engine
-- [ ] 7. Commentary
+- [x] 7. Commentary
 - [ ] 8. Rating and demerits
 - [ ] 9. Cli: rolling, mowing, repairs, match and verdict screens
 - [ ] 10. Harness and check 3
@@ -91,6 +91,10 @@ In `content/match.json` and the formats:
 - Strength: rates shift by e^(0.8 × gap / 50); wickets +1.2 × seam share × seam/10, +1.2 × spin share × spin/10, +2.0 × unevenness, −0.4 × deadness; runs +0.4 × (carry/10 − 0.5), −0.3 × unevenness, −0.3 × deadness; deadness = 2 × max(0, 0.5 − carry/10); runs spread 0.35
 - Declaration from day 3 at a lead of 250; half the next hour lost after rain; the toss winner bowls first when seam is over 6
 - Law 9 jobs: cleaning takes 10% off footholes (0.25 h), filling at close of play 40% (1 h)
+
+In `content/commentary.json`:
+- Event thresholds: seam 6, dead (carry) 3, uneven (consistency) 6, keeping low (bounce) 3.5, turn 5, dust (surface wear) 0.4, cracks 0.3, footholes 0.3, referee inspects (consistency) 4, collapse 4 wickets in an hour, true pitch (consistency) 8.5 with carry 6 and little seam or turn
+- All wording is placeholder text to rewrite for tone
 
 In `content/wear.json`:
 - Resistance = 0.5 × compaction + 0.3 × clay (full at 30%) + 0.2 × roots (share of 100 mm), halved when the surface is wetter than the rolling window
@@ -201,4 +205,5 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Law 9: `CleanFootholes` at any break and `FillFootholes` at close of play in multi-day matches, on the match strip only; full repairs and cover orders on the match strip are refused until the match is over.
 - Found and fixed while building: the four-day base wicket rate of 0.03 was wrong by about three times (innings of 800 to 1,280, every match drawn); a rained-out first innings of 0 let the chase win by scoring 1. Tuned to 0.07 over 200 seeds: prepared pitch 28% draws, first innings about 320; untouched pitch 50% draws and lower scoring, the lifeless draw. One-day match tests now prepare the strip, since a neglected pitch scoring less is intended.
 - Gate A still passes on the stand-in score (neglect 13%, by the book 50%); 1,000 seasons now take about 8 seconds with matches playing.
-- Next: phase 3 task 7, commentary.
+- Commentary: `Commentator` raises each of eleven events once a match when its characteristic crosses a content threshold, naming the biggest cause from `PitchModel.Explain` (a breakdown of each driver's share). Collapse causes weigh seam and spin by the bowling attack, after a first version blamed a dry surface for a collapse to seamers on a green day-one strip. Rain gets one line per spell; each break gets a score line (last two innings) at the hour the break starts. Ground ends are in `ground.json`, break names in `formats.json`. No random draws in commentary. The Cli prints new lines after each advance; the snapshot records commentary. Sample from a real run: "Kestrelshire lose 4 wickets in an hour. There's 21 mm of grass left on." on an unmown April strip; "The ball is keeping low. The strip wasn't rolled tight enough." late on day 2.
+- Next: phase 3 task 8, rating and demerits.
