@@ -14,6 +14,8 @@ namespace Groundsman.Core.Covers
         private readonly bool[] _covered;
         private readonly CoverOrder[] _orders;
 
+        private GameTime _hour;
+
         public CoversSystem(int count, int stripCount)
         {
             _count = count;
@@ -41,7 +43,19 @@ namespace Groundsman.Core.Covers
             }
         }
 
-        public bool IsCovered(StripId strip) => _covered[strip.Number - 1];
+        /// <summary>
+        /// Playing conditions that take a strip out of the player's hands for the hour: true to
+        /// cover it, false to leave it open, null for the player's own cover.
+        /// </summary>
+        public System.Func<StripId, GameTime, bool?>? Override { get; set; }
+
+        public bool IsCovered(StripId strip) => Override?.Invoke(strip, _hour) ?? _covered[strip.Number - 1];
+
+        /// <summary>Whether the player has a cover on the strip, regardless of any override.</summary>
+        public bool HasPlayerCover(StripId strip) => _covered[strip.Number - 1];
+
+        /// <summary>Sets the hour the override is judged at, for views between ticks.</summary>
+        public void At(GameTime hour) => _hour = hour;
 
         public CoverOrder OrderFor(StripId strip) => _orders[strip.Number - 1];
 
@@ -49,6 +63,7 @@ namespace Groundsman.Core.Covers
 
         public void RunHour(GameTime hour)
         {
+            _hour = hour;
             for (var i = 0; i < _orders.Length; i++)
             {
                 if (_orders[i] == CoverOrder.Cover)

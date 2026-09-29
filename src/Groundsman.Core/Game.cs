@@ -7,6 +7,7 @@ using Groundsman.Core.Covers;
 using Groundsman.Core.Forecasting;
 using Groundsman.Core.Grass;
 using Groundsman.Core.Inspection;
+using Groundsman.Core.Match;
 using Groundsman.Core.Moisture;
 using Groundsman.Core.Pitch;
 using Groundsman.Core.Randomness;
@@ -82,7 +83,10 @@ namespace Groundsman.Core
             _lastRepaired = new GameTime?[Square.Strips.Count];
             _lastMown = new MowRecord?[Square.Strips.Count];
             _lastRolled = new RollRecord?[Square.Strips.Count];
-            _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, Grass, _tasks, _wear });
+            Matches = new MatchSystem(setup.Fixtures, content.HomeTeam, content.Match, Square, Weather, _pitch, WearModel, random.Get(RandomStream.Match));
+            _covers.Override = Matches.CoverOverride;
+            _covers.At(setup.Start);
+            _tick = new HourlyTick(new IHourlySystem[] { Weather, _covers, Moisture, Grass, _tasks, Matches, _wear });
             _knowledge = new KnowledgeStore(content.Readings, Square.Strips.Count);
             _readingTaker = new ReadingTaker(content.Readings, random.Get(RandomStream.Readings));
             _staffSettings = content.Staff;
@@ -120,7 +124,7 @@ namespace Groundsman.Core
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
                     .ToArray();
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.FirstOrDefault(f => f.End >= _now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers);
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.FirstOrDefault(f => f.End >= _now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Latest?.ToView());
             }
         }
 
@@ -145,6 +149,10 @@ namespace Groundsman.Core
         internal GrassSystem Grass { get; }
 
         internal WearModel WearModel { get; }
+
+        internal MatchSystem Matches { get; }
+
+        internal CoversSystem Covers => _covers;
 
         public CommandResult Submit(IGameCommand command)
         {
@@ -193,6 +201,7 @@ namespace Groundsman.Core
             }
 
             _now = to;
+            _covers.At(_now);
             _readThisTurn.Clear();
             _staff.StartDay(_now.Date);
             _forecaster.IssueIfNewDay(_now.Date);

@@ -74,6 +74,9 @@ public class ReplayTests
             forecast = view.Forecast
                 .Select(d => $"{d.Date:MM-dd} rain {Round(d.Rain.Low)} to {Round(d.Rain.High)} chance {Round(d.ChanceOfRain)}, high {Round(d.MaxTemperature.Low)} to {Round(d.MaxTemperature.High)}")
                 .ToArray(),
+            match = view.LatestMatch == null
+                ? null
+                : string.Join(" / ", view.LatestMatch.Innings.Select(i => $"{i.Batting} {i.Runs}-{i.Wickets} ({i.Overs})")) + $" {view.LatestMatch.Result?.Text}",
             readings = view.Strips
                 .Where(s => s.SurfaceMoisture != null)
                 .Select(s => $"{s.Id.Number}: {Round(s.SurfaceMoisture!.Range.Low)} to {Round(s.SurfaceMoisture.Range.High)} at {s.SurfaceMoisture.TakenAt}, now {Round(s.SurfaceMoistureNow!.Value.Low)} to {Round(s.SurfaceMoistureNow.Value.High)}")

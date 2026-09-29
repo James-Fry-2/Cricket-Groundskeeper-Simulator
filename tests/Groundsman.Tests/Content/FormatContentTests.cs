@@ -36,7 +36,7 @@ public class FormatContentTests
     [InlineData("[8, 14, 18]", "[8, 18, 14]", "decisionHours")]
     [InlineData("\"id\": \"t20\"", "\"id\": \"oneDay\"", "oneDay")]
     [InlineData("\"runsPerOver\": 3.2", "\"runsPerOver\": 0", "runsPerOver")]
-    [InlineData("\"wicketsPerOver\": 0.03", "\"wicketsPerOver\": -1", "wicketsPerOver")]
+    [InlineData("\"wicketsPerOver\": 0.07", "\"wicketsPerOver\": -1", "wicketsPerOver")]
     public void Rejects_invalid_values_naming_the_field(string original, string replacement, string field)
     {
         var json = Shipped();

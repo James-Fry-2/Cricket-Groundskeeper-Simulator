@@ -24,7 +24,7 @@ internal static class TestContent
         widenPerDay: 1.0,
         widenPerMmWater: 0.5);
 
-    public static GameContent Content { get; } = new GameContent(TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, Covers, Tasks, TestStaff.Settings, Readings, TestForecast.Settings, TestFormats.All, TestTeams.All, TestTeams.Home.Id, TestGrass.Settings, TestRolling.Rollers, TestRolling.Compaction, TestPitch.Settings, TestWear.Settings);
+    public static GameContent Content { get; } = new GameContent(TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, Covers, Tasks, TestStaff.Settings, Readings, TestForecast.Settings, TestFormats.All, TestTeams.All, TestTeams.Home.Id, TestGrass.Settings, TestRolling.Rollers, TestRolling.Compaction, TestPitch.Settings, TestWear.Settings, TestMatch.Settings);
 
     /// <summary>A game whose match days are one-day fixtures on strip 1, for tests that only care about dates.</summary>
     public static GameSetup Setup(GameTime start, IEnumerable<DateTime>? matchDays = null, ulong seed = 1, ReadingSettings? readings = null) =>
@@ -46,5 +46,5 @@ internal static class TestContent
         widenPerMmWater: Readings.WidenPerMmWater);
 
     private static GameContent WithReadings(ReadingSettings readings) => new GameContent(
-        TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, Covers, Tasks, TestStaff.Settings, readings, TestForecast.Settings, TestFormats.All, TestTeams.All, TestTeams.Home.Id, TestGrass.Settings, TestRolling.Rollers, TestRolling.Compaction, TestPitch.Settings, TestWear.Settings);
+        TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, Covers, Tasks, TestStaff.Settings, readings, TestForecast.Settings, TestFormats.All, TestTeams.All, TestTeams.Home.Id, TestGrass.Settings, TestRolling.Rollers, TestRolling.Compaction, TestPitch.Settings, TestWear.Settings, TestMatch.Settings);
 }

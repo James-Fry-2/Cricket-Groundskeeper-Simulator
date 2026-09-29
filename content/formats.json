@@ -7,7 +7,7 @@
       "inningsPerSide": 2,
       "oversPerDay": 96,
       "runsPerOver": 3.2,
-      "wicketsPerOver": 0.03,
+      "wicketsPerOver": 0.07,
       "sessions": [ { "start": 11, "end": 13 }, { "start": 14, "end": 16 }, { "start": 16, "end": 18 } ],
       "decisionHours": [8, 13, 16, 18]
     },

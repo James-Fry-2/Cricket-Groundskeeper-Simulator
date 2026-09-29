@@ -5,7 +5,7 @@ namespace Groundsman.Tests;
 internal static class TestFormats
 {
     public static FormatSettings FourDay { get; } = new FormatSettings(
-        "fourDay", "Four-day", days: 4, inningsPerSide: 2, oversPerInnings: null, oversPerDay: 96, runsPerOver: 3.2, wicketsPerOver: 0.03,
+        "fourDay", "Four-day", days: 4, inningsPerSide: 2, oversPerInnings: null, oversPerDay: 96, runsPerOver: 3.2, wicketsPerOver: 0.07,
         new[] { new PlaySession(11, 13), new PlaySession(14, 16), new PlaySession(16, 18) },
         new[] { 8, 13, 16, 18 });
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Groundsman.Core.Content;
 using Groundsman.Core.Forecasting;
+using Groundsman.Core.Match;
 using Groundsman.Core.Time;
 
 namespace Groundsman.Core
@@ -11,7 +12,7 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
-        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, Fixture? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers)
+        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, Fixture? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, MatchView? latestMatch)
         {
             Now = now;
             Pace = pace;
@@ -25,6 +26,7 @@ namespace Groundsman.Core
             Staff = staff;
             Forecast = forecast;
             Rollers = rollers;
+            LatestMatch = latestMatch;
         }
 
         public GameTime Now { get; }
@@ -55,5 +57,8 @@ namespace Groundsman.Core
 
         /// <summary>The ground's rollers, lightest first.</summary>
         public IReadOnlyList<RollerSettings> Rollers { get; }
+
+        /// <summary>The match in progress, or the last one played; null before the first.</summary>
+        public MatchView? LatestMatch { get; }
     }
 }
