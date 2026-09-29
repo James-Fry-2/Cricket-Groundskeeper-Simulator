@@ -11,6 +11,8 @@ namespace Groundsman.Core.Content
             int inningsPerSide,
             int? oversPerInnings,
             int? oversPerDay,
+            double runsPerOver,
+            double wicketsPerOver,
             IReadOnlyList<PlaySession> sessions,
             IReadOnlyList<int> decisionHours)
         {
@@ -39,6 +41,14 @@ namespace Groundsman.Core.Content
             {
                 throw new ContentException($"{path} needs oversPerInnings, oversPerDay or both, or play would never end.");
             }
+            if (runsPerOver <= 0)
+            {
+                throw new ContentException($"{path}.runsPerOver ({runsPerOver}) must be above 0.");
+            }
+            if (wicketsPerOver <= 0)
+            {
+                throw new ContentException($"{path}.wicketsPerOver ({wicketsPerOver}) must be above 0.");
+            }
             CheckSessions(path, sessions);
             CheckDecisionHours(path, decisionHours, sessions);
 
@@ -48,6 +58,8 @@ namespace Groundsman.Core.Content
             InningsPerSide = inningsPerSide;
             OversPerInnings = oversPerInnings;
             OversPerDay = oversPerDay;
+            RunsPerOver = runsPerOver;
+            WicketsPerOver = wicketsPerOver;
             Sessions = new List<PlaySession>(sessions).AsReadOnly();
             DecisionHours = new List<int>(decisionHours).AsReadOnly();
         }
@@ -62,6 +74,12 @@ namespace Groundsman.Core.Content
 
         /// <summary>Overs scheduled per day in multi-day cricket; null in limited-overs formats.</summary>
         public int? OversPerDay { get; }
+
+        /// <summary>Runs per over between evenly matched sides on a true, neutral pitch.</summary>
+        public double RunsPerOver { get; }
+
+        /// <summary>Wickets per over between evenly matched sides on a true, neutral pitch.</summary>
+        public double WicketsPerOver { get; }
 
         /// <summary>Each day's sessions of play.</summary>
         public IReadOnlyList<PlaySession> Sessions { get; }

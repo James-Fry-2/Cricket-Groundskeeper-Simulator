@@ -1,0 +1,8 @@
+{
+  "strengthScale": 0.8,
+  "wickets": { "seam": 1.2, "spin": 1.2, "uneven": 2.0, "dead": 0.4 },
+  "runs": { "carry": 0.4, "uneven": 0.3, "dead": 0.3, "spread": 0.35 },
+  "declaration": { "lead": 250, "fromDay": 3 },
+  "rainRestartLoss": 0.5,
+  "tossBowlFirstSeamAbove": 6
+}

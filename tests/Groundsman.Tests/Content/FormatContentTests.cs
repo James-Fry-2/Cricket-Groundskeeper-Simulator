@@ -17,6 +17,8 @@ public class FormatContentTests
         Assert.Equal(2, fourDay.InningsPerSide);
         Assert.Null(fourDay.OversPerInnings);
         Assert.Equal(96, fourDay.OversPerDay);
+        Assert.Equal(3.2, fourDay.RunsPerOver);
+        Assert.Equal(0.3, formats[2].WicketsPerOver);
         Assert.Equal(3, fourDay.Sessions.Count);
         Assert.Equal(new[] { 8, 13, 16, 18 }, fourDay.DecisionHours);
         Assert.Equal(20, formats[2].OversPerInnings);
@@ -33,6 +35,8 @@ public class FormatContentTests
     [InlineData("[8, 14, 18]", "[12, 14, 18]", "decisionHours")]
     [InlineData("[8, 14, 18]", "[8, 18, 14]", "decisionHours")]
     [InlineData("\"id\": \"t20\"", "\"id\": \"oneDay\"", "oneDay")]
+    [InlineData("\"runsPerOver\": 3.2", "\"runsPerOver\": 0", "runsPerOver")]
+    [InlineData("\"wicketsPerOver\": 0.03", "\"wicketsPerOver\": -1", "wicketsPerOver")]
     public void Rejects_invalid_values_naming_the_field(string original, string replacement, string field)
     {
         var json = Shipped();

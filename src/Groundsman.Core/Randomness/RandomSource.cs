@@ -94,6 +94,32 @@ namespace Groundsman.Core.Randomness
             return mean + standardDeviation * NextGaussian();
         }
 
+        /// <summary>
+        /// Poisson count with the given mean: exact by Knuth's method for small means, a rounded
+        /// normal above, where the exact method gets slow and the two agree closely.
+        /// </summary>
+        public int NextPoisson(double mean)
+        {
+            if (mean < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(mean), mean, "Can't be negative.");
+            }
+            if (mean > 30)
+            {
+                return Math.Max(0, (int)Math.Round(NextGaussian(mean, Math.Sqrt(mean))));
+            }
+
+            var limit = Math.Exp(-mean);
+            var count = 0;
+            var product = NextDouble();
+            while (product > limit)
+            {
+                count++;
+                product *= NextDouble();
+            }
+            return count;
+        }
+
         public double NextExponential(double mean)
         {
             if (mean <= 0)

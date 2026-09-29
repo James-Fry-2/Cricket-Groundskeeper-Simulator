@@ -218,6 +218,30 @@ namespace Groundsman.Core.Content
                 Required(file, "hardness.clayExponent", hardness.ClayExponent));
         }
 
+        public static MatchSettings ParseMatch(string json)
+        {
+            const string file = "match";
+            var dto = Deserialise<MatchDto>(json, file);
+            var wickets = Required(file, "wickets", dto.Wickets);
+            var runs = Required(file, "runs", dto.Runs);
+            var declaration = Required(file, "declaration", dto.Declaration);
+
+            return new MatchSettings(
+                Required(file, "strengthScale", dto.StrengthScale),
+                Required(file, "wickets.seam", wickets.Seam),
+                Required(file, "wickets.spin", wickets.Spin),
+                Required(file, "wickets.uneven", wickets.Uneven),
+                Required(file, "wickets.dead", wickets.Dead),
+                Required(file, "runs.carry", runs.Carry),
+                Required(file, "runs.uneven", runs.Uneven),
+                Required(file, "runs.dead", runs.Dead),
+                Required(file, "runs.spread", runs.Spread),
+                Required(file, "declaration.lead", declaration.Lead),
+                Required(file, "declaration.fromDay", declaration.FromDay),
+                Required(file, "rainRestartLoss", dto.RainRestartLoss),
+                Required(file, "tossBowlFirstSeamAbove", dto.TossBowlFirstSeamAbove));
+        }
+
         public static WearSettings ParseWear(string json)
         {
             const string file = "wear";
@@ -415,6 +439,8 @@ namespace Groundsman.Core.Content
                     Required(file, path + ".inningsPerSide", format.InningsPerSide),
                     format.OversPerInnings,
                     format.OversPerDay,
+                    Required(file, path + ".runsPerOver", format.RunsPerOver),
+                    Required(file, path + ".wicketsPerOver", format.WicketsPerOver),
                     sessions,
                     Required(file, path + ".decisionHours", format.DecisionHours)));
             }
@@ -631,6 +657,8 @@ namespace Groundsman.Core.Content
             public int? InningsPerSide { get; set; }
             public int? OversPerInnings { get; set; }
             public int? OversPerDay { get; set; }
+            public double? RunsPerOver { get; set; }
+            public double? WicketsPerOver { get; set; }
             public List<SessionDto>? Sessions { get; set; }
             public List<int>? DecisionHours { get; set; }
         }
@@ -965,6 +993,38 @@ namespace Groundsman.Core.Content
             public double? PerDay { get; set; }
             public double? RepairedPerDay { get; set; }
             public double? RepairFills { get; set; }
+        }
+
+        private sealed class MatchDto
+        {
+            public double? StrengthScale { get; set; }
+            public MatchWicketsDto? Wickets { get; set; }
+            public MatchRunsDto? Runs { get; set; }
+            public DeclarationDto? Declaration { get; set; }
+            public double? RainRestartLoss { get; set; }
+            public double? TossBowlFirstSeamAbove { get; set; }
+        }
+
+        private sealed class MatchWicketsDto
+        {
+            public double? Seam { get; set; }
+            public double? Spin { get; set; }
+            public double? Uneven { get; set; }
+            public double? Dead { get; set; }
+        }
+
+        private sealed class MatchRunsDto
+        {
+            public double? Carry { get; set; }
+            public double? Uneven { get; set; }
+            public double? Dead { get; set; }
+            public double? Spread { get; set; }
+        }
+
+        private sealed class DeclarationDto
+        {
+            public double? Lead { get; set; }
+            public int? FromDay { get; set; }
         }
     }
 }

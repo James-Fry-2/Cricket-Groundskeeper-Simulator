@@ -69,3 +69,25 @@ public class DistributionTests
         Assert.Throws<ArgumentOutOfRangeException>(() => random.NextExponential(0.0));
     }
 }
+
+public class PoissonTests
+{
+    [Theory]
+    [InlineData(0.5)]
+    [InlineData(3.0)]
+    [InlineData(12.0)]
+    public void Poisson_has_the_requested_mean(double mean)
+    {
+        var random = new RandomStreams(21).Get(RandomStream.Match);
+        var values = Enumerable.Range(0, 50_000).Select(_ => random.NextPoisson(mean)).ToArray();
+
+        Assert.All(values, v => Assert.True(v >= 0));
+        Assert.InRange(values.Average(), mean * 0.97, mean * 1.03);
+    }
+
+    [Fact]
+    public void Poisson_of_zero_is_zero()
+    {
+        Assert.Equal(0, new RandomStreams(1).Get(RandomStream.Match).NextPoisson(0));
+    }
+}
