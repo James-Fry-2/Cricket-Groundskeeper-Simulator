@@ -12,7 +12,7 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
-        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, Fixture? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, MatchView? latestMatch, int demeritsActive, bool banned)
+        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, Fixture? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, IReadOnlyList<MatchView> matches, IntervalView? interval, int demeritsActive, bool banned)
         {
             Now = now;
             Pace = pace;
@@ -26,7 +26,8 @@ namespace Groundsman.Core
             Staff = staff;
             Forecast = forecast;
             Rollers = rollers;
-            LatestMatch = latestMatch;
+            Matches = matches;
+            Interval = interval;
             DemeritsActive = demeritsActive;
             Banned = banned;
         }
@@ -61,7 +62,13 @@ namespace Groundsman.Core
         public IReadOnlyList<RollerSettings> Rollers { get; }
 
         /// <summary>The match in progress, or the last one played; null before the first.</summary>
-        public MatchView? LatestMatch { get; }
+        public MatchView? LatestMatch => Matches.Count == 0 ? null : Matches[Matches.Count - 1];
+
+        /// <summary>Every match started, oldest first.</summary>
+        public IReadOnlyList<MatchView> Matches { get; }
+
+        /// <summary>This turn's place in a match day, until the match is over; null otherwise.</summary>
+        public IntervalView? Interval { get; }
 
         /// <summary>Demerits within the rolling window.</summary>
         public int DemeritsActive { get; }

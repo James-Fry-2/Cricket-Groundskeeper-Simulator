@@ -136,7 +136,7 @@ namespace Groundsman.Core
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
                     .ToArray();
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.FirstOrDefault(f => f.End >= _now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Latest?.ToView(), Matches.Ledger.Active(_now.Date), Matches.Ledger.Banned(_now.Date));
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.FirstOrDefault(f => f.End >= _now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Played.Select(m => m.ToView()).ToArray(), Interval(), Matches.Ledger.Active(_now.Date), Matches.Ledger.Banned(_now.Date));
             }
         }
 
@@ -302,6 +302,32 @@ namespace Groundsman.Core
             return CommandResult.Ok();
         }
 
+        private bool CanFill(Fixture fixture)
+        {
+            var closeOfPlay = fixture.Format.DecisionHours[fixture.Format.DecisionHours.Count - 1];
+            return fixture.Days >= 2 && _now.Hour == closeOfPlay && _now.Date < fixture.End;
+        }
+
+        private IntervalView? Interval()
+        {
+            var fixture = Matches.FixtureOn(_now.Date);
+            if (fixture == null || (Matches.Latest is { } match && match.Fixture == fixture && match.Finished))
+            {
+                return null;
+            }
+
+            var name = "Before play";
+            var sessions = fixture.Format.Sessions;
+            for (var i = 0; i < sessions.Count; i++)
+            {
+                if (sessions[i].End <= _now.Hour)
+                {
+                    name = fixture.Format.BreakNames[i];
+                }
+            }
+            return new IntervalView(name, fixture.Strip, canClean: true, CanFill(fixture));
+        }
+
         private CommandResult FootholeJob(StripId strip, StaffId? by, FootholeJob job)
         {
             var fixture = Matches.FixtureOn(_now.Date);
@@ -311,8 +337,7 @@ namespace Groundsman.Core
             }
             if (job == Tasks.FootholeJob.Fill)
             {
-                var closeOfPlay = fixture.Format.DecisionHours[fixture.Format.DecisionHours.Count - 1];
-                if (fixture.Days < 2 || _now.Hour != closeOfPlay || _now.Date >= fixture.End)
+                if (!CanFill(fixture))
                 {
                     return CommandResult.Rejected("Law 9: footholes can only be filled at close of play on a day with more cricket to come in a match over one day.");
                 }

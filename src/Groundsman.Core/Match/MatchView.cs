@@ -26,9 +26,6 @@ namespace Groundsman.Core.Match
 
         /// <summary>For example "Kestrelshire won by 45 runs".</summary>
         public string Text { get; }
-
-        /// <summary>The cause's own words, as filled into the line.</summary>
-        public string? CauseText { get; }
     }
 
     public sealed class InningsView

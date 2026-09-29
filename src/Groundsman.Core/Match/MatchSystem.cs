@@ -31,6 +31,7 @@ namespace Groundsman.Core.Match
         private readonly Commentator _commentator;
         private readonly Referee _referee;
         private readonly RatingSettings _rating;
+        private readonly List<MatchState> _played = new List<MatchState>();
 
         public MatchSystem(
             IReadOnlyList<Fixture> fixtures,
@@ -66,7 +67,10 @@ namespace Groundsman.Core.Match
         public DemeritLedger Ledger { get; }
 
         /// <summary>The match in progress, or the last one played.</summary>
-        public MatchState? Latest { get; private set; }
+        public MatchState? Latest => _played.Count == 0 ? null : _played[_played.Count - 1];
+
+        /// <summary>Every match started, oldest first.</summary>
+        public IReadOnlyList<MatchState> Played => _played;
 
         public Fixture? FixtureOn(DateTime date) => _fixtures.FirstOrDefault(f => f.Start <= date.Date && date.Date <= f.End);
 
@@ -96,10 +100,10 @@ namespace Groundsman.Core.Match
             }
             if (Latest == null || Latest.Fixture != fixture)
             {
-                Latest = new MatchState(fixture, _home);
+                _played.Add(new MatchState(fixture, _home));
             }
 
-            var match = Latest;
+            var match = Latest!;
             if (!match.Finished && IsPlayHour(fixture, hour))
             {
                 PlayHour(match, hour);
