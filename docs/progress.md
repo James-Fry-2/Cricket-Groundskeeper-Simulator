@@ -158,7 +158,7 @@ In `content/climate.json`:
 
 In `content/season.json`:
 - Game start: 25 March 2027
-- 18 fixtures, 16 April to 22 September: seven four-day, six one-day, five T20
+- 18 fixtures, 16 April to 22 September: eight four-day, five one-day, five T20
 - Televised: 8 of the 18, spread through the season (13 May, 6 and 13 June, 4 July, 2 and 14 August, 1 and 14 September)
 
 ## Session log
