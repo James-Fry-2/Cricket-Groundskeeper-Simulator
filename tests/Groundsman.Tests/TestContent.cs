@@ -26,12 +26,15 @@ internal static class TestContent
 
     public static GameContent Content { get; } = new GameContent(TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, Covers, Tasks, TestStaff.Settings, Readings, TestForecast.Settings, TestFormats.All, TestTeams.All, TestTeams.Home.Id, TestGrass.Settings, TestRolling.Rollers, TestRolling.Compaction, TestPitch.Settings, TestWear.Settings, TestMatch.Settings, TestCommentary.Settings, TestRating.Settings);
 
-    /// <summary>A game whose match days are one-day fixtures on strip 1, for tests that only care about dates.</summary>
+    /// <summary>
+    /// A game whose match days are one-day fixtures on strips 1, 2, 3 and so on, for tests that
+    /// only care about dates.
+    /// </summary>
     public static GameSetup Setup(GameTime start, IEnumerable<DateTime>? matchDays = null, ulong seed = 1, ReadingSettings? readings = null) =>
         new GameSetup(
             readings == null ? Content : WithReadings(readings),
             start,
-            (matchDays ?? Array.Empty<DateTime>()).Select(d => new Fixture(d, TestFormats.OneDay, new StripId(1), TestTeams.Opponent)).ToArray(),
+            (matchDays ?? Array.Empty<DateTime>()).Select((d, i) => new Fixture(d, TestFormats.OneDay, new StripId(i % 12 + 1), TestTeams.Opponent)).ToArray(),
             seed);
 
     /// <summary>Test readings with nothing left to chance except where the true value sits.</summary>

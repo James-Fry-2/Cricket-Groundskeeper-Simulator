@@ -3,10 +3,7 @@ using System.Collections.Generic;
 
 namespace Groundsman.Core.Content
 {
-    /// <summary>
-    /// When a new game starts and the season's fixtures, each on an assigned strip until
-    /// players choose strips themselves.
-    /// </summary>
+    /// <summary>When a new game starts, and the season's fixtures.</summary>
     public sealed class SeasonSettings
     {
         public SeasonSettings(DateTime start, IReadOnlyList<Fixture> fixtures)
@@ -15,9 +12,9 @@ namespace Groundsman.Core.Content
             {
                 var fixture = fixtures[i];
                 var path = $"season.fixtures[{i}]";
-                if (fixture.Strip.Number < 1)
+                if (fixture.PresetStrip is { } preset && preset.Number < 1)
                 {
-                    throw new ContentException($"{path}.strip ({fixture.Strip.Number}) must be a strip number from 1.");
+                    throw new ContentException($"{path}.strip ({preset.Number}) must be a strip number from 1.");
                 }
                 if (fixture.Start < start.Date)
                 {

@@ -56,13 +56,15 @@ namespace Groundsman.Core.Match
 
     internal sealed class MatchState
     {
-        public MatchState(Fixture fixture, TeamSettings home)
+        public MatchState(Fixture fixture, Groundsman.Core.Strips.StripId strip, TeamSettings home)
         {
             Fixture = fixture;
+            Strip = strip;
             Home = home;
         }
 
         public Fixture Fixture { get; }
+        public Groundsman.Core.Strips.StripId Strip { get; }
         public TeamSettings Home { get; }
         public TeamSettings Away => Fixture.Opponent;
         public List<InningsState> Innings { get; } = new List<InningsState>();
@@ -88,6 +90,7 @@ namespace Groundsman.Core.Match
 
         public MatchView ToView() => new MatchView(
             Fixture,
+            Strip,
             Innings.Select(i => new InningsView(i.Batting.Name, (int)Math.Round(i.Runs), i.Wickets, Math.Round(i.Overs, 1), i.Declared)).ToArray(),
             Finished,
             Result,

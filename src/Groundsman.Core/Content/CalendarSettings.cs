@@ -10,7 +10,8 @@ namespace Groundsman.Core.Content
             int morningHour,
             int afternoonHour,
             int offSeasonStepDays,
-            int finalPrepDays)
+            int finalPrepDays,
+            int assignLockDaysOut)
         {
             if (seasonEnd.CompareTo(seasonStart) <= 0)
             {
@@ -30,12 +31,17 @@ namespace Groundsman.Core.Content
             {
                 throw new ContentException($"calendar.finalPrepDays ({finalPrepDays}) can't be negative.");
             }
+            if (assignLockDaysOut < 1)
+            {
+                throw new ContentException($"calendar.assignLockDaysOut ({assignLockDaysOut}) must be at least 1.");
+            }
             SeasonStart = seasonStart;
             SeasonEnd = seasonEnd;
             MorningHour = morningHour;
             AfternoonHour = afternoonHour;
             OffSeasonStepDays = offSeasonStepDays;
             FinalPrepDays = finalPrepDays;
+            AssignLockDaysOut = assignLockDaysOut;
         }
 
         public MonthDay SeasonStart { get; }
@@ -44,6 +50,9 @@ namespace Groundsman.Core.Content
         public int AfternoonHour { get; }
         public int OffSeasonStepDays { get; }
         public int FinalPrepDays { get; }
+
+        /// <summary>Days before a fixture that its build-up starts and its strip locks.</summary>
+        public int AssignLockDaysOut { get; }
 
         private static void CheckHour(string field, int hour)
         {

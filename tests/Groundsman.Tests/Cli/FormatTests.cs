@@ -70,8 +70,10 @@ public class FormatTests
     [Fact]
     public void Next_match_names_the_day_and_strip()
     {
-        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), TestFormats.FourDay, new Groundsman.Core.Strips.StripId(6), TestTeams.Opponent);
+        var match = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), TestFormats.FourDay, null, TestTeams.Opponent);
+        var fixture = new Groundsman.Core.FixtureView(match, new Groundsman.Core.Strips.StripId(6), new DateTime(2027, 5, 10), locked: true);
 
+        Assert.Equal("Four-day v Test Visitors, Thu 20 May (in 10 days), no strip chosen yet", Format.NextMatch(new Groundsman.Core.FixtureView(match, null, new DateTime(2027, 5, 10), locked: false), new GameTime(2027, 5, 10, 7)));
         Assert.Equal("Four-day v Test Visitors, Thu 20 May on strip 6 (in 10 days)", Format.NextMatch(fixture, new GameTime(2027, 5, 10, 7)));
         Assert.Equal("Four-day v Test Visitors, Thu 20 May on strip 6 (in 1 day)", Format.NextMatch(fixture, new GameTime(2027, 5, 19, 7)));
         Assert.Equal("Four-day v Test Visitors, day 2 of 4 on strip 6", Format.NextMatch(fixture, new GameTime(2027, 5, 21, 8)));
@@ -127,7 +129,7 @@ public class FormatTests
         var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), TestFormats.FourDay, new Groundsman.Core.Strips.StripId(6), TestTeams.Opponent);
         var first = new Groundsman.Core.Match.InningsView("Kestrelshire", 242, 10, 88.4, false);
         var next = new Groundsman.Core.Match.InningsView("Test Visitors", 0, 0, 0, false);
-        var match = new Groundsman.Core.Match.MatchView(fixture, new[] { first, next }, false, null, Array.Empty<Groundsman.Core.Match.CommentaryLine>(), null);
+        var match = new Groundsman.Core.Match.MatchView(fixture, new Groundsman.Core.Strips.StripId(6), new[] { first, next }, false, null, Array.Empty<Groundsman.Core.Match.CommentaryLine>(), null);
 
         Assert.Equal(new[] { first }, Format.Started(match));
     }

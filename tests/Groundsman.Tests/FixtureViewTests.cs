@@ -15,7 +15,7 @@ public class FixtureViewTests
     [Fact]
     public void Shows_the_next_fixture_with_its_strip()
     {
-        var next = NewGame(new GameTime(2027, 5, 10, 7)).View.NextFixture;
+        var next = NewGame(new GameTime(2027, 5, 10, 7)).View.NextFixture?.Fixture;
 
         Assert.Same(FourDay, next);
     }
@@ -23,15 +23,15 @@ public class FixtureViewTests
     [Fact]
     public void A_fixture_stays_next_until_its_last_day_is_over()
     {
-        Assert.Same(FourDay, NewGame(new GameTime(2027, 5, 23, 8)).View.NextFixture);
-        Assert.Same(OneDay, NewGame(new GameTime(2027, 5, 24, 7)).View.NextFixture);
-        Assert.Null(NewGame(new GameTime(2027, 6, 2, 7)).View.NextFixture);
+        Assert.Same(FourDay, NewGame(new GameTime(2027, 5, 23, 8)).View.NextFixture?.Fixture);
+        Assert.Same(OneDay, NewGame(new GameTime(2027, 5, 24, 7)).View.NextFixture?.Fixture);
+        Assert.Null(NewGame(new GameTime(2027, 6, 2, 7)).View.NextFixture?.Fixture);
     }
 
     [Fact]
     public void The_fixture_names_its_format_and_opponent()
     {
-        var next = NewGame(new GameTime(2027, 5, 10, 7)).View.NextFixture!;
+        var next = NewGame(new GameTime(2027, 5, 10, 7)).View.NextFixture!.Fixture;
 
         Assert.Equal("Four-day", next.Format.Name);
         Assert.Equal("Test Visitors", next.Opponent.Name);
@@ -48,8 +48,8 @@ public class FixtureViewTests
     [Fact]
     public void The_whole_fixture_list_is_known_all_season()
     {
-        Assert.Equal(new[] { FourDay, OneDay }, NewGame(new GameTime(2027, 5, 10, 7)).View.Fixtures);
-        Assert.Equal(new[] { FourDay, OneDay }, NewGame(new GameTime(2027, 6, 2, 7)).View.Fixtures);
+        Assert.Equal(new[] { FourDay, OneDay }, NewGame(new GameTime(2027, 5, 10, 7)).View.Fixtures.Select(f => f.Fixture));
+        Assert.Equal(new[] { FourDay, OneDay }, NewGame(new GameTime(2027, 6, 2, 7)).View.Fixtures.Select(f => f.Fixture));
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class FixtureViewTests
     {
         var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 5, 10, 7), new[] { OneDay, FourDay }, seed: 1));
 
-        Assert.Equal(new[] { FourDay, OneDay }, game.View.Fixtures);
-        Assert.Same(FourDay, game.View.NextFixture);
+        Assert.Equal(new[] { FourDay, OneDay }, game.View.Fixtures.Select(f => f.Fixture));
+        Assert.Same(FourDay, game.View.NextFixture?.Fixture);
     }
 }

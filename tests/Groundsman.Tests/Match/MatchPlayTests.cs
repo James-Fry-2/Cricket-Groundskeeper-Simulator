@@ -26,7 +26,7 @@ public class MatchPlayTests
 
     private static Game PlayThrough(Game game)
     {
-        var fixture = game.View.NextFixture!;
+        var fixture = game.View.NextFixture!.Fixture;
         while (game.View.Now.Date <= fixture.End)
         {
             game.Advance();

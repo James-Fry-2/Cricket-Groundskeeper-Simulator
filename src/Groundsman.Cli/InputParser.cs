@@ -22,7 +22,7 @@ public static class InputParser
         {
             return ParseRoll(words, text);
         }
-        if (words.Length > 3)
+        if (words.Length > 3 || (words[0] is "p" or "pick" && words.Length != 3))
         {
             return Invalid(text);
         }
@@ -40,6 +40,10 @@ public static class InputParser
                 return new StatusInput();
             case ("v" or "record", 1):
                 return new RecordInput();
+            case ("x" or "fixtures", 1):
+                return new FixturesInput();
+            case ("p" or "pick", 3) when int.TryParse(words[1], out var fixture) && TryStrip(words[2], out var strip):
+                return new AssignInput(fixture, strip);
             case ("r" or "read", >= 2) when words[1] == "all":
                 return new ReadInput(null, by);
             case ("r" or "read", >= 2) when TryStrip(words[1], out var strip):

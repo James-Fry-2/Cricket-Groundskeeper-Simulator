@@ -199,7 +199,7 @@ public class InputParserTests
     [Theory]
     [InlineData("c all")]
     [InlineData("u")]
-    [InlineData("x")]
+    [InlineData("z")]
     [InlineData("r")]
     [InlineData("w")]
     [InlineData("w all")]
@@ -210,5 +210,21 @@ public class InputParserTests
         var invalid = Assert.IsType<InvalidInput>(InputParser.Parse(input));
 
         Assert.Contains("h", invalid.Message);
+    }
+
+    [Theory]
+    [InlineData("x")]
+    [InlineData("fixtures")]
+    public void X_lists_the_fixtures(string input)
+    {
+        Assert.IsType<FixturesInput>(InputParser.Parse(input));
+    }
+
+    [Fact]
+    public void P_puts_a_fixture_on_a_strip()
+    {
+        Assert.Equal(new AssignInput(3, new Groundsman.Core.Strips.StripId(7)), InputParser.Parse("p 3 7"));
+        Assert.IsType<InvalidInput>(InputParser.Parse("p 3"));
+        Assert.IsType<InvalidInput>(InputParser.Parse("p 3 7 sam"));
     }
 }

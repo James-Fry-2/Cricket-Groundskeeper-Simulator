@@ -29,7 +29,7 @@ public class RefereeTests
         PitchDrivers? drivers = null)
     {
         var fixture = new Fixture(new DateTime(2027, 6, 10), format, new StripId(6), TestTeams.Opponent);
-        var match = new MatchState(fixture, TestTeams.Home);
+        var match = new MatchState(fixture, new StripId(6), TestTeams.Home);
         var hour = new GameTime(2027, 6, 10, 11);
         foreach (var pitch in hours)
         {

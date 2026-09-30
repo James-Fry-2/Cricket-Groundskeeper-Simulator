@@ -54,9 +54,9 @@ public static class SeasonRunner
             for (var i = 0; i < season.Fixtures.Count; i++)
             {
                 var f = season.Fixtures[i];
-                if (f.Start <= date && date <= f.End)
+                if (f.Start <= date && date <= f.End && game.View.Fixtures[i].Strip is { } strip)
                 {
-                    samples[i].Add(game.Inspect().Strips[f.Strip.Number - 1].Pitch);
+                    samples[i].Add(game.Inspect().Strips[strip.Number - 1].Pitch);
                 }
             }
         }
@@ -71,8 +71,9 @@ public static class SeasonRunner
 
             if (now == check)
             {
-                var truth = game.Inspect().Strips[fixture.Strip.Number - 1];
-                results.Add(new MatchResult(seed, next, fixture.Strip, now, truth.SurfaceMoisture, truth.SubsurfaceMoisture, scoring.Judge(truth.SurfaceMoisture, truth.SubsurfaceMoisture)));
+                var strip = game.View.Fixtures[next].Strip!.Value;
+                var truth = game.Inspect().Strips[strip.Number - 1];
+                results.Add(new MatchResult(seed, next, strip, now, truth.SurfaceMoisture, truth.SubsurfaceMoisture, scoring.Judge(truth.SurfaceMoisture, truth.SubsurfaceMoisture)));
                 next++;
             }
             else if (now > check)

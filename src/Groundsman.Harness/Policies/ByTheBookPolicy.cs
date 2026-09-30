@@ -2,6 +2,7 @@ using Groundsman.Core;
 using Groundsman.Core.Commands;
 using Groundsman.Core.Readings;
 using Groundsman.Core.Staff;
+using Groundsman.Core.Strips;
 
 namespace Groundsman.Harness.Policies;
 
@@ -72,6 +73,14 @@ public sealed class ByTheBookPolicy : IPolicy
 
     private static readonly StaffId Deputy = new StaffId("sam");
 
+    private readonly IReadOnlyDictionary<string, StripId>? _plan;
+
+    /// <param name="plan">Strips by fixture id, assigned before each lock; without one, the assignments stand.</param>
+    public ByTheBookPolicy(IReadOnlyDictionary<string, StripId>? plan = null)
+    {
+        _plan = plan;
+    }
+
     public string Name => "by the book";
 
     /// <summary>Roller and minutes by days out: light, medium, heavy last, then a light finish.</summary>
@@ -87,12 +96,14 @@ public sealed class ByTheBookPolicy : IPolicy
 
     public void PlayTurn(IGame game)
     {
+        FollowPlan(game);
+
         var view = game.View;
         var today = view.Now.Date;
         var preparing = view.Fixtures
-            .Where(f => (f.Start - today).Days is >= 1 and <= PrepStartsDaysOut)
+            .Where(f => f.Strip != null && (f.Fixture.Start - today).Days is >= 1 and <= PrepStartsDaysOut)
             .ToList();
-        var playing = view.Fixtures.FirstOrDefault(f => f.Start <= today && today <= f.End);
+        var playing = view.Fixtures.FirstOrDefault(f => f.Fixture.Start <= today && today <= f.Fixture.End);
 
         foreach (var strip in view.Strips)
         {
@@ -109,14 +120,29 @@ public sealed class ByTheBookPolicy : IPolicy
         }
     }
 
+    private void FollowPlan(IGame game)
+    {
+        if (_plan == null)
+        {
+            return;
+        }
+        foreach (var fixture in game.View.Fixtures)
+        {
+            if (!fixture.Locked && _plan.TryGetValue(fixture.Id, out var strip) && fixture.Strip != strip)
+            {
+                game.Submit(new AssignStrip(fixture.Id, strip));
+            }
+        }
+    }
+
     private static void RepairAfterMatches(IGame game)
     {
         var view = game.View;
         var today = view.Now.Date;
         foreach (var match in view.Matches.Where(m => m.Finished && m.Fixture.End < today))
         {
-            var strip = view.Strips[match.Fixture.Strip.Number - 1];
-            var inUse = view.Fixtures.Any(f => f.Strip == strip.Id && f.Start <= today && today <= f.End);
+            var strip = view.Strips[match.Strip.Number - 1];
+            var inUse = view.Fixtures.Any(f => f.Strip == strip.Id && f.Fixture.Start <= today && today <= f.Fixture.End);
             if (!inUse && !strip.RepairQueued && !(strip.LastRepaired?.Date > match.Fixture.End))
             {
                 Do(game, by => new RepairEnds(strip.Id, by));
@@ -124,21 +150,22 @@ public sealed class ByTheBookPolicy : IPolicy
         }
     }
 
-    private static void Prepare(IGame game, Fixture fixture)
+    private static void Prepare(IGame game, FixtureView fixture)
     {
         var view = game.View;
         var today = view.Now.Date;
-        var daysOut = (fixture.Start - today).Days;
-        var index = fixture.Strip.Number - 1;
+        var daysOut = (fixture.Fixture.Start - today).Days;
+        var stripId = fixture.Strip!.Value;
+        var index = stripId.Number - 1;
         var target = view.Strips[index];
 
         if (daysOut <= CoringStartsDaysOut && target.SubsurfaceMoisture?.TakenAt.Date != today)
         {
-            game.Submit(new TakeReading(fixture.Strip, Deputy, ReadingSource.SoilCore));
+            game.Submit(new TakeReading(stripId, Deputy, ReadingSource.SoilCore));
         }
         if (daysOut <= FinalDays && target.SurfaceMoisture?.TakenAt.Date != today)
         {
-            game.Submit(new TakeReading(fixture.Strip, Deputy));
+            game.Submit(new TakeReading(stripId, Deputy));
         }
 
         view = game.View;
@@ -149,7 +176,7 @@ public sealed class ByTheBookPolicy : IPolicy
         var waterBelow = daysOut >= FinalDays ? WaterBelowDepth : daysOut == FinalDays - 1 ? LateWaterBelowDepth : double.NegativeInfinity;
         if (!target.WateringQueued && depth < waterBelow && forecast.ChanceOfRain < RainLikely)
         {
-            Do(game, by => new WaterStrip(fixture.Strip, by));
+            Do(game, by => new WaterStrip(stripId, by));
         }
 
         var chance = forecast.ChanceOfRain;
@@ -164,21 +191,21 @@ public sealed class ByTheBookPolicy : IPolicy
 
         if (wantCover && !target.Covered && target.CoverOrder == CoverOrder.None)
         {
-            Do(game, by => new CoverStrip(fixture.Strip, by));
+            Do(game, by => new CoverStrip(stripId, by));
         }
         else if (!wantCover && target.Covered && target.CoverOrder == CoverOrder.None)
         {
-            Do(game, by => new UncoverStrip(fixture.Strip, by));
+            Do(game, by => new UncoverStrip(stripId, by));
         }
 
-        Mow(game, fixture, daysOut);
-        Roll(game, fixture, daysOut, forecast.ChanceOfRain);
+        Mow(game, stripId, daysOut);
+        Roll(game, stripId, daysOut, forecast.ChanceOfRain);
     }
 
-    private static void Mow(IGame game, Fixture fixture, int daysOut)
+    private static void Mow(IGame game, StripId stripId, int daysOut)
     {
         var view = game.View;
-        var strip = view.Strips[fixture.Strip.Number - 1];
+        var strip = view.Strips[stripId.Number - 1];
         var lastCut = strip.LastMown;
         var daysSince = lastCut == null ? int.MaxValue : (view.Now.Date - lastCut.OrderedAt.Date).Days;
         if (strip.MowingQueued || daysSince == 0 || (daysSince < MowEveryDays && daysOut > 1))
@@ -190,14 +217,14 @@ public sealed class ByTheBookPolicy : IPolicy
         var height = Math.Round(Math.Max(TargetHeightMm(daysOut), estimate * (1 - MaxCutShare)), 1);
         if (height < estimate)
         {
-            Do(game, by => new MowStrip(fixture.Strip, height, by));
+            Do(game, by => new MowStrip(stripId, height, by));
         }
     }
 
-    private static void Roll(IGame game, Fixture fixture, int daysOut, double chanceOfRain)
+    private static void Roll(IGame game, StripId stripId, int daysOut, double chanceOfRain)
     {
         var view = game.View;
-        var strip = view.Strips[fixture.Strip.Number - 1];
+        var strip = view.Strips[stripId.Number - 1];
         if (strip.RollingQueued || strip.WateringQueued || strip.LastRolled?.OrderedAt.Date == view.Now.Date)
         {
             return;
@@ -205,8 +232,8 @@ public sealed class ByTheBookPolicy : IPolicy
 
         if (strip.SurfaceMoisture?.TakenAt.Date != view.Now.Date)
         {
-            game.Submit(new TakeReading(fixture.Strip, Deputy, ReadingSource.Feel));
-            strip = game.View.Strips[fixture.Strip.Number - 1];
+            game.Submit(new TakeReading(stripId, Deputy, ReadingSource.Feel));
+            strip = game.View.Strips[stripId.Number - 1];
         }
 
         var reading = strip.SurfaceMoisture;
@@ -220,11 +247,11 @@ public sealed class ByTheBookPolicy : IPolicy
         if (rollable)
         {
             var (roller, minutes) = RollingFor(daysOut);
-            Do(game, by => new RollStrip(fixture.Strip, roller, minutes, by));
+            Do(game, by => new RollStrip(stripId, roller, minutes, by));
         }
         else if (daysOut >= WetToRollFromDaysOut && reading.Word == "dry" && chanceOfRain < RainLikely)
         {
-            Do(game, by => new WaterStrip(fixture.Strip, by));
+            Do(game, by => new WaterStrip(stripId, by));
         }
     }
 

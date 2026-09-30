@@ -11,5 +11,6 @@ internal static class TestCalendar
         morningHour: 7,
         afternoonHour: 13,
         offSeasonStepDays: 7,
-        finalPrepDays: 3);
+        finalPrepDays: 3,
+        assignLockDaysOut: 10);
 }

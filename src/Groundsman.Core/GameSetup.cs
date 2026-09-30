@@ -13,9 +13,23 @@ namespace Groundsman.Core
             var list = fixtures.OrderBy(f => f.Start).ToList();
             for (var i = 0; i < list.Count; i++)
             {
-                if (list[i].Strip.Number > content.Ground.Strips.Count)
+                if (!(list[i].PresetStrip is { } preset))
                 {
-                    throw new ContentException($"season.fixtures[{i}].strip ({list[i].Strip.Number}) isn't on the ground, which has {content.Ground.Strips.Count} strips.");
+                    continue;
+                }
+                if (preset.Number > content.Ground.Strips.Count)
+                {
+                    throw new ContentException($"season.fixtures[{i}].strip ({preset.Number}) isn't on the ground, which has {content.Ground.Strips.Count} strips.");
+                }
+
+                // A strip is booked from the start of a build-up to the match's last day.
+                var lockDays = content.Calendar.AssignLockDaysOut;
+                for (var j = 0; j < i; j++)
+                {
+                    if (list[j].PresetStrip == preset && list[i].Start.AddDays(-lockDays) <= list[j].End)
+                    {
+                        throw new ContentException($"season.fixtures[{i}].strip ({preset.Number}) is also set for {list[j].Id}, and their build-ups would overlap.");
+                    }
                 }
             }
 

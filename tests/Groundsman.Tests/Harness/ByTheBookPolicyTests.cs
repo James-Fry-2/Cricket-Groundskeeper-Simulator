@@ -60,7 +60,7 @@ public class ByTheBookPolicyTests
             var game = GameAt(new GameTime(2027, 6, 15, 7), seed);
             if (seed % 2 == 0)
             {
-                game.Square.Get(Match.Strip).SubsurfaceMoisture = 18;
+                game.Square.Get(Match.PresetStrip!.Value).SubsurfaceMoisture = 18;
             }
             new ByTheBookPolicy().PlayTurn(game);
 
@@ -95,7 +95,7 @@ public class ByTheBookPolicyTests
         for (ulong seed = 1; seed <= 20; seed++)
         {
             var game = GameAt(new GameTime(2027, 6, 14, 7), seed);
-            game.Square.Get(Match.Strip).SubsurfaceMoisture = 16;
+            game.Square.Get(Match.PresetStrip!.Value).SubsurfaceMoisture = 16;
 
             new ByTheBookPolicy().PlayTurn(game);
 
@@ -114,7 +114,7 @@ public class ByTheBookPolicyTests
         while (game.View.Now.Date < Match.Start)
         {
             policy.PlayTurn(game);
-            Assert.All(game.View.Strips.Where(s => s.Id != Match.Strip), s =>
+            Assert.All(game.View.Strips.Where(s => s.Id != Match.PresetStrip!.Value), s =>
             {
                 Assert.False(s.WateringQueued);
                 Assert.Equal(CoverOrder.None, s.CoverOrder);
@@ -215,8 +215,8 @@ public class ByTheBookPolicyTests
             foreach (var day in new[] { 14, 17 })
             {
                 var game = GameAt(new GameTime(2027, 6, day, 7), seed);
-                game.Square.Get(Match.Strip).SurfaceMoisture = 5;
-                game.Square.Get(Match.Strip).SubsurfaceMoisture = 28;
+                game.Square.Get(Match.PresetStrip!.Value).SurfaceMoisture = 5;
+                game.Square.Get(Match.PresetStrip!.Value).SubsurfaceMoisture = 28;
 
                 new ByTheBookPolicy().PlayTurn(game);
 
@@ -268,5 +268,32 @@ public class ByTheBookPolicyTests
         }, fourDay, next);
 
         Assert.True(worked);
+    }
+
+    [Fact]
+    public void Follows_its_strip_plan_until_each_lock()
+    {
+        var open = new Fixture(new DateTime(2027, 6, 20), TestFormats.OneDay, null, TestTeams.Opponent);
+        var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 6, 1, 7), new[] { open }, 1));
+        var plan = new Dictionary<string, StripId> { [open.Id] = new StripId(11) };
+
+        new ByTheBookPolicy(plan).PlayTurn(game);
+
+        Assert.Equal(new StripId(11), game.View.Fixtures[0].Strip);
+    }
+
+    [Fact]
+    public void The_original_plan_covers_every_shipped_fixture_without_clashes()
+    {
+        var directory = Path.Combine(AppContext.BaseDirectory, "content");
+        var formats = Groundsman.Core.Content.ContentParser.ParseFormats(File.ReadAllText(Path.Combine(directory, "formats.json")));
+        var teams = Groundsman.Core.Content.ContentParser.ParseTeams(File.ReadAllText(Path.Combine(directory, "teams.json")));
+        var season = Groundsman.Core.Content.ContentParser.ParseSeason(File.ReadAllText(Path.Combine(directory, "season.json")), formats, teams);
+        var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 3, 25, 7), season.Fixtures, 1));
+
+        foreach (var fixture in season.Fixtures)
+        {
+            Assert.True(game.Submit(new Groundsman.Core.Commands.AssignStrip(fixture.Id, SeasonPlans.Original[fixture.Id])).Accepted, fixture.Id);
+        }
     }
 }

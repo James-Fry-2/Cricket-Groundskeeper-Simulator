@@ -32,9 +32,11 @@ namespace Groundsman.Core.Match
         private readonly Referee _referee;
         private readonly RatingSettings _rating;
         private readonly List<MatchState> _played = new List<MatchState>();
+        private readonly Schedule.StripBook _book;
 
         public MatchSystem(
             IReadOnlyList<Fixture> fixtures,
+            Schedule.StripBook book,
             TeamSettings home,
             MatchSettings settings,
             Square square,
@@ -52,6 +54,7 @@ namespace Groundsman.Core.Match
             Ledger = ledger;
             _commentator = commentator;
             _fixtures = fixtures;
+            _book = book;
             _home = home;
             _settings = settings;
             _square = square;
@@ -82,7 +85,7 @@ namespace Groundsman.Core.Match
         public bool? CoverOverride(StripId strip, GameTime hour)
         {
             var fixture = FixtureOn(hour.Date);
-            if (fixture == null || fixture.Strip != strip)
+            if (fixture == null || _book.StripFor(fixture) != strip)
             {
                 return null;
             }
@@ -100,7 +103,7 @@ namespace Groundsman.Core.Match
             }
             if (Latest == null || Latest.Fixture != fixture)
             {
-                _played.Add(new MatchState(fixture, _home));
+                _played.Add(new MatchState(fixture, _book.StripFor(fixture), _home));
             }
 
             var match = Latest!;
@@ -130,7 +133,7 @@ namespace Groundsman.Core.Match
         private void PlayHour(MatchState match, GameTime hour)
         {
             var format = match.Fixture.Format;
-            var strip = _square.Get(match.Fixture.Strip);
+            var strip = _square.Get(match.Strip);
 
             if (match.Current == null)
             {

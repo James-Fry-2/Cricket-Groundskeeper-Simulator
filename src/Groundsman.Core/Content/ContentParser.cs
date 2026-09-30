@@ -30,7 +30,8 @@ namespace Groundsman.Core.Content
                 Required(file, "morningHour", dto.MorningHour),
                 Required(file, "afternoonHour", dto.AfternoonHour),
                 Required(file, "offSeasonStepDays", dto.OffSeasonStepDays),
-                Required(file, "finalPrepDays", dto.FinalPrepDays));
+                Required(file, "finalPrepDays", dto.FinalPrepDays),
+                Required(file, "assignLockDaysOut", dto.AssignLockDaysOut));
         }
 
         public static GroundSettings ParseGround(string json)
@@ -454,8 +455,9 @@ namespace Groundsman.Core.Content
                 fixtures[i] = new Fixture(
                     ParseDate(file, path + ".start", fixture.Start),
                     format,
-                    new StripId(Required(file, path + ".strip", fixture.Strip)),
-                    opponent);
+                    fixture.Strip is { } strip ? new StripId(strip) : (StripId?)null,
+                    opponent,
+                    fixture.Televised ?? false);
             }
 
             return new SeasonSettings(ParseDate(file, "start", dto.Start), fixtures);
@@ -630,6 +632,7 @@ namespace Groundsman.Core.Content
             public int? AfternoonHour { get; set; }
             public int? OffSeasonStepDays { get; set; }
             public int? FinalPrepDays { get; set; }
+            public int? AssignLockDaysOut { get; set; }
         }
 
         private sealed class GroundDto
@@ -697,6 +700,7 @@ namespace Groundsman.Core.Content
             public string? Format { get; set; }
             public string? Opponent { get; set; }
             public int? Strip { get; set; }
+            public bool? Televised { get; set; }
         }
 
         private sealed class FormatsDto

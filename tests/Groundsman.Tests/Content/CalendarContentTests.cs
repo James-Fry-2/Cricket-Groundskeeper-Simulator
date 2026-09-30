@@ -10,7 +10,8 @@ public class CalendarContentTests
         ""morningHour"": 7,
         ""afternoonHour"": 13,
         ""offSeasonStepDays"": 7,
-        ""finalPrepDays"": 3
+        ""finalPrepDays"": 3,
+        ""assignLockDaysOut"": 10
     }";
 
     [Fact]
@@ -34,6 +35,7 @@ public class CalendarContentTests
         Assert.Equal(13, settings.AfternoonHour);
         Assert.Equal(7, settings.OffSeasonStepDays);
         Assert.Equal(3, settings.FinalPrepDays);
+        Assert.Equal(10, settings.AssignLockDaysOut);
     }
 
     [Theory]
@@ -41,6 +43,7 @@ public class CalendarContentTests
     [InlineData("\"afternoonHour\": 13", "\"afternoonHour\": 7", "afternoonHour")]
     [InlineData("\"offSeasonStepDays\": 7", "\"offSeasonStepDays\": 0", "offSeasonStepDays")]
     [InlineData("\"finalPrepDays\": 3", "\"finalPrepDays\": -1", "finalPrepDays")]
+    [InlineData("\"assignLockDaysOut\": 10", "\"assignLockDaysOut\": 0", "assignLockDaysOut")]
     [InlineData("\"seasonEnd\": \"09-30\"", "\"seasonEnd\": \"03-01\"", "seasonEnd")]
     [InlineData("\"seasonStart\": \"04-01\"", "\"seasonStart\": \"02-29\"", "seasonStart")]
     [InlineData("\"seasonStart\": \"04-01\"", "\"seasonStart\": \"April\"", "seasonStart")]

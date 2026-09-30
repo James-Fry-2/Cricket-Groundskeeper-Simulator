@@ -28,6 +28,7 @@ namespace Groundsman.Core
         private readonly PaceContext _paceContext;
         private readonly PaceRules _pace;
         private readonly IReadOnlyList<Fixture> _fixtures;
+        private readonly Schedule.StripBook _book;
         private readonly TasksSystem _tasks;
         private readonly CoversSystem _covers;
         private readonly int _coversOwned;
@@ -64,6 +65,7 @@ namespace Groundsman.Core
 
             _groundName = content.Ground.Name;
             _fixtures = setup.Fixtures;
+            _book = new Schedule.StripBook(setup.Fixtures, content.Calendar.AssignLockDaysOut, content.Ground.Strips.Count);
             _paceContext = new PaceContext(content.Calendar, setup.Fixtures);
             _pace = new PaceRules(_paceContext);
             Square = new Square(content);
@@ -85,6 +87,7 @@ namespace Groundsman.Core
             _lastRolled = new RollRecord?[Square.Strips.Count];
             Matches = new MatchSystem(
                 setup.Fixtures,
+                _book,
                 content.HomeTeam,
                 content.Match,
                 Square,
@@ -107,6 +110,7 @@ namespace Groundsman.Core
             _forecaster = new Forecaster(content.Forecast, content.Climate, Weather, random.Get(RandomStream.Forecast));
             _now = setup.Start;
             _forecaster.IssueIfNewDay(_now.Date);
+            _book.LockDue(_now.Date);
         }
 
         public GameView View
@@ -136,7 +140,7 @@ namespace Groundsman.Core
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
                     .ToArray();
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures, _fixtures.FirstOrDefault(f => f.End >= _now.Date), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Played.Select(m => m.ToView()).ToArray(), Interval(), Matches.Ledger.Active(_now.Date), Matches.Ledger.Banned(_now.Date));
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.Select(_book.View).ToArray(), _fixtures.Where(f => f.End >= _now.Date).Select(_book.View).FirstOrDefault(), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Played.Select(m => m.ToView()).ToArray(), Interval(), Matches.Ledger.Active(_now.Date), Matches.Ledger.Banned(_now.Date), _book.Notices.ToArray());
             }
         }
 
@@ -190,6 +194,8 @@ namespace Groundsman.Core
                     return FootholeJob(clean.Strip, clean.By, Tasks.FootholeJob.Clean);
                 case FillFootholes fill:
                     return FootholeJob(fill.Strip, fill.By, Tasks.FootholeJob.Fill);
+                case AssignStrip assign:
+                    return _book.Assign(assign.FixtureId, assign.Strip);
                 default:
                     return CommandResult.Rejected($"Unknown command: {command.GetType().Name}.");
             }
@@ -199,6 +205,7 @@ namespace Groundsman.Core
         {
             var from = _now;
             var to = _pace.NextDecisionPoint(from);
+            _book.ClearNotices();
 
             foreach (var strip in Square.Strips)
             {
@@ -223,6 +230,7 @@ namespace Groundsman.Core
             _readThisTurn.Clear();
             _staff.StartDay(_now.Date);
             _forecaster.IssueIfNewDay(_now.Date);
+            _book.LockDue(_now.Date);
             return new AdvanceResult(from, to);
         }
 
@@ -287,7 +295,7 @@ namespace Groundsman.Core
             {
                 return CommandResult.Rejected($"{repair.Strip} is already down for end repairs.");
             }
-            if (Matches.FixtureOn(_now.Date)?.Strip == repair.Strip)
+            if (StripInPlay() == repair.Strip)
             {
                 return CommandResult.Rejected($"Law 9: {repair.Strip}'s ends can't be repaired until the match is over. Clean the footholes at a break, or fill them at close of play in a multi-day match.");
             }
@@ -301,6 +309,9 @@ namespace Groundsman.Core
             _staff.Spend(who, _staffSettings.RepairEndsHours);
             return CommandResult.Ok();
         }
+
+        /// <summary>The strip of the fixture on today, if any.</summary>
+        private StripId? StripInPlay() => Matches.FixtureOn(_now.Date) is { } fixture ? _book.StripFor(fixture) : (StripId?)null;
 
         private bool CanFill(Fixture fixture)
         {
@@ -325,13 +336,13 @@ namespace Groundsman.Core
                     name = fixture.Format.BreakNames[i];
                 }
             }
-            return new IntervalView(name, fixture.Strip, canClean: true, CanFill(fixture));
+            return new IntervalView(name, _book.StripFor(fixture), canClean: true, CanFill(fixture));
         }
 
         private CommandResult FootholeJob(StripId strip, StaffId? by, FootholeJob job)
         {
             var fixture = Matches.FixtureOn(_now.Date);
-            if (fixture == null || fixture.Strip != strip)
+            if (fixture == null || _book.StripFor(fixture) != strip)
             {
                 return CommandResult.Rejected($"Footholes are cleaned and filled during a match, on the match strip. {strip} isn't being played on.");
             }
@@ -417,7 +428,7 @@ namespace Groundsman.Core
         private CommandResult Cover(CoverStrip cover)
         {
             var strip = cover.Strip;
-            if (Matches.FixtureOn(_now.Date)?.Strip == strip)
+            if (StripInPlay() == strip)
             {
                 return CommandResult.Rejected($"{strip} is being played on: the ground staff cover it under the playing conditions until the match is over.");
             }
@@ -450,7 +461,7 @@ namespace Groundsman.Core
         private CommandResult Uncover(UncoverStrip uncover)
         {
             var strip = uncover.Strip;
-            if (Matches.FixtureOn(_now.Date)?.Strip == strip)
+            if (StripInPlay() == strip)
             {
                 return CommandResult.Rejected($"{strip} is being played on: the ground staff cover it under the playing conditions until the match is over.");
             }

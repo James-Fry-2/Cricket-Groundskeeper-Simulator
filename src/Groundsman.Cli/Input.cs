@@ -16,6 +16,11 @@ public sealed record StatusInput : Input;
 
 public sealed record RecordInput : Input;
 
+public sealed record FixturesInput : Input;
+
+/// <summary>Puts a fixture, numbered as on the fixtures list from 1, on a strip.</summary>
+public sealed record AssignInput(int Fixture, StripId Strip) : Input;
+
 /// <summary>Reads one strip, or every strip when <see cref="Strip"/> is null.</summary>
 /// <remarks>On every strip job, <c>By</c> names who does it; null means the player.</remarks>
 public sealed record ReadInput(StripId? Strip, StaffId? By = null, ReadingSource Tool = ReadingSource.MoistureProbe) : Input;

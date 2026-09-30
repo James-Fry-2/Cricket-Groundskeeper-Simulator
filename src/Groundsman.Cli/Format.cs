@@ -106,6 +106,17 @@ public static class Format
         _ => "Unfit",
     };
 
+    public static string Notice(Notice notice) => notice switch
+    {
+        StripLockedNotice { ByDefault: true } locked =>
+            $"No strip was chosen for {Match(locked.Fixture.Fixture)} on {Day(locked.Fixture.Fixture.Start)}, so the head groundsman has put it on strip {locked.Fixture.Strip!.Value.Number}. Its build-up starts now.",
+        StripLockedNotice locked =>
+            $"Strip {locked.Fixture.Strip!.Value.Number} is locked in for {Match(locked.Fixture.Fixture)} on {Day(locked.Fixture.Fixture.Start)}. Its build-up starts now.",
+        _ => notice.ToString() ?? "",
+    };
+
+    public static string Match(Fixture fixture) => $"{fixture.Format.Name} v {fixture.Opponent.Name}";
+
     public static string Demerits(int count) => $"{count} demerit{(count == 1 ? "" : "s")}";
 
     /// <summary>What Law 9 allows on the match strip this turn.</summary>
@@ -132,22 +143,26 @@ public static class Format
         return space > 0 ? name.Substring(0, space) : name;
     }
 
-    public static string NextMatch(Fixture? fixture, GameTime now)
+    public static string NextMatch(FixtureView? next, GameTime now)
     {
-        if (fixture == null)
+        if (next == null)
         {
             return "none scheduled";
         }
 
+        var fixture = next.Fixture;
         var match = $"{fixture.Format.Name} v {fixture.Opponent.Name}";
-        var strip = $"strip {fixture.Strip.Number}";
+        var strip = next.Strip is { } assigned ? $"on strip {assigned.Number}" : "no strip chosen yet";
         if (fixture.Start <= now.Date)
         {
             var day = (now.Date - fixture.Start).Days + 1;
-            return fixture.Days == 1 ? $"{match}, today on {strip}" : $"{match}, day {day} of {fixture.Days} on {strip}";
+            return fixture.Days == 1 ? $"{match}, today {strip}" : $"{match}, day {day} of {fixture.Days} {strip}";
         }
 
         var days = (fixture.Start - now.Date).Days;
-        return $"{match}, {Day(fixture.Start)} on {strip} (in {days} day{(days == 1 ? "" : "s")})";
+        var until = $"(in {days} day{(days == 1 ? "" : "s")})";
+        return next.Strip == null
+            ? $"{match}, {Day(fixture.Start)} {until}, {strip}"
+            : $"{match}, {Day(fixture.Start)} {strip} {until}";
     }
 }

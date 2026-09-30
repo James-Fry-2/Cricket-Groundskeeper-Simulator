@@ -341,4 +341,37 @@ public class GameLoopTests
         Assert.Contains("u <strip>", console.Output);
         Assert.Contains("season record", console.Output);
     }
+
+    [Fact]
+    public void The_fixture_list_shows_strips_and_locks_and_p_assigns_one()
+    {
+        var console = new TestConsole();
+        console.Profile.Width = 120;
+        var open = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), TestFormats.OneDay, null, TestTeams.Opponent, televised: true);
+        var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 5, 1, 7), new[] { open }, 1));
+
+        new GameLoop(console, game, new StringReader("x\np 1 7\np 2 7\nx\n")).Run();
+
+        var output = console.Output;
+        Assert.Contains("Fixtures", output);
+        Assert.Contains("10 May", output);
+        Assert.Contains("TV", output);
+        Assert.Contains("none", output);
+        Assert.Contains("One-day v Test Visitors on Thu 20 May will be played on strip 7.", output);
+        Assert.Contains("There's no fixture 2.", output);
+        Assert.Equal(new Groundsman.Core.Strips.StripId(7), game.View.Fixtures[0].Strip);
+    }
+
+    [Fact]
+    public void A_default_strip_at_the_lock_is_announced()
+    {
+        var console = new TestConsole();
+        console.Profile.Width = 200;
+        var open = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), TestFormats.OneDay, null, TestTeams.Opponent);
+        var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 5, 9, 7), new[] { open }, 1));
+
+        new GameLoop(console, game, new StringReader("\n")).Run();
+
+        Assert.Contains("No strip was chosen for One-day v Test Visitors on Thu 20 May, so the head groundsman has put it on strip 1.", console.Output);
+    }
 }

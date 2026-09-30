@@ -32,6 +32,7 @@ public sealed class GameLoop
 
     public void Run()
     {
+        ShowNotices(_game.View);
         ShowStatus(withScoreboard: true);
         while (true)
         {
@@ -56,6 +57,12 @@ public sealed class GameLoop
                     break;
                 case RecordInput:
                     ShowRecord();
+                    break;
+                case FixturesInput:
+                    ShowFixtures();
+                    break;
+                case AssignInput assign:
+                    Assign(assign);
                     break;
                 case ReadInput { Strip: null } all:
                     var now = _game.View.Now;
@@ -140,6 +147,7 @@ public sealed class GameLoop
         var result = _game.Advance();
         _console.MarkupLine($"[grey]Advanced {result.HoursRun} hours to {Format.Time(result.To)}[/]");
         var view = _game.View;
+        ShowNotices(view);
         if (view.Interval != null || HasNewCommentary(view))
         {
             ShowScoreboard(view);
@@ -302,7 +310,7 @@ public sealed class GameLoop
 
         var fixture = match.Fixture;
         var day = fixture.Days > 1 && !match.Finished ? $", day {(view.Now.Date - fixture.Start).Days + 1} of {fixture.Days}" : "";
-        _console.MarkupLine($"[bold]{Markup.Escape(fixture.Format.Name)} v {Markup.Escape(fixture.Opponent.Name)}{day}, strip {fixture.Strip.Number}[/]");
+        _console.MarkupLine($"[bold]{Markup.Escape(fixture.Format.Name)} v {Markup.Escape(fixture.Opponent.Name)}{day}, strip {match.Strip.Number}[/]");
         foreach (var innings in Format.Started(match))
         {
             _console.MarkupLine("  " + Markup.Escape(Format.Innings(innings)));
@@ -336,8 +344,55 @@ public sealed class GameLoop
         var demerits = rating.Demerits == 0 ? "No demerits" : $"[{colour}]{Format.Demerits(rating.Demerits)}[/]";
         lines.Add($"{demerits} for this match. {Format.Demerits(view.DemeritsActive)} in the last five years.");
 
-        var title = $"The referee's verdict: {Markup.Escape(match.Fixture.Format.Name)} v {Markup.Escape(match.Fixture.Opponent.Name)}, strip {match.Fixture.Strip.Number}";
+        var title = $"The referee's verdict: {Markup.Escape(match.Fixture.Format.Name)} v {Markup.Escape(match.Fixture.Opponent.Name)}, strip {match.Strip.Number}";
         _console.Write(new Panel(new Markup(string.Join("\n", lines))).Header(title).Border(BoxBorder.Rounded));
+    }
+
+    private void ShowNotices(GameView view)
+    {
+        foreach (var notice in view.Notices)
+        {
+            _console.MarkupLine($"[yellow]{Markup.Escape(Format.Notice(notice))}[/]");
+        }
+    }
+
+    private void Assign(AssignInput assign)
+    {
+        var fixtures = _game.View.Fixtures;
+        if (assign.Fixture < 1 || assign.Fixture > fixtures.Count)
+        {
+            _console.MarkupLine($"[red]There's no fixture {assign.Fixture}. Type x for the list.[/]");
+            return;
+        }
+        var fixture = fixtures[assign.Fixture - 1];
+        Order(new AssignStrip(fixture.Id, assign.Strip), $"{Markup.Escape(Format.Match(fixture.Fixture))} on {Format.Day(fixture.Fixture.Start)} will be played on strip {assign.Strip.Number}.");
+    }
+
+    private void ShowFixtures()
+    {
+        var view = _game.View;
+        var table = new Table().Border(TableBorder.Simple).Title("Fixtures")
+            .AddColumn("#")
+            .AddColumn(new TableColumn("Date").NoWrap())
+            .AddColumn(new TableColumn("Match").NoWrap())
+            .AddColumn("TV")
+            .AddColumn("Strip")
+            .AddColumn("Locks");
+        for (var i = 0; i < view.Fixtures.Count; i++)
+        {
+            var fixture = view.Fixtures[i];
+            var played = fixture.Fixture.End < view.Now.Date;
+            var grey = played ? "grey" : "default";
+            table.AddRow(
+                $"[{grey}]{i + 1}[/]",
+                $"[{grey}]{fixture.Fixture.Start.ToString("d MMM", System.Globalization.CultureInfo.InvariantCulture)}[/]",
+                $"[{grey}]{Markup.Escape(Format.Match(fixture.Fixture))}[/]",
+                fixture.Fixture.Televised ? "TV" : "",
+                fixture.Strip is { } strip ? strip.Number.ToString() : "[yellow]none[/]",
+                played ? "" : fixture.Locked ? "locked" : fixture.LocksOn.ToString("d MMM", System.Globalization.CultureInfo.InvariantCulture));
+        }
+        _console.Write(table);
+        _console.MarkupLine("[grey]p <#> <strip> puts a fixture on a strip until it locks, 10 days out.[/]");
     }
 
     private void ShowRecord()
@@ -361,7 +416,7 @@ public sealed class GameLoop
             table.AddRow(
                 match.Fixture.Start.ToString("d MMM", System.Globalization.CultureInfo.InvariantCulture),
                 Markup.Escape($"{match.Fixture.Format.Name} v {match.Fixture.Opponent.Name}"),
-                match.Fixture.Strip.Number.ToString(),
+                match.Strip.Number.ToString(),
                 Markup.Escape(match.Result?.Text ?? ""),
                 rating == null ? "[grey]not rated[/]" : $"[{GradeColour(rating.Grade)}]{Format.Grade(rating.Grade)}{(rating.Demerits > 0 ? $" ({rating.Demerits})" : "")}[/]");
         }
@@ -405,6 +460,8 @@ public sealed class GameLoop
             .AddRow("", "Every strip job takes a name, e.g. w 3 sam. You do it if none is given.")
             .AddRow("s", "Show the ground again")
             .AddRow("v", "The season record: every match, its result and the referee's rating")
+            .AddRow("x", "The fixture list, with each match's strip and when it locks")
+            .AddRow("p <#> <strip>", "Put fixture # on a strip; you can change it until its build-up starts")
             .AddRow("Enter or a", "Advance to the next decision point")
             .AddRow("q", "Quit");
 

@@ -12,7 +12,7 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
-        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, IReadOnlyList<Fixture> fixtures, Fixture? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, IReadOnlyList<MatchView> matches, IntervalView? interval, int demeritsActive, bool banned)
+        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, IReadOnlyList<FixtureView> fixtures, FixtureView? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, IReadOnlyList<MatchView> matches, IntervalView? interval, int demeritsActive, bool banned, IReadOnlyList<Notice> notices)
         {
             Now = now;
             Pace = pace;
@@ -31,6 +31,7 @@ namespace Groundsman.Core
             Interval = interval;
             DemeritsActive = demeritsActive;
             Banned = banned;
+            Notices = notices;
         }
 
         public GameTime Now { get; }
@@ -39,11 +40,11 @@ namespace Groundsman.Core
         /// <summary>Today if a match is on today, otherwise the next match day, or null if none.</summary>
         public DateTime? NextMatchDay { get; }
 
-        /// <summary>The season's fixture list in date order, played or not.</summary>
-        public IReadOnlyList<Fixture> Fixtures { get; }
+        /// <summary>The season's fixture list in date order, played or not, with their strips.</summary>
+        public IReadOnlyList<FixtureView> Fixtures { get; }
 
         /// <summary>The fixture being played now, or the next one; null when none are left.</summary>
-        public Fixture? NextFixture { get; }
+        public FixtureView? NextFixture { get; }
 
         /// <summary>Null until the first hour has run.</summary>
         public WeatherObservation? Weather { get; }
@@ -79,5 +80,8 @@ namespace Groundsman.Core
 
         /// <summary>Enough demerits to lose the right to host; phase 4 decides what follows.</summary>
         public bool Banned { get; }
+
+        /// <summary>What happened since the last turn that the player should hear about.</summary>
+        public IReadOnlyList<Notice> Notices { get; }
     }
 }

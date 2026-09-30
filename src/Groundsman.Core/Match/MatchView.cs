@@ -74,17 +74,19 @@ namespace Groundsman.Core.Match
     /// <summary>The scoreboard and commentary: public, unlike the pitch behaviour behind them.</summary>
     public sealed class MatchView
     {
-        public MatchView(Fixture fixture, IReadOnlyList<InningsView> innings, bool finished, ResultView? result, IReadOnlyList<CommentaryLine> commentary, RatingView? rating)
+        public MatchView(Fixture fixture, Groundsman.Core.Strips.StripId strip, IReadOnlyList<InningsView> innings, bool finished, ResultView? result, IReadOnlyList<CommentaryLine> commentary, RatingView? rating)
         {
             Rating = rating;
             Commentary = commentary;
             Fixture = fixture;
+            Strip = strip;
             Innings = innings;
             Finished = finished;
             Result = result;
         }
 
         public Fixture Fixture { get; }
+        public Groundsman.Core.Strips.StripId Strip { get; }
         public IReadOnlyList<InningsView> Innings { get; }
         public bool Finished { get; }
         public ResultView? Result { get; }

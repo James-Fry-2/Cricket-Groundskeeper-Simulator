@@ -15,7 +15,7 @@ public static class PolicyRuns
         {
             _ => new NeglectPolicy(),
             seed => new RandomPolicy(seed),
-            _ => new ByTheBookPolicy(),
+            _ => new ByTheBookPolicy(SeasonPlans.Original),
         };
 
         var runs = new List<IReadOnlyList<MatchResult>[]>();
