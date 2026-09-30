@@ -7,9 +7,15 @@ namespace Groundsman.Harness.Policies;
 
 /// <summary>
 /// The research's preparation loop (docs/research.md section 3), from readings and the
-/// forecast only: aim for moisture at depth with a dry surface, measured as professionals do
-/// with a soil core. Water into a dry profile while rain is unlikely, protect a profile that's
-/// there from rain, let a wet one dry in the open, and keep rain off in the final days.
+/// forecast only. Every fixture in the next ten days gets its build-up:
+/// - Moisture at depth with a dry surface, measured as professionals do with a soil core.
+///   Water into a dry profile while rain is unlikely, protect a profile that's there from rain,
+///   let a wet one dry in the open, and keep rain off in the final days.
+/// - Mow every other day, stepping the height down towards 6–8mm without cutting more than
+///   a third off at once.
+/// - Roll daily when the surface feels moist but not wet, working up from the light roller to
+///   the heavy one, then a light roll to finish. Never on a day it's watered.
+/// After each match the ends are repaired.
 /// </summary>
 public sealed class ByTheBookPolicy : IPolicy
 {
@@ -35,54 +41,115 @@ public sealed class ByTheBookPolicy : IPolicy
     /// <summary>A forecast top rain amount, mm, worth covering against even a dry strip.</summary>
     public const double HeavyRainMm = 15;
 
+    /// <summary>The height to reach the day before the match, mm, within the research's 6–8mm.</summary>
+    public const double FinalHeightMm = 7;
+
+    /// <summary>How much higher the target is for each day further out, mm.</summary>
+    public const double HeightStepPerDayMm = 0.4;
+
+    public const int MowEveryDays = 2;
+
+    /// <summary>Most of the height taken off in one cut, safely under the third that scalps.</summary>
+    public const double MaxCutShare = 0.3;
+
+    /// <summary>What a groundsman expects grass to grow in season, mm a day, to judge its height since the last cut.</summary>
+    public const double ExpectedGrowthPerDayMm = 0.8;
+
+    /// <summary>The height assumed for a strip not cut this season, mm.</summary>
+    public const double UncutHeightMm = 25;
+
+    /// <summary>
+    /// Days out from which a surface too dry to roll is watered so the roller can compact it
+    /// next day. Later than this, the water would still be in the surface on match morning.
+    /// </summary>
+    public const int WetToRollFromDaysOut = 5;
+
+    /// <summary>A probe midpoint, %, from which the surface is moist enough to roll.</summary>
+    public const double RollFromSurface = 18;
+
+    /// <summary>A probe midpoint, %, above which the surface is too wet to roll.</summary>
+    public const double RollToSurface = 25;
+
     private static readonly StaffId Deputy = new StaffId("sam");
 
     public string Name => "by the book";
 
+    /// <summary>Roller and minutes by days out: light, medium, heavy last, then a light finish.</summary>
+    public static (string Roller, double Minutes) RollingFor(int daysOut) => daysOut switch
+    {
+        >= 8 => ("light", 45),
+        >= 5 => ("medium", 45),
+        >= 3 => ("heavy", 40),
+        _ => ("light", 20),
+    };
+
+    public static double TargetHeightMm(int daysOut) => FinalHeightMm + HeightStepPerDayMm * (daysOut - 1);
+
     public void PlayTurn(IGame game)
     {
         var view = game.View;
-        var fixture = view.NextFixture;
+        var today = view.Now.Date;
+        var preparing = view.Fixtures
+            .Where(f => (f.Start - today).Days is >= 1 and <= PrepStartsDaysOut)
+            .ToList();
+        var playing = view.Fixtures.FirstOrDefault(f => f.Start <= today && today <= f.End);
 
         foreach (var strip in view.Strips)
         {
-            if (strip.Covered && strip.CoverOrder == CoverOrder.None && strip.Id != fixture?.Strip)
+            if (strip.Covered && strip.CoverOrder == CoverOrder.None && strip.Id != playing?.Strip && preparing.All(f => f.Strip != strip.Id))
             {
                 game.Submit(new UncoverStrip(strip.Id));
             }
         }
 
-        if (fixture == null)
+        RepairAfterMatches(game);
+        foreach (var fixture in preparing)
         {
-            return;
+            Prepare(game, fixture);
         }
+    }
 
-        var daysOut = (fixture.Start - view.Now.Date).Days;
-        if (daysOut > PrepStartsDaysOut)
-        {
-            return;
-        }
-
-        var target = view.Strips[fixture.Strip.Number - 1];
+    private static void RepairAfterMatches(IGame game)
+    {
+        var view = game.View;
         var today = view.Now.Date;
-        if (daysOut >= 1 && daysOut <= CoringStartsDaysOut && target.SubsurfaceMoisture?.TakenAt.Date != today)
+        foreach (var match in view.Matches.Where(m => m.Finished && m.Fixture.End < today))
+        {
+            var strip = view.Strips[match.Fixture.Strip.Number - 1];
+            var inUse = view.Fixtures.Any(f => f.Strip == strip.Id && f.Start <= today && today <= f.End);
+            if (!inUse && !strip.RepairQueued && !(strip.LastRepaired?.Date > match.Fixture.End))
+            {
+                Do(game, by => new RepairEnds(strip.Id, by));
+            }
+        }
+    }
+
+    private static void Prepare(IGame game, Fixture fixture)
+    {
+        var view = game.View;
+        var today = view.Now.Date;
+        var daysOut = (fixture.Start - today).Days;
+        var index = fixture.Strip.Number - 1;
+        var target = view.Strips[index];
+
+        if (daysOut <= CoringStartsDaysOut && target.SubsurfaceMoisture?.TakenAt.Date != today)
         {
             game.Submit(new TakeReading(fixture.Strip, Deputy, ReadingSource.SoilCore));
         }
-        if (daysOut >= 1 && daysOut <= FinalDays && target.SurfaceMoisture?.TakenAt.Date != today)
+        if (daysOut <= FinalDays && target.SurfaceMoisture?.TakenAt.Date != today)
         {
             game.Submit(new TakeReading(fixture.Strip, Deputy));
         }
 
         view = game.View;
-        target = view.Strips[fixture.Strip.Number - 1];
+        target = view.Strips[index];
         var depth = target.SubsurfaceMoistureNow is { } core ? (core.Low + core.High) / 2 : (double?)null;
         var forecast = view.Forecast[0];
 
         var waterBelow = daysOut >= FinalDays ? WaterBelowDepth : daysOut == FinalDays - 1 ? LateWaterBelowDepth : double.NegativeInfinity;
         if (!target.WateringQueued && depth < waterBelow && forecast.ChanceOfRain < RainLikely)
         {
-            game.Submit(new WaterStrip(fixture.Strip));
+            Do(game, by => new WaterStrip(fixture.Strip, by));
         }
 
         var chance = forecast.ChanceOfRain;
@@ -97,11 +164,79 @@ public sealed class ByTheBookPolicy : IPolicy
 
         if (wantCover && !target.Covered && target.CoverOrder == CoverOrder.None)
         {
-            game.Submit(new CoverStrip(fixture.Strip));
+            Do(game, by => new CoverStrip(fixture.Strip, by));
         }
         else if (!wantCover && target.Covered && target.CoverOrder == CoverOrder.None)
         {
-            game.Submit(new UncoverStrip(fixture.Strip));
+            Do(game, by => new UncoverStrip(fixture.Strip, by));
+        }
+
+        Mow(game, fixture, daysOut);
+        Roll(game, fixture, daysOut, forecast.ChanceOfRain);
+    }
+
+    private static void Mow(IGame game, Fixture fixture, int daysOut)
+    {
+        var view = game.View;
+        var strip = view.Strips[fixture.Strip.Number - 1];
+        var lastCut = strip.LastMown;
+        var daysSince = lastCut == null ? int.MaxValue : (view.Now.Date - lastCut.OrderedAt.Date).Days;
+        if (strip.MowingQueued || daysSince == 0 || (daysSince < MowEveryDays && daysOut > 1))
+        {
+            return;
+        }
+
+        var estimate = lastCut == null ? UncutHeightMm : lastCut.HeightMm + ExpectedGrowthPerDayMm * daysSince;
+        var height = Math.Round(Math.Max(TargetHeightMm(daysOut), estimate * (1 - MaxCutShare)), 1);
+        if (height < estimate)
+        {
+            Do(game, by => new MowStrip(fixture.Strip, height, by));
+        }
+    }
+
+    private static void Roll(IGame game, Fixture fixture, int daysOut, double chanceOfRain)
+    {
+        var view = game.View;
+        var strip = view.Strips[fixture.Strip.Number - 1];
+        if (strip.RollingQueued || strip.WateringQueued || strip.LastRolled?.OrderedAt.Date == view.Now.Date)
+        {
+            return;
+        }
+
+        if (strip.SurfaceMoisture?.TakenAt.Date != view.Now.Date)
+        {
+            game.Submit(new TakeReading(fixture.Strip, Deputy, ReadingSource.Feel));
+            strip = game.View.Strips[fixture.Strip.Number - 1];
+        }
+
+        var reading = strip.SurfaceMoisture;
+        if (reading == null || reading.TakenAt.Date != view.Now.Date)
+        {
+            return;
+        }
+        var rollable = reading.Word != null
+            ? reading.Word == "damp"
+            : (reading.Range.Low + reading.Range.High) / 2 is >= RollFromSurface and <= RollToSurface;
+        if (rollable)
+        {
+            var (roller, minutes) = RollingFor(daysOut);
+            Do(game, by => new RollStrip(fixture.Strip, roller, minutes, by));
+        }
+        else if (daysOut >= WetToRollFromDaysOut && reading.Word == "dry" && chanceOfRain < RainLikely)
+        {
+            Do(game, by => new WaterStrip(fixture.Strip, by));
+        }
+    }
+
+    /// <summary>Gives a job to whoever has the hours, the player first.</summary>
+    private static void Do(IGame game, Func<StaffId, IGameCommand> job)
+    {
+        foreach (var person in game.View.Staff)
+        {
+            if (game.Submit(job(person.Id)).Accepted)
+            {
+                return;
+            }
         }
     }
 }

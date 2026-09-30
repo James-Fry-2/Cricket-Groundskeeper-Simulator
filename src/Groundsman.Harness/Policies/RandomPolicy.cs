@@ -6,7 +6,7 @@ using Groundsman.Core.Strips;
 
 namespace Groundsman.Harness.Policies;
 
-/// <summary>Up to three random jobs a turn, legal or not: a baseline that proves the others differ.</summary>
+/// <summary>Up to three random jobs a turn, legal or not, of every kind: a baseline that proves the others differ.</summary>
 public sealed class RandomPolicy : IPolicy
 {
     private readonly RandomSource _random;
@@ -26,13 +26,16 @@ public sealed class RandomPolicy : IPolicy
         {
             var strip = new StripId(_random.NextInt(1, view.Strips.Count + 1));
             var by = view.Staff[_random.NextInt(view.Staff.Count)].Id;
-            IGameCommand command = _random.NextInt(5) switch
+            IGameCommand command = _random.NextInt(8) switch
             {
                 0 => new WaterStrip(strip, by),
                 1 => new CoverStrip(strip, by),
                 2 => new UncoverStrip(strip, by),
                 3 => new TakeReading(strip, by),
-                _ => new TakeReading(strip, by, ReadingSource.Feel),
+                4 => new TakeReading(strip, by, ReadingSource.Feel),
+                5 => new MowStrip(strip, _random.NextInt(5, 26), by),
+                6 => new RollStrip(strip, view.Rollers[_random.NextInt(view.Rollers.Count)].Id, _random.NextInt(10, 61), by),
+                _ => new RepairEnds(strip, by),
             };
             game.Submit(command);
         }

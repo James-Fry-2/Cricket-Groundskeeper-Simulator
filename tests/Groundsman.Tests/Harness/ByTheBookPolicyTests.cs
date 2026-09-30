@@ -36,7 +36,7 @@ public class ByTheBookPolicyTests
         Assert.NotNull(core);
         Assert.Equal(ReadingSource.SoilCore, core!.Source);
         Assert.Equal("sam", core.TakenBy.Value);
-        Assert.Null(game.View.Strips[5].SurfaceMoisture);
+        Assert.Equal(ReadingSource.Feel, game.View.Strips[5].SurfaceMoisture?.Source ?? ReadingSource.Feel);
     }
 
     [Fact]
@@ -122,5 +122,151 @@ public class ByTheBookPolicyTests
             });
             game.Advance();
         }
+    }
+
+    private static Game BuildUp(ulong seed, Action<Game>? eachTurn = null, params Fixture[] fixtures)
+    {
+        var list = fixtures.Length == 0 ? new[] { Match } : fixtures;
+        var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 6, 8, 7), list, seed));
+        var policy = new ByTheBookPolicy();
+        while (game.View.Now.Date < list[^1].Start)
+        {
+            policy.PlayTurn(game);
+            eachTurn?.Invoke(game);
+            game.Advance();
+        }
+        return game;
+    }
+
+    [Fact]
+    public void Mows_the_strip_down_to_six_to_eight_mm_by_match_day_without_scalping()
+    {
+        for (ulong seed = 1; seed <= 10; seed++)
+        {
+            var coverBefore = 0.0;
+            var cuts = new List<double>();
+            var game = BuildUp(seed, g =>
+            {
+                var cut = g.View.Strips[5].LastMown;
+                if (g.View.Strips[5].MowingQueued && (cuts.Count == 0 || cut!.HeightMm != cuts[^1]))
+                {
+                    cuts.Add(cut!.HeightMm);
+                }
+                coverBefore = Math.Max(coverBefore, g.Inspect().Strips[5].GrassCover);
+            });
+
+            var truth = game.Inspect().Strips[5];
+            Assert.InRange(truth.GrassHeightMm, 6, 9);
+            Assert.True(cuts.Count >= 4, $"seed {seed}: {cuts.Count} cuts");
+            Assert.Equal(cuts.OrderByDescending(c => c), cuts);
+            Assert.True(truth.GrassCover > coverBefore - 5, $"seed {seed}: cover {coverBefore:0} to {truth.GrassCover:0}");
+        }
+    }
+
+    [Fact]
+    public void Rolls_only_on_a_moist_surface_light_first_and_heavy_last_then_a_light_finish()
+    {
+        for (ulong seed = 1; seed <= 10; seed++)
+        {
+            var rolls = new List<(int DaysOut, string Roller)>();
+            var game = BuildUp(seed, g =>
+            {
+                var strip = g.View.Strips[5];
+                if (strip.RollingQueued)
+                {
+                    rolls.Add(((Match.Start - g.View.Now.Date).Days, strip.LastRolled!.RollerId));
+                    Assert.False(strip.WateringQueued);
+                    Assert.Equal(g.View.Now.Date, strip.SurfaceMoisture!.TakenAt.Date);
+                    Assert.NotEqual("wet", strip.SurfaceMoisture.Word);
+                    Assert.NotEqual("dry", strip.SurfaceMoisture.Word);
+                }
+            });
+
+            Assert.All(rolls, r => Assert.Equal(ByTheBookPolicy.RollingFor(r.DaysOut).Roller, r.Roller));
+            Assert.Equal(rolls.Count, rolls.Select(r => r.DaysOut).Distinct().Count());
+        }
+    }
+
+    [Fact]
+    public void Rolling_builds_compaction_without_damaging_the_structure()
+    {
+        var totalRolls = 0;
+        for (ulong seed = 1; seed <= 10; seed++)
+        {
+            var rolls = 0;
+            var truth = BuildUp(seed, g => rolls += g.View.Strips[5].RollingQueued ? 1 : 0).Inspect().Strips[5];
+
+            totalRolls += rolls;
+            if (rolls > 0)
+            {
+                Assert.True(truth.Compaction > TestRolling.Compaction.StartingCompaction, $"seed {seed}: {rolls} rolls left compaction at {truth.Compaction:0.000}");
+            }
+            Assert.True(truth.StructureDamage < 0.05, $"seed {seed}: damage {truth.StructureDamage:0.000}");
+        }
+        Assert.True(totalRolls >= 10, $"{totalRolls} rolls over 10 build-ups");
+    }
+
+    [Fact]
+    public void Waters_a_surface_too_dry_to_roll_early_in_the_build_up_only()
+    {
+        var watered = 0;
+        for (ulong seed = 1; seed <= 20; seed++)
+        {
+            foreach (var day in new[] { 14, 17 })
+            {
+                var game = GameAt(new GameTime(2027, 6, day, 7), seed);
+                game.Square.Get(Match.Strip).SurfaceMoisture = 5;
+                game.Square.Get(Match.Strip).SubsurfaceMoisture = 28;
+
+                new ByTheBookPolicy().PlayTurn(game);
+
+                var view = game.View;
+                var strip = view.Strips[5];
+                var daysOut = (Match.Start - view.Now.Date).Days;
+                var dryFeel = strip.SurfaceMoisture?.Word == "dry";
+                var expected = daysOut >= ByTheBookPolicy.WetToRollFromDaysOut && dryFeel && view.Forecast[0].ChanceOfRain < ByTheBookPolicy.RainLikely;
+                Assert.Equal(expected, strip.WateringQueued);
+                Assert.False(strip.RollingQueued);
+                watered += expected ? 1 : 0;
+            }
+        }
+        Assert.InRange(watered, 5, 20);
+    }
+
+    [Fact]
+    public void Repairs_the_ends_once_the_day_after_a_match()
+    {
+        var oneDay = new Fixture(new DateTime(2027, 6, 12), TestFormats.OneDay, new StripId(3), TestTeams.Opponent);
+        var later = new Fixture(new DateTime(2027, 6, 20), TestFormats.OneDay, new StripId(6), TestTeams.Opponent);
+        var repairs = new List<DateTime>();
+
+        BuildUp(1, g =>
+        {
+            if (g.View.Strips[2].RepairQueued)
+            {
+                repairs.Add(g.View.Now.Date);
+            }
+        }, oneDay, later);
+
+        Assert.Equal(new[] { new DateTime(2027, 6, 13) }, repairs.Distinct());
+    }
+
+    [Fact]
+    public void Prepares_the_next_fixture_while_another_is_being_played()
+    {
+        var fourDay = new Fixture(new DateTime(2027, 6, 10), TestFormats.FourDay, new StripId(3), TestTeams.Opponent);
+        var next = new Fixture(new DateTime(2027, 6, 18), TestFormats.OneDay, new StripId(6), TestTeams.Opponent);
+        var worked = false;
+
+        BuildUp(1, g =>
+        {
+            var date = g.View.Now.Date;
+            if (date >= fourDay.Start && date <= fourDay.End && (g.View.Strips[5].MowingQueued || g.View.Strips[5].RollingQueued))
+            {
+                worked = true;
+            }
+        }, fourDay, next);
+
+        Assert.True(worked);
     }
 }
