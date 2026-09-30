@@ -28,7 +28,7 @@ namespace Groundsman.Core.Content
 
         public static readonly IReadOnlyList<string> CauseIds = new[]
         {
-            "grass", "damp", "wet", "loose", "longGrass", "structureDamage", "cracks", "footholes", "surfaceWear", "dry", "rough", "hard",
+            "grass", "damp", "wet", "loose", "longGrass", "structureDamage", "cracks", "footholes", "surfaceWear", "dry", "rough", "hard", "lastingWear", "thinEnds",
         };
 
         private static readonly HashSet<string> Placeholders = new HashSet<string>

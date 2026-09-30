@@ -13,5 +13,7 @@
   "cracks": { "startDryness": 0.6, "perHour": 0.01, "damageExtra": 2.0, "closePerHour": 0.02 },
   "recovery": { "perDay": 0.02, "repairedPerDay": 0.08, "repairFills": 0.6 },
   "duringMatch": { "cleanShare": 0.1, "fillShare": 0.4 },
-  "runUps": { "neighbourShare": 0.25 }
+  "runUps": { "neighbourShare": 0.25 },
+  "lasting": { "share": 0.06, "resistanceLoss": 0.5 },
+  "ends": { "lossPerWear": 4, "establishDays": 18, "unrepairedDays": 45, "germinateShare": 0.3, "resistanceLoss": 0.4 }
 }

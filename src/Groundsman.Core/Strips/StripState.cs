@@ -56,5 +56,19 @@ namespace Groundsman.Core.Strips
 
         /// <summary>The ends have been filled and seeded since the strip was last played on.</summary>
         public bool EndsRepaired { get; set; }
+
+        /// <summary>0 to 1: wear left by this season's matches that only autumn renovation clears.</summary>
+        public double LastingWear { get; set; }
+
+        /// <summary>0 to 1: how far the grass at the ends has grown back, 1 when established.</summary>
+        public double EndsEstablishment { get; set; } = 1;
+
+        /// <summary>
+        /// Lasting wear and loss of the ends from a match in progress, held back until it's over:
+        /// they tell against the strip's next use, while its footholes and rough tell in this one.
+        /// </summary>
+        public double PendingLastingWear { get; set; }
+
+        public double PendingEndsLoss { get; set; }
     }
 }

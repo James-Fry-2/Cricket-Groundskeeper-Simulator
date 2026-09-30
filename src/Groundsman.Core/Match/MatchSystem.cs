@@ -123,6 +123,15 @@ namespace Groundsman.Core.Match
                 Conclude(match);
             }
 
+            if (match.Finished && !match.Settled)
+            {
+                foreach (var played in _square.Strips)
+                {
+                    _wear.Settle(played);
+                }
+                match.Settled = true;
+            }
+
             if (match.Finished && match.Rating == null && _referee.Rate(match) is { } rating)
             {
                 match.Rating = rating;

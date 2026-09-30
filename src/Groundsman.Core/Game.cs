@@ -48,6 +48,7 @@ namespace Groundsman.Core
         private readonly PitchModel _pitch;
         private readonly WearSystem _wear;
         private readonly GameTime?[] _lastRepaired;
+        private readonly EndsLook?[] _endsLook;
         private readonly List<(StripId Strip, Quantity Quantity)> _readThisTurn = new List<(StripId, Quantity)>();
         private GameTime _now;
 
@@ -83,6 +84,7 @@ namespace Groundsman.Core
             WearModel = new WearModel(content.Wear, content.Grass);
             _wear = new WearSystem(Square, Weather, _tasks, grassModel, WearModel);
             _lastRepaired = new GameTime?[Square.Strips.Count];
+            _endsLook = new EndsLook?[Square.Strips.Count];
             _lastMown = new MowRecord?[Square.Strips.Count];
             _lastRolled = new RollRecord?[Square.Strips.Count];
             Matches = new MatchSystem(
@@ -136,7 +138,9 @@ namespace Groundsman.Core
                         _tasks.IsRollingQueued(id),
                         _lastRepaired[i],
                         _tasks.IsRepairQueued(id),
-                        _content.Ground.IsCentre(id));
+                        _content.Ground.IsCentre(id),
+                        _endsLook[i],
+                        Matches.Played.LastOrDefault(m => m.Strip == id)?.Fixture);
                 }
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
@@ -154,7 +158,7 @@ namespace Groundsman.Core
             for (var i = 0; i < strips.Length; i++)
             {
                 var strip = Square.Strips[i];
-                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture, strip.GrassCover, strip.GrassHeightMm, strip.RootDepthMm, strip.Compaction, strip.StructureDamage, _rolling.Hardness(strip), _pitch.Characterise(strip), strip.Footholes, strip.Rough, strip.SurfaceWear, strip.Cracks);
+                strips[i] = new StripTruth(strip.Id, strip.SurfaceMoisture, strip.SubsurfaceMoisture, strip.GrassCover, strip.GrassHeightMm, strip.RootDepthMm, strip.Compaction, strip.StructureDamage, _rolling.Hardness(strip), _pitch.Characterise(strip), strip.Footholes, strip.Rough, strip.SurfaceWear, strip.Cracks, strip.LastingWear, strip.EndsEstablishment);
             }
             return new TruthSnapshot(_now, Weather.LastHour, strips);
         }
@@ -522,6 +526,10 @@ namespace Groundsman.Core
                 ReadingSource.SoilCore => _readingTaker.SoilCore(strip, _now, taker),
                 _ => _readingTaker.Probe(strip, _now, taker),
             });
+            if (reading.Tool == ReadingSource.Feel)
+            {
+                _endsLook[reading.Strip.Number - 1] = new EndsLook(WearModel.EndsLook(strip), _now);
+            }
             _readThisTurn.Add((reading.Strip, quantity));
             _staff.Spend(who, hours);
             return CommandResult.Ok();

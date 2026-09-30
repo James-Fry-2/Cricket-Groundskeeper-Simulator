@@ -84,7 +84,7 @@ public class GameLoopTests
 
         Assert.Contains("Strip 5 is down for covering", console.Output);
         Assert.Contains("cover on", console.Output);
-        Assert.Contains("covered", console.Output);
+        Assert.Contains(console.Output.Split('\n'), line => line.TrimStart().StartsWith("5c ") && line.Contains("covered"));
         Assert.Contains($"Covers free: {TestContent.Covers.Count - 1} of {TestContent.Covers.Count}", console.Output);
         Assert.True(game.View.Strips[4].Covered);
     }
@@ -141,7 +141,7 @@ public class GameLoopTests
         var strip = game.View.Strips[2];
 
         Assert.Contains(Format.Percent(strip.SurfaceMoistureNow!.Value), console.Output);
-        Assert.Contains("2 days ago", console.Output);
+        Assert.Contains(" 2d You", console.Output);
     }
 
     [Fact]
@@ -161,7 +161,7 @@ public class GameLoopTests
 
         Assert.Contains("Strip 3 is down for mowing to 10 mm", console.Output);
         Assert.Contains("mow 10", console.Output);
-        Assert.Contains("10mm yesterday", console.Output);
+        Assert.Contains("10mm 1d", console.Output);
         Assert.Equal(10, game.View.Strips[2].LastMown!.HeightMm);
     }
 
@@ -172,7 +172,7 @@ public class GameLoopTests
 
         Assert.Contains("Strip 3 is down for 20 minutes with the Medium roller", console.Output);
         Assert.Contains("roll", console.Output);
-        Assert.Contains("medium 20m yesterday", console.Output);
+        Assert.Contains("medium 20m 1d", console.Output);
         Assert.Equal("medium", game.View.Strips[2].LastRolled!.RollerId);
     }
 
@@ -183,7 +183,7 @@ public class GameLoopTests
 
         Assert.Contains("Strip 3 is down for end repairs", console.Output);
         Assert.Contains("repair", console.Output);
-        Assert.Contains("repaired yesterday", console.Output);
+        Assert.Contains("rep 1d", console.Output);
     }
 
     [Fact]
@@ -199,7 +199,7 @@ public class GameLoopTests
     {
         var (console, _) = Play("r 3 sam", "s", "q");
 
-        Assert.Contains("today, Sam", console.Output);
+        Assert.Contains("0d Sam", console.Output);
     }
 
     [Fact]
@@ -384,5 +384,14 @@ public class GameLoopTests
         Assert.Contains(" 8c ", console.Output);
         Assert.DoesNotContain(" 4c ", console.Output);
         Assert.Contains("c: a centre strip", console.Output);
+    }
+
+    [Fact]
+    public void A_feel_reading_shows_how_the_ends_look()
+    {
+        var (console, _) = Play("f 4", "s", "q");
+
+        Assert.Contains("established 0d", console.Output);
+        Assert.Contains("The ends look established.", console.Output);
     }
 }

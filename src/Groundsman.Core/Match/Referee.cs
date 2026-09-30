@@ -125,7 +125,9 @@ namespace Groundsman.Core.Match
                 ("loose", worst.Drivers.Loose),
                 ("cracks", worst.Drivers.Cracks),
                 ("footholes", worst.Drivers.Footholes),
-                ("surfaceWear", worst.Drivers.SurfaceWear)), worst);
+                ("surfaceWear", worst.Drivers.SurfaceWear),
+                ("lastingWear", worst.Drivers.LastingWear),
+                ("thinEnds", worst.Drivers.ThinEnds)), worst);
 
         private string DeadCause(MatchState match, MatchHour slowest) =>
             CommentaryCause(match, "dead")

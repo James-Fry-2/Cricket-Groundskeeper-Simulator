@@ -171,4 +171,19 @@ public class PitchModelTests
             }
         }
     }
+
+    [Fact]
+    public void Lasting_wear_and_ends_that_havent_grown_back_make_bounce_less_consistent()
+    {
+        var fresh = Strip();
+        var worn = Strip();
+        worn.LastingWear = 0.2;
+        var thin = Strip();
+        thin.EndsEstablishment = 0.3;
+
+        Assert.True(Of(worn).Consistency < Of(fresh).Consistency);
+        Assert.True(Of(thin).Consistency < Of(fresh).Consistency);
+        Assert.Equal(TestPitch.Settings.ConsistencyLastingWeight * 0.2, Model.Explain(worn).LastingWear, 9);
+        Assert.Equal(TestPitch.Settings.ConsistencyEndsWeight * 0.7, Model.Explain(thin).ThinEnds, 9);
+    }
 }

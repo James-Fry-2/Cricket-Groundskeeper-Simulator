@@ -173,7 +173,7 @@ public sealed class GameLoop
 
         var reading = view.SurfaceMoisture!;
         _console.MarkupLine(reading.Word != null
-            ? $"{strip} feels [bold]{Markup.Escape(reading.Word)}[/]."
+            ? $"{strip} feels [bold]{Markup.Escape(reading.Word)}[/]. The ends look {Format.EndsState(view.Ends!.State)}."
             : $"{strip} reads [bold]{Format.Percent(reading.Range)}[/] surface moisture.");
         return true;
     }
@@ -222,18 +222,22 @@ public sealed class GameLoop
         var truth = _inspect?.Invoke();
         var table = new Table().Border(TableBorder.Simple)
             .AddColumn("Strip")
-            .AddColumn("Surface")
-            .AddColumn("Read")
-            .AddColumn("Below")
-            .AddColumn("Cored")
-            .AddColumn("Cut")
+            .AddColumn(new TableColumn("Surface").NoWrap())
+            .AddColumn(new TableColumn("Below").NoWrap())
+            .AddColumn(new TableColumn("Cut").NoWrap())
             .AddColumn("Rolled")
+            .AddColumn("Played")
             .AddColumn("Ends")
-            .AddColumn("Cover")
-            .AddColumn("Orders");
+            .AddColumn("Status");
         if (truth != null)
         {
             table.AddColumn("[magenta]Truth (surface / below)[/]");
+        }
+
+        // Tight padding keeps the table inside an 80-column terminal.
+        foreach (var column in table.Columns)
+        {
+            column.Padding = new Padding(0, 0, 1, 0);
         }
 
         for (var i = 0; i < view.Strips.Count; i++)
@@ -243,15 +247,13 @@ public sealed class GameLoop
             var cells = new List<string>
             {
                 strip.Centre ? $"{strip.Id.Number}c" : strip.Id.Number.ToString(),
-                reading == null ? "[grey]–[/]" : Markup.Escape(Format.Reading(reading, strip.SurfaceMoistureNow!.Value)),
-                reading == null ? "" : $"{Format.Age(reading.TakenAt, view.Now)}, {Markup.Escape(Format.FirstName(view.Staff.Single(s => s.Id == reading.TakenBy).Name))}",
-                strip.SubsurfaceMoisture == null ? "" : Markup.Escape(Format.Percent(strip.SubsurfaceMoistureNow!.Value)),
-                strip.SubsurfaceMoisture == null ? "" : Format.Age(strip.SubsurfaceMoisture.TakenAt, view.Now),
-                strip.LastMown == null ? "" : $"{strip.LastMown.HeightMm:0.#}mm {Format.Age(strip.LastMown.OrderedAt, view.Now)}",
-                strip.LastRolled == null ? "" : $"{Markup.Escape(strip.LastRolled.RollerId)} {strip.LastRolled.Minutes:0}m {Format.Age(strip.LastRolled.OrderedAt, view.Now)}",
-                strip.LastRepaired is { } repaired ? $"repaired {Format.Age(repaired, view.Now)}" : "",
-                strip.Covered ? "covered" : "",
-                Format.Orders(strip),
+                reading == null ? "[grey]–[/]" : Markup.Escape($"{Format.Reading(reading, strip.SurfaceMoistureNow!.Value)} {Format.Ago(reading.TakenAt.Date, view.Now)} {Format.FirstName(view.Staff.Single(s => s.Id == reading.TakenBy).Name)}"),
+                strip.SubsurfaceMoisture == null ? "" : Markup.Escape($"{Format.Percent(strip.SubsurfaceMoistureNow!.Value)} {Format.Ago(strip.SubsurfaceMoisture.TakenAt.Date, view.Now)}"),
+                strip.LastMown == null ? "" : $"{strip.LastMown.HeightMm:0.#}mm {Format.Ago(strip.LastMown.OrderedAt.Date, view.Now)}",
+                strip.LastRolled == null ? "" : $"{Markup.Escape(strip.LastRolled.RollerId)} {strip.LastRolled.Minutes:0}m {Format.Ago(strip.LastRolled.OrderedAt.Date, view.Now)}",
+                strip.LastPlayed is { } played && played.End <= view.Now.Date ? Format.Ago(played.End, view.Now) : "",
+                Markup.Escape(Format.Ends(strip, view.Now)),
+                string.Join(", ", new[] { strip.Covered ? "covered" : "", Format.Orders(strip) }.Where(p => p.Length > 0)),
             };
             if (truth != null)
             {
@@ -262,7 +264,7 @@ public sealed class GameLoop
         }
 
         _console.Write(table);
-        _console.MarkupLine("[grey]c: a centre strip, wanted for televised matches.[/]");
+        _console.MarkupLine("[grey]c: a centre strip, wanted for televised matches. Ages in days: 0d is today. rep: ends repaired.[/]");
         ShowForecast(view);
         _console.MarkupLine($"Covers free: {view.CoversFree} of {view.CoversOwned}.");
         if (view.DemeritsActive > 0)

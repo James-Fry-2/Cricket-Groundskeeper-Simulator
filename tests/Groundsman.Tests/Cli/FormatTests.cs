@@ -133,4 +133,12 @@ public class FormatTests
 
         Assert.Equal(new[] { first }, Format.Started(match));
     }
+
+    [Theory]
+    [InlineData(0, "0d")]
+    [InlineData(12, "12d")]
+    public void Ages_in_the_table_are_short(int days, string expected)
+    {
+        Assert.Equal(expected, Format.Ago(new DateTime(2027, 6, 20).AddDays(-days), new GameTime(2027, 6, 20, 7)));
+    }
 }

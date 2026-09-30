@@ -25,7 +25,14 @@ namespace Groundsman.Core.Content
             double repairFills,
             double cleanShare,
             double fillShare,
-            double neighbourShare)
+            double neighbourShare,
+            double lastingShare,
+            double lastingResistanceLoss,
+            double endsLossPerWear,
+            double endsEstablishDays,
+            double endsUnrepairedDays,
+            double endsGerminateShare,
+            double endsResistanceLoss)
         {
             CheckNotNegative("resistance.compactionWeight", resistanceCompactionWeight);
             CheckNotNegative("resistance.clayWeight", resistanceClayWeight);
@@ -59,6 +66,19 @@ namespace Groundsman.Core.Content
             CheckUnit("duringMatch.cleanShare", cleanShare);
             CheckUnit("duringMatch.fillShare", fillShare);
             CheckUnit("runUps.neighbourShare", neighbourShare);
+            CheckUnit("lasting.share", lastingShare);
+            CheckUnit("lasting.resistanceLoss", lastingResistanceLoss);
+            CheckNotNegative("ends.lossPerWear", endsLossPerWear);
+            if (endsEstablishDays <= 0)
+            {
+                throw new ContentException($"wear.ends.establishDays ({endsEstablishDays}) must be above 0.");
+            }
+            if (endsUnrepairedDays < endsEstablishDays)
+            {
+                throw new ContentException($"wear.ends.unrepairedDays ({endsUnrepairedDays}) can't be shorter than establishDays ({endsEstablishDays}): repairs speed regrowth.");
+            }
+            CheckUnit("ends.germinateShare", endsGerminateShare);
+            CheckUnit("ends.resistanceLoss", endsResistanceLoss);
 
             ResistanceCompactionWeight = resistanceCompactionWeight;
             ResistanceClayWeight = resistanceClayWeight;
@@ -83,6 +103,13 @@ namespace Groundsman.Core.Content
             CleanShare = cleanShare;
             FillShare = fillShare;
             NeighbourShare = neighbourShare;
+            LastingShare = lastingShare;
+            LastingResistanceLoss = lastingResistanceLoss;
+            EndsLossPerWear = endsLossPerWear;
+            EndsEstablishDays = endsEstablishDays;
+            EndsUnrepairedDays = endsUnrepairedDays;
+            EndsGerminateShare = endsGerminateShare;
+            EndsResistanceLoss = endsResistanceLoss;
         }
 
         public double ResistanceCompactionWeight { get; }
@@ -148,6 +175,27 @@ namespace Groundsman.Core.Content
 
         /// <summary>Footholes dug in a neighbour's ends by run-ups, as a share of the match strip's.</summary>
         public double NeighbourShare { get; }
+
+        /// <summary>Share of the wear a match digs that stays until renovation.</summary>
+        public double LastingShare { get; }
+
+        /// <summary>Share of resistance lost per unit of lasting wear.</summary>
+        public double LastingResistanceLoss { get; }
+
+        /// <summary>Establishment the ends lose per unit of footholes dug.</summary>
+        public double EndsLossPerWear { get; }
+
+        /// <summary>Days of full grass growth for repaired ends to establish from bare.</summary>
+        public double EndsEstablishDays { get; }
+
+        /// <summary>The same for ends left unrepaired.</summary>
+        public double EndsUnrepairedDays { get; }
+
+        /// <summary>Establishment below which repaired ends still look only seeded.</summary>
+        public double EndsGerminateShare { get; }
+
+        /// <summary>Share of resistance lost with bare ends, less as they establish.</summary>
+        public double EndsResistanceLoss { get; }
 
         private static void CheckNotNegative(string field, double value)
         {

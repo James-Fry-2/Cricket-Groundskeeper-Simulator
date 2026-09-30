@@ -24,7 +24,9 @@
     "surfaceWear": "The surface is worn and crumbling",
     "dry": "The surface has dried out",
     "rough": "The bowlers' follow-through has roughed up the surface",
-    "hard": "It's been well rolled and has dried hard"
+    "hard": "It's been well rolled and has dried hard",
+    "lastingWear": "The strip is tired from the matches already played on it this season",
+    "thinEnds": "The ends haven't grown back since the strip was last used"
   },
   "rain": "Rain stops play. The covers come on.",
   "session": "{break}: {score}."

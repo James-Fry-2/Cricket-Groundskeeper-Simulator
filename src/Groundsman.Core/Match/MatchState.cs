@@ -84,6 +84,9 @@ namespace Groundsman.Core.Match
 
         public RatingView? Rating { get; set; }
 
+        /// <summary>The wear the match held back has been applied to the square.</summary>
+        public bool Settled { get; set; }
+
         public InningsState? Current => Innings.Count == 0 ? null : Innings[Innings.Count - 1];
 
         public double TotalFor(TeamSettings team) => Innings.Where(i => i.Batting == team).Sum(i => i.Runs);

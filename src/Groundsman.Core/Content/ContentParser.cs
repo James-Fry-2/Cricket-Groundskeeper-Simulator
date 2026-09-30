@@ -302,6 +302,8 @@ namespace Groundsman.Core.Content
             var cracks = Required(file, "cracks", dto.Cracks);
             var recovery = Required(file, "recovery", dto.Recovery);
             var duringMatch = Required(file, "duringMatch", dto.DuringMatch);
+            var lasting = Required(file, "lasting", dto.Lasting);
+            var ends = Required(file, "ends", dto.Ends);
 
             return new WearSettings(
                 Required(file, "resistance.compactionWeight", resistance.CompactionWeight),
@@ -326,7 +328,14 @@ namespace Groundsman.Core.Content
                 Required(file, "recovery.repairFills", recovery.RepairFills),
                 Required(file, "duringMatch.cleanShare", duringMatch.CleanShare),
                 Required(file, "duringMatch.fillShare", duringMatch.FillShare),
-                Required(file, "runUps.neighbourShare", Required(file, "runUps", dto.RunUps).NeighbourShare));
+                Required(file, "runUps.neighbourShare", Required(file, "runUps", dto.RunUps).NeighbourShare),
+                Required(file, "lasting.share", lasting.Share),
+                Required(file, "lasting.resistanceLoss", lasting.ResistanceLoss),
+                Required(file, "ends.lossPerWear", ends.LossPerWear),
+                Required(file, "ends.establishDays", ends.EstablishDays),
+                Required(file, "ends.unrepairedDays", ends.UnrepairedDays),
+                Required(file, "ends.germinateShare", ends.GerminateShare),
+                Required(file, "ends.resistanceLoss", ends.ResistanceLoss));
         }
 
         public static PitchSettings ParsePitch(string json)
@@ -350,6 +359,8 @@ namespace Groundsman.Core.Content
                 Required(file, "consistency.crackWeight", consistency.CrackWeight),
                 Required(file, "consistency.footholeWeight", consistency.FootholeWeight),
                 Required(file, "consistency.surfaceWearWeight", consistency.SurfaceWearWeight),
+                Required(file, "consistency.lastingWeight", consistency.LastingWeight),
+                Required(file, "consistency.endsWeight", consistency.EndsWeight),
                 Required(file, "seam.base", seam.Base),
                 Required(file, "seam.wetWeight", seam.WetWeight),
                 Required(file, "spin.dryWeight", spin.DryWeight),
@@ -998,6 +1009,8 @@ namespace Groundsman.Core.Content
             public double? CrackWeight { get; set; }
             public double? FootholeWeight { get; set; }
             public double? SurfaceWearWeight { get; set; }
+            public double? LastingWeight { get; set; }
+            public double? EndsWeight { get; set; }
         }
 
         private sealed class SeamDto
@@ -1024,6 +1037,23 @@ namespace Groundsman.Core.Content
             public RecoveryDto? Recovery { get; set; }
             public DuringMatchDto? DuringMatch { get; set; }
             public RunUpsDto? RunUps { get; set; }
+            public LastingDto? Lasting { get; set; }
+            public EndsDto? Ends { get; set; }
+        }
+
+        private sealed class LastingDto
+        {
+            public double? Share { get; set; }
+            public double? ResistanceLoss { get; set; }
+        }
+
+        private sealed class EndsDto
+        {
+            public double? LossPerWear { get; set; }
+            public double? EstablishDays { get; set; }
+            public double? UnrepairedDays { get; set; }
+            public double? GerminateShare { get; set; }
+            public double? ResistanceLoss { get; set; }
         }
 
         private sealed class RunUpsDto

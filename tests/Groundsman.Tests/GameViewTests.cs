@@ -51,4 +51,61 @@ public class GameViewTests
 
         Assert.Equal(new[] { 5, 6, 7, 8 }, view.Strips.Where(s => s.Centre).Select(s => s.Id.Number));
     }
+
+    [Fact]
+    public void A_feel_reading_also_looks_at_the_ends()
+    {
+        var game = NewGame(new GameTime(2027, 5, 10, 7));
+        Assert.Null(game.View.Strips[2].Ends);
+
+        game.Submit(new TakeReading(new StripId(3), null, Groundsman.Core.Readings.ReadingSource.Feel));
+
+        var look = game.View.Strips[2].Ends!;
+        Assert.Equal(EndsState.Established, look.State);
+        Assert.Equal(game.View.Now, look.TakenAt);
+    }
+
+    [Fact]
+    public void A_probe_reading_doesnt_look_at_the_ends()
+    {
+        var game = NewGame(new GameTime(2027, 5, 10, 7));
+
+        game.Submit(new TakeReading(new StripId(3)));
+
+        Assert.Null(game.View.Strips[2].Ends);
+    }
+
+    [Fact]
+    public void Strips_say_when_they_were_last_played_on()
+    {
+        var game = NewGame(new GameTime(2027, 5, 10, 7));
+        while (game.View.Now.Date <= MatchDay)
+        {
+            game.Advance();
+        }
+
+        var played = game.View.Strips[0].LastPlayed!;
+        Assert.Equal(MatchDay, played.Start);
+        Assert.Null(game.View.Strips[1].LastPlayed);
+    }
+
+    [Fact]
+    public void After_a_match_the_ends_look_worn_and_once_repaired_are_growing_back()
+    {
+        var game = NewGame(new GameTime(2027, 5, 10, 7));
+        while (game.View.Now.Date <= MatchDay)
+        {
+            game.Advance();
+        }
+        var strip = new StripId(1);
+
+        game.Submit(new TakeReading(strip, null, Groundsman.Core.Readings.ReadingSource.Feel));
+        var before = game.View.Strips[0].Ends!.State;
+        game.Submit(new RepairEnds(strip));
+        game.Advance();
+        game.Submit(new TakeReading(strip, null, Groundsman.Core.Readings.ReadingSource.Feel));
+
+        Assert.Contains(before, new[] { EndsState.Bare, EndsState.Thin });
+        Assert.Contains(game.View.Strips[0].Ends!.State, new[] { EndsState.Seeded, EndsState.Thin });
+    }
 }

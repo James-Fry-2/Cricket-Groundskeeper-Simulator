@@ -28,6 +28,32 @@ public static class Format
         var days => $"{days} days ago",
     };
 
+    /// <summary>Days since a date, short for the strip table: 0d is today.</summary>
+    public static string Ago(DateTime date, GameTime now) => $"{(now.Date - date.Date).Days}d";
+
+    public static string EndsState(Groundsman.Core.Strips.EndsState state) => state switch
+    {
+        Groundsman.Core.Strips.EndsState.Bare => "bare",
+        Groundsman.Core.Strips.EndsState.Seeded => "seeded",
+        Groundsman.Core.Strips.EndsState.Thin => "thin",
+        _ => "established",
+    };
+
+    /// <summary>The last look at the ends, and when they were last repaired.</summary>
+    public static string Ends(StripView strip, GameTime now)
+    {
+        var parts = new List<string>();
+        if (strip.Ends is { } look)
+        {
+            parts.Add($"{EndsState(look.State)} {Ago(look.TakenAt.Date, now)}");
+        }
+        if (strip.LastRepaired is { } repaired)
+        {
+            parts.Add($"rep {Ago(repaired.Date, now)}");
+        }
+        return string.Join(", ", parts);
+    }
+
     public static string Time(GameTime time) =>
         time.Date.ToString("ddd d MMM yyyy", CultureInfo.InvariantCulture) + $", {time.Hour:00}:00";
 

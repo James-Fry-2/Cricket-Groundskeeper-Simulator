@@ -29,6 +29,8 @@ namespace Groundsman.Core.Wear
                 _settings.ResistanceCompactionWeight * strip.Compaction
                 + _settings.ResistanceClayWeight * clay
                 + _settings.ResistanceRootWeight * roots);
+            resistance *= (1 - _settings.LastingResistanceLoss * strip.LastingWear)
+                * (1 - _settings.EndsResistanceLoss * (1 - strip.EndsEstablishment));
             return IsWet(strip) ? resistance * (1 - _settings.ResistanceWetLoss) : resistance;
         }
 
@@ -36,6 +38,7 @@ namespace Groundsman.Core.Wear
         public double ApplyOvers(StripState strip, double overs, AttackProfile attack)
         {
             var before = strip.Footholes;
+            var wornBefore = strip.Footholes + strip.Rough + strip.SurfaceWear;
             var exposure = overs * (1 - Resistance(strip)) * (IsWet(strip) ? _settings.WetPlay : 1);
             var dusty = strip.SurfaceMoisture < strip.Loam.RollingWindowMin;
 
@@ -44,7 +47,9 @@ namespace Groundsman.Core.Wear
             strip.SurfaceWear = Clamp01(strip.SurfaceWear + exposure * _settings.SurfaceWearPerOver * (dusty ? 1 + _settings.DryDustExtra : 1));
             strip.GrassCover = Math.Max(0, strip.GrassCover - exposure * _settings.CoverLossPerOver);
             strip.EndsRepaired = false;
-            return strip.Footholes - before;
+            var dug = strip.Footholes - before;
+            Scar(strip, dug, strip.Footholes + strip.Rough + strip.SurfaceWear - wornBefore);
+            return dug;
         }
 
         /// <summary>
@@ -54,7 +59,39 @@ namespace Groundsman.Core.Wear
         public void ApplyRunUps(StripState neighbour, double footholesDug)
         {
             var wear = footholesDug * _settings.NeighbourShare * (IsWet(neighbour) ? _settings.WetPlay : 1);
+            var before = neighbour.Footholes;
             neighbour.Footholes = Clamp01(neighbour.Footholes + wear);
+            var dug = neighbour.Footholes - before;
+            Scar(neighbour, dug, dug);
+        }
+
+        public EndsState EndsLook(StripState strip)
+        {
+            if (strip.EndsEstablishment >= 1)
+            {
+                return EndsState.Established;
+            }
+            if (strip.EndsEstablishment >= _settings.EndsGerminateShare)
+            {
+                return EndsState.Thin;
+            }
+            return strip.EndsRepaired ? EndsState.Seeded : EndsState.Bare;
+        }
+
+        /// <summary>Applies what a finished match held back: its lasting wear and the loss of the ends.</summary>
+        public void Settle(StripState strip)
+        {
+            strip.EndsEstablishment = Clamp01(strip.EndsEstablishment - strip.PendingEndsLoss);
+            strip.LastingWear = Clamp01(strip.LastingWear + strip.PendingLastingWear);
+            strip.PendingEndsLoss = 0;
+            strip.PendingLastingWear = 0;
+        }
+
+        // Footholes wear the ends bare, and some of all wear stays for the season.
+        private void Scar(StripState strip, double footholesDug, double wearDug)
+        {
+            strip.PendingEndsLoss += footholesDug * _settings.EndsLossPerWear;
+            strip.PendingLastingWear += wearDug * _settings.LastingShare;
         }
 
         /// <summary>
@@ -76,6 +113,9 @@ namespace Groundsman.Core.Wear
             {
                 strip.Cracks = Math.Max(0, strip.Cracks - _settings.CracksClosePerHour);
             }
+
+            var establishDays = strip.EndsRepaired ? _settings.EndsEstablishDays : _settings.EndsUnrepairedDays;
+            strip.EndsEstablishment = Math.Min(1, strip.EndsEstablishment + growth / 24 / establishDays);
 
             var perDay = strip.EndsRepaired ? _settings.RepairedRecoveryPerDay : _settings.RecoveryPerDay;
             var healed = perDay / 24 * growth;

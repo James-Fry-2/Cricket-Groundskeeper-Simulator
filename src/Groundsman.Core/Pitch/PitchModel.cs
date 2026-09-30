@@ -46,7 +46,9 @@ namespace Groundsman.Core.Pitch
                 - _settings.ConsistencyLooseWeight * Math.Max(0, _settings.ConsistencyLooseBelow - strip.Compaction)
                 - _settings.ConsistencyCrackWeight * cracking
                 - _settings.ConsistencyFootholeWeight * strip.Footholes
-                - _settings.ConsistencySurfaceWearWeight * strip.SurfaceWear);
+                - _settings.ConsistencySurfaceWearWeight * strip.SurfaceWear
+                - _settings.ConsistencyLastingWeight * strip.LastingWear
+                - _settings.ConsistencyEndsWeight * (1 - strip.EndsEstablishment));
             var carry = Math.Sqrt(pace * bounce);
             var seam = Clamp01(grass * (_settings.SeamBase + _settings.SeamWetWeight * (1 - dryness)));
             var spin = Clamp01(
@@ -78,6 +80,8 @@ namespace Groundsman.Core.Pitch
                 cracks: _settings.ConsistencyCrackWeight * strip.Cracks,
                 footholes: _settings.ConsistencyFootholeWeight * strip.Footholes,
                 surfaceWear: _settings.ConsistencySurfaceWearWeight * strip.SurfaceWear,
+                lastingWear: _settings.ConsistencyLastingWeight * strip.LastingWear,
+                thinEnds: _settings.ConsistencyEndsWeight * (1 - strip.EndsEstablishment),
                 drySpin: _settings.SpinDryWeight * dryness,
                 roughSpin: _settings.SpinRoughWeight * strip.Rough,
                 crackSpin: _settings.SpinCrackWeight * strip.Cracks,

@@ -239,4 +239,22 @@ public class MatchPlayTests
         Assert.Equal(0, truth[match - 2].Footholes);
         Assert.Equal(0, truth[match + 2].Footholes);
     }
+
+    [Fact]
+    public void A_matchs_lasting_wear_and_worn_ends_count_only_once_it_is_over()
+    {
+        var game = GameWith(TestFormats.FourDay);
+        while (game.View.Now < new GameTime(2027, 6, 11, 18))
+        {
+            game.Advance();
+        }
+        var during = game.Inspect().Strips[MatchStrip.Number - 1];
+        Assert.Equal(0, during.LastingWear);
+        Assert.Equal(1, during.EndsEstablishment);
+
+        var after = PlayThrough(game).Inspect().Strips;
+        Assert.True(after[MatchStrip.Number - 1].LastingWear > 0);
+        Assert.True(after[MatchStrip.Number - 1].EndsEstablishment < 1);
+        Assert.True(after[MatchStrip.Number].LastingWear > 0);
+    }
 }

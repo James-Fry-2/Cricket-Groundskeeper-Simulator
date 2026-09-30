@@ -16,6 +16,8 @@ internal static class TestPitch
         consistencyCrackWeight: 0.4,
         consistencyFootholeWeight: 0.4,
         consistencySurfaceWearWeight: 0.2,
+        consistencyLastingWeight: 1.0,
+        consistencyEndsWeight: 0.15,
         seamBase: 0.3,
         seamWetWeight: 0.7,
         spinDryWeight: 0.6,

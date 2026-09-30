@@ -30,7 +30,9 @@ internal static class TestCommentary
             ""surfaceWear"": ""cause:surfaceWear"",
             ""dry"": ""cause:dry"",
             ""rough"": ""cause:rough"",
-            ""hard"": ""cause:hard""
+            ""hard"": ""cause:hard"",
+            ""lastingWear"": ""cause:lastingWear"",
+            ""thinEnds"": ""cause:thinEnds""
         },
         ""rain"": ""RAIN"",
         ""session"": ""{break}: {score}""

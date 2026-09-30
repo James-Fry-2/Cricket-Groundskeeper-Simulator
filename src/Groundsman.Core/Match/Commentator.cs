@@ -57,6 +57,8 @@ namespace Groundsman.Core.Match
                 ("cracks", drivers.Cracks),
                 ("footholes", drivers.Footholes),
                 ("surfaceWear", drivers.SurfaceWear),
+                ("lastingWear", drivers.LastingWear),
+                ("thinEnds", drivers.ThinEnds),
             };
             var seamCauses = new[] { ("grass", drivers.GrassSeam), ("damp", drivers.DampSeam) };
             var spinCauses = new[] { ("dry", drivers.DrySpin), ("rough", drivers.RoughSpin), ("cracks", drivers.CrackSpin), ("surfaceWear", drivers.WearSpin) };

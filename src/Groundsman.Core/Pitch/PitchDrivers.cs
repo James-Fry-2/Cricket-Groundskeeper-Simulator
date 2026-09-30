@@ -11,6 +11,8 @@ namespace Groundsman.Core.Pitch
             double cracks,
             double footholes,
             double surfaceWear,
+            double lastingWear,
+            double thinEnds,
             double drySpin,
             double roughSpin,
             double crackSpin,
@@ -25,6 +27,8 @@ namespace Groundsman.Core.Pitch
             Cracks = cracks;
             Footholes = footholes;
             SurfaceWear = surfaceWear;
+            LastingWear = lastingWear;
+            ThinEnds = thinEnds;
             DrySpin = drySpin;
             RoughSpin = roughSpin;
             CrackSpin = crackSpin;
@@ -42,6 +46,8 @@ namespace Groundsman.Core.Pitch
         public double Cracks { get; }
         public double Footholes { get; }
         public double SurfaceWear { get; }
+        public double LastingWear { get; }
+        public double ThinEnds { get; }
 
         // Spin from each cause.
         public double DrySpin { get; }

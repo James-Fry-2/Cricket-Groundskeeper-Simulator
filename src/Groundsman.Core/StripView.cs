@@ -6,9 +6,11 @@ namespace Groundsman.Core
 {
     public sealed class StripView
     {
-        public StripView(StripId id, Reading? surfaceMoisture, ValueRange? surfaceMoistureNow, Reading? subsurfaceMoisture, ValueRange? subsurfaceMoistureNow, bool wateringQueued, bool covered, CoverOrder coverOrder, MowRecord? lastMown, bool mowingQueued, RollRecord? lastRolled, bool rollingQueued, GameTime? lastRepaired, bool repairQueued, bool centre)
+        public StripView(StripId id, Reading? surfaceMoisture, ValueRange? surfaceMoistureNow, Reading? subsurfaceMoisture, ValueRange? subsurfaceMoistureNow, bool wateringQueued, bool covered, CoverOrder coverOrder, MowRecord? lastMown, bool mowingQueued, RollRecord? lastRolled, bool rollingQueued, GameTime? lastRepaired, bool repairQueued, bool centre, EndsLook? ends, Fixture? lastPlayed)
         {
             Centre = centre;
+            Ends = ends;
+            LastPlayed = lastPlayed;
             LastRepaired = lastRepaired;
             RepairQueued = repairQueued;
             LastRolled = lastRolled;
@@ -68,5 +70,11 @@ namespace Groundsman.Core
 
         /// <summary>One of the strips in the middle of the square, wanted for televised matches.</summary>
         public bool Centre { get; }
+
+        /// <summary>The last look at the ends, from a feel reading; null if nobody has looked.</summary>
+        public EndsLook? Ends { get; }
+
+        /// <summary>The last fixture played on this strip, or null if none yet this season.</summary>
+        public Fixture? LastPlayed { get; }
     }
 }

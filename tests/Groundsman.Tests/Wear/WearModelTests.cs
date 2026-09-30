@@ -223,4 +223,128 @@ public class WearModelTests
         Assert.True(dug > 0);
         Assert.Equal(strip.Footholes, dug, 9);
     }
+
+    private static void Hours(StripState strip, int hours, double growth)
+    {
+        for (var i = 0; i < hours; i++)
+        {
+            Model.RunHour(strip, growth);
+        }
+    }
+
+    [Fact]
+    public void Play_leaves_lasting_wear_in_proportion_to_the_wear_dug_that_never_heals_in_season()
+    {
+        var strip = Strip();
+        Model.ApplyOvers(strip, 96, Seam);
+        var dug = strip.Footholes + strip.Rough + strip.SurfaceWear;
+
+        Assert.Equal(0, strip.LastingWear);
+        Model.Settle(strip);
+        Assert.Equal(dug * TestWear.Settings.LastingShare, strip.LastingWear, 9);
+
+        var lasting = strip.LastingWear;
+        Model.Repair(strip);
+        Hours(strip, 24 * 60, growth: 1);
+        Assert.Equal(0, strip.Footholes);
+        Assert.Equal(lasting, strip.LastingWear);
+    }
+
+    [Fact]
+    public void Lasting_wear_makes_a_strip_wear_faster()
+    {
+        var fresh = Strip();
+        var worn = Strip();
+        worn.LastingWear = 0.3;
+
+        Assert.True(Model.Resistance(worn) < Model.Resistance(fresh));
+        Assert.True(Played(96, Seam, worn).Footholes > Played(96, Seam, fresh).Footholes);
+    }
+
+    [Fact]
+    public void Play_wears_the_ends_bare_in_proportion_to_the_footholes_dug()
+    {
+        var light = Played(16, Seam);
+        var heavy = Played(384, Seam);
+        Assert.Equal(1, light.EndsEstablishment);
+        Model.Settle(light);
+        Model.Settle(heavy);
+
+        Assert.Equal(1 - light.Footholes * TestWear.Settings.EndsLossPerWear, light.EndsEstablishment, 9);
+        Assert.Equal(0, heavy.EndsEstablishment);
+    }
+
+    [Fact]
+    public void Repaired_ends_establish_with_grass_growth_and_unrepaired_ones_far_more_slowly()
+    {
+        var repaired = Played(384, Seam);
+        var left = Played(384, Seam);
+        var cold = Played(384, Seam);
+        Model.Settle(repaired);
+        Model.Settle(left);
+        Model.Settle(cold);
+        Model.Repair(repaired);
+        Model.Repair(cold);
+
+        Hours(repaired, 24 * 5, growth: 1);
+        Hours(left, 24 * 5, growth: 1);
+        Hours(cold, 24 * 5, growth: 0);
+
+        Assert.Equal(5 / TestWear.Settings.EndsEstablishDays, repaired.EndsEstablishment, 6);
+        Assert.Equal(5 / TestWear.Settings.EndsUnrepairedDays, left.EndsEstablishment, 6);
+        Assert.Equal(0, cold.EndsEstablishment);
+
+        Hours(repaired, 24 * (int)TestWear.Settings.EndsEstablishDays, growth: 1);
+        Assert.Equal(1, repaired.EndsEstablishment);
+    }
+
+    [Fact]
+    public void Ends_that_havent_established_resist_wear_less()
+    {
+        var thin = Strip();
+        thin.EndsEstablishment = 0.2;
+
+        Assert.True(Model.Resistance(thin) < Model.Resistance(Strip()));
+    }
+
+    [Fact]
+    public void Run_ups_leave_lasting_wear_and_thin_a_neighbours_ends()
+    {
+        var neighbour = Strip();
+
+        Model.ApplyRunUps(neighbour, 0.2);
+        Model.Settle(neighbour);
+
+        Assert.Equal(neighbour.Footholes * TestWear.Settings.LastingShare, neighbour.LastingWear, 9);
+        Assert.Equal(1 - neighbour.Footholes * TestWear.Settings.EndsLossPerWear, neighbour.EndsEstablishment, 9);
+    }
+
+    [Theory]
+    [InlineData(1.0, false, EndsState.Established)]
+    [InlineData(0.5, false, EndsState.Thin)]
+    [InlineData(0.1, false, EndsState.Bare)]
+    [InlineData(0.1, true, EndsState.Seeded)]
+    [InlineData(0.5, true, EndsState.Thin)]
+    public void The_ends_look_bare_seeded_thin_or_established(double establishment, bool repaired, EndsState expected)
+    {
+        var strip = Strip();
+        strip.EndsEstablishment = establishment;
+        strip.EndsRepaired = repaired;
+
+        Assert.Equal(expected, Model.EndsLook(strip));
+    }
+
+    [Fact]
+    public void Settling_clears_what_was_held_back()
+    {
+        var strip = Played(96, Seam);
+        Model.Settle(strip);
+        var lasting = strip.LastingWear;
+
+        Model.Settle(strip);
+
+        Assert.Equal(lasting, strip.LastingWear);
+        Assert.Equal(0, strip.PendingLastingWear);
+        Assert.Equal(0, strip.PendingEndsLoss);
+    }
 }

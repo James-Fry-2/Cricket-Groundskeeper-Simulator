@@ -27,5 +27,12 @@ internal static class TestWear
         repairFills: 0.6,
         cleanShare: 0.1,
         fillShare: 0.4,
-        neighbourShare: 0.25);
+        neighbourShare: 0.25,
+        lastingShare: 0.2,
+        lastingResistanceLoss: 0.5,
+        endsLossPerWear: 4,
+        endsEstablishDays: 18,
+        endsUnrepairedDays: 45,
+        endsGerminateShare: 0.3,
+        endsResistanceLoss: 0.4);
 }

@@ -15,6 +15,8 @@ namespace Groundsman.Core.Content
             double consistencyCrackWeight,
             double consistencyFootholeWeight,
             double consistencySurfaceWearWeight,
+            double consistencyLastingWeight,
+            double consistencyEndsWeight,
             double seamBase,
             double seamWetWeight,
             double spinDryWeight,
@@ -45,6 +47,8 @@ namespace Groundsman.Core.Content
             CheckNotNegative("spin.grassWeight", spinGrassWeight);
             CheckNotNegative("consistency.footholeWeight", consistencyFootholeWeight);
             CheckNotNegative("consistency.surfaceWearWeight", consistencySurfaceWearWeight);
+            CheckNotNegative("consistency.lastingWeight", consistencyLastingWeight);
+            CheckNotNegative("consistency.endsWeight", consistencyEndsWeight);
             CheckNotNegative("spin.roughWeight", spinRoughWeight);
             CheckNotNegative("spin.surfaceWearWeight", spinSurfaceWearWeight);
 
@@ -64,6 +68,8 @@ namespace Groundsman.Core.Content
             SpinGrassWeight = spinGrassWeight;
             ConsistencyFootholeWeight = consistencyFootholeWeight;
             ConsistencySurfaceWearWeight = consistencySurfaceWearWeight;
+            ConsistencyLastingWeight = consistencyLastingWeight;
+            ConsistencyEndsWeight = consistencyEndsWeight;
             SpinRoughWeight = spinRoughWeight;
             SpinSurfaceWearWeight = spinSurfaceWearWeight;
         }
@@ -104,6 +110,13 @@ namespace Groundsman.Core.Content
 
         public double ConsistencyFootholeWeight { get; }
         public double ConsistencySurfaceWearWeight { get; }
+
+        /// <summary>Consistency lost per unit of lasting wear from earlier matches.</summary>
+        public double ConsistencyLastingWeight { get; }
+
+        /// <summary>Consistency lost with bare ends, less as they establish.</summary>
+        public double ConsistencyEndsWeight { get; }
+
         public double SpinRoughWeight { get; }
         public double SpinSurfaceWearWeight { get; }
 
