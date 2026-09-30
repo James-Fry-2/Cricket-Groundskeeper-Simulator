@@ -126,7 +126,7 @@ Rough hours, 60 to 80 in total, in dependency order. Each task keeps the usual r
   - Mow to 6–8mm over the build-up.
   - Repair ends after each match.
 - The harness reports ratings, demerits and results per policy. The stand-in score is kept alongside for comparison.
-- **Check 3, proposed as the gate before phase 4:** over 1,000 seasons, by the book rates satisfactory or better on at least 70% of matches, and neglect earns demerits on at least 30% (placeholders to agree on first results). The MVP plan's own invariant, "a neglected strip rates worse than a prepared one", becomes a unit test.
+- **Check 3, the gate before phase 4:** over 1,000 seasons, by the book rates satisfactory or better on at least 85% of matches and very good on at least 10%, and neglect earns demerits on at least 80%. (Proposed as 70% and 30%; tightened with the user once first results showed those passed by too wide a margin to catch a regression.) The MVP plan's own invariant, "a neglected strip rates worse than a prepared one", becomes a unit test.
 
 ## Dependencies
 1 → 6. Tasks 2 and 3 → 4 → 5 → 6 → 7 → 8. Task 9 follows 6 to 8. Task 10 needs everything.

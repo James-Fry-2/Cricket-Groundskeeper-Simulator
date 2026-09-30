@@ -1,9 +1,9 @@
 # Progress
 
 ## Current phase
-Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: prepared strips rate well and neglected ones earn demerits.
+Phase 4: pressures and a playable season. Not yet planned; ends at Gate B (greedy play falls behind planned play late in the season).
 
-## Phase 3 tasks
+## Phase 3 tasks (done)
 - [x] 1. Formats, teams and fixture details
 - [x] 2. Grass: growth and mowing
 - [x] 3. Compaction and rolling
@@ -13,7 +13,7 @@ Phase 3: matches and verdicts. Plan in `docs/phase-3-plan.md`. Ends at check 3: 
 - [x] 7. Commentary
 - [x] 8. Rating and demerits
 - [x] 9. Cli: rolling, mowing, repairs, match and verdict screens
-- [ ] 10. Harness and check 3
+- [x] 10. Harness and check 3
 
 Decided for phase 3: the ICC's current rating scale (very good, satisfactory, unsatisfactory, unfit; demerits 1 and 3 on a five-year window); rolling and mowing in scope; matches played session by session with Law 9 interval jobs.
 
@@ -225,4 +225,6 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
   - By the book: very good 19% (19%), satisfactory 75% (75%), unsatisfactory 6%, unfit 0%; 1.1 demerits a season (1.0), never banned. Remaining fault: both sides well under par in one-day and T20 matches, 5%.
   - Placeholder thresholds (by the book 70% satisfactory or better, neglect demerits on 30%): PASSED on both seed sets. Thresholds still to agree with the user.
   - Gate A with the new routine: neglect 13%, random 15%, by the book 56% (43-point lead); the stand-in improved because rolling and mowing don't fight the moisture plan.
-- Next: agree check 3's thresholds with the user, then close phase 3.
+- Check 3 thresholds agreed with the user: by the book at least 85% satisfactory or better and at least 10% very good (so very good stays reachable), neglect earning demerits on at least 80% of matches. `harness check` uses them by default. Over 1,000 seasons: by the book 94% and 19%, neglect 97%, on seeds 1 to 1000 and 5001 to 6000. Check 3 PASSED.
+- Phase 3 complete.
+- Next: plan phase 4 (pressures and a playable season) in detail.
