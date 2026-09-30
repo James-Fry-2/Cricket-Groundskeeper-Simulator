@@ -209,7 +209,14 @@ namespace Groundsman.Core.Match
             innings.Runs += runs;
             innings.Wickets += wickets;
             innings.Overs += oversUsed;
-            _wear.ApplyOvers(strip, oversUsed, innings.Bowling.Attack);
+            var dug = _wear.ApplyOvers(strip, oversUsed, innings.Bowling.Attack);
+            foreach (var number in new[] { match.Strip.Number - 1, match.Strip.Number + 1 })
+            {
+                if (number >= 1 && number <= _square.Strips.Count)
+                {
+                    _wear.ApplyRunUps(_square.Get(new StripId(number)), dug);
+                }
+            }
             var drivers = _pitch.Explain(strip);
             match.Hours.Add(new MatchHour(hour, false, oversUsed, runs, wickets, pitch, drivers, strip.GrassHeightMm));
             _commentator.Play(match, hour, strip, pitch, drivers, innings, wickets);

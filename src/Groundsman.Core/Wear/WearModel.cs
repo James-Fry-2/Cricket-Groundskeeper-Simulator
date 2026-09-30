@@ -32,8 +32,10 @@ namespace Groundsman.Core.Wear
             return IsWet(strip) ? resistance * (1 - _settings.ResistanceWetLoss) : resistance;
         }
 
-        public void ApplyOvers(StripState strip, double overs, AttackProfile attack)
+        /// <returns>The footholes dug, which run-ups spread to the neighbours.</returns>
+        public double ApplyOvers(StripState strip, double overs, AttackProfile attack)
         {
+            var before = strip.Footholes;
             var exposure = overs * (1 - Resistance(strip)) * (IsWet(strip) ? _settings.WetPlay : 1);
             var dusty = strip.SurfaceMoisture < strip.Loam.RollingWindowMin;
 
@@ -42,6 +44,17 @@ namespace Groundsman.Core.Wear
             strip.SurfaceWear = Clamp01(strip.SurfaceWear + exposure * _settings.SurfaceWearPerOver * (dusty ? 1 + _settings.DryDustExtra : 1));
             strip.GrassCover = Math.Max(0, strip.GrassCover - exposure * _settings.CoverLossPerOver);
             strip.EndsRepaired = false;
+            return strip.Footholes - before;
+        }
+
+        /// <summary>
+        /// Bowlers run up across the ends of the strips either side of the match strip, wearing
+        /// them in proportion to the footholes dug, and more if they're wet underfoot.
+        /// </summary>
+        public void ApplyRunUps(StripState neighbour, double footholesDug)
+        {
+            var wear = footholesDug * _settings.NeighbourShare * (IsWet(neighbour) ? _settings.WetPlay : 1);
+            neighbour.Footholes = Clamp01(neighbour.Footholes + wear);
         }
 
         /// <summary>

@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Groundsman.Core.Strips;
 
 namespace Groundsman.Core.Content
 {
     public sealed class GroundSettings
     {
-        public GroundSettings(string name, IReadOnlyList<string> ends, IReadOnlyList<StripSettings> strips)
+        /// <param name="centreStrips">The strips in the middle of the square; none when not given.</param>
+        public GroundSettings(string name, IReadOnlyList<string> ends, IReadOnlyList<StripSettings> strips, IReadOnlyList<int>? centreStrips = null)
         {
             if (ends.Count != 2 || string.IsNullOrWhiteSpace(ends[0]) || string.IsNullOrWhiteSpace(ends[1]))
             {
@@ -33,7 +37,21 @@ namespace Groundsman.Core.Content
                 CheckMoisture(i, "subsurfaceMoisture", strip.SubsurfaceMoisture);
             }
 
+            var centre = centreStrips ?? Array.Empty<int>();
+            if (centreStrips != null && centre.Count == 0)
+            {
+                throw new ContentException("ground.centreStrips needs at least one strip.");
+            }
+            foreach (var number in centre)
+            {
+                if (number < 1 || number > strips.Count)
+                {
+                    throw new ContentException($"ground.centreStrips ({number}) must be a strip number from 1 to {strips.Count}.");
+                }
+            }
+
             Name = name;
+            _centre = new HashSet<int>(centre);
             Ends = new List<string>(ends).AsReadOnly();
             Strips = new List<StripSettings>(strips).AsReadOnly();
         }
@@ -44,6 +62,13 @@ namespace Groundsman.Core.Content
         public IReadOnlyList<string> Ends { get; }
 
         public IReadOnlyList<StripSettings> Strips { get; }
+
+        public bool IsCentre(StripId strip) => _centre.Contains(strip.Number);
+
+        /// <summary>Strips between this one and the nearest centre strip, plus one; 0 for a centre strip.</summary>
+        public int FromCentre(StripId strip) => _centre.Count == 0 ? 0 : _centre.Min(c => Math.Abs(c - strip.Number));
+
+        private readonly HashSet<int> _centre;
 
         private static void CheckMoisture(int index, string field, double value)
         {

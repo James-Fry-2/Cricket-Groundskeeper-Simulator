@@ -12,5 +12,6 @@
   "wetPlay": 2.0,
   "cracks": { "startDryness": 0.6, "perHour": 0.01, "damageExtra": 2.0, "closePerHour": 0.02 },
   "recovery": { "perDay": 0.02, "repairedPerDay": 0.08, "repairFills": 0.6 },
-  "duringMatch": { "cleanShare": 0.1, "fillShare": 0.4 }
+  "duringMatch": { "cleanShare": 0.1, "fillShare": 0.4 },
+  "runUps": { "neighbourShare": 0.25 }
 }

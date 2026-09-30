@@ -43,4 +43,12 @@ public class GameViewTests
 
         Assert.False(game.View.Strips[2].WateringQueued);
     }
+
+    [Fact]
+    public void Strips_say_whether_they_are_centre_strips()
+    {
+        var view = new Game(TestContent.Setup(new GameTime(2027, 5, 10, 7))).View;
+
+        Assert.Equal(new[] { 5, 6, 7, 8 }, view.Strips.Where(s => s.Centre).Select(s => s.Id.Number));
+    }
 }

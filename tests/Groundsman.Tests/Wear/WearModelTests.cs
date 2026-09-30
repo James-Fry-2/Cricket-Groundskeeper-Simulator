@@ -198,4 +198,29 @@ public class WearModelTests
 
         Assert.False(strip.EndsRepaired);
     }
+
+    [Fact]
+    public void Run_ups_wear_a_neighbours_ends_by_a_share_of_the_match_strips_footholes_and_more_when_its_wet()
+    {
+        var dry = Strip(surface: 20);
+        var wet = Strip(surface: 35);
+
+        Model.ApplyRunUps(dry, 0.1);
+        Model.ApplyRunUps(wet, 0.1);
+
+        Assert.Equal(0.1 * TestWear.Settings.NeighbourShare, dry.Footholes, 9);
+        Assert.Equal(0.1 * TestWear.Settings.NeighbourShare * TestWear.Settings.WetPlay, wet.Footholes, 9);
+        Assert.Equal(0, dry.Rough);
+    }
+
+    [Fact]
+    public void Applying_overs_reports_the_footholes_dug()
+    {
+        var strip = Strip();
+
+        var dug = Model.ApplyOvers(strip, 16, Seam);
+
+        Assert.True(dug > 0);
+        Assert.Equal(strip.Footholes, dug, 9);
+    }
 }

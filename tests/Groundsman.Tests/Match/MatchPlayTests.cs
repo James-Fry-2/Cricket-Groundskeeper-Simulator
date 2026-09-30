@@ -207,15 +207,6 @@ public class MatchPlayTests
     }
 
     [Fact]
-    public void Play_wears_the_match_strip_and_no_other()
-    {
-        var game = PlayThrough(GameWith(TestFormats.FourDay));
-
-        Assert.True(game.Square.Get(MatchStrip).Footholes > 0);
-        Assert.Equal(0, game.Square.Get(new StripId(5)).Footholes);
-    }
-
-    [Fact]
     public void The_same_seed_plays_the_same_match()
     {
         var a = PlayThrough(GameWith(TestFormats.FourDay, 7)).View.LatestMatch!;
@@ -233,5 +224,19 @@ public class MatchPlayTests
 
         Assert.NotEmpty(hours);
         Assert.All(hours, h => Assert.InRange(h.Pitch.Pace, 0, 10));
+    }
+
+    [Fact]
+    public void A_match_wears_the_ends_of_the_strips_either_side_but_not_further()
+    {
+        var game = PlayThrough(GameWith(TestFormats.FourDay));
+        var truth = game.Inspect().Strips;
+        var match = MatchStrip.Number - 1;
+
+        Assert.True(truth[match - 1].Footholes > 0);
+        Assert.True(truth[match + 1].Footholes > 0);
+        Assert.True(truth[match - 1].Footholes < truth[match].Footholes);
+        Assert.Equal(0, truth[match - 2].Footholes);
+        Assert.Equal(0, truth[match + 2].Footholes);
     }
 }

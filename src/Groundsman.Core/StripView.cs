@@ -6,8 +6,9 @@ namespace Groundsman.Core
 {
     public sealed class StripView
     {
-        public StripView(StripId id, Reading? surfaceMoisture, ValueRange? surfaceMoistureNow, Reading? subsurfaceMoisture, ValueRange? subsurfaceMoistureNow, bool wateringQueued, bool covered, CoverOrder coverOrder, MowRecord? lastMown, bool mowingQueued, RollRecord? lastRolled, bool rollingQueued, GameTime? lastRepaired, bool repairQueued)
+        public StripView(StripId id, Reading? surfaceMoisture, ValueRange? surfaceMoistureNow, Reading? subsurfaceMoisture, ValueRange? subsurfaceMoistureNow, bool wateringQueued, bool covered, CoverOrder coverOrder, MowRecord? lastMown, bool mowingQueued, RollRecord? lastRolled, bool rollingQueued, GameTime? lastRepaired, bool repairQueued, bool centre)
         {
+            Centre = centre;
             LastRepaired = lastRepaired;
             RepairQueued = repairQueued;
             LastRolled = lastRolled;
@@ -64,5 +65,8 @@ namespace Groundsman.Core
         public GameTime? LastRepaired { get; }
 
         public bool RepairQueued { get; }
+
+        /// <summary>One of the strips in the middle of the square, wanted for televised matches.</summary>
+        public bool Centre { get; }
     }
 }

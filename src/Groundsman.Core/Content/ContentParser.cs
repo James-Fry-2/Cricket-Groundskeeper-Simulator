@@ -52,7 +52,7 @@ namespace Groundsman.Core.Content
                     Required(file, path + ".subsurfaceMoisture", strip.SubsurfaceMoisture));
             }
 
-            return new GroundSettings(Required(file, "name", dto.Name), Required(file, "ends", dto.Ends), strips);
+            return new GroundSettings(Required(file, "name", dto.Name), Required(file, "ends", dto.Ends), strips, Required(file, "centreStrips", dto.CentreStrips));
         }
 
         public static TaskSettings ParseTasks(string json)
@@ -325,7 +325,8 @@ namespace Groundsman.Core.Content
                 Required(file, "recovery.repairedPerDay", recovery.RepairedPerDay),
                 Required(file, "recovery.repairFills", recovery.RepairFills),
                 Required(file, "duringMatch.cleanShare", duringMatch.CleanShare),
-                Required(file, "duringMatch.fillShare", duringMatch.FillShare));
+                Required(file, "duringMatch.fillShare", duringMatch.FillShare),
+                Required(file, "runUps.neighbourShare", Required(file, "runUps", dto.RunUps).NeighbourShare));
         }
 
         public static PitchSettings ParsePitch(string json)
@@ -639,6 +640,7 @@ namespace Groundsman.Core.Content
         {
             public string? Name { get; set; }
             public List<string>? Ends { get; set; }
+            public List<int>? CentreStrips { get; set; }
             public List<StripDto>? Strips { get; set; }
         }
 
@@ -1021,6 +1023,12 @@ namespace Groundsman.Core.Content
             public CracksDto? Cracks { get; set; }
             public RecoveryDto? Recovery { get; set; }
             public DuringMatchDto? DuringMatch { get; set; }
+            public RunUpsDto? RunUps { get; set; }
+        }
+
+        private sealed class RunUpsDto
+        {
+            public double? NeighbourShare { get; set; }
         }
 
         private sealed class ResistanceDto

@@ -24,7 +24,8 @@ namespace Groundsman.Core.Content
             double repairedRecoveryPerDay,
             double repairFills,
             double cleanShare,
-            double fillShare)
+            double fillShare,
+            double neighbourShare)
         {
             CheckNotNegative("resistance.compactionWeight", resistanceCompactionWeight);
             CheckNotNegative("resistance.clayWeight", resistanceClayWeight);
@@ -57,6 +58,7 @@ namespace Groundsman.Core.Content
             CheckUnit("recovery.repairFills", repairFills);
             CheckUnit("duringMatch.cleanShare", cleanShare);
             CheckUnit("duringMatch.fillShare", fillShare);
+            CheckUnit("runUps.neighbourShare", neighbourShare);
 
             ResistanceCompactionWeight = resistanceCompactionWeight;
             ResistanceClayWeight = resistanceClayWeight;
@@ -80,6 +82,7 @@ namespace Groundsman.Core.Content
             RepairFills = repairFills;
             CleanShare = cleanShare;
             FillShare = fillShare;
+            NeighbourShare = neighbourShare;
         }
 
         public double ResistanceCompactionWeight { get; }
@@ -142,6 +145,9 @@ namespace Groundsman.Core.Content
 
         /// <summary>Share of foothole damage filled at close of play in a multi-day match.</summary>
         public double FillShare { get; }
+
+        /// <summary>Footholes dug in a neighbour's ends by run-ups, as a share of the match strip's.</summary>
+        public double NeighbourShare { get; }
 
         private static void CheckNotNegative(string field, double value)
         {

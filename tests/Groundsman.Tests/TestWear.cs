@@ -26,5 +26,6 @@ internal static class TestWear
         repairedRecoveryPerDay: 0.08,
         repairFills: 0.6,
         cleanShare: 0.1,
-        fillShare: 0.4);
+        fillShare: 0.4,
+        neighbourShare: 0.25);
 }

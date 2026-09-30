@@ -242,7 +242,7 @@ public sealed class GameLoop
             var reading = strip.SurfaceMoisture;
             var cells = new List<string>
             {
-                strip.Id.Number.ToString(),
+                strip.Centre ? $"{strip.Id.Number}c" : strip.Id.Number.ToString(),
                 reading == null ? "[grey]–[/]" : Markup.Escape(Format.Reading(reading, strip.SurfaceMoistureNow!.Value)),
                 reading == null ? "" : $"{Format.Age(reading.TakenAt, view.Now)}, {Markup.Escape(Format.FirstName(view.Staff.Single(s => s.Id == reading.TakenBy).Name))}",
                 strip.SubsurfaceMoisture == null ? "" : Markup.Escape(Format.Percent(strip.SubsurfaceMoistureNow!.Value)),
@@ -262,6 +262,7 @@ public sealed class GameLoop
         }
 
         _console.Write(table);
+        _console.MarkupLine("[grey]c: a centre strip, wanted for televised matches.[/]");
         ShowForecast(view);
         _console.MarkupLine($"Covers free: {view.CoversFree} of {view.CoversOwned}.");
         if (view.DemeritsActive > 0)

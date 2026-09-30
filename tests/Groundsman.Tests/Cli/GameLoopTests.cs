@@ -374,4 +374,15 @@ public class GameLoopTests
 
         Assert.Contains("No strip was chosen for One-day v Test Visitors on Thu 20 May, so the head groundsman has put it on strip 1.", console.Output);
     }
+
+    [Fact]
+    public void Centre_strips_are_marked_in_the_table()
+    {
+        var (console, _) = Play("q");
+
+        Assert.Contains(" 5c ", console.Output);
+        Assert.Contains(" 8c ", console.Output);
+        Assert.DoesNotContain(" 4c ", console.Output);
+        Assert.Contains("c: a centre strip", console.Output);
+    }
 }

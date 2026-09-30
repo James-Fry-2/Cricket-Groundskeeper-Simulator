@@ -135,7 +135,8 @@ namespace Groundsman.Core
                         _lastRolled[i],
                         _tasks.IsRollingQueued(id),
                         _lastRepaired[i],
-                        _tasks.IsRepairQueued(id));
+                        _tasks.IsRepairQueued(id),
+                        _content.Ground.IsCentre(id));
                 }
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
