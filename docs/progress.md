@@ -93,6 +93,7 @@ In `content/rollers.json` and `content/compaction.json`:
 - Rolling windows (surface moisture): county loam 18–26%, heavy clay 20–29%
 
 In `content/pitch.json` (all characteristics 0 to 10):
+- Consistency lost to earlier use: 1.0 × lasting wear, 0.15 × (1 − ends establishment)
 - Pace = hardness × grass cushion; grass cushions up to 40% of pace and bounce from 10 mm (none) to 20 mm or more (full)
 - Bounce = cushion × compaction × (clay / 30)^0.5 × (0.6 + 0.4 × moisture at depth)
 - Consistency = 1 − 0.6 × structure damage − 1.0 × looseness below 0.65 compaction − 0.4 × cracks − 0.4 × footholes − 0.2 × surface wear
