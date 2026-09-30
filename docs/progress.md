@@ -6,7 +6,7 @@ Phase 4: pressures and a playable season. Plan in `docs/phase-4-plan.md`. Ends a
 ## Phase 4 tasks
 - [x] 1. Fixture ids and strip assignment
 - [x] 2. Square positions and neighbour wear
-- [ ] 3. Lasting wear and establishment
+- [x] 3. Lasting wear and establishment
 - [ ] 4. Stakeholders and requests
 - [ ] 5. Season review
 - [ ] 6. Cli: fixtures, assignment, requests, review
@@ -122,6 +122,8 @@ In `content/wear.json`:
 - Cracks open once surface dryness passes 0.6, up to 0.01 an hour × loam tendency, ×(1 + 2 × structure damage); close 0.02 an hour at or above field capacity
 - Recovery: 0.02 a day at full grass growth, 0.08 once the ends are repaired; a repair fills 60% of footholes and rough; 2 h in `staff.json`
 - Run-ups: a match's neighbours take 0.25 of the footholes dug on the match strip (× 2 when the neighbour is wet)
+- Lasting wear: 0.06 of the wear a match digs; each unit takes half off resistance
+- Ends: footholes dug × 4 off establishment; regrow over 18 growing days repaired, 45 unrepaired; look seeded below 0.3; bare ends take 0.4 off resistance
 
 In `content/grass.json`:
 - Start (late March): cover 85%, height 15 mm, roots 60 mm
@@ -250,4 +252,14 @@ In `content/season.json`:
 - Square positions: `ground.json` lists `centreStrips` (5 to 8); `GroundSettings` answers whether a strip is a centre strip and how far it is from the centre. The view marks centre strips and the Cli table shows them as `5c` with a key. The board uses them from task 4.
 - Neighbour wear: each hour of play, run-ups wear the ends of the strips either side of the match strip by a share (0.25) of the footholes dug on it, doubled (the wet-play factor) if the neighbour is wet. Strips two away are untouched. `ApplyOvers` now returns the footholes it dug. Added content tests for `wear.json`, which had none. Replay snapshot regenerated: only the neighbour strip's wear and consistency changed.
 - Check 3 unchanged (by the book 94% satisfactory or better, 19% very good): neighbour wear of 0.02 to 0.05 heals within days at today's recovery rate, so it only starts to bite once task 3 slows recovery and adds lasting wear.
-- Next: phase 4 task 3, lasting wear and establishment.
+- Lasting wear and the ends: strips carry lasting wear (0 to 1, a share of the footholes, rough and surface wear each match digs, never healing in season) and ends establishment (0 bare to 1 established). Footholes dug wear the ends back; the ends regrow with grass growth over 18 growing days once repaired, 45 if left. Lasting wear and bare ends both lower bounce consistency and make a strip wear faster; run-ups do the same to the neighbours. A match's own lasting wear and ends loss are held back until it's over and then settled, so they count against the next use rather than doubling up on the footholes in this one (the first version applied them hour by hour and dropped even a fresh strip's match consistency from 8.3 to 6.0). Commentary and the referee can name two new causes, "lastingWear" and "thinEnds".
+- The player sees: a feel reading also looks at the ends (bare, seeded, thin, established), when each strip was last played, and when its ends were last repaired. The strip table was compacted to fit 80 columns: ages as "3d", cover folded into a Status column, one space of padding.
+- Harness `reuse`: a four-day match from 1 June, then the same strip reused after a gap against a fresh strip, by the book, 200 seasons (true consistency, carry, satisfactory or better, very good; fresh in brackets):
+  - after 11 days: 6.8 (8.3), carry 5.3 (4.9), 91% (99%), very good 0% (0%)
+  - after 21 days: 7.2 (8.3), 94% (99%), 1% (0%)
+  - after 28 days: 7.5 (8.4), 94% (100%), 7% (1%)
+  - after 42 days: 8.1 (8.3), 99% (99%), 14% (1%)
+  - third use, 21 days apart: 6.7 (8.4), 86% (98%)
+- Finding to watch for Gate B: a strip reused after 4 to 6 weeks keeps its compaction and carries better than a fresh one (a ten-day build-up can't lift a fresh strip from 0.55 enough for very good's 5.5 carry), so a well-spaced second use beats a fresh strip, while quick reuse and third uses cost consistency.
+- Check 3 still passes: by the book 91% satisfactory or better (was 94%), 12% very good (was 19%), banned in 4% of seasons, since its fixed plan puts matches back to back on neighbouring strips. Neglect 97% with demerits.
+- Next: phase 4 task 4, stakeholders and requests.
