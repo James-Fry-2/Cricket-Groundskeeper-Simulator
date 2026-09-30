@@ -4,7 +4,7 @@
 Phase 4: pressures and a playable season. Plan in `docs/phase-4-plan.md`. Ends at Gate B: greedy play falls behind planned play late in the season.
 
 ## Phase 4 tasks
-- [ ] 1. Fixture ids and strip assignment
+- [x] 1. Fixture ids and strip assignment
 - [ ] 2. Square positions and neighbour wear
 - [ ] 3. Lasting wear and establishment
 - [ ] 4. Stakeholders and requests
@@ -58,6 +58,7 @@ All placeholders in `content/calendar.json`:
 - Morning and afternoon decision hours: 07:00 and 13:00
 - Off-season turn length: 7 days
 - Final prep (half-day turns) before a match: 3 days
+- Strip assignment locks 10 days before a fixture, when its build-up starts
 
 In `content/ground.json`:
 - Starting moisture per strip: 22 to 28% surface, 27 to 32% subsurface; all strips county loam
@@ -155,9 +156,10 @@ In `content/climate.json`:
 - Sunshine widens the daily range by 1.2× the sunshine-fraction deviation; rain cools each rainy hour by 1.5 °C; wet days are 1.3× windier than dry days
 - Sun warmth per month (°C per unit of sunshine fraction above average): −2 in midwinter up to +3 in summer
 
-In `content/season.json` (stands in until `fixtures.json` in phase 4):
+In `content/season.json`:
 - Game start: 25 March 2027
-- Match days: a four-day match 16 to 19 April, and a one-day match on 2 May
+- 18 fixtures, 16 April to 22 September: seven four-day, six one-day, five T20
+- Televised: 8 of the 18, spread through the season (13 May, 6 and 13 June, 4 July, 2 and 14 August, 1 and 14 September)
 
 ## Session log
 
@@ -239,4 +241,8 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
 - Check 3 thresholds agreed with the user: by the book at least 85% satisfactory or better and at least 10% very good (so very good stays reachable), neglect earning demerits on at least 80% of matches. `harness check` uses them by default. Over 1,000 seasons: by the book 94% and 19%, neglect 97%, on seeds 1 to 1000 and 5001 to 6000. Check 3 PASSED.
 - Phase 3 complete.
 - Phase 4 planned in `docs/phase-4-plan.md`: position plus lasting wear make strips scarce, assignment is open until prep starts 10 days out, stakes are a season review only, saves and telemetry move to phase 5.
-- Next: phase 4 task 1, fixture ids and strip assignment.
+- Strip assignment: fixtures are known by their start date (unique, since fixtures never overlap) and carry a televised flag; `season.json` no longer names strips. `AssignStrip` puts a fixture on a strip at no cost in hours until its build-up starts (`assignLockDaysOut`, 10, in `calendar.json`), when the strip locks. A strip is booked from the start of a build-up to the match's last day, so two fixtures whose build-ups overlap can't share it. At the lock an unassigned fixture gets the strip whose last match ended longest ago (unused first, then lowest number), and the view carries a notice either way. A fixture already inside its lock when the game starts locks at once. A strip in the season file becomes the starting assignment; a clash between two is a content error (the test helper now spreads its match days over strips 1, 2, 3 and so on). Matches, the interval view, Law 9 checks and covers all read the assigned strip.
+- Cli: `x` lists the fixtures (strip, televised, lock date), `p <#> <strip>` assigns, notices print after each advance. Harness: by the book follows a strip plan, `SeasonPlans.Original` (the strips the season file used to name), so its results are unchanged (check 3: 94% satisfactory or better, 19% very good; Gate A 56%); neglect takes the defaults; random also assigns at random.
+- Televised fixtures (placeholder, 8 of 18): 13 May, 6 Jun, 13 Jun, 4 Jul, 2 Aug, 14 Aug, 1 Sep, 14 Sep. Used from task 2.
+- Replay snapshot regenerated: its second match moved from strip 1 to strip 2 (the two build-ups overlap); only strips 1 and 2 and the match lines changed from 17 April.
+- Next: phase 4 task 2, square positions and neighbour wear.
