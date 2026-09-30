@@ -1,6 +1,5 @@
 using System.Text;
 using Groundsman.Core.Content;
-using Groundsman.Harness.Policies;
 
 namespace Groundsman.Harness;
 
@@ -23,29 +22,17 @@ public sealed class GateReport
     public double RequiredLead { get; }
     public string Csv { get; }
 
-    public static GateReport Run(GameContent content, SeasonSettings season, ScoringSettings scoring, int seasons, double requiredLead)
-    {
-        var makers = new (string Name, Func<ulong, IPolicy> Make)[]
-        {
-            ("neglect", _ => new NeglectPolicy()),
-            ("random", seed => new RandomPolicy(seed)),
-            ("by the book", _ => new ByTheBookPolicy()),
-        };
+    public static GateReport Run(GameContent content, SeasonSettings season, ScoringSettings scoring, int seasons, double requiredLead) =>
+        From(PolicyRuns.Run(content, season, scoring, seasons), requiredLead);
 
+    public static GateReport From(IReadOnlyList<IReadOnlyList<MatchResult>[]> runs, double requiredLead)
+    {
         var csv = new StringBuilder("seed,policy,fixture,strip,checked_at,surface,subsurface,result\n");
         var summaries = new List<PolicySummary>();
-        foreach (var (name, make) in makers)
+        for (var p = 0; p < runs.Count; p++)
         {
-            // Seasons run in parallel; each writes only its own slot, so the order of results,
-            // and everything computed from them, doesn't depend on thread timing.
-            var perSeed = new IReadOnlyList<MatchResult>[seasons];
-            Parallel.For(0, seasons, i =>
-            {
-                var seed = (ulong)(i + 1);
-                perSeed[i] = SeasonRunner.Run(content, season, scoring, make(seed), seed);
-            });
-
-            var results = perSeed.SelectMany(r => r).ToList();
+            var name = PolicyRuns.Names[p];
+            var results = runs[p].SelectMany(r => r).ToList();
             foreach (var r in results)
             {
                 csv.Append($"{r.Seed},{name},{r.FixtureIndex},{r.Strip.Number},{r.CheckedAt},{Harness.Csv.Number(r.Surface)},{Harness.Csv.Number(r.Subsurface)},{r.Miss}\n");

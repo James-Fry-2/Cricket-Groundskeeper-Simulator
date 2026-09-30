@@ -1,5 +1,6 @@
 using Groundsman.Core;
 using Groundsman.Core.Content;
+using Groundsman.Core.Match;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Time;
 using Groundsman.Harness.Policies;
@@ -16,11 +17,20 @@ public sealed record MatchResult(
     MatchMorningMiss Miss)
 {
     public bool OnTarget => Miss == MatchMorningMiss.None;
+
+    public ResultKind? Result { get; init; }
+
+    /// <summary>Null when rain allowed no play to rate.</summary>
+    public PitchGrade? Grade { get; init; }
+
+    public int Demerits { get; init; }
+    public IReadOnlyList<string> ReasonIds { get; init; } = Array.Empty<string>();
 }
 
 /// <summary>
-/// Plays one season with a policy and scores each fixture's strip from the truth on its first
-/// morning, before the policy acts that turn.
+/// Plays one season with a policy. Each fixture's strip is scored from the truth on its first
+/// morning, before the policy acts that turn (the phase 2 stand-in), and the season plays on
+/// until the last fixture is over so every match has its result and rating.
 /// </summary>
 public static class SeasonRunner
 {
@@ -52,6 +62,25 @@ public static class SeasonRunner
             game.Advance();
         }
 
+        var last = season.Fixtures.Count == 0 ? (DateTime?)null : season.Fixtures[season.Fixtures.Count - 1].End;
+        while (last != null && game.View.Now.Date <= last)
+        {
+            policy.PlayTurn(game);
+            game.Advance();
+        }
+
+        var matches = game.View.Matches;
+        for (var i = 0; i < results.Count; i++)
+        {
+            var match = matches.FirstOrDefault(m => m.Fixture == season.Fixtures[i]);
+            results[i] = results[i] with
+            {
+                Result = match?.Result?.Kind,
+                Grade = match?.Rating?.Grade,
+                Demerits = match?.Rating?.Demerits ?? 0,
+                ReasonIds = match?.Rating?.ReasonIds ?? Array.Empty<string>(),
+            };
+        }
         return results;
     }
 }

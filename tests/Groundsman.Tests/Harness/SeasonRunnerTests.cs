@@ -1,5 +1,6 @@
 using Groundsman.Core;
 using Groundsman.Core.Content;
+using Groundsman.Core.Match;
 using Groundsman.Core.Strips;
 using Groundsman.Core.Time;
 using Groundsman.Harness;
@@ -59,5 +60,27 @@ public class SeasonRunnerTests
         var b = SeasonRunner.Run(TestContent.Content, Season, Scoring, new RandomPolicy(9), seed: 3);
 
         Assert.Equal(a.Select(r => r.Surface), b.Select(r => r.Surface));
+    }
+
+    [Fact]
+    public void Each_fixture_carries_its_result_and_the_referees_rating()
+    {
+        var results = SeasonRunner.Run(TestContent.Content, Season, Scoring, new NeglectPolicy(), seed: 3);
+
+        var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 4, 1, 7), Season.Fixtures, 3));
+        while (game.View.Now.Date <= Season.Fixtures[^1].End)
+        {
+            game.Advance();
+        }
+
+        Assert.Equal(game.View.Matches.Count, results.Count);
+        for (var i = 0; i < results.Count; i++)
+        {
+            var match = game.View.Matches[i];
+            Assert.Equal(match.Result!.Kind, results[i].Result);
+            Assert.Equal(match.Rating?.Grade, results[i].Grade);
+            Assert.Equal(match.Rating?.Demerits ?? 0, results[i].Demerits);
+            Assert.Equal(match.Rating?.ReasonIds ?? Array.Empty<string>(), results[i].ReasonIds);
+        }
     }
 }
