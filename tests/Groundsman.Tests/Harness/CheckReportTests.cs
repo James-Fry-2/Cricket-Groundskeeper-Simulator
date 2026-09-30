@@ -33,8 +33,8 @@ public class CheckReportTests
             new[] { Result(2, PitchGrade.Satisfactory, onTarget: true), Result(2, PitchGrade.Unsatisfactory, reasons: "bowlers") }),
     };
 
-    private static CheckReport Report(double satisfactory = 0.7, double neglectDemerits = 0.3) =>
-        CheckReport.From(Runs, TestRating.Settings, satisfactory, neglectDemerits);
+    private static CheckReport Report(double satisfactory = 0.7, double veryGood = 0.1, double neglectDemerits = 0.3) =>
+        CheckReport.From(Runs, TestRating.Settings, satisfactory, veryGood, neglectDemerits);
 
     [Fact]
     public void Counts_grades_among_rated_matches_and_demerits_per_season()
@@ -84,6 +84,7 @@ public class CheckReportTests
     {
         Assert.True(Report().Passed);
         Assert.False(Report(satisfactory: 0.8).Passed);
+        Assert.False(Report(veryGood: 0.3).Passed);
         Assert.False(Report(neglectDemerits: 1.01).Passed);
     }
 

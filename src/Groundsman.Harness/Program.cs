@@ -7,7 +7,7 @@ const string usage = """
       trace [--seed N] [--end yyyy-MM-dd] [--out FILE]   Truth at every decision point of an unplayed season
       pitch [--seasons N] [--out FILE]   How an untouched strip plays each morning, averaged by month
       gate [--seasons N] [--seed FIRST] [--lead 0.25] [--out FILE]   Gate A: by the book against neglect and random play
-      check [--seasons N] [--seed FIRST] [--satisfactory 0.7] [--neglect 0.3] [--out FILE]   Check 3: the referee's ratings per policy
+      check [--seasons N] [--seed FIRST] [--satisfactory 0.85] [--very-good 0.1] [--neglect 0.8] [--out FILE]   Check 3: the referee's ratings per policy
     """;
 
 if (args.Length == 0)
@@ -66,11 +66,12 @@ switch (args[0])
     case "check":
     {
         var seasons = int.Parse(Option("--seasons") ?? "1000");
-        var satisfactory = double.Parse(Option("--satisfactory") ?? "0.7", System.Globalization.CultureInfo.InvariantCulture);
-        var neglect = double.Parse(Option("--neglect") ?? "0.3", System.Globalization.CultureInfo.InvariantCulture);
+        var satisfactory = double.Parse(Option("--satisfactory") ?? "0.85", System.Globalization.CultureInfo.InvariantCulture);
+        var veryGood = double.Parse(Option("--very-good") ?? "0.1", System.Globalization.CultureInfo.InvariantCulture);
+        var neglect = double.Parse(Option("--neglect") ?? "0.8", System.Globalization.CultureInfo.InvariantCulture);
         var scoring = ContentLoader.LoadScoring(ContentLoader.DefaultDirectory);
         var timer = System.Diagnostics.Stopwatch.StartNew();
-        var report = CheckReport.From(PolicyRuns.Run(content, season, scoring, seasons, seed), content.Rating, satisfactory, neglect);
+        var report = CheckReport.From(PolicyRuns.Run(content, season, scoring, seasons, seed), content.Rating, satisfactory, veryGood, neglect);
         var path = Write(Option("--out") ?? "harness-output/check.csv", report.Csv);
         Console.WriteLine($"{seasons} seasons (seeds {seed} to {seed + (ulong)seasons - 1}) of {season.Fixtures.Count} fixtures per policy, in {timer.Elapsed.TotalSeconds:0} s.");
         Console.WriteLine();

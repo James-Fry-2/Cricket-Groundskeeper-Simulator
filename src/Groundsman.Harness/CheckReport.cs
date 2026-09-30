@@ -10,10 +10,11 @@ namespace Groundsman.Harness;
 /// </summary>
 public sealed class CheckReport
 {
-    private CheckReport(IReadOnlyList<PolicyCheck> policies, double requiredSatisfactory, double requiredNeglectDemerits, string csv)
+    private CheckReport(IReadOnlyList<PolicyCheck> policies, double requiredSatisfactory, double requiredVeryGood, double requiredNeglectDemerits, string csv)
     {
         Policies = policies;
         RequiredSatisfactory = requiredSatisfactory;
+        RequiredVeryGood = requiredVeryGood;
         RequiredNeglectDemerits = requiredNeglectDemerits;
         Csv = csv;
     }
@@ -23,15 +24,20 @@ public sealed class CheckReport
     /// <summary>Share of by the book's rated matches that must be satisfactory or better.</summary>
     public double RequiredSatisfactory { get; }
 
+    /// <summary>Share of by the book's rated matches that must be very good, so very good stays reachable.</summary>
+    public double RequiredVeryGood { get; }
+
     /// <summary>Share of neglect's matches that must earn demerits.</summary>
     public double RequiredNeglectDemerits { get; }
 
     public string Csv { get; }
 
     public bool Passed =>
-        Policies[2].SatisfactoryOrBetter >= RequiredSatisfactory && Policies[0].WithDemerits >= RequiredNeglectDemerits;
+        Policies[2].SatisfactoryOrBetter >= RequiredSatisfactory
+        && Policies[2].VeryGood >= RequiredVeryGood
+        && Policies[0].WithDemerits >= RequiredNeglectDemerits;
 
-    public static CheckReport From(IReadOnlyList<IReadOnlyList<MatchResult>[]> runs, RatingSettings rating, double requiredSatisfactory, double requiredNeglectDemerits)
+    public static CheckReport From(IReadOnlyList<IReadOnlyList<MatchResult>[]> runs, RatingSettings rating, double requiredSatisfactory, double requiredVeryGood, double requiredNeglectDemerits)
     {
         var csv = new StringBuilder("seed,policy,fixture,strip,result,grade,demerits,reasons,stand_in_on_target,carry,consistency,pace,bounce\n");
         var checks = new List<PolicyCheck>();
@@ -72,7 +78,7 @@ public sealed class CheckReport
                 all.Count == 0 ? 0 : all.Average(r => r.Consistency),
                 faults));
         }
-        return new CheckReport(checks, requiredSatisfactory, requiredNeglectDemerits, csv.ToString());
+        return new CheckReport(checks, requiredSatisfactory, requiredVeryGood, requiredNeglectDemerits, csv.ToString());
     }
 
     public string SummaryTable()
@@ -90,7 +96,7 @@ public sealed class CheckReport
             text.Append($"  {p.Name,-12}  {faults}\n");
         }
 
-        text.Append($"\nBy the book satisfactory or better on {Policies[2].SatisfactoryOrBetter:P0} of rated matches (needs {RequiredSatisfactory:P0}); ");
+        text.Append($"\nBy the book satisfactory or better on {Policies[2].SatisfactoryOrBetter:P0} of rated matches (needs {RequiredSatisfactory:P0}), very good on {Policies[2].VeryGood:P0} (needs {RequiredVeryGood:P0}); ");
         text.Append($"neglect earned demerits on {Policies[0].WithDemerits:P0} of matches (needs {RequiredNeglectDemerits:P0}): Check 3 {(Passed ? "PASSED" : "NOT PASSED")}.\n");
         return text.ToString();
     }
