@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Groundsman.Core.Content;
 using Groundsman.Core.Time;
 
@@ -9,7 +10,7 @@ namespace Groundsman.Core
     {
         public GameSetup(GameContent content, GameTime start, IEnumerable<Fixture> fixtures, ulong seed)
         {
-            var list = new List<Fixture>(fixtures);
+            var list = fixtures.OrderBy(f => f.Start).ToList();
             for (var i = 0; i < list.Count; i++)
             {
                 if (list[i].Strip.Number > content.Ground.Strips.Count)

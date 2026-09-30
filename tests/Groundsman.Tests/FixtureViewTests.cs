@@ -51,4 +51,13 @@ public class FixtureViewTests
         Assert.Equal(new[] { FourDay, OneDay }, NewGame(new GameTime(2027, 5, 10, 7)).View.Fixtures);
         Assert.Equal(new[] { FourDay, OneDay }, NewGame(new GameTime(2027, 6, 2, 7)).View.Fixtures);
     }
+
+    [Fact]
+    public void Fixtures_are_put_in_date_order()
+    {
+        var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 5, 10, 7), new[] { OneDay, FourDay }, seed: 1));
+
+        Assert.Equal(new[] { FourDay, OneDay }, game.View.Fixtures);
+        Assert.Same(FourDay, game.View.NextFixture);
+    }
 }
