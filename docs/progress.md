@@ -5,7 +5,7 @@ Phase 4: pressures and a playable season. Plan in `docs/phase-4-plan.md`. Ends a
 
 ## Phase 4 tasks
 - [x] 1. Fixture ids and strip assignment
-- [ ] 2. Square positions and neighbour wear
+- [x] 2. Square positions and neighbour wear
 - [ ] 3. Lasting wear and establishment
 - [ ] 4. Stakeholders and requests
 - [ ] 5. Season review
@@ -62,6 +62,7 @@ All placeholders in `content/calendar.json`:
 
 In `content/ground.json`:
 - Starting moisture per strip: 22 to 28% surface, 27 to 32% subsurface; all strips county loam
+- Centre strips: 5 to 8 of 12
 
 In `content/loams.json`:
 - County loam: clay 30%, saturation 42%, field capacity 32%, air-dry 6%, drainage 0.08/h surface and 0.02/h subsurface, capillary 0.01/h, cracking 0.5
@@ -120,6 +121,7 @@ In `content/wear.json`:
 - Play in the wet: all wear × 2
 - Cracks open once surface dryness passes 0.6, up to 0.01 an hour × loam tendency, ×(1 + 2 × structure damage); close 0.02 an hour at or above field capacity
 - Recovery: 0.02 a day at full grass growth, 0.08 once the ends are repaired; a repair fills 60% of footholes and rough; 2 h in `staff.json`
+- Run-ups: a match's neighbours take 0.25 of the footholes dug on the match strip (× 2 when the neighbour is wet)
 
 In `content/grass.json`:
 - Start (late March): cover 85%, height 15 mm, roots 60 mm
@@ -245,4 +247,7 @@ In `content/season.json`:
 - Cli: `x` lists the fixtures (strip, televised, lock date), `p <#> <strip>` assigns, notices print after each advance. Harness: by the book follows a strip plan, `SeasonPlans.Original` (the strips the season file used to name), so its results are unchanged (check 3: 94% satisfactory or better, 19% very good; Gate A 56%); neglect takes the defaults; random also assigns at random.
 - Televised fixtures (placeholder, 8 of 18): 13 May, 6 Jun, 13 Jun, 4 Jul, 2 Aug, 14 Aug, 1 Sep, 14 Sep. Used from task 2.
 - Replay snapshot regenerated: its second match moved from strip 1 to strip 2 (the two build-ups overlap); only strips 1 and 2 and the match lines changed from 17 April.
-- Next: phase 4 task 2, square positions and neighbour wear.
+- Square positions: `ground.json` lists `centreStrips` (5 to 8); `GroundSettings` answers whether a strip is a centre strip and how far it is from the centre. The view marks centre strips and the Cli table shows them as `5c` with a key. The board uses them from task 4.
+- Neighbour wear: each hour of play, run-ups wear the ends of the strips either side of the match strip by a share (0.25) of the footholes dug on it, doubled (the wet-play factor) if the neighbour is wet. Strips two away are untouched. `ApplyOvers` now returns the footholes it dug. Added content tests for `wear.json`, which had none. Replay snapshot regenerated: only the neighbour strip's wear and consistency changed.
+- Check 3 unchanged (by the book 94% satisfactory or better, 19% very good): neighbour wear of 0.02 to 0.05 heals within days at today's recovery rate, so it only starts to bite once task 3 slows recovery and adds lasting wear.
+- Next: phase 4 task 3, lasting wear and establishment.
