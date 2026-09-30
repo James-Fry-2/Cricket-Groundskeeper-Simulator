@@ -1,7 +1,16 @@
 # Progress
 
 ## Current phase
-Phase 4: pressures and a playable season. Not yet planned; ends at Gate B (greedy play falls behind planned play late in the season).
+Phase 4: pressures and a playable season. Plan in `docs/phase-4-plan.md`. Ends at Gate B: greedy play falls behind planned play late in the season.
+
+## Phase 4 tasks
+- [ ] 1. Fixture ids and strip assignment
+- [ ] 2. Square positions and neighbour wear
+- [ ] 3. Lasting wear and establishment
+- [ ] 4. Stakeholders and requests
+- [ ] 5. Season review
+- [ ] 6. Cli: fixtures, assignment, requests, review
+- [ ] 7. Harness policies (greedy, planned) and Gate B
 
 ## Phase 3 tasks (done)
 - [x] 1. Formats, teams and fixture details
@@ -38,6 +47,8 @@ Gate A stand-in score: a match strip lands when, on the match morning, subsurfac
 - [x] Bare console loop that advances time and prints the day and strip summary
 
 ## Later
+- Varied soils per strip (after the MVP): different loams and starting condition across the square, so strips have their own character (pacy, slow, crumbly) as well as position and wear. Decided with the user during phase 4 planning to keep the MVP to position plus lasting wear.
+- Saves (versioned JSON with the random state) and playtest telemetry (JSON Lines): moved from phase 4 to phase 5, playtest preparation.
 - Compare the weather model with recent detailed observations for a real Midlands station (hourly or daily Met Office data, for example Birmingham or Nottingham over the last 10 to 20 years). Check monthly means and also the shape: spell lengths, hot-day and frost counts, daily range on sunny and dull days, rain intensity per hour, and how sunshine and temperature move together. Retune `climate.json` from it and record the source.
 
 
@@ -227,4 +238,5 @@ In `content/season.json` (stands in until `fixtures.json` in phase 4):
   - Gate A with the new routine: neglect 13%, random 15%, by the book 56% (43-point lead); the stand-in improved because rolling and mowing don't fight the moisture plan.
 - Check 3 thresholds agreed with the user: by the book at least 85% satisfactory or better and at least 10% very good (so very good stays reachable), neglect earning demerits on at least 80% of matches. `harness check` uses them by default. Over 1,000 seasons: by the book 94% and 19%, neglect 97%, on seeds 1 to 1000 and 5001 to 6000. Check 3 PASSED.
 - Phase 3 complete.
-- Next: plan phase 4 (pressures and a playable season) in detail.
+- Phase 4 planned in `docs/phase-4-plan.md`: position plus lasting wear make strips scarce, assignment is open until prep starts 10 days out, stakes are a season review only, saves and telemetry move to phase 5.
+- Next: phase 4 task 1, fixture ids and strip assignment.
