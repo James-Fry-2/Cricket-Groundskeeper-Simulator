@@ -44,4 +44,11 @@ public class FixtureViewTests
 
         Assert.Equal(DayPace.MatchDay, game.View.Pace);
     }
+
+    [Fact]
+    public void The_whole_fixture_list_is_known_all_season()
+    {
+        Assert.Equal(new[] { FourDay, OneDay }, NewGame(new GameTime(2027, 5, 10, 7)).View.Fixtures);
+        Assert.Equal(new[] { FourDay, OneDay }, NewGame(new GameTime(2027, 6, 2, 7)).View.Fixtures);
+    }
 }

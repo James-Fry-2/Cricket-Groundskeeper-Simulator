@@ -12,11 +12,12 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
-        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, Fixture? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, IReadOnlyList<MatchView> matches, IntervalView? interval, int demeritsActive, bool banned)
+        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, IReadOnlyList<Fixture> fixtures, Fixture? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, IReadOnlyList<MatchView> matches, IntervalView? interval, int demeritsActive, bool banned)
         {
             Now = now;
             Pace = pace;
             NextMatchDay = nextMatchDay;
+            Fixtures = fixtures;
             NextFixture = nextFixture;
             Weather = weather;
             GroundName = groundName;
@@ -37,6 +38,9 @@ namespace Groundsman.Core
 
         /// <summary>Today if a match is on today, otherwise the next match day, or null if none.</summary>
         public DateTime? NextMatchDay { get; }
+
+        /// <summary>The season's fixture list in date order, played or not.</summary>
+        public IReadOnlyList<Fixture> Fixtures { get; }
 
         /// <summary>The fixture being played now, or the next one; null when none are left.</summary>
         public Fixture? NextFixture { get; }
