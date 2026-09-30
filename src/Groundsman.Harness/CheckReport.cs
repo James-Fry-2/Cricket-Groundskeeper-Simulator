@@ -33,7 +33,7 @@ public sealed class CheckReport
 
     public static CheckReport From(IReadOnlyList<IReadOnlyList<MatchResult>[]> runs, RatingSettings rating, double requiredSatisfactory, double requiredNeglectDemerits)
     {
-        var csv = new StringBuilder("seed,policy,fixture,strip,result,grade,demerits,reasons,stand_in_on_target\n");
+        var csv = new StringBuilder("seed,policy,fixture,strip,result,grade,demerits,reasons,stand_in_on_target,carry,consistency,pace,bounce\n");
         var checks = new List<PolicyCheck>();
         for (var p = 0; p < runs.Count; p++)
         {
@@ -44,7 +44,7 @@ public sealed class CheckReport
 
             foreach (var r in all)
             {
-                csv.Append($"{r.Seed},{name},{r.FixtureIndex},{r.Strip.Number},{r.Result},{r.Grade},{r.Demerits},{string.Join(' ', r.ReasonIds)},{r.OnTarget}\n");
+                csv.Append($"{r.Seed},{name},{r.FixtureIndex},{r.Strip.Number},{r.Result},{r.Grade},{r.Demerits},{string.Join(' ', r.ReasonIds)},{r.OnTarget},{Harness.Csv.Number(r.Carry)},{Harness.Csv.Number(r.Consistency)},{Harness.Csv.Number(r.Pace)},{Harness.Csv.Number(r.Bounce)}\n");
             }
 
             var faults = all
@@ -68,6 +68,8 @@ public sealed class CheckReport
                 Share(all, r => r.Result == ResultKind.Draw),
                 Share(all, r => r.Result == ResultKind.NoResult),
                 Share(all, r => r.OnTarget),
+                all.Count == 0 ? 0 : all.Average(r => r.Carry),
+                all.Count == 0 ? 0 : all.Average(r => r.Consistency),
                 faults));
         }
         return new CheckReport(checks, requiredSatisfactory, requiredNeglectDemerits, csv.ToString());
@@ -75,10 +77,10 @@ public sealed class CheckReport
 
     public string SummaryTable()
     {
-        var text = new StringBuilder("Policy        Matches  Very good  Satisfactory  Unsatisfactory  Unfit  Sat. or better  Demerits  Per season  Banned  Draws  No result  Stand-in\n");
+        var text = new StringBuilder("Policy        Matches  Very good  Satisfactory  Unsatisfactory  Unfit  Sat. or better  Demerits  Per season  Banned  Draws  No result  Stand-in  Carry  True\n");
         foreach (var p in Policies)
         {
-            text.Append($"{p.Name,-12}  {p.Matches,7}  {p.VeryGood,9:P0}  {p.Satisfactory,12:P0}  {p.Unsatisfactory,14:P0}  {p.Unfit,5:P0}  {p.SatisfactoryOrBetter,14:P0}  {p.WithDemerits,8:P0}  {p.DemeritsPerSeason,10:0.0}  {p.BannedSeasons,6:P0}  {p.Draws,5:P0}  {p.NoResults,9:P0}  {p.OnTarget,8:P0}\n");
+            text.Append($"{p.Name,-12}  {p.Matches,7}  {p.VeryGood,9:P0}  {p.Satisfactory,12:P0}  {p.Unsatisfactory,14:P0}  {p.Unfit,5:P0}  {p.SatisfactoryOrBetter,14:P0}  {p.WithDemerits,8:P0}  {p.DemeritsPerSeason,10:0.0}  {p.BannedSeasons,6:P0}  {p.Draws,5:P0}  {p.NoResults,9:P0}  {p.OnTarget,8:P0}  {p.MeanCarry,5:0.0}  {p.MeanConsistency,4:0.0}\n");
         }
 
         text.Append("\nFaults, as a share of all matches:\n");
@@ -111,6 +113,8 @@ public sealed class CheckReport
         double Draws,
         double NoResults,
         double OnTarget,
+        double MeanCarry,
+        double MeanConsistency,
         IReadOnlyDictionary<string, double> Faults)
     {
         public double SatisfactoryOrBetter => VeryGood + Satisfactory;

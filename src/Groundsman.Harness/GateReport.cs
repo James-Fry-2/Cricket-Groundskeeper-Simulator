@@ -22,8 +22,8 @@ public sealed class GateReport
     public double RequiredLead { get; }
     public string Csv { get; }
 
-    public static GateReport Run(GameContent content, SeasonSettings season, ScoringSettings scoring, int seasons, double requiredLead) =>
-        From(PolicyRuns.Run(content, season, scoring, seasons), requiredLead);
+    public static GateReport Run(GameContent content, SeasonSettings season, ScoringSettings scoring, int seasons, double requiredLead, ulong firstSeed = 1) =>
+        From(PolicyRuns.Run(content, season, scoring, seasons, firstSeed), requiredLead);
 
     public static GateReport From(IReadOnlyList<IReadOnlyList<MatchResult>[]> runs, double requiredLead)
     {

@@ -9,7 +9,7 @@ public static class PolicyRuns
     public static readonly string[] Names = { "neglect", "random", "by the book" };
 
     /// <summary>For each policy in <see cref="Names"/> order, each season's results in seed order.</summary>
-    public static IReadOnlyList<IReadOnlyList<MatchResult>[]> Run(GameContent content, SeasonSettings season, ScoringSettings scoring, int seasons)
+    public static IReadOnlyList<IReadOnlyList<MatchResult>[]> Run(GameContent content, SeasonSettings season, ScoringSettings scoring, int seasons, ulong firstSeed = 1)
     {
         var makers = new Func<ulong, IPolicy>[]
         {
@@ -26,7 +26,7 @@ public static class PolicyRuns
             var perSeed = new IReadOnlyList<MatchResult>[seasons];
             Parallel.For(0, seasons, i =>
             {
-                var seed = (ulong)(i + 1);
+                var seed = firstSeed + (ulong)i;
                 perSeed[i] = SeasonRunner.Run(content, season, scoring, make(seed), seed);
             });
             runs.Add(perSeed);

@@ -83,4 +83,18 @@ public class SeasonRunnerTests
             Assert.Equal(match.Rating?.ReasonIds ?? Array.Empty<string>(), results[i].ReasonIds);
         }
     }
+
+    [Fact]
+    public void Each_fixture_records_its_true_pitch_averaged_over_the_match()
+    {
+        var results = SeasonRunner.Run(TestContent.Content, Season, Scoring, new NeglectPolicy(), seed: 3);
+
+        Assert.All(results, r =>
+        {
+            Assert.InRange(r.Carry, 0.01, 10);
+            Assert.InRange(r.Consistency, 0.01, 10);
+            Assert.InRange(r.Pace, 0.01, 10);
+            Assert.InRange(r.Bounce, 0.01, 10);
+        });
+    }
 }

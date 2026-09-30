@@ -25,6 +25,13 @@ public sealed record MatchResult(
 
     public int Demerits { get; init; }
     public IReadOnlyList<string> ReasonIds { get; init; } = Array.Empty<string>();
+
+    /// <summary>The true pitch averaged over the match's turns, for tuning; never seen by a policy.</summary>
+    public double Carry { get; init; }
+
+    public double Consistency { get; init; }
+    public double Pace { get; init; }
+    public double Bounce { get; init; }
 }
 
 /// <summary>
@@ -40,9 +47,24 @@ public static class SeasonRunner
         var game = new Game(new GameSetup(content, start, season.Fixtures, seed));
         var results = new List<MatchResult>();
 
+        var samples = season.Fixtures.Select(_ => new List<Groundsman.Core.Pitch.PitchCharacteristics>()).ToArray();
+        void Sample()
+        {
+            var date = game.View.Now.Date;
+            for (var i = 0; i < season.Fixtures.Count; i++)
+            {
+                var f = season.Fixtures[i];
+                if (f.Start <= date && date <= f.End)
+                {
+                    samples[i].Add(game.Inspect().Strips[f.Strip.Number - 1].Pitch);
+                }
+            }
+        }
+
         var next = 0;
         while (next < season.Fixtures.Count)
         {
+            Sample();
             var fixture = season.Fixtures[next];
             var check = GameTime.OnDate(fixture.Start, fixture.Format.DecisionHours[0]);
             var now = game.View.Now;
@@ -65,6 +87,7 @@ public static class SeasonRunner
         var last = season.Fixtures.Count == 0 ? (DateTime?)null : season.Fixtures[season.Fixtures.Count - 1].End;
         while (last != null && game.View.Now.Date <= last)
         {
+            Sample();
             policy.PlayTurn(game);
             game.Advance();
         }
@@ -79,8 +102,15 @@ public static class SeasonRunner
                 Grade = match?.Rating?.Grade,
                 Demerits = match?.Rating?.Demerits ?? 0,
                 ReasonIds = match?.Rating?.ReasonIds ?? Array.Empty<string>(),
+                Carry = Mean(samples[i], p => p.Carry),
+                Consistency = Mean(samples[i], p => p.Consistency),
+                Pace = Mean(samples[i], p => p.Pace),
+                Bounce = Mean(samples[i], p => p.Bounce),
             };
         }
         return results;
     }
+
+    private static double Mean(List<Groundsman.Core.Pitch.PitchCharacteristics> samples, Func<Groundsman.Core.Pitch.PitchCharacteristics, double> value) =>
+        samples.Count == 0 ? 0 : samples.Average(value);
 }
