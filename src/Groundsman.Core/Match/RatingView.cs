@@ -14,11 +14,12 @@ namespace Groundsman.Core.Match
 
     public sealed class RatingView
     {
-        public RatingView(PitchGrade grade, int demerits, IReadOnlyList<string> reasons, DateTime ratedOn)
+        public RatingView(PitchGrade grade, int demerits, IReadOnlyList<string> reasons, IReadOnlyList<string> reasonIds, DateTime ratedOn)
         {
             Grade = grade;
             Demerits = demerits;
             Reasons = reasons;
+            ReasonIds = reasonIds;
             RatedOn = ratedOn;
         }
 
@@ -27,6 +28,9 @@ namespace Groundsman.Core.Match
 
         /// <summary>Why the referee rated it so, most important first.</summary>
         public IReadOnlyList<string> Reasons { get; }
+
+        /// <summary>The reasons' ids from rating.json, in the same order.</summary>
+        public IReadOnlyList<string> ReasonIds { get; }
 
         public DateTime RatedOn { get; }
     }

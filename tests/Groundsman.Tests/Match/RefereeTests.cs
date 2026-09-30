@@ -62,6 +62,7 @@ public class RefereeTests
         Assert.Equal(PitchGrade.Unfit, rating.Grade);
         Assert.Equal(3, rating.Demerits);
         Assert.StartsWith("R:dangerous 2.8 cause:structureDamage", rating.Reasons[0]);
+        Assert.Equal(new[] { "dangerous" }, rating.ReasonIds);
     }
 
     [Fact]
@@ -84,6 +85,7 @@ public class RefereeTests
 
         Assert.Equal(PitchGrade.Unsatisfactory, rating.Grade);
         Assert.Contains(rating.Reasons, r => r.StartsWith("R:dead 3 cause:loose"));
+        Assert.Equal(new[] { "dead" }, rating.ReasonIds);
     }
 
     [Fact]

@@ -47,7 +47,7 @@ namespace Groundsman.Core.Match
                 return Unfit(ratedOn, Reason("dangerous", worst.Pitch.Consistency, UnevenCause(match, worst)));
             }
 
-            var faults = new List<string>();
+            var faults = new List<(string Id, string Text)>();
             if (averageConsistency < _settings.UnsatisfactoryConsistencyBelow)
             {
                 faults.Add(Reason("uneven", averageConsistency, UnevenCause(match, worst)));
@@ -86,10 +86,10 @@ namespace Groundsman.Core.Match
 
             if (faults.Count > 0)
             {
-                return new RatingView(PitchGrade.Unsatisfactory, _settings.UnsatisfactoryDemerits, faults, ratedOn);
+                return Rating(PitchGrade.Unsatisfactory, _settings.UnsatisfactoryDemerits, faults, ratedOn);
             }
 
-            var praise = new List<string>
+            var praise = new List<(string Id, string Text)>
             {
                 Reason("consistent", averageConsistency, null),
                 Reason("carry", averageCarry, null),
@@ -100,11 +100,14 @@ namespace Groundsman.Core.Match
             var veryGood = averageConsistency >= _settings.VeryGoodConsistencyAtLeast
                 && averageCarry >= _settings.VeryGoodCarryAtLeast
                 && lively;
-            return new RatingView(veryGood ? PitchGrade.VeryGood : PitchGrade.Satisfactory, 0, praise, ratedOn);
+            return Rating(veryGood ? PitchGrade.VeryGood : PitchGrade.Satisfactory, 0, praise, ratedOn);
         }
 
-        private RatingView Unfit(DateTime ratedOn, string reason) =>
-            new RatingView(PitchGrade.Unfit, _settings.UnfitDemerits, new[] { reason }, ratedOn);
+        private RatingView Unfit(DateTime ratedOn, (string Id, string Text) reason) =>
+            Rating(PitchGrade.Unfit, _settings.UnfitDemerits, new[] { reason }, ratedOn);
+
+        private static RatingView Rating(PitchGrade grade, int demerits, IReadOnlyList<(string Id, string Text)> reasons, DateTime ratedOn) =>
+            new RatingView(grade, demerits, reasons.Select(r => r.Text).ToArray(), reasons.Select(r => r.Id).ToArray(), ratedOn);
 
         // A multi-day pitch should offer seam early or turn later, as the research's ideal Test pitch does.
         private bool HasMovement(MatchState match, List<MatchHour> played)
@@ -136,9 +139,9 @@ namespace Groundsman.Core.Match
         private string CauseText(string id, MatchHour hour) =>
             _commentary.Cause(id).Replace("{grassMm}", Math.Round(hour.GrassMm).ToString(CultureInfo.InvariantCulture));
 
-        private string Reason(string id, double value, string? cause, string format = "0.#") =>
-            _settings.Reason(id)
+        private (string Id, string Text) Reason(string id, double value, string? cause, string format = "0.#") =>
+            (id, _settings.Reason(id)
                 .Replace("{value}", value.ToString(format, CultureInfo.InvariantCulture))
-                .Replace("{cause}", cause ?? "");
+                .Replace("{cause}", cause ?? ""));
     }
 }

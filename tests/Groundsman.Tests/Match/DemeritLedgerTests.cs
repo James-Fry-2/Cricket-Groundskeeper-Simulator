@@ -4,7 +4,7 @@ namespace Groundsman.Tests.Match;
 
 public class DemeritLedgerTests
 {
-    private static RatingView Rated(PitchGrade grade, int demerits, DateTime on) => new RatingView(grade, demerits, Array.Empty<string>(), on);
+    private static RatingView Rated(PitchGrade grade, int demerits, DateTime on) => new RatingView(grade, demerits, Array.Empty<string>(), Array.Empty<string>(), on);
 
     [Fact]
     public void Counts_demerits_inside_the_window_and_drops_them_after()
