@@ -1,0 +1,33 @@
+{
+  "startingSatisfaction": 50,
+  "requestDaysBeforeLock": 5,
+  "captain": {
+    "requestChance": 0.6,
+    "characters": {
+      "fourDay": { "green": 2, "turning": 1, "pace": 1 },
+      "oneDay": { "pace": 1, "flat": 1 },
+      "t20": { "flat": 2, "pace": 1 }
+    },
+    "answers": { "delivered": 12, "notDelivered": -15, "declined": -4, "ignored": -6 },
+    "homeWin": 3,
+    "homeLoss": -3
+  },
+  "board": {
+    "requestChance": 0.3,
+    "answers": { "delivered": 8, "notDelivered": -12, "declined": -3, "ignored": -5 },
+    "dayFourReached": 4,
+    "shortFourDay": -6,
+    "noResult": -4,
+    "televisedCentre": 3,
+    "televisedOffCentre": -6,
+    "perDemerit": -10
+  },
+  "referee": { "veryGood": 6, "satisfactory": 2, "unsatisfactory": -8, "unfit": -20 },
+  "delivery": {
+    "greenSeamDayOne": 5,
+    "turningSpinLastDay": 4,
+    "paceCarry": 5.5,
+    "trueConsistency": 8,
+    "flatMovementBelow": 3
+  }
+}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Groundsman.Core.Pressures;
 using Groundsman.Core.Staff;
 using Groundsman.Core.Strips;
 using Newtonsoft.Json;
@@ -219,6 +220,71 @@ namespace Groundsman.Core.Content
                 Required(file, "hardness.dryWeight", hardness.DryWeight),
                 Required(file, "hardness.clayReference", hardness.ClayReference),
                 Required(file, "hardness.clayExponent", hardness.ClayExponent));
+        }
+
+        public static StakeholderSettings ParseStakeholders(string json)
+        {
+            const string file = "stakeholders";
+            var dto = Deserialise<StakeholdersDto>(json, file);
+            var captain = Required(file, "captain", dto.Captain);
+            var board = Required(file, "board", dto.Board);
+            var referee = Required(file, "referee", dto.Referee);
+            var delivery = Required(file, "delivery", dto.Delivery);
+
+            var characters = new Dictionary<string, IReadOnlyDictionary<RequestKind, double>>();
+            foreach (var format in Required(file, "captain.characters", captain.Characters))
+            {
+                var weights = new Dictionary<RequestKind, double>();
+                foreach (var character in format.Value)
+                {
+                    var kind = character.Key switch
+                    {
+                        "green" => RequestKind.Green,
+                        "turning" => RequestKind.Turning,
+                        "pace" => RequestKind.Pace,
+                        "flat" => RequestKind.Flat,
+                        _ => throw new ContentException($"{file}.captain.characters.{format.Key}.{character.Key} isn't a pitch character: use green, turning, pace or flat."),
+                    };
+                    weights[kind] = character.Value;
+                }
+                characters[format.Key] = weights;
+            }
+
+            AnswerEffects Answers(string path, AnswersDto? answers)
+            {
+                var a = Required(file, path, answers);
+                return new AnswerEffects(
+                    Required(file, path + ".delivered", a.Delivered),
+                    Required(file, path + ".notDelivered", a.NotDelivered),
+                    Required(file, path + ".declined", a.Declined),
+                    Required(file, path + ".ignored", a.Ignored));
+            }
+
+            return new StakeholderSettings(
+                Required(file, "startingSatisfaction", dto.StartingSatisfaction),
+                Required(file, "requestDaysBeforeLock", dto.RequestDaysBeforeLock),
+                Required(file, "captain.requestChance", captain.RequestChance),
+                characters,
+                Required(file, "board.requestChance", board.RequestChance),
+                Answers("captain.answers", captain.Answers),
+                Answers("board.answers", board.Answers),
+                Required(file, "captain.homeWin", captain.HomeWin),
+                Required(file, "captain.homeLoss", captain.HomeLoss),
+                Required(file, "board.dayFourReached", board.DayFourReached),
+                Required(file, "board.shortFourDay", board.ShortFourDay),
+                Required(file, "board.noResult", board.NoResult),
+                Required(file, "board.televisedCentre", board.TelevisedCentre),
+                Required(file, "board.televisedOffCentre", board.TelevisedOffCentre),
+                Required(file, "board.perDemerit", board.PerDemerit),
+                Required(file, "referee.veryGood", referee.VeryGood),
+                Required(file, "referee.satisfactory", referee.Satisfactory),
+                Required(file, "referee.unsatisfactory", referee.Unsatisfactory),
+                Required(file, "referee.unfit", referee.Unfit),
+                Required(file, "delivery.greenSeamDayOne", delivery.GreenSeamDayOne),
+                Required(file, "delivery.turningSpinLastDay", delivery.TurningSpinLastDay),
+                Required(file, "delivery.paceCarry", delivery.PaceCarry),
+                Required(file, "delivery.trueConsistency", delivery.TrueConsistency),
+                Required(file, "delivery.flatMovementBelow", delivery.FlatMovementBelow));
         }
 
         public static RatingSettings ParseRating(string json)
@@ -635,6 +701,62 @@ namespace Groundsman.Core.Content
             => value ?? throw Missing(file, field);
 
         private static ContentException Missing(string file, string field) => new ContentException($"{file}.{field} is missing.");
+
+        private sealed class StakeholdersDto
+        {
+            public double? StartingSatisfaction { get; set; }
+            public int? RequestDaysBeforeLock { get; set; }
+            public CaptainDto? Captain { get; set; }
+            public BoardDto? Board { get; set; }
+            public RefereeDto? Referee { get; set; }
+            public DeliveryDto? Delivery { get; set; }
+        }
+
+        private sealed class CaptainDto
+        {
+            public double? RequestChance { get; set; }
+            public Dictionary<string, Dictionary<string, double>>? Characters { get; set; }
+            public AnswersDto? Answers { get; set; }
+            public double? HomeWin { get; set; }
+            public double? HomeLoss { get; set; }
+        }
+
+        private sealed class BoardDto
+        {
+            public double? RequestChance { get; set; }
+            public AnswersDto? Answers { get; set; }
+            public double? DayFourReached { get; set; }
+            public double? ShortFourDay { get; set; }
+            public double? NoResult { get; set; }
+            public double? TelevisedCentre { get; set; }
+            public double? TelevisedOffCentre { get; set; }
+            public double? PerDemerit { get; set; }
+        }
+
+        private sealed class RefereeDto
+        {
+            public double? VeryGood { get; set; }
+            public double? Satisfactory { get; set; }
+            public double? Unsatisfactory { get; set; }
+            public double? Unfit { get; set; }
+        }
+
+        private sealed class AnswersDto
+        {
+            public double? Delivered { get; set; }
+            public double? NotDelivered { get; set; }
+            public double? Declined { get; set; }
+            public double? Ignored { get; set; }
+        }
+
+        private sealed class DeliveryDto
+        {
+            public double? GreenSeamDayOne { get; set; }
+            public double? TurningSpinLastDay { get; set; }
+            public double? PaceCarry { get; set; }
+            public double? TrueConsistency { get; set; }
+            public double? FlatMovementBelow { get; set; }
+        }
 
         private sealed class CalendarDto
         {

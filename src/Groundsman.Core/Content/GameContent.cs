@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Groundsman.Core.Content
 {
@@ -27,7 +28,8 @@ namespace Groundsman.Core.Content
             WearSettings wear,
             MatchSettings match,
             CommentarySettings commentary,
-            RatingSettings rating)
+            RatingSettings rating,
+            StakeholderSettings stakeholders)
         {
             var teamList = new TeamsSettings(teams, homeTeamId);
             foreach (var loam in loams)
@@ -53,6 +55,14 @@ namespace Groundsman.Core.Content
                 }
             }
 
+            foreach (var formatId in stakeholders.CaptainCharacters.Keys)
+            {
+                if (!formats.Any(f => f.Id == formatId))
+                {
+                    throw new ContentException($"stakeholders.captain.characters.{formatId} isn't a format in formats.json.");
+                }
+            }
+
             Calendar = calendar;
             Climate = climate;
             Ground = ground;
@@ -73,6 +83,7 @@ namespace Groundsman.Core.Content
             Match = match;
             Commentary = commentary;
             Rating = rating;
+            Stakeholders = stakeholders;
         }
 
         public CalendarSettings Calendar { get; }
@@ -98,6 +109,7 @@ namespace Groundsman.Core.Content
         public MatchSettings Match { get; }
         public CommentarySettings Commentary { get; }
         public RatingSettings Rating { get; }
+        public StakeholderSettings Stakeholders { get; }
 
         public RollerSettings? Roller(string id)
         {
