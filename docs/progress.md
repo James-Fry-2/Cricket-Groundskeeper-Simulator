@@ -7,7 +7,7 @@ Phase 4: pressures and a playable season. Plan in `docs/phase-4-plan.md`. Ends a
 - [x] 1. Fixture ids and strip assignment
 - [x] 2. Square positions and neighbour wear
 - [x] 3. Lasting wear and establishment
-- [ ] 4. Stakeholders and requests
+- [x] 4. Stakeholders and requests
 - [ ] 5. Season review
 - [ ] 6. Cli: fixtures, assignment, requests, review
 - [ ] 7. Harness policies (greedy, planned) and Gate B
@@ -166,6 +166,13 @@ In `content/season.json`:
 - 18 fixtures, 16 April to 22 September: eight four-day, five one-day, five T20
 - Televised: 8 of the 18, spread through the season (13 May, 6 and 13 June, 4 July, 2 and 14 August, 1 and 14 September)
 
+In `content/stakeholders.json`:
+- Satisfaction starts at 50 of 100; requests arrive 5 days before the lock
+- Captain asks on 60% of fixtures: four-day green 2 / turning 1 / pace 1, one-day pace 1 / flat 1, T20 flat 2 / pace 1; delivered +12, not delivered −15, declined −4, ignored −6; home win +3, loss −3
+- Board asks 30% of four-day matches to last; delivered +8, not delivered −12, declined −3, ignored −5; day four +4, over in three days −6, no result −4, televised centre +3, televised outer −6, −10 a demerit
+- Referee: very good +6, satisfactory +2, unsatisfactory −8, unfit −20
+- Delivery: green day-one seam 5, turning last-day spin 4, pace carry 5.5, true consistency 8, flat movement under 3
+
 ## Session log
 
 ### 2026-09-27
@@ -263,4 +270,7 @@ In `content/season.json`:
   - third use, 21 days apart: 6.7 (8.4), 86% (98%)
 - Finding to watch for Gate B: a strip reused after 4 to 6 weeks keeps its compaction and carries better than a fresh one (a ten-day build-up can't lift a fresh strip from 0.55 enough for very good's 5.5 carry), so a well-spaced second use beats a fresh strip, while quick reuse and third uses cost consistency.
 - Check 3 still passes: by the book 91% satisfactory or better (was 94%), 12% very good (was 19%), banned in 4% of seasons, since its fixed plan puts matches back to back on neighbouring strips. Neglect 97% with demerits.
-- Next: phase 4 task 4, stakeholders and requests.
+- Stakeholders: `stakeholders.json` sets satisfaction (0 to 100, everyone starts at 50), when requests come, how pitches are judged to deliver them, and how much each outcome moves the captain, the board and the referee. Requests for a fixture arrive 5 days before its strip locks (so 15 days before the match), drawn from the Events stream in a fixed order: the captain asks for a pitch character on 60% of fixtures (four-day: green 2, turning 1, pace 1; one-day: pace or flat; T20: flat 2, pace 1), the board asks 30% of four-day matches to last into day four. `AnswerRequest` accepts or declines at no cost in hours until the lock; unanswered at the lock means ignored.
+- Judged once a match is over and its wear settled: green on day-one seam (5), turning on the last day of play's spin (4), pace on carry (5.5) with consistency (8), flat on movement under 3 with consistency 8, lasting on any cricket scheduled on day four (rain counts). No dry play spoils a pitch request (no change). Captain: delivered +12, not delivered −15, declined −4, ignored −6, home win +3, loss −3. Board: delivered +8, not delivered −12, declined −3, ignored −5; four-day into day four +4, over inside three days −6; limited-overs no result −4; televised from a centre strip +3, from an outer one −6; −10 a demerit. Referee: very good +6, satisfactory +2, unsatisfactory −8, unfit −20. Every change is logged with its reason, fixture and date for the review.
+- The view carries the requests, each stakeholder's satisfaction and changes, and a notice for each request and change. Cli: requests and changes print as messages, `yes <#>` and `no <#>` answer, the status shows satisfaction and requests awaiting an answer. The replay snapshot now records satisfaction and requests (lines added only). Gate A and check 3 are unaffected: requests only use the Events stream.
+- Next: phase 4 task 5, the season review.
