@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Groundsman.Core.Content;
+using Groundsman.Core.Match;
 using Groundsman.Core.Randomness;
 using Groundsman.Core.Schedule;
 
@@ -26,6 +27,8 @@ namespace Groundsman.Core.Pressures
         private readonly double[] _satisfaction;
         private readonly List<SatisfactionChange> _changes = new List<SatisfactionChange>();
         private readonly List<Notice> _notices = new List<Notice>();
+        private readonly HashSet<MatchState> _judged = new HashSet<MatchState>();
+        private readonly RequestJudge _judge;
 
         public StakeholderBook(StakeholderSettings settings, IReadOnlyList<Fixture> fixtures, StripBook strips, RandomSource random)
         {
@@ -34,6 +37,7 @@ namespace Groundsman.Core.Pressures
             _strips = strips;
             _random = random;
             _satisfaction = Everyone.Select(_ => settings.StartingSatisfaction).ToArray();
+            _judge = new RequestJudge(settings);
         }
 
         public IReadOnlyList<Notice> Notices => _notices;
@@ -82,6 +86,70 @@ namespace Groundsman.Core.Pressures
             }
         }
 
+        /// <summary>
+        /// Settles each finished match once: accepted requests judged, the result and length of
+        /// the match, where a televised match was played, and the referee's rating.
+        /// </summary>
+        public void Judge(IEnumerable<MatchState> played, Func<Strips.StripId, bool> isCentre, string homeTeam, DateTime today)
+        {
+            foreach (var match in played.Where(m => m.Finished && m.Settled && !_judged.Contains(m)))
+            {
+                _judged.Add(match);
+                var fixture = match.Fixture;
+
+                foreach (var request in _requests.Where(r => r.Fixture == fixture && r.Status == RequestStatus.Accepted))
+                {
+                    request.Status = _judge.Judge(request.Kind, match);
+                    var answers = _settings.AnswersFor(request.Stakeholder);
+                    if (request.Status == RequestStatus.Delivered)
+                    {
+                        Change(request.Stakeholder, answers.Delivered, SatisfactionReason.RequestDelivered, fixture, today, request.Kind);
+                    }
+                    else if (request.Status == RequestStatus.NotDelivered)
+                    {
+                        Change(request.Stakeholder, answers.NotDelivered, SatisfactionReason.RequestNotDelivered, fixture, today, request.Kind);
+                    }
+                }
+
+                if (match.Result?.Kind == ResultKind.Win)
+                {
+                    var won = match.Result.Winner == homeTeam;
+                    Change(Stakeholder.Captain, won ? _settings.HomeWin : _settings.HomeLoss, won ? SatisfactionReason.HomeWin : SatisfactionReason.HomeLoss, fixture, today);
+                }
+
+                if (fixture.Days > 1)
+                {
+                    var lasted = _judge.ReachedDayFour(match);
+                    Change(Stakeholder.Board, lasted ? _settings.DayFourReached : _settings.ShortFourDay, lasted ? SatisfactionReason.DayFourReached : SatisfactionReason.ShortFourDay, fixture, today);
+                }
+                else if (match.Result?.Kind == ResultKind.NoResult)
+                {
+                    Change(Stakeholder.Board, _settings.NoResult, SatisfactionReason.NoResult, fixture, today);
+                }
+                if (fixture.Televised)
+                {
+                    var centre = isCentre(match.Strip);
+                    Change(Stakeholder.Board, centre ? _settings.TelevisedCentre : _settings.TelevisedOffCentre, centre ? SatisfactionReason.TelevisedCentre : SatisfactionReason.TelevisedOffCentre, fixture, today);
+                }
+
+                if (match.Rating is { } rating)
+                {
+                    if (rating.Demerits > 0)
+                    {
+                        Change(Stakeholder.Board, _settings.PerDemerit * rating.Demerits, SatisfactionReason.Demerits, fixture, today, demerits: rating.Demerits);
+                    }
+                    var delta = rating.Grade switch
+                    {
+                        PitchGrade.VeryGood => _settings.VeryGood,
+                        PitchGrade.Satisfactory => _settings.Satisfactory,
+                        PitchGrade.Unsatisfactory => _settings.Unsatisfactory,
+                        _ => _settings.Unfit,
+                    };
+                    Change(Stakeholder.Referee, delta, SatisfactionReason.Rated, fixture, today, grade: rating.Grade);
+                }
+            }
+        }
+
         public CommandResult Answer(string id, bool accept, DateTime today)
         {
             var request = _requests.FirstOrDefault(r => r.Id == id);
@@ -111,7 +179,7 @@ namespace Groundsman.Core.Pressures
         }
 
         /// <summary>Moves a stakeholder's satisfaction within 0 to 100, logging why.</summary>
-        public void Change(Stakeholder stakeholder, double delta, SatisfactionReason reason, Fixture fixture, DateTime date, RequestKind? request = null, Match.PitchGrade? grade = null, int demerits = 0)
+        private void Change(Stakeholder stakeholder, double delta, SatisfactionReason reason, Fixture fixture, DateTime date, RequestKind? request = null, PitchGrade? grade = null, int demerits = 0)
         {
             var index = (int)stakeholder - 1;
             var before = _satisfaction[index];
@@ -120,8 +188,6 @@ namespace Groundsman.Core.Pressures
             _changes.Add(change);
             _notices.Add(new SatisfactionNotice(change));
         }
-
-        internal IEnumerable<Request> AcceptedFor(Fixture fixture) => _requests.Where(r => r.Fixture == fixture && r.Status == RequestStatus.Accepted);
 
         private void Ask(Stakeholder stakeholder, RequestKind kind, Fixture fixture, DateTime today, DateTime answerBy)
         {

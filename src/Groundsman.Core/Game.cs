@@ -243,6 +243,7 @@ namespace Groundsman.Core
             _forecaster.IssueIfNewDay(_now.Date);
             _book.LockDue(_now.Date);
             _stakeholders.Update(_now.Date);
+            _stakeholders.Judge(Matches.Played, _content.Ground.IsCentre, _content.HomeTeam.Name, _now.Date);
             return new AdvanceResult(from, to);
         }
 
