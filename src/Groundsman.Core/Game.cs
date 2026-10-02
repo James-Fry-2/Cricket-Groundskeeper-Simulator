@@ -29,6 +29,7 @@ namespace Groundsman.Core
         private readonly PaceRules _pace;
         private readonly IReadOnlyList<Fixture> _fixtures;
         private readonly Schedule.StripBook _book;
+        private readonly Pressures.StakeholderBook _stakeholders;
         private readonly TasksSystem _tasks;
         private readonly CoversSystem _covers;
         private readonly int _coversOwned;
@@ -110,9 +111,11 @@ namespace Groundsman.Core
             _waterMm = content.Tasks.WaterMm;
             _staff = new StaffRoster(content.Staff, setup.Start.Date);
             _forecaster = new Forecaster(content.Forecast, content.Climate, Weather, random.Get(RandomStream.Forecast));
+            _stakeholders = new Pressures.StakeholderBook(content.Stakeholders, setup.Fixtures, _book, random.Get(RandomStream.Events));
             _now = setup.Start;
             _forecaster.IssueIfNewDay(_now.Date);
             _book.LockDue(_now.Date);
+            _stakeholders.Update(_now.Date);
         }
 
         public GameView View
@@ -145,7 +148,7 @@ namespace Groundsman.Core
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
                     .ToArray();
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.Select(_book.View).ToArray(), _fixtures.Where(f => f.End >= _now.Date).Select(_book.View).FirstOrDefault(), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Played.Select(m => m.ToView()).ToArray(), Interval(), Matches.Ledger.Active(_now.Date), Matches.Ledger.Banned(_now.Date), _book.Notices.ToArray());
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.Select(_book.View).ToArray(), _fixtures.Where(f => f.End >= _now.Date).Select(_book.View).FirstOrDefault(), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Played.Select(m => m.ToView()).ToArray(), Interval(), Matches.Ledger.Active(_now.Date), Matches.Ledger.Banned(_now.Date), _book.Notices.Concat(_stakeholders.Notices).ToArray(), _stakeholders.Requests, _stakeholders.Stakeholders);
             }
         }
 
@@ -201,6 +204,8 @@ namespace Groundsman.Core
                     return FootholeJob(fill.Strip, fill.By, Tasks.FootholeJob.Fill);
                 case AssignStrip assign:
                     return _book.Assign(assign.FixtureId, assign.Strip);
+                case AnswerRequest answer:
+                    return _stakeholders.Answer(answer.RequestId, answer.Accept, _now.Date);
                 default:
                     return CommandResult.Rejected($"Unknown command: {command.GetType().Name}.");
             }
@@ -211,6 +216,7 @@ namespace Groundsman.Core
             var from = _now;
             var to = _pace.NextDecisionPoint(from);
             _book.ClearNotices();
+            _stakeholders.ClearNotices();
 
             foreach (var strip in Square.Strips)
             {
@@ -236,6 +242,7 @@ namespace Groundsman.Core
             _staff.StartDay(_now.Date);
             _forecaster.IssueIfNewDay(_now.Date);
             _book.LockDue(_now.Date);
+            _stakeholders.Update(_now.Date);
             return new AdvanceResult(from, to);
         }
 

@@ -12,7 +12,7 @@ namespace Groundsman.Core
     /// </summary>
     public sealed class GameView
     {
-        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, IReadOnlyList<FixtureView> fixtures, FixtureView? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, IReadOnlyList<MatchView> matches, IntervalView? interval, int demeritsActive, bool banned, IReadOnlyList<Notice> notices)
+        public GameView(GameTime now, DayPace pace, DateTime? nextMatchDay, IReadOnlyList<FixtureView> fixtures, FixtureView? nextFixture, WeatherObservation? weather, string groundName, IReadOnlyList<StripView> strips, int coversFree, int coversOwned, IReadOnlyList<StaffView> staff, IReadOnlyList<DayForecast> forecast, IReadOnlyList<RollerSettings> rollers, IReadOnlyList<MatchView> matches, IntervalView? interval, int demeritsActive, bool banned, IReadOnlyList<Notice> notices, IReadOnlyList<Pressures.RequestView> requests, IReadOnlyList<Pressures.StakeholderView> stakeholders)
         {
             Now = now;
             Pace = pace;
@@ -32,6 +32,8 @@ namespace Groundsman.Core
             DemeritsActive = demeritsActive;
             Banned = banned;
             Notices = notices;
+            Requests = requests;
+            Stakeholders = stakeholders;
         }
 
         public GameTime Now { get; }
@@ -83,5 +85,11 @@ namespace Groundsman.Core
 
         /// <summary>What happened since the last turn that the player should hear about.</summary>
         public IReadOnlyList<Notice> Notices { get; }
+
+        /// <summary>Every request made this season, oldest first.</summary>
+        public IReadOnlyList<Pressures.RequestView> Requests { get; }
+
+        /// <summary>The captain, the board and the referee, in that order.</summary>
+        public IReadOnlyList<Pressures.StakeholderView> Stakeholders { get; }
     }
 }

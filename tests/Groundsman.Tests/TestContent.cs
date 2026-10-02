@@ -50,4 +50,7 @@ internal static class TestContent
 
     private static GameContent WithReadings(ReadingSettings readings) => new GameContent(
         TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, Covers, Tasks, TestStaff.Settings, readings, TestForecast.Settings, TestFormats.All, TestTeams.All, TestTeams.Home.Id, TestGrass.Settings, TestRolling.Rollers, TestRolling.Compaction, TestPitch.Settings, TestWear.Settings, TestMatch.Settings, TestCommentary.Settings, TestRating.Settings, TestStakeholders.Settings);
+
+    public static GameContent WithStakeholders(StakeholderSettings stakeholders) => new GameContent(
+        TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, Covers, Tasks, TestStaff.Settings, Readings, TestForecast.Settings, TestFormats.All, TestTeams.All, TestTeams.Home.Id, TestGrass.Settings, TestRolling.Rollers, TestRolling.Compaction, TestPitch.Settings, TestWear.Settings, TestMatch.Settings, TestCommentary.Settings, TestRating.Settings, stakeholders);
 }
