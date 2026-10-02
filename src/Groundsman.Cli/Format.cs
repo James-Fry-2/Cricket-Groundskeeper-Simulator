@@ -132,14 +132,61 @@ public static class Format
         _ => "Unfit",
     };
 
-    public static string Notice(Notice notice) => notice switch
+    public static string Notice(Notice notice, int requestNumber = 0) => notice switch
     {
+        Groundsman.Core.Pressures.RequestNotice asked =>
+            $"{Who(asked.Request.Stakeholder)} asks for {Request(asked.Request.Kind)} for {Match(asked.Request.Fixture)} on {Day(asked.Request.Fixture.Start)}. Answer by {Day(asked.Request.AnswerBy)}: yes {requestNumber} or no {requestNumber}.",
+        Groundsman.Core.Pressures.SatisfactionNotice moved => Change(moved.Change),
         StripLockedNotice { ByDefault: true } locked =>
             $"No strip was chosen for {Match(locked.Fixture.Fixture)} on {Day(locked.Fixture.Fixture.Start)}, so the head groundsman has put it on strip {locked.Fixture.Strip!.Value.Number}. Its build-up starts now.",
         StripLockedNotice locked =>
             $"Strip {locked.Fixture.Strip!.Value.Number} is locked in for {Match(locked.Fixture.Fixture)} on {Day(locked.Fixture.Fixture.Start)}. Its build-up starts now.",
         _ => notice.ToString() ?? "",
     };
+
+    public static string Who(Groundsman.Core.Pressures.Stakeholder stakeholder) => stakeholder switch
+    {
+        Groundsman.Core.Pressures.Stakeholder.Captain => "The captain",
+        Groundsman.Core.Pressures.Stakeholder.Board => "The board",
+        _ => "The referee",
+    };
+
+    public static string Request(Groundsman.Core.Pressures.RequestKind kind) => kind switch
+    {
+        Groundsman.Core.Pressures.RequestKind.Green => "a green seamer",
+        Groundsman.Core.Pressures.RequestKind.Turning => "a pitch that turns late on",
+        Groundsman.Core.Pressures.RequestKind.Pace => "pace and carry",
+        Groundsman.Core.Pressures.RequestKind.Flat => "a flat batting pitch",
+        _ => "a pitch that lasts into day four",
+    };
+
+    /// <summary>A satisfaction change as a sentence, with its points.</summary>
+    public static string Change(Groundsman.Core.Pressures.SatisfactionChange change)
+    {
+        var match = $"{Match(change.Fixture)} on {Day(change.Fixture.Start)}";
+        var asked = change.Request is { } kind ? Request(kind) : "";
+        var why = change.Reason switch
+        {
+            Groundsman.Core.Pressures.SatisfactionReason.RequestDelivered => $"you delivered {asked} for {match}",
+            Groundsman.Core.Pressures.SatisfactionReason.RequestNotDelivered => $"you promised {asked} for {match} and it didn't come",
+            Groundsman.Core.Pressures.SatisfactionReason.RequestDeclined => $"you turned down {asked} for {match}",
+            Groundsman.Core.Pressures.SatisfactionReason.RequestIgnored => $"you never answered their request for {asked} for {match}",
+            Groundsman.Core.Pressures.SatisfactionReason.HomeWin => $"the county won {match}",
+            Groundsman.Core.Pressures.SatisfactionReason.HomeLoss => $"the county lost {match}",
+            Groundsman.Core.Pressures.SatisfactionReason.DayFourReached => $"{match} went into day four",
+            Groundsman.Core.Pressures.SatisfactionReason.ShortFourDay => $"{match} was over inside three days",
+            Groundsman.Core.Pressures.SatisfactionReason.NoResult => $"{match} ended without a result",
+            Groundsman.Core.Pressures.SatisfactionReason.TelevisedCentre => $"{match} was televised from a centre strip",
+            Groundsman.Core.Pressures.SatisfactionReason.TelevisedOffCentre => $"{match} was televised from an outer strip",
+            Groundsman.Core.Pressures.SatisfactionReason.Demerits => $"{match} cost {Demerits(change.Demerits)}",
+            _ => $"{match} was rated {Grade(change.Grade!.Value).ToLowerInvariant()}",
+        };
+        var points = Math.Round(change.Delta, MidpointRounding.AwayFromZero);
+        return $"{Who(change.Stakeholder)} {(points >= 0 ? "+" : "−")}{Math.Abs(points):0}: {why}.";
+    }
+
+    public static string Satisfaction(IReadOnlyList<Groundsman.Core.Pressures.StakeholderView> stakeholders) =>
+        "Satisfaction: " + string.Join(", ", stakeholders.Select(s => $"{s.Stakeholder} {s.Satisfaction:0}")) + ".";
 
     public static string Match(Fixture fixture) => $"{fixture.Format.Name} v {fixture.Opponent.Name}";
 

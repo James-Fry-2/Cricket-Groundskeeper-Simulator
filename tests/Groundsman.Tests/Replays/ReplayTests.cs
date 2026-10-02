@@ -71,6 +71,8 @@ public class ReplayTests
             compaction = string.Join(" ", truth.Strips.Select(s => $"{Round(s.Compaction)}/{Round(s.StructureDamage)}")),
             wear = string.Join(" ", truth.Strips.Select(s => $"{Round(s.Footholes)}/{Round(s.Rough)}/{Round(s.SurfaceWear)}/{Round(s.Cracks)}")),
             lasting = string.Join(" ", truth.Strips.Select(s => $"{Round(s.LastingWear)}/{Round(s.EndsEstablishment)}")),
+            satisfaction = string.Join(" ", view.Stakeholders.Select(s => $"{s.Stakeholder}:{Round(s.Satisfaction)}")),
+            requests = string.Join(" ", view.Requests.Select(r => $"{r.Id}:{r.Kind}:{r.Status}")),
             pitch = truth.Strips.Select(s => $"pace {Round(s.Pitch.Pace)} bounce {Round(s.Pitch.Bounce)} true {Round(s.Pitch.Consistency)} carry {Round(s.Pitch.Carry)} seam {Round(s.Pitch.Seam)} spin {Round(s.Pitch.Spin)} cracks {Round(s.Pitch.Cracking)}").ToArray(),
             forecast = view.Forecast
                 .Select(d => $"{d.Date:MM-dd} rain {Round(d.Rain.Low)} to {Round(d.Rain.High)} chance {Round(d.ChanceOfRain)}, high {Round(d.MaxTemperature.Low)} to {Round(d.MaxTemperature.High)}")

@@ -141,4 +141,18 @@ public class FormatTests
     {
         Assert.Equal(expected, Format.Ago(new DateTime(2027, 6, 20).AddDays(-days), new GameTime(2027, 6, 20, 7)));
     }
+
+    [Fact]
+    public void Satisfaction_changes_read_as_sentences_with_their_points()
+    {
+        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 6, 13), TestFormats.FourDay, null, TestTeams.Opponent);
+        var date = new DateTime(2027, 6, 17);
+
+        Assert.Equal("The captain +12: you delivered a green seamer for Four-day v Test Visitors on Sun 13 Jun.",
+            Format.Change(new Groundsman.Core.Pressures.SatisfactionChange(Groundsman.Core.Pressures.Stakeholder.Captain, 12, Groundsman.Core.Pressures.SatisfactionReason.RequestDelivered, fixture, date, Groundsman.Core.Pressures.RequestKind.Green)));
+        Assert.Equal("The board −6: Four-day v Test Visitors on Sun 13 Jun was televised from an outer strip.",
+            Format.Change(new Groundsman.Core.Pressures.SatisfactionChange(Groundsman.Core.Pressures.Stakeholder.Board, -6, Groundsman.Core.Pressures.SatisfactionReason.TelevisedOffCentre, fixture, date)));
+        Assert.Equal("The referee −8: Four-day v Test Visitors on Sun 13 Jun was rated unsatisfactory.",
+            Format.Change(new Groundsman.Core.Pressures.SatisfactionChange(Groundsman.Core.Pressures.Stakeholder.Referee, -8, Groundsman.Core.Pressures.SatisfactionReason.Rated, fixture, date, grade: Groundsman.Core.Match.PitchGrade.Unsatisfactory)));
+    }
 }

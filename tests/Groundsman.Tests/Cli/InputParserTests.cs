@@ -227,4 +227,12 @@ public class InputParserTests
         Assert.IsType<InvalidInput>(InputParser.Parse("p 3"));
         Assert.IsType<InvalidInput>(InputParser.Parse("p 3 7 sam"));
     }
+
+    [Fact]
+    public void Yes_and_no_answer_a_request()
+    {
+        Assert.Equal(new AnswerInput(2, true), InputParser.Parse("yes 2"));
+        Assert.Equal(new AnswerInput(1, false), InputParser.Parse("no 1"));
+        Assert.IsType<InvalidInput>(InputParser.Parse("yes"));
+    }
 }

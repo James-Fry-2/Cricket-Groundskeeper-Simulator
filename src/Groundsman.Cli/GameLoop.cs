@@ -64,6 +64,9 @@ public sealed class GameLoop
                 case AssignInput assign:
                     Assign(assign);
                     break;
+                case AnswerInput answer:
+                    Answer(answer);
+                    break;
                 case ReadInput { Strip: null } all:
                     var now = _game.View.Now;
                     var core = all.Tool == ReadingSource.SoilCore;
@@ -272,6 +275,12 @@ public sealed class GameLoop
             _console.MarkupLine($"[{(view.Banned ? "red" : "yellow")}]Demerits in the last five years: {view.DemeritsActive}{(view.Banned ? ". The ground has lost the right to host." : ".")}[/]");
         }
         _console.MarkupLine(Markup.Escape(Format.Hours(view.Staff)));
+        _console.MarkupLine(Markup.Escape(Format.Satisfaction(view.Stakeholders)));
+        var open = view.Requests.Select((r, i) => (Request: r, Number: i + 1)).Where(r => r.Request.Status == Groundsman.Core.Pressures.RequestStatus.Open).ToList();
+        foreach (var (request, number) in open)
+        {
+            _console.MarkupLine($"[yellow]Waiting for your answer by {Format.Day(request.AnswerBy)}: {Markup.Escape(Format.Who(request.Stakeholder))} wants {Markup.Escape(Format.Request(request.Kind))} for {Markup.Escape(Format.Match(request.Fixture))}. yes {number} or no {number}.[/]");
+        }
         if (view.Interval is { } interval)
         {
             _console.MarkupLine($"[bold]{Markup.Escape(Format.Interval(interval))}[/]");
@@ -355,7 +364,31 @@ public sealed class GameLoop
     {
         foreach (var notice in view.Notices)
         {
-            _console.MarkupLine($"[yellow]{Markup.Escape(Format.Notice(notice))}[/]");
+            var number = notice is Groundsman.Core.Pressures.RequestNotice asked
+                ? view.Requests.ToList().FindIndex(r => r.Id == asked.Request.Id) + 1
+                : 0;
+            _console.MarkupLine($"[yellow]{Markup.Escape(Format.Notice(notice, number))}[/]");
+        }
+    }
+
+    private void Answer(AnswerInput answer)
+    {
+        var requests = _game.View.Requests;
+        if (answer.Request < 1 || answer.Request > requests.Count)
+        {
+            _console.MarkupLine($"[red]There's no request {answer.Request}.[/]");
+            return;
+        }
+        var request = requests[answer.Request - 1];
+        var who = Format.Who(request.Stakeholder);
+        Order(
+            new AnswerRequest(request.Id, answer.Accept),
+            Markup.Escape(answer.Accept
+                ? $"{who} will have {Format.Request(request.Kind)} for {Format.Match(request.Fixture)}. Now you have to deliver it."
+                : $"You've told {who.ToLowerInvariant()} no to {Format.Request(request.Kind)} for {Format.Match(request.Fixture)}."));
+        if (!answer.Accept && _game.View.Notices.LastOrDefault() is Groundsman.Core.Pressures.SatisfactionNotice declined)
+        {
+            _console.MarkupLine($"[yellow]{Markup.Escape(Format.Change(declined.Change))}[/]");
         }
     }
 
@@ -465,6 +498,7 @@ public sealed class GameLoop
             .AddRow("v", "The season record: every match, its result and the referee's rating")
             .AddRow("x", "The fixture list, with each match's strip and when it locks")
             .AddRow("p <#> <strip>", "Put fixture # on a strip; you can change it until its build-up starts")
+            .AddRow("yes <#> / no <#>", "Accept or turn down request #. Promising and failing costs more than saying no")
             .AddRow("Enter or a", "Advance to the next decision point")
             .AddRow("q", "Quit");
 

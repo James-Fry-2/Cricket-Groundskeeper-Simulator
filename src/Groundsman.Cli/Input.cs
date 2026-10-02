@@ -18,6 +18,9 @@ public sealed record RecordInput : Input;
 
 public sealed record FixturesInput : Input;
 
+/// <summary>Answers a request, numbered as in the messages from 1.</summary>
+public sealed record AnswerInput(int Request, bool Accept) : Input;
+
 /// <summary>Puts a fixture, numbered as on the fixtures list from 1, on a strip.</summary>
 public sealed record AssignInput(int Fixture, StripId Strip) : Input;
 

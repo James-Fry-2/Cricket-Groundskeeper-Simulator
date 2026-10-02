@@ -394,4 +394,26 @@ public class GameLoopTests
         Assert.Contains("established 0d", console.Output);
         Assert.Contains("The ends look established.", console.Output);
     }
+
+    [Fact]
+    public void Requests_arrive_as_messages_and_yes_accepts_one()
+    {
+        var console = new TestConsole();
+        console.Profile.Width = 200;
+        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 6, 20), TestFormats.FourDay, null, TestTeams.Opponent);
+        var content = TestContent.WithStakeholders(TestStakeholders.With(1, 1));
+        var game = new Game(new GameSetup(content, new GameTime(2027, 6, 5, 7), new[] { fixture }, 1));
+
+        new GameLoop(console, game, new StringReader("yes 1\nno 2\n")).Run();
+
+        var output = console.Output;
+        Assert.Contains("The captain asks for", output);
+        Assert.Contains("Answer by Thu 10 Jun: yes 1 or no 1.", output);
+        Assert.Contains("The board asks for a pitch that lasts into day four", output);
+        Assert.Contains("Now you have to deliver it.", output);
+        Assert.Contains("The board −3: you turned down a pitch that lasts into day four", output);
+        Assert.Contains("Satisfaction: Captain 50, Board 50, Referee 50.", output);
+        Assert.Single(output.Split('\n'), l => l.Contains("The captain asks for"));
+        Assert.Equal(Groundsman.Core.Pressures.RequestStatus.Accepted, game.View.Requests[0].Status);
+    }
 }
