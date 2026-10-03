@@ -16,13 +16,38 @@ public class ByTheBookPolicyTests
     private static double Midpoint(ValueRange range) => (range.Low + range.High) / 2;
 
     [Fact]
-    public void Does_nothing_more_than_ten_days_out()
+    public void Does_no_build_up_work_more_than_ten_days_out_beyond_mowing_the_square()
     {
         var game = GameAt(new GameTime(2027, 6, 5, 7));
 
         new ByTheBookPolicy().PlayTurn(game);
 
-        Assert.All(game.View.Staff, s => Assert.Equal(s.HoursPerDay, s.HoursLeft));
+        Assert.All(game.View.Strips, s =>
+        {
+            Assert.Null(s.SurfaceMoisture);
+            Assert.Null(s.SubsurfaceMoisture);
+            Assert.False(s.WateringQueued);
+            Assert.False(s.RollingQueued);
+        });
+    }
+
+    [Fact]
+    public void Keeps_the_whole_square_mown_about_weekly()
+    {
+        var game = GameAt(new GameTime(2027, 5, 1, 7));
+        var policy = new ByTheBookPolicy();
+        while (game.View.Now.Date < new DateTime(2027, 5, 15))
+        {
+            policy.PlayTurn(game);
+            game.Advance();
+        }
+
+        Assert.All(game.View.Strips, s =>
+        {
+            Assert.NotNull(s.LastMown);
+            Assert.InRange((game.View.Now.Date - s.LastMown!.OrderedAt.Date).Days, 0, ByTheBookPolicy.SquareMowEveryDays);
+        });
+        Assert.InRange(game.Inspect().Strips[0].GrassHeightMm, 0, 25);
     }
 
     [Fact]

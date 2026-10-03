@@ -9,15 +9,17 @@ public static class PolicyRuns
     public static readonly string[] Names = { "neglect", "random", "by the book" };
 
     /// <summary>For each policy in <see cref="Names"/> order, each season's results in seed order.</summary>
-    public static IReadOnlyList<IReadOnlyList<MatchResult>[]> Run(GameContent content, SeasonSettings season, ScoringSettings scoring, int seasons, ulong firstSeed = 1)
-    {
-        var makers = new Func<ulong, IPolicy>[]
+    public static IReadOnlyList<IReadOnlyList<MatchResult>[]> Run(GameContent content, SeasonSettings season, ScoringSettings scoring, int seasons, ulong firstSeed = 1) =>
+        Run(content, season, scoring, seasons, firstSeed, new Func<ulong, IPolicy>[]
         {
             _ => new NeglectPolicy(),
             seed => new RandomPolicy(seed),
             _ => new ByTheBookPolicy(SeasonPlans.Original),
-        };
+        });
 
+    /// <summary>For each policy maker in order, each season's results in seed order.</summary>
+    public static IReadOnlyList<IReadOnlyList<MatchResult>[]> Run(GameContent content, SeasonSettings season, ScoringSettings scoring, int seasons, ulong firstSeed, IReadOnlyList<Func<ulong, IPolicy>> makers)
+    {
         var runs = new List<IReadOnlyList<MatchResult>[]>();
         foreach (var make in makers)
         {

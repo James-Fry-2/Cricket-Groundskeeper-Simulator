@@ -18,7 +18,7 @@ namespace Groundsman.Harness.Policies;
 ///   the heavy one, then a light roll to finish. Never on a day it's watered.
 /// After each match the ends are repaired.
 /// </summary>
-public sealed class ByTheBookPolicy : IPolicy
+public class ByTheBookPolicy : IPolicy
 {
     public const int PrepStartsDaysOut = 10;
     public const int CoringStartsDaysOut = 7;
@@ -59,6 +59,14 @@ public sealed class ByTheBookPolicy : IPolicy
     /// <summary>The height assumed for a strip not cut this season, mm.</summary>
     public const double UncutHeightMm = 25;
 
+    /// <summary>The tallest a groundsman would guess unmown grass stands, mm: it lies over rather than growing on.</summary>
+    public const double TallestGuessMm = 40;
+
+    /// <summary>Height the rest of the square is kept at in season, mm, mown weekly.</summary>
+    public const double SquareHeightMm = 15;
+
+    public const int SquareMowEveryDays = 7;
+
     /// <summary>
     /// Days out from which a surface too dry to roll is watered so the roller can compact it
     /// next day. Later than this, the water would still be in the surface on match morning.
@@ -81,7 +89,7 @@ public sealed class ByTheBookPolicy : IPolicy
         _plan = plan;
     }
 
-    public string Name => "by the book";
+    public virtual string Name => "by the book";
 
     /// <summary>Roller and minutes by days out: light, medium, heavy last, then a light finish.</summary>
     public static (string Roller, double Minutes) RollingFor(int daysOut) => daysOut switch
@@ -96,7 +104,8 @@ public sealed class ByTheBookPolicy : IPolicy
 
     public void PlayTurn(IGame game)
     {
-        FollowPlan(game);
+        ChooseStrips(game);
+        AnswerRequests(game);
 
         var view = game.View;
         var today = view.Now.Date;
@@ -118,17 +127,53 @@ public sealed class ByTheBookPolicy : IPolicy
         {
             Prepare(game, fixture);
         }
+        KeepSquareMown(game, preparing.Select(f => f.Strip).Append(playing?.Strip).ToList());
     }
 
-    private void FollowPlan(IGame game)
+    /// <summary>The research's in-season routine: the whole square mown about weekly, so no strip runs to long grass between uses.</summary>
+    private static void KeepSquareMown(IGame game, IReadOnlyList<StripId?> busy)
     {
-        if (_plan == null)
+        var view = game.View;
+        foreach (var strip in view.Strips.Where(s => !busy.Contains(s.Id) && !s.MowingQueued))
         {
-            return;
+            var daysSince = strip.LastMown == null ? int.MaxValue : (view.Now.Date - strip.LastMown.OrderedAt.Date).Days;
+            if (daysSince < SquareMowEveryDays)
+            {
+                continue;
+            }
+            var estimate = EstimateHeight(strip, view.Now.Date);
+            var height = Math.Round(Math.Max(SquareHeightMm, estimate * (1 - MaxCutShare)), 1);
+            if (height < estimate)
+            {
+                Do(game, by => new MowStrip(strip.Id, height, by));
+            }
         }
+    }
+
+    private static double EstimateHeight(StripView strip, DateTime today) =>
+        strip.LastMown == null
+            ? UncutHeightMm
+            : Math.Min(TallestGuessMm, strip.LastMown.HeightMm + ExpectedGrowthPerDayMm * (today - strip.LastMown.OrderedAt.Date).Days);
+
+    /// <summary>Assigns strips before their locks: by default, following the plan if there is one.</summary>
+    protected virtual void ChooseStrips(IGame game)
+    {
+        if (_plan != null)
+        {
+            Follow(game, _plan);
+        }
+    }
+
+    /// <summary>Answers open requests; by default it leaves them, so they're ignored at the lock.</summary>
+    protected virtual void AnswerRequests(IGame game)
+    {
+    }
+
+    protected static void Follow(IGame game, IReadOnlyDictionary<string, StripId> plan)
+    {
         foreach (var fixture in game.View.Fixtures)
         {
-            if (!fixture.Locked && _plan.TryGetValue(fixture.Id, out var strip) && fixture.Strip != strip)
+            if (!fixture.Locked && plan.TryGetValue(fixture.Id, out var strip) && fixture.Strip != strip)
             {
                 game.Submit(new AssignStrip(fixture.Id, strip));
             }
@@ -213,7 +258,7 @@ public sealed class ByTheBookPolicy : IPolicy
             return;
         }
 
-        var estimate = lastCut == null ? UncutHeightMm : lastCut.HeightMm + ExpectedGrowthPerDayMm * daysSince;
+        var estimate = EstimateHeight(strip, view.Now.Date);
         var height = Math.Round(Math.Max(TargetHeightMm(daysOut), estimate * (1 - MaxCutShare)), 1);
         if (height < estimate)
         {

@@ -32,6 +32,11 @@ public sealed record MatchResult(
     public double Consistency { get; init; }
     public double Pace { get; init; }
     public double Bounce { get; init; }
+
+    /// <summary>Satisfaction points this fixture earned across the captain, the board and the referee.</summary>
+    public double Points { get; init; }
+
+    public DateTime Start { get; init; }
 }
 
 /// <summary>
@@ -94,6 +99,7 @@ public static class SeasonRunner
         }
 
         var matches = game.View.Matches;
+        var changes = game.View.Stakeholders.SelectMany(s => s.Changes).ToList();
         for (var i = 0; i < results.Count; i++)
         {
             var match = matches.FirstOrDefault(m => m.Fixture == season.Fixtures[i]);
@@ -107,6 +113,8 @@ public static class SeasonRunner
                 Consistency = Mean(samples[i], p => p.Consistency),
                 Pace = Mean(samples[i], p => p.Pace),
                 Bounce = Mean(samples[i], p => p.Bounce),
+                Points = changes.Where(c => c.Fixture == season.Fixtures[i]).Sum(c => c.Delta),
+                Start = season.Fixtures[i].Start,
             };
         }
         return results;

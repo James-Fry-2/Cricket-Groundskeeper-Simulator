@@ -97,4 +97,24 @@ public class SeasonRunnerTests
             Assert.InRange(r.Bounce, 0.01, 10);
         });
     }
+
+    [Fact]
+    public void Each_fixture_records_the_satisfaction_points_it_earned()
+    {
+        var results = SeasonRunner.Run(TestContent.Content, Season, Scoring, new NeglectPolicy(), seed: 3);
+
+        var game = new Game(new GameSetup(TestContent.Content, new GameTime(2027, 4, 1, 7), Season.Fixtures, 3));
+        while (game.View.Now.Date <= Season.Fixtures[^1].End)
+        {
+            game.Advance();
+        }
+        var changes = game.View.Stakeholders.SelectMany(s => s.Changes).ToList();
+
+        for (var i = 0; i < results.Count; i++)
+        {
+            Assert.Equal(changes.Where(c => c.Fixture == Season.Fixtures[i]).Sum(c => c.Delta), results[i].Points, 9);
+            Assert.Equal(Season.Fixtures[i].Start, results[i].Start);
+        }
+        Assert.Contains(results, r => r.Points != 0);
+    }
 }
