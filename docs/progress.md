@@ -1,16 +1,16 @@
 # Progress
 
 ## Current phase
-Phase 4: pressures and a playable season. Plan in `docs/phase-4-plan.md`. Ends at Gate B: greedy play falls behind planned play late in the season.
+Phase 5: first playtest (5 to 8 testers), including saves and telemetry moved from phase 4. Not yet planned.
 
-## Phase 4 tasks
+## Phase 4 tasks (done)
 - [x] 1. Fixture ids and strip assignment
 - [x] 2. Square positions and neighbour wear
 - [x] 3. Lasting wear and establishment
 - [x] 4. Stakeholders and requests
 - [x] 5. Season review
 - [x] 6. Cli: fixtures, assignment, requests, review
-- [ ] 7. Harness policies (greedy, planned) and Gate B
+- [x] 7. Harness policies (greedy, planned) and Gate B
 
 ## Phase 3 tasks (done)
 - [x] 1. Formats, teams and fixture details
@@ -88,12 +88,13 @@ In `content/rollers.json` and `content/compaction.json`:
 - Rollers (share of the remaining room to full compaction closed per hour in the window): light 0.04, medium 0.08, heavy 0.12
 - Wet-rolling damage per hour: light 0.01, medium 0.03, heavy 0.08, plus 10% more per point of surface moisture over the window
 - Heavy roller overuse: damage 0.05 per hour, scaled by how far compaction is above 0.8
-- Starting compaction 0.55, no structure damage; rolling 5 to 120 minutes
+- Starting compaction 0.62 (was 0.55 until phase 4 task 7), no structure damage; rolling 5 to 120 minutes
 - Hardness = compaction × (0.3 + 0.7 × surface dryness) × (clay / 30)^0.5, capped at 1
 - Rolling windows (surface moisture): county loam 18–26%, heavy clay 20–29%
 
 In `content/pitch.json` (all characteristics 0 to 10):
-- Consistency lost to earlier use: 1.0 × lasting wear, 0.15 × (1 − ends establishment)
+- Consistency lost to earlier use: 3.0 × lasting wear, 0.15 × (1 − ends establishment)
+- Lasting wear deadens: pace and bounce × (1 − 6 × lasting wear)
 - Pace = hardness × grass cushion; grass cushions up to 40% of pace and bounce from 10 mm (none) to 20 mm or more (full)
 - Bounce = cushion × compaction × (clay / 30)^0.5 × (0.6 + 0.4 × moisture at depth)
 - Consistency = 1 − 0.6 × structure damage − 1.0 × looseness below 0.65 compaction − 0.4 × cracks − 0.4 × footholes − 0.2 × surface wear
@@ -279,4 +280,15 @@ In `content/stakeholders.json`:
 - Cli: the review shows once in a panel; after it, Enter is refused with a prompt, `s`, `v` and `x` still work, and `new` starts another season with a new seed (`GameLoop` takes a next-season factory; Program supplies one).
 - A neglected season (seed 3) ends with all three at 0: unanswered requests, 17 demerits, 17 unsatisfactory pitches, banned; satisfaction clamps at 0, so later changes log smaller than their raw size.
 - Cli: most of task 6 landed with tasks 1 to 5 (assignment, lock and request messages, `yes`/`no`, played and ends in the strip table, the review). Added now: the fixtures screen shows each fixture's rest (days since its strip's previous match, played or planned), its requests in brief (green ✓, 4 days ?, flat ignored) and its rating once played; assigning a strip says how long it will have rested and after which match; the help is grouped into readings, strip work, match days, planning and game. Checked at 80 columns.
-- Next: phase 4 task 7, greedy and planned policies and Gate B.
+- Harness policies: by the book gained square upkeep (every strip not in a build-up or a match mown weekly towards 15 mm, its height estimate capped at 40 mm), after planned play's second uses ran into 50 mm of unmown grass that the mower couldn't take (its limit is 50 mm, the policy's estimate was 87). Its strip choice and request answers became hooks. Greedy: the day before each lock, feels every strip and takes the best-looking now (established ends, then centre, then longest rested). Planned: a whole-season rotation on the first turn, by cost: televised off a centre strip 100, untelevised on one 30, 10 a previous use, 1 a day of rest short of 35, 15 a neighbour match within 14 days. Both answer requests alike (yes to flat and lasting four days, no to green, turning and pace) so Gate B compares rotation alone. The season runner records each fixture's satisfaction points across all three stakeholders.
+- First Gate B runs showed strips getting better with every use (very good 2% on a first use, 31% second, 53% third, 58% fourth): each build-up's compaction carried over and lasting wear's consistency cost was too small to matter, so greedy's centre-strip reuse won late. Fixed by a model change and tuning: lasting wear now also deadens a strip (`pitch.lastingDeadening` 6: pace and bounce × (1 − 6 × lasting wear), a tired surface plays slower and lower, named as a dead-pitch cause); lasting wear's consistency weight rose from 1 to 3; starting compaction rose from 0.55 to 0.62 (proper pre-season rolling, research section 5), so a fresh strip can be very good (14% in June against 1% before). Swept starting compaction 0.55/0.62, deadening 3/6/8 and weight 1/2/3 over 200 seasons; 0.62/6/3 was the setting where Gate B's shape appeared and planned play still clears check 3.
+- Reuse now (harness `reuse`, 200 seasons, fresh in brackets): after 11 days 60% satisfactory or better (100%), 21 days 83%, 42 days 92% (100%) but never very good (14%); a third use 21 days apart 8% (99%).
+- Decided with the user: check 3 now measures planned play (by-the-book preparation with the planned rotation), since rotating well is part of playing by the book from phase 4 and the season file's old fixed plan reuses three strips three times (77% satisfactory or better now). Gate B counts greedy as level early if it trails by 3 points or fewer.
+- Gate B over 1,000 seasons, satisfaction points a season by month played (seeds 5001 to 6000 in brackets):
+  - April and May: greedy 0.6 (−0.0), planned 2.9 (1.6).
+  - August and September: planned leads by 15.7 (16.1), needs 10. PASSED on both.
+  - Season: planned 18.4, greedy −22.1, by the book on the old plan −83.1, neglect −143.5. Greedy falls from 97% satisfactory or better in May to 74% in September as its favourite strips tire; planned holds 85% to 97%.
+- Check 3 over 1,000 seasons: planned 91% satisfactory or better (91%), 19% very good (19%), banned in 1% of seasons; neglect demerits on 97% (97%). PASSED on both. Gate A unchanged: by the book 56%, neglect 14%.
+- Worth watching in playtests: greedy dips in June (−16) when early televised matches find the centre strips' ends not yet grown back and go to outer strips; a third use is now close to certain unsatisfactory, which may be too harsh.
+- Phase 4 complete.
+- Next: plan phase 5, the first playtest (saves, telemetry, tester builds).

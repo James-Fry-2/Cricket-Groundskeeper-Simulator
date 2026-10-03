@@ -78,7 +78,7 @@ Rough hours, 60 to 80 in total, in dependency order. Each task keeps the usual r
   - **Greedy:** at each lock, the best-looking strip now (a centre strip if one is free, then the longest-rested), and it accepts every request.
   - **Planned:** a season rotation made at the start. It keeps centre strips for televised matches, spaces each strip's uses beyond the establishment time, avoids neighbours of strips in use soon, and declines requests that put the referee's rating at risk.
 - **Season score:** stakeholder satisfaction plus the ratings, recorded per month, so early and late season can be compared.
-- **Gate B, placeholder thresholds to agree on first results:** over 1,000 seasons, greedy is at least level with planned in April and May, and planned leads greedy by at least 10 points in August and September. Check 3 keeps running alongside.
+- **Gate B, as agreed on first results:** over 1,000 seasons, greedy trails planned by no more than 3 points in April and May, and planned leads greedy by at least 10 points in August and September. Check 3 keeps running alongside, now measuring planned play (by-the-book preparation with the planned rotation) rather than the season file's old fixed plan.
 
 ## Dependencies
 1 → 2 and 3 → 4 → 5. Task 6 follows 1 to 5. Task 7 needs everything.
