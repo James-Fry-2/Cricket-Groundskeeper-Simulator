@@ -247,4 +247,10 @@ public class InputParserTests
     {
         Assert.IsType<SaveInput>(InputParser.Parse("save"));
     }
+
+    [Fact]
+    public void Ff_fast_forwards()
+    {
+        Assert.IsType<FastForwardInput>(InputParser.Parse("ff"));
+    }
 }

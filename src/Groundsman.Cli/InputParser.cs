@@ -32,6 +32,8 @@ public static class InputParser
         {
             case ("a" or "advance", 1):
                 return new AdvanceInput();
+            case ("ff", 1):
+                return new FastForwardInput();
             case ("q" or "quit", 1):
                 return new QuitInput();
             case ("h" or "help" or "?", 1):

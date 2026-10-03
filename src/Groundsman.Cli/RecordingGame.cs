@@ -43,6 +43,9 @@ public sealed class RecordingGame : IGame
     public SaveData Data { get; private set; }
     public string? AutosavePath => _autosavePath;
 
+    /// <summary>Set while the player fast-forwards, so the log can tell skipped turns from played ones.</summary>
+    public bool FastForwarding { get; set; }
+
     /// <summary>The playtest log, if this season keeps one.</summary>
     public Telemetry? Telemetry { get; }
 
@@ -85,6 +88,7 @@ public sealed class RecordingGame : IGame
                 ["seconds"] = Math.Round((now - _turnStarted).TotalSeconds, 1),
                 ["commands"] = _commandsThisTurn,
                 ["hours"] = result.HoursRun,
+                ["ff"] = FastForwarding,
                 ["from"] = result.From.Date.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture) + $" {result.From.Hour:00}:00",
             });
             _turnStarted = now;

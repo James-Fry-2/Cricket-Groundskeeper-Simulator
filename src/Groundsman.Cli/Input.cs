@@ -8,6 +8,8 @@ public abstract record Input;
 
 public sealed record AdvanceInput : Input;
 
+public sealed record FastForwardInput : Input;
+
 public sealed record QuitInput : Input;
 
 public sealed record HelpInput : Input;

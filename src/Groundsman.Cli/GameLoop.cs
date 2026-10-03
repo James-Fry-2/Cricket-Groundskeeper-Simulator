@@ -19,6 +19,7 @@ public sealed class GameLoop
     private int _commentaryShown;
     private Groundsman.Core.Fixture? _verdictShown;
     private bool _reviewShown;
+    private DateTime? _rainWarnedOn;
 
     /// <param name="pipedInput">
     /// Plain line source for when stdin is redirected, since Spectre's prompts refuse to read it.
@@ -67,6 +68,9 @@ public sealed class GameLoop
                     return;
                 case AdvanceInput:
                     Advance();
+                    break;
+                case FastForwardInput:
+                    FastForwardTurns();
                     break;
                 case HelpInput:
                     ShowHelp();
@@ -185,6 +189,55 @@ public sealed class GameLoop
 
         var result = _game.Advance();
         _console.MarkupLine($"[grey]Advanced {result.HoursRun} hours to {Format.Time(result.To)}[/]");
+        ShowTurn();
+    }
+
+    private void FastForwardTurns()
+    {
+        if (_game.View.Review != null)
+        {
+            Advance();
+            return;
+        }
+
+        var recording = _game as RecordingGame;
+        if (recording != null)
+        {
+            recording.FastForwarding = true;
+        }
+        var turns = 0;
+        string? reason;
+        try
+        {
+            do
+            {
+                _game.Advance();
+                turns++;
+                reason = FastForward.StopReason(_game.View, _rainWarnedOn);
+            }
+            while (reason == null && turns < FastForward.MaxTurns);
+        }
+        finally
+        {
+            if (recording != null)
+            {
+                recording.FastForwarding = false;
+            }
+        }
+
+        if (reason?.StartsWith("rain") == true)
+        {
+            _rainWarnedOn = _game.View.Now.Date;
+        }
+        reason ??= $"{FastForward.MaxTurns} turns is as far as it goes at once";
+        _console.MarkupLine($"[grey]Fast-forwarded {turns} turn{(turns == 1 ? "" : "s")} to {Format.Time(_game.View.Now)}: {Markup.Escape(reason)}.[/]");
+        Log("fast_forward", ("turns", turns), ("stopped", reason));
+        ShowTurn();
+    }
+
+    /// <summary>Everything a turn brings: news, the match, the verdict or review, then the ground.</summary>
+    private void ShowTurn()
+    {
         var view = _game.View;
         ShowNotices(view);
         if (view.Interval != null || HasNewCommentary(view))
@@ -329,7 +382,7 @@ public sealed class GameLoop
         {
             _console.MarkupLine($"[bold]{Markup.Escape(Format.Interval(interval))}[/]");
         }
-        _console.MarkupLine("[grey]Enter to advance, h for help.[/]");
+        _console.MarkupLine("[grey]Enter to advance, ff to skip ahead to the next thing that needs you, h for help.[/]");
     }
 
     private bool HasNewCommentary(GameView view) =>
@@ -637,6 +690,7 @@ public sealed class GameLoop
         Section("Game");
         table.AddRow("s", "Show the ground again")
             .AddRow("Enter or a", "Advance to the next decision point")
+            .AddRow("ff", "Skip ahead until something needs you: news, a match day, a strip to choose, rain")
             .AddRow("new", "Once the season is over, start another")
             .AddRow("save", "Save a copy now; the season also saves itself after every turn")
             .AddRow("q", "Quit");
