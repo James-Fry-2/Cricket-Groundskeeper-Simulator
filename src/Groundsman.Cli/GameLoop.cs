@@ -47,34 +47,42 @@ public sealed class GameLoop
 
     public void Run()
     {
+        Log("session_start", ("resumed", (_game as RecordingGame)?.Data.Turns > 0));
         ShowNotices(_game.View);
         ShowStatus(withScoreboard: true);
+        Log("screen", ("name", "status"));
         while (true)
         {
             var text = ReadLine();
             if (text == null)
             {
+                Log("session_end");
                 return;
             }
 
             switch (InputParser.Parse(text))
             {
                 case QuitInput:
+                    Log("session_end");
                     return;
                 case AdvanceInput:
                     Advance();
                     break;
                 case HelpInput:
                     ShowHelp();
+                    Log("screen", ("name", "help"));
                     break;
                 case StatusInput:
                     ShowStatus(withScoreboard: true);
+                    Log("screen", ("name", "status"));
                     break;
                 case RecordInput:
                     ShowRecord();
+                    Log("screen", ("name", "record"));
                     break;
                 case FixturesInput:
                     ShowFixtures();
+                    Log("screen", ("name", "fixtures"));
                     break;
                 case AssignInput assign:
                     Assign(assign);
@@ -146,6 +154,7 @@ public sealed class GameLoop
                     break;
                 case InvalidInput invalid:
                     _console.MarkupLine($"[yellow]{Markup.Escape(invalid.Message)}[/]");
+                    Log("invalid", ("text", text.Trim().Length > 40 ? text.Trim().Substring(0, 40) : text.Trim()));
                     break;
             }
         }
@@ -188,6 +197,7 @@ public sealed class GameLoop
         {
             _reviewShown = true;
             ShowReview(review);
+            Log("screen", ("name", "review"));
             _console.MarkupLine("[yellow]The season is over. Type new for another season, or q to quit.[/]");
             return;
         }
@@ -376,6 +386,7 @@ public sealed class GameLoop
             return;
         }
         _verdictShown = match.Fixture;
+        Log("screen", ("name", "verdict"));
 
         var colour = GradeColour(rating.Grade);
         var lines = new List<string> { $"[bold {colour}]{Format.Grade(rating.Grade)}[/]" };
@@ -405,6 +416,9 @@ public sealed class GameLoop
         }
     }
 
+    private void Log(string name, params (string Key, object? Value)[] fields) =>
+        (_game as RecordingGame)?.Log(name, fields.ToDictionary(f => f.Key, f => f.Value));
+
     private void SaveCopy()
     {
         if (_game is not RecordingGame { AutosavePath: { } path } recording)
@@ -430,7 +444,9 @@ public sealed class GameLoop
             return;
         }
 
+        Log("session_end");
         _game = _nextSeason();
+        Log("session_start", ("resumed", false));
         if (_inspect != null)
         {
             _inspect = _game is RecordingGame recording ? recording.Inner.Inspect : _game is Game game ? game.Inspect : _inspect;

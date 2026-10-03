@@ -9,6 +9,21 @@ namespace Groundsman.Cli;
 public sealed class PlaytestFolder
 {
     public const string SaveName = "save.json";
+    public const string ReadmeName = "README.txt";
+
+    private const string Readme = """
+        Cricket Groundsman playtest
+
+        Each season you play gets a folder here, named season-<date>-<seed>. It holds:
+        - save.json: the season so far, so you can stop and carry on. It saves itself after every turn.
+        - telemetry.jsonl: a log of what you did and when: the commands you gave, the readings you
+          took, how you answered requests, the screens you looked at, and how long each turn took.
+          It holds nothing about you or your computer.
+        - notes.txt, if you want to write anything down as you play.
+
+        Nothing is sent anywhere. When you've finished a season, zip its folder and send it back with
+        the questionnaire.
+        """;
 
     public PlaytestFolder(string root)
     {
@@ -27,6 +42,19 @@ public sealed class PlaytestFolder
         var folder = Path.Combine(Root, $"season-{now.ToString("yyyy-MM-dd-HHmm", CultureInfo.InvariantCulture)}-{seed}");
         Directory.CreateDirectory(folder);
         return folder;
+    }
+
+    /// <summary>Writes the README explaining what's recorded; true the first time, when the player should be told.</summary>
+    public bool EnsureReadme()
+    {
+        var path = Path.Combine(Root, ReadmeName);
+        if (File.Exists(path))
+        {
+            return false;
+        }
+        Directory.CreateDirectory(Root);
+        File.WriteAllText(path, Readme.Replace("\n", Environment.NewLine) + Environment.NewLine);
+        return true;
     }
 
     /// <summary>The save of the most recently played season not yet finished, if any.</summary>

@@ -59,7 +59,7 @@ public static class SaveFile
     }
 
     /// <summary>Rebuilds the season by replaying its commands; the error says why when it can't.</summary>
-    public static (RecordingGame? Game, string? Error) Restore(SaveData data, GameContent content, IReadOnlyList<Fixture> fixtures, string contentHash, string? autosavePath = null)
+    public static (RecordingGame? Game, string? Error) Restore(SaveData data, GameContent content, IReadOnlyList<Fixture> fixtures, string contentHash, string? autosavePath = null, Telemetry? telemetry = null)
     {
         if (data.SchemaVersion != SchemaVersion)
         {
@@ -87,6 +87,6 @@ public static class SaveFile
                 game.Advance();
             }
         }
-        return (new RecordingGame(game, data, autosavePath), null);
+        return (new RecordingGame(game, data, autosavePath, telemetry), null);
     }
 }

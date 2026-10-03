@@ -13,12 +13,20 @@ var debug = args.Contains("--debug");
 
 RecordingGame NewSeason(ulong seed)
 {
-    var path = Path.Combine(folder.NewSeason(DateTime.Now, seed), PlaytestFolder.SaveName);
-    AnsiConsole.MarkupLine($"[green]A new season[/], seed {seed}. It saves itself to [grey]{Markup.Escape(path)}[/].");
-    return RecordingGame.Start(content, season.Fixtures, start, seed, contentHash, path);
+    var seasonFolder = folder.NewSeason(DateTime.Now, seed);
+    AnsiConsole.MarkupLine($"[green]A new season[/], seed {seed}. It saves itself to [grey]{Markup.Escape(seasonFolder)}[/].");
+    return RecordingGame.Start(content, season.Fixtures, start, seed, contentHash, Path.Combine(seasonFolder, PlaytestFolder.SaveName), telemetry: new Telemetry(Path.Combine(seasonFolder, Telemetry.FileName)));
 }
 
 AnsiConsole.MarkupLine("[green]Cricket Groundsman Simulator[/]");
+if (folder.EnsureReadme())
+{
+    AnsiConsole.MarkupLine(
+        "[yellow]This is a playtest build.[/] Each season keeps a save and a log of what you do in it " +
+        "(commands, readings, answers to requests, screens viewed and time per turn). " +
+        "Nothing is sent anywhere: when you finish, zip the season's folder and send it back. " +
+        $"The README in [grey]{Markup.Escape(folder.Root)}[/] explains more.");
+}
 if (debug)
 {
     AnsiConsole.MarkupLine("[magenta]Debug mode: true values shown in magenta.[/]");
@@ -33,7 +41,7 @@ if (seedOption == null && folder.LatestUnfinished() is { } saved)
     var answer = input != null ? input.ReadLine() : AnsiConsole.Prompt(new TextPrompt<string>("[grey]>[/]").AllowEmpty());
     if (answer?.Trim().StartsWith("y", StringComparison.OrdinalIgnoreCase) == true)
     {
-        var (restored, error) = SaveFile.Restore(data, content, season.Fixtures, contentHash, saved);
+        var (restored, error) = SaveFile.Restore(data, content, season.Fixtures, contentHash, saved, new Telemetry(Path.Combine(Path.GetDirectoryName(saved)!, Telemetry.FileName)));
         if (restored == null)
         {
             AnsiConsole.MarkupLine($"[red]{Markup.Escape(error!)}[/]");
