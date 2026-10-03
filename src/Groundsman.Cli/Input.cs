@@ -24,6 +24,10 @@ public sealed record NewSeasonInput : Input;
 
 public sealed record SaveInput : Input;
 
+public sealed record IntroInput : Input;
+
+public sealed record TipsOffInput : Input;
+
 /// <summary>Answers a request, numbered as in the messages from 1.</summary>
 public sealed record AnswerInput(int Request, bool Accept) : Input;
 

@@ -10,6 +10,7 @@ public sealed class PlaytestFolder
 {
     public const string SaveName = "save.json";
     public const string ReadmeName = "README.txt";
+    public const string TipsName = "tips.json";
 
     private const string Readme = """
         Cricket Groundsman playtest

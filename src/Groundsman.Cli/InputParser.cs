@@ -48,6 +48,10 @@ public static class InputParser
                 return new NewSeasonInput();
             case ("save", 1):
                 return new SaveInput();
+            case ("intro", 1):
+                return new IntroInput();
+            case ("tips", 2) when words[1] == "off":
+                return new TipsOffInput();
             case ("x" or "fixtures", 1):
                 return new FixturesInput();
             case ("p" or "pick", 3) when int.TryParse(words[1], out var fixture) && TryStrip(words[2], out var strip):

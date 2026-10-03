@@ -253,4 +253,12 @@ public class InputParserTests
     {
         Assert.IsType<FastForwardInput>(InputParser.Parse("ff"));
     }
+
+    [Fact]
+    public void Intro_and_tips_off_are_understood()
+    {
+        Assert.IsType<IntroInput>(InputParser.Parse("intro"));
+        Assert.IsType<TipsOffInput>(InputParser.Parse("tips off"));
+        Assert.IsType<InvalidInput>(InputParser.Parse("tips on"));
+    }
 }

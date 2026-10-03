@@ -19,8 +19,10 @@ RecordingGame NewSeason(ulong seed)
 }
 
 AnsiConsole.MarkupLine("[green]Cricket Groundsman Simulator[/]");
-if (folder.EnsureReadme())
+var firstLaunch = folder.EnsureReadme();
+if (firstLaunch)
 {
+    GameLoop.ShowIntro(AnsiConsole.Console);
     AnsiConsole.MarkupLine(
         "[yellow]This is a playtest build.[/] Each season keeps a save and a log of what you do in it " +
         "(commands, readings, answers to requests, screens viewed and time per turn). " +
@@ -60,7 +62,8 @@ new GameLoop(
     game,
     input,
     debug ? game.Inner.Inspect : null,
-    () => NewSeason(RandomSeed())).Run();
+    () => NewSeason(RandomSeed()),
+    TipBook.Load(Path.Combine(folder.Root, PlaytestFolder.TipsName))).Run();
 
 static ulong RandomSeed() => BitConverter.ToUInt64(RandomNumberGenerator.GetBytes(8));
 

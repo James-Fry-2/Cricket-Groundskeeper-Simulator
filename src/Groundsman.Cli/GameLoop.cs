@@ -13,6 +13,7 @@ public sealed class GameLoop
     private readonly IAnsiConsole _console;
     private readonly TextReader? _pipedInput;
     private readonly Func<IGame>? _nextSeason;
+    private readonly TipBook _tips;
     private IGame _game;
     private Func<TruthSnapshot>? _inspect;
     private Groundsman.Core.Fixture? _commentaryFixture;
@@ -26,13 +27,15 @@ public sealed class GameLoop
     /// </param>
     /// <param name="inspect">Debug mode: shows true values beside readings when given.</param>
     /// <param name="nextSeason">Starts a new season once this one is over; without it, the season can't be replayed.</param>
-    public GameLoop(IAnsiConsole console, IGame game, TextReader? pipedInput = null, Func<TruthSnapshot>? inspect = null, Func<IGame>? nextSeason = null)
+    /// <param name="tips">First-time tips; a fresh book when not given.</param>
+    public GameLoop(IAnsiConsole console, IGame game, TextReader? pipedInput = null, Func<TruthSnapshot>? inspect = null, Func<IGame>? nextSeason = null, TipBook? tips = null)
     {
         _console = console;
         _game = game;
         _pipedInput = pipedInput;
         _inspect = inspect;
         _nextSeason = nextSeason;
+        _tips = tips ?? new TipBook();
         MarkShown();
     }
 
@@ -52,6 +55,7 @@ public sealed class GameLoop
         ShowNotices(_game.View);
         ShowStatus(withScoreboard: true);
         Log("screen", ("name", "status"));
+        Tip("start");
         while (true)
         {
             var text = ReadLine();
@@ -99,6 +103,14 @@ public sealed class GameLoop
                     break;
                 case SaveInput:
                     SaveCopy();
+                    break;
+                case IntroInput:
+                    ShowIntro(_console);
+                    Log("screen", ("name", "intro"));
+                    break;
+                case TipsOffInput:
+                    _tips.TurnOff();
+                    _console.MarkupLine("Tips are off.");
                     break;
                 case ReadInput { Strip: null } all:
                     var now = _game.View.Now;
@@ -230,6 +242,10 @@ public sealed class GameLoop
             _rainWarnedOn = _game.View.Now.Date;
         }
         reason ??= $"{FastForward.MaxTurns} turns is as far as it goes at once";
+        if (reason.StartsWith("rain"))
+        {
+            Tip("rain");
+        }
         _console.MarkupLine($"[grey]Fast-forwarded {turns} turn{(turns == 1 ? "" : "s")} to {Format.Time(_game.View.Now)}: {Markup.Escape(reason)}.[/]");
         Log("fast_forward", ("turns", turns), ("stopped", reason));
         ShowTurn();
@@ -244,6 +260,7 @@ public sealed class GameLoop
         {
             ShowScoreboard(view);
             ShowNewCommentary(view);
+            Tip("match");
         }
         ShowVerdictOnce(view);
         if (view.Review is { } review && !_reviewShown)
@@ -440,6 +457,7 @@ public sealed class GameLoop
         }
         _verdictShown = match.Fixture;
         Log("screen", ("name", "verdict"));
+        Tip("verdict");
 
         var colour = GradeColour(rating.Grade);
         var lines = new List<string> { $"[bold {colour}]{Format.Grade(rating.Grade)}[/]" };
@@ -460,12 +478,31 @@ public sealed class GameLoop
 
     private void ShowNotices(GameView view)
     {
+        if (view.Notices.OfType<Groundsman.Core.Pressures.RequestNotice>().Any())
+        {
+            Tip("request");
+        }
+        if (view.Notices.OfType<StripLockedNotice>().Any())
+        {
+            Tip("lock");
+        }
         foreach (var notice in view.Notices)
         {
             var number = notice is Groundsman.Core.Pressures.RequestNotice asked
                 ? view.Requests.ToList().FindIndex(r => r.Id == asked.Request.Id) + 1
                 : 0;
             _console.MarkupLine($"[yellow]{Markup.Escape(Format.Notice(notice, number))}[/]");
+        }
+    }
+
+    public static void ShowIntro(IAnsiConsole console) =>
+        console.Write(new Panel(new Text(Onboarding.Intro)).Header("Cricket Groundsman").Border(BoxBorder.Rounded));
+
+    private void Tip(string id)
+    {
+        if (_tips.Show(id))
+        {
+            _console.MarkupLine($"[cyan]{Markup.Escape(Onboarding.Tips[id])}[/]");
         }
     }
 
@@ -693,7 +730,11 @@ public sealed class GameLoop
             .AddRow("ff", "Skip ahead until something needs you: news, a match day, a strip to choose, rain")
             .AddRow("new", "Once the season is over, start another")
             .AddRow("save", "Save a copy now; the season also saves itself after every turn")
-            .AddRow("q", "Quit");
+            .AddRow("intro", "Show the introduction again")
+            .AddRow("tips off", "Stop showing first-time tips")
+            .AddRow("q", "Quit")
+            .AddRow("", "")
+            .AddRow("[grey]Examples[/]", "[grey]w 3 sam · m 4 10 · l 6 heavy 30 · p 5 7 · yes 2 · f all[/]");
 
         _console.Write(table);
     }
