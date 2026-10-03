@@ -1,12 +1,15 @@
 using System.Text;
 using Groundsman.Core.Content;
 using Groundsman.Core.Match;
+using Groundsman.Harness.Policies;
 
 namespace Groundsman.Harness;
 
 /// <summary>
 /// Check 3, the gate before phase 4: over many seeded seasons, does play by the book satisfy the
 /// match referee, and does neglect earn demerits? The phase 2 stand-in score rides alongside.
+/// Since phase 4, playing by the book includes rotating strips well, so the third policy is
+/// by-the-book preparation with the planned rotation.
 /// </summary>
 public sealed class CheckReport
 {
@@ -37,13 +40,22 @@ public sealed class CheckReport
         && Policies[2].VeryGood >= RequiredVeryGood
         && Policies[0].WithDemerits >= RequiredNeglectDemerits;
 
+    public static readonly string[] Names = { "neglect", "random", "planned" };
+
+    public static IReadOnlyList<Func<ulong, IPolicy>> Makers { get; } = new Func<ulong, IPolicy>[]
+    {
+        _ => new NeglectPolicy(),
+        seed => new RandomPolicy(seed),
+        _ => new PlannedPolicy(),
+    };
+
     public static CheckReport From(IReadOnlyList<IReadOnlyList<MatchResult>[]> runs, RatingSettings rating, double requiredSatisfactory, double requiredVeryGood, double requiredNeglectDemerits)
     {
         var csv = new StringBuilder("seed,policy,fixture,strip,result,grade,demerits,reasons,stand_in_on_target,carry,consistency,pace,bounce\n");
         var checks = new List<PolicyCheck>();
         for (var p = 0; p < runs.Count; p++)
         {
-            var name = PolicyRuns.Names[p];
+            var name = Names[p];
             var seasons = runs[p];
             var all = seasons.SelectMany(s => s).ToList();
             var rated = all.Where(r => r.Grade != null).ToList();
@@ -96,7 +108,7 @@ public sealed class CheckReport
             text.Append($"  {p.Name,-12}  {faults}\n");
         }
 
-        text.Append($"\nBy the book satisfactory or better on {Policies[2].SatisfactoryOrBetter:P0} of rated matches (needs {RequiredSatisfactory:P0}), very good on {Policies[2].VeryGood:P0} (needs {RequiredVeryGood:P0}); ");
+        text.Append($"\nPlanned play satisfactory or better on {Policies[2].SatisfactoryOrBetter:P0} of rated matches (needs {RequiredSatisfactory:P0}), very good on {Policies[2].VeryGood:P0} (needs {RequiredVeryGood:P0}); ");
         text.Append($"neglect earned demerits on {Policies[0].WithDemerits:P0} of matches (needs {RequiredNeglectDemerits:P0}): Check 3 {(Passed ? "PASSED" : "NOT PASSED")}.\n");
         return text.ToString();
     }

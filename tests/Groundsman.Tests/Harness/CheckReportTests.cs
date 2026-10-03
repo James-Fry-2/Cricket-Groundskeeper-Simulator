@@ -93,7 +93,7 @@ public class CheckReportTests
     {
         var text = Report().SummaryTable();
 
-        Assert.Contains("by the book", text);
+        Assert.Contains("planned", text);
         Assert.Contains("Check 3 PASSED", text);
         Assert.Contains("dead", text);
     }

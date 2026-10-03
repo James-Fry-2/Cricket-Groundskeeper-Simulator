@@ -74,7 +74,7 @@ public sealed class GateBReport
     public string SummaryTable()
     {
         var text = new StringBuilder("Satisfaction points a season, by month played (captain + board + referee):\n");
-        text.Append("Policy        " + string.Join("", Months.Select(m => $"{new DateTime(2027, m, 1):MMM,7}")) + "   Season\n");
+        text.Append("Policy        " + string.Join("", Months.Select(m => $"{new DateTime(2027, m, 1).ToString("MMM", System.Globalization.CultureInfo.InvariantCulture),7}")) + "   Season\n");
         foreach (var p in Policies)
         {
             text.Append($"{p.Name,-12}  " + string.Join("", Months.Select(m => $"{p.PointsByMonth[m],7:0.0}")) + $"  {p.Points(Months),7:0.0}\n");
