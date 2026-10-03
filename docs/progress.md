@@ -8,7 +8,7 @@ Phase 4: pressures and a playable season. Plan in `docs/phase-4-plan.md`. Ends a
 - [x] 2. Square positions and neighbour wear
 - [x] 3. Lasting wear and establishment
 - [x] 4. Stakeholders and requests
-- [ ] 5. Season review
+- [x] 5. Season review
 - [ ] 6. Cli: fixtures, assignment, requests, review
 - [ ] 7. Harness policies (greedy, planned) and Gate B
 
@@ -172,6 +172,7 @@ In `content/stakeholders.json`:
 - Board asks 30% of four-day matches to last; delivered +8, not delivered −12, declined −3, ignored −5; day four +4, over in three days −6, no result −4, televised centre +3, televised outer −6, −10 a demerit
 - Referee: very good +6, satisfactory +2, unsatisfactory −8, unfit −20
 - Delivery: green day-one seam 5, turning last-day spin 4, pace carry 5.5, true consistency 8, flat movement under 3
+- Review moods: delighted from 75, content from 55, uneasy from 40; square wear: light from 0.01, worn 0.03, heavy 0.06 lasting wear
 
 ## Session log
 
@@ -273,4 +274,8 @@ In `content/stakeholders.json`:
 - Stakeholders: `stakeholders.json` sets satisfaction (0 to 100, everyone starts at 50), when requests come, how pitches are judged to deliver them, and how much each outcome moves the captain, the board and the referee. Requests for a fixture arrive 5 days before its strip locks (so 15 days before the match), drawn from the Events stream in a fixed order: the captain asks for a pitch character on 60% of fixtures (four-day: green 2, turning 1, pace 1; one-day: pace or flat; T20: flat 2, pace 1), the board asks 30% of four-day matches to last into day four. `AnswerRequest` accepts or declines at no cost in hours until the lock; unanswered at the lock means ignored.
 - Judged once a match is over and its wear settled: green on day-one seam (5), turning on the last day of play's spin (4), pace on carry (5.5) with consistency (8), flat on movement under 3 with consistency 8, lasting on any cricket scheduled on day four (rain counts). No dry play spoils a pitch request (no change). Captain: delivered +12, not delivered −15, declined −4, ignored −6, home win +3, loss −3. Board: delivered +8, not delivered −12, declined −3, ignored −5; four-day into day four +4, over inside three days −6; limited-overs no result −4; televised from a centre strip +3, from an outer one −6; −10 a demerit. Referee: very good +6, satisfactory +2, unsatisfactory −8, unfit −20. Every change is logged with its reason, fixture and date for the review.
 - The view carries the requests, each stakeholder's satisfaction and changes, and a notice for each request and change. Cli: requests and changes print as messages, `yes <#>` and `no <#>` answer, the status shows satisfaction and requests awaiting an answer. The replay snapshot now records satisfaction and requests (lines added only). Gate A and check 3 are unaffected: requests only use the Events stream.
-- Next: phase 4 task 5, the season review.
+- Season review: once every fixture has been played and settled with the stakeholders, the view carries a `SeasonReview`: each stakeholder's satisfaction, mood (delighted from 75, content from 55, uneasy from 40, otherwise unhappy) and three biggest reasons summed over the season; pitch ratings by grade; demerits and the ban; the county's results; and every strip's matches and wear from an end-of-season walk (fresh, lightly worn from 0.01 lasting wear, worn from 0.03, heavily worn from 0.06).
+- Decided while building: the walk reveals lasting wear, which is truth, so it comes only in the review, after the last decision it could inform. Refusing to advance past the review lives in the Cli rather than the core, since tests and the harness advance beyond the last match; the core keeps ticking harmlessly.
+- Cli: the review shows once in a panel; after it, Enter is refused with a prompt, `s`, `v` and `x` still work, and `new` starts another season with a new seed (`GameLoop` takes a next-season factory; Program supplies one).
+- A neglected season (seed 3) ends with all three at 0: unanswered requests, 17 demerits, 17 unsatisfactory pitches, banned; satisfaction clamps at 0, so later changes log smaller than their raw size.
+- Next: phase 4 task 6, the Cli (fixtures screen with requests, messages, review polish).
