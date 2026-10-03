@@ -9,7 +9,7 @@ Phase 4: pressures and a playable season. Plan in `docs/phase-4-plan.md`. Ends a
 - [x] 3. Lasting wear and establishment
 - [x] 4. Stakeholders and requests
 - [x] 5. Season review
-- [ ] 6. Cli: fixtures, assignment, requests, review
+- [x] 6. Cli: fixtures, assignment, requests, review
 - [ ] 7. Harness policies (greedy, planned) and Gate B
 
 ## Phase 3 tasks (done)
@@ -278,4 +278,5 @@ In `content/stakeholders.json`:
 - Decided while building: the walk reveals lasting wear, which is truth, so it comes only in the review, after the last decision it could inform. Refusing to advance past the review lives in the Cli rather than the core, since tests and the harness advance beyond the last match; the core keeps ticking harmlessly.
 - Cli: the review shows once in a panel; after it, Enter is refused with a prompt, `s`, `v` and `x` still work, and `new` starts another season with a new seed (`GameLoop` takes a next-season factory; Program supplies one).
 - A neglected season (seed 3) ends with all three at 0: unanswered requests, 17 demerits, 17 unsatisfactory pitches, banned; satisfaction clamps at 0, so later changes log smaller than their raw size.
-- Next: phase 4 task 6, the Cli (fixtures screen with requests, messages, review polish).
+- Cli: most of task 6 landed with tasks 1 to 5 (assignment, lock and request messages, `yes`/`no`, played and ends in the strip table, the review). Added now: the fixtures screen shows each fixture's rest (days since its strip's previous match, played or planned), its requests in brief (green ✓, 4 days ?, flat ignored) and its rating once played; assigning a strip says how long it will have rested and after which match; the help is grouped into readings, strip work, match days, planning and game. Checked at 80 columns.
+- Next: phase 4 task 7, greedy and planned policies and Gate B.
