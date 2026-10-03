@@ -5,7 +5,7 @@ Phase 5: first playtest (5 to 8 testers). Plan in `docs/phase-5-plan.md`. Ends a
 
 ## Phase 5 tasks
 - [x] 1. Saves (seed plus command log, autosave, resume)
-- [ ] 2. Telemetry (JSON Lines, mapped to the pass test)
+- [x] 2. Telemetry (JSON Lines, mapped to the pass test)
 - [ ] 3. Fast-forward to the next event
 - [ ] 4. Onboarding (intro, first-season tips, quick-start guide)
 - [ ] 5. Tester builds (macOS and Windows, self-contained)
@@ -304,4 +304,12 @@ In `content/stakeholders.json`:
 - Phase 5 planned in `docs/phase-5-plan.md` with the user: saves are seed plus command log (replayed on load, refused if content changed), a fast-forward to the next event, testers send back one folder, testers are a mix of sim players and cricket people. A season is 353 turns today.
 - Saves: a `RecordingGame` wraps the game in the Cli, records each accepted command with its turn (rejected ones change nothing, so replay doesn't need them) and writes the save after every command and turn (written beside the target then moved into place). A save holds a schema version, a SHA-256 over every content file, the seed and start, the turns played and the commands; `SaveFile.Restore` refuses another version or other content, rebuilds the game from the seed and replays each turn's commands, and reports the turn and command if one is refused on replay. Tested: every command type round-trips (checked against all `IGameCommand` types by reflection), and a restored game equals the original in view and truth after 70 turns of random commands of every kind on 12 seeds, and stays equal after another turn.
 - Seasons live in Documents/Cricket Groundsman/season-<date>-<seed>/save.json (`--data` overrides it). On launch the Cli offers to resume the latest unfinished season; `save` writes a named copy; a resumed season doesn't repeat old commentary, verdicts or the review. The harness now references the Cli project instead of linking `ContentLoader.cs`, so saves are there for task 7.
-- Next: phase 5 task 2, telemetry.
+- Telemetry: `telemetry.jsonl` beside each season's save, one JSON object a line, each with its event, turn, game time and wall-clock time (UTC, from an injected clock in the Cli; the core still never reads the clock). Events, by pass-test row:
+  - planning ahead: `command` lines for `assign`, with `fixturesAhead` (0 is the next fixture not yet over);
+  - readings drive decisions: every `command` line (type, strip, who, tool, heights, roller, minutes), accepted or not, with the refusal's reason;
+  - pressures force choices: `answer` commands with stakeholder, kind and accept;
+  - pace: `advance` lines with seconds spent on the turn, commands given, hours run and the time it started from;
+  - readable verdicts: `screen` lines for status, fixtures, record, help, verdict and review;
+  - context: `session_start` (resumed or not), `session_end`, `invalid` input (first 40 characters), and a `review` summary when the season ends.
+- On first launch the Cli says what's recorded and that nothing is sent, and writes a README.txt in the playtest folder saying the same and what to send back. A restored season keeps appending to its log; replaying a save logs nothing.
+- Next: phase 5 task 3, fast-forward.
