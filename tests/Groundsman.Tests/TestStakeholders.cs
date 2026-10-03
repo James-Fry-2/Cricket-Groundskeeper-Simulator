@@ -37,5 +37,11 @@ internal static class TestStakeholders
         turningSpinLastDay: 4,
         paceCarry: 5.5,
         trueConsistency: 8,
-        flatMovementBelow: 3);
+        flatMovementBelow: 3,
+        contentFrom: 55,
+        delightedFrom: 75,
+        uneasyFrom: 40,
+        wearLightFrom: 0.01,
+        wearWornFrom: 0.03,
+        wearHeavyFrom: 0.06);
 }

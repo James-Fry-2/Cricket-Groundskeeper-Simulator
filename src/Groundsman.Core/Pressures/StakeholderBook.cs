@@ -49,6 +49,25 @@ namespace Groundsman.Core.Pressures
         public IReadOnlyList<StakeholderView> Stakeholders =>
             Everyone.Select(s => new StakeholderView(s, Satisfaction(s), _changes.Where(c => c.Stakeholder == s).ToArray())).ToArray();
 
+        /// <summary>Matches settled with everyone so far.</summary>
+        public int Judged => _judged.Count;
+
+        public IReadOnlyList<StakeholderReview> Review() =>
+            Everyone.Select(s => new StakeholderReview(
+                s,
+                Satisfaction(s),
+                _settings.MoodFor(Satisfaction(s)),
+                _changes
+                    .Where(c => c.Stakeholder == s)
+                    .GroupBy(c => (c.Reason, c.Request))
+                    .Select(g => new ReasonSummary(g.Key.Reason, g.Key.Request, g.Sum(c => c.Delta), g.Count()))
+                    .OrderByDescending(r => System.Math.Abs(r.Total))
+                    .ThenBy(r => r.Reason)
+                    .ThenBy(r => r.Request)
+                    .Take(3)
+                    .ToArray()))
+            .ToArray();
+
         public double Satisfaction(Stakeholder stakeholder) => _satisfaction[(int)stakeholder - 1];
 
         /// <summary>Requests unanswered at their lock are ignored; requests now due arrive.</summary>

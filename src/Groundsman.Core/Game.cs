@@ -10,6 +10,7 @@ using Groundsman.Core.Inspection;
 using Groundsman.Core.Match;
 using Groundsman.Core.Moisture;
 using Groundsman.Core.Pitch;
+using Groundsman.Core.Pressures;
 using Groundsman.Core.Randomness;
 using Groundsman.Core.Readings;
 using Groundsman.Core.Simulation;
@@ -148,7 +149,7 @@ namespace Groundsman.Core
                 var staff = _staffSettings.Members
                     .Select(m => new StaffView(m.Id, m.Name, m.HoursPerDay, _staff.HoursLeft(m.Id)))
                     .ToArray();
-                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.Select(_book.View).ToArray(), _fixtures.Where(f => f.End >= _now.Date).Select(_book.View).FirstOrDefault(), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Played.Select(m => m.ToView()).ToArray(), Interval(), Matches.Ledger.Active(_now.Date), Matches.Ledger.Banned(_now.Date), _book.Notices.Concat(_stakeholders.Notices).ToArray(), _stakeholders.Requests, _stakeholders.Stakeholders);
+                return new GameView(_now, _paceContext.PaceOn(_now.Date), _paceContext.NextMatchDayFrom(_now.Date), _fixtures.Select(_book.View).ToArray(), _fixtures.Where(f => f.End >= _now.Date).Select(_book.View).FirstOrDefault(), Observe(), _groundName, strips, _covers.Free, _coversOwned, staff, _forecaster.Current, _content.Rollers, Matches.Played.Select(m => m.ToView()).ToArray(), Interval(), Matches.Ledger.Active(_now.Date), Matches.Ledger.Banned(_now.Date), _book.Notices.Concat(_stakeholders.Notices).ToArray(), _stakeholders.Requests, _stakeholders.Stakeholders, Review());
             }
         }
 
@@ -321,6 +322,37 @@ namespace Groundsman.Core
             _lastRepaired[repair.Strip.Number - 1] = _now;
             _staff.Spend(who, _staffSettings.RepairEndsHours);
             return CommandResult.Ok();
+        }
+
+        /// <summary>Null until every fixture has been played and settled with the stakeholders.</summary>
+        private SeasonReview? Review()
+        {
+            if (_fixtures.Count == 0 || _stakeholders.Judged < _fixtures.Count)
+            {
+                return null;
+            }
+
+            var matches = Matches.Played;
+            int Graded(PitchGrade grade) => matches.Count(m => m.Rating?.Grade == grade);
+            int Results(System.Func<ResultView, bool> test) => matches.Count(m => m.Result != null && test(m.Result));
+            var home = _content.HomeTeam.Name;
+            var square = Square.Strips
+                .Select(s => new StripReview(s.Id, matches.Count(m => m.Strip == s.Id), _content.Stakeholders.WearFor(s.LastingWear)))
+                .ToArray();
+
+            return new SeasonReview(
+                _stakeholders.Review(),
+                Graded(PitchGrade.VeryGood),
+                Graded(PitchGrade.Satisfactory),
+                Graded(PitchGrade.Unsatisfactory),
+                Graded(PitchGrade.Unfit),
+                Results(r => r.Kind == ResultKind.Win && r.Winner == home),
+                Results(r => r.Kind == ResultKind.Win && r.Winner != home),
+                Results(r => r.Kind == ResultKind.Draw || r.Kind == ResultKind.Tie),
+                Results(r => r.Kind == ResultKind.NoResult),
+                Matches.Ledger.Active(_now.Date),
+                Matches.Ledger.Banned(_now.Date),
+                square);
         }
 
         /// <summary>The strip of the fixture on today, if any.</summary>

@@ -230,6 +230,8 @@ namespace Groundsman.Core.Content
             var board = Required(file, "board", dto.Board);
             var referee = Required(file, "referee", dto.Referee);
             var delivery = Required(file, "delivery", dto.Delivery);
+            var review = Required(file, "review", dto.Review);
+            var wear = Required(file, "review.wear", review.Wear);
 
             var characters = new Dictionary<string, IReadOnlyDictionary<RequestKind, double>>();
             foreach (var format in Required(file, "captain.characters", captain.Characters))
@@ -284,7 +286,13 @@ namespace Groundsman.Core.Content
                 Required(file, "delivery.turningSpinLastDay", delivery.TurningSpinLastDay),
                 Required(file, "delivery.paceCarry", delivery.PaceCarry),
                 Required(file, "delivery.trueConsistency", delivery.TrueConsistency),
-                Required(file, "delivery.flatMovementBelow", delivery.FlatMovementBelow));
+                Required(file, "delivery.flatMovementBelow", delivery.FlatMovementBelow),
+                Required(file, "review.contentFrom", review.ContentFrom),
+                Required(file, "review.delightedFrom", review.DelightedFrom),
+                Required(file, "review.uneasyFrom", review.UneasyFrom),
+                Required(file, "review.wear.light", wear.Light),
+                Required(file, "review.wear.worn", wear.Worn),
+                Required(file, "review.wear.heavy", wear.Heavy));
         }
 
         public static RatingSettings ParseRating(string json)
@@ -710,6 +718,22 @@ namespace Groundsman.Core.Content
             public BoardDto? Board { get; set; }
             public RefereeDto? Referee { get; set; }
             public DeliveryDto? Delivery { get; set; }
+            public ReviewDto? Review { get; set; }
+        }
+
+        private sealed class ReviewDto
+        {
+            public double? ContentFrom { get; set; }
+            public double? DelightedFrom { get; set; }
+            public double? UneasyFrom { get; set; }
+            public ReviewWearDto? Wear { get; set; }
+        }
+
+        private sealed class ReviewWearDto
+        {
+            public double? Light { get; set; }
+            public double? Worn { get; set; }
+            public double? Heavy { get; set; }
         }
 
         private sealed class CaptainDto

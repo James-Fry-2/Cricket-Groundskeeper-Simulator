@@ -29,5 +29,11 @@
     "paceCarry": 5.5,
     "trueConsistency": 8,
     "flatMovementBelow": 3
+  },
+  "review": {
+    "delightedFrom": 75,
+    "contentFrom": 55,
+    "uneasyFrom": 40,
+    "wear": { "light": 0.01, "worn": 0.03, "heavy": 0.06 }
   }
 }

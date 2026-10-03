@@ -41,7 +41,7 @@ public class GameContentTests
             50, 5, 0.6,
             new Dictionary<string, IReadOnlyDictionary<Groundsman.Core.Pressures.RequestKind, double>> { ["hundred"] = new Dictionary<Groundsman.Core.Pressures.RequestKind, double> { [Groundsman.Core.Pressures.RequestKind.Flat] = 1 } },
             0.3, TestStakeholders.Settings.CaptainAnswers, TestStakeholders.Settings.BoardAnswers,
-            3, -3, 4, -6, -4, 3, -6, -10, 6, 2, -8, -20, 5, 4, 5.5, 8, 3);
+            3, -3, 4, -6, -4, 3, -6, -10, 6, 2, -8, -20, 5, 4, 5.5, 8, 3, 55, 75, 40, 0.01, 0.03, 0.06);
 
         var error = Assert.Throws<ContentException>(() => new GameContent(
             TestCalendar.Settings, TestClimate.Settings, TestGround.Settings, TestLoams.All, TestMoisture.Settings, TestContent.Covers, TestContent.Tasks, TestStaff.Settings, TestContent.Readings, TestForecast.Settings, TestFormats.All, TestTeams.All, TestTeams.Home.Id, TestGrass.Settings, TestRolling.Rollers, TestRolling.Compaction, TestPitch.Settings, TestWear.Settings, TestMatch.Settings, TestCommentary.Settings, TestRating.Settings, stakeholders));

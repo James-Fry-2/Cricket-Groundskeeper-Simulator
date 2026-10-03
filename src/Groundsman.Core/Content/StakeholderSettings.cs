@@ -34,7 +34,13 @@ namespace Groundsman.Core.Content
             double turningSpinLastDay,
             double paceCarry,
             double trueConsistency,
-            double flatMovementBelow)
+            double flatMovementBelow,
+            double contentFrom,
+            double delightedFrom,
+            double uneasyFrom,
+            double wearLightFrom,
+            double wearWornFrom,
+            double wearHeavyFrom)
         {
             CheckRange("startingSatisfaction", startingSatisfaction, 0, 100);
             if (requestDaysBeforeLock < 1)
@@ -53,6 +59,15 @@ namespace Groundsman.Core.Content
                 {
                     throw new ContentException($"stakeholders.captain.characters.{format.Key}: lasting four days is the board's request, not a pitch character.");
                 }
+            }
+
+            if (!(uneasyFrom <= contentFrom && contentFrom <= delightedFrom))
+            {
+                throw new ContentException($"stakeholders.review moods must rise: uneasy ({uneasyFrom}), content ({contentFrom}), delighted ({delightedFrom}).");
+            }
+            if (!(0 < wearLightFrom && wearLightFrom <= wearWornFrom && wearWornFrom <= wearHeavyFrom))
+            {
+                throw new ContentException($"stakeholders.review.wear must rise from above 0: light ({wearLightFrom}), worn ({wearWornFrom}), heavy ({wearHeavyFrom}).");
             }
 
             StartingSatisfaction = startingSatisfaction;
@@ -79,6 +94,12 @@ namespace Groundsman.Core.Content
             PaceCarry = paceCarry;
             TrueConsistency = trueConsistency;
             FlatMovementBelow = flatMovementBelow;
+            ContentFrom = contentFrom;
+            DelightedFrom = delightedFrom;
+            UneasyFrom = uneasyFrom;
+            WearLightFrom = wearLightFrom;
+            WearWornFrom = wearWornFrom;
+            WearHeavyFrom = wearHeavyFrom;
         }
 
         public double StartingSatisfaction { get; }
@@ -128,6 +149,27 @@ namespace Groundsman.Core.Content
 
         /// <summary>Average of the larger of seam and spin a flat pitch stays under.</summary>
         public double FlatMovementBelow { get; }
+
+        // The season review: satisfaction from which each mood starts, and lasting wear from
+        // which the end-of-season walk calls a strip lightly worn, worn or heavily worn.
+        public double ContentFrom { get; }
+        public double DelightedFrom { get; }
+        public double UneasyFrom { get; }
+        public double WearLightFrom { get; }
+        public double WearWornFrom { get; }
+        public double WearHeavyFrom { get; }
+
+        public Mood MoodFor(double satisfaction) =>
+            satisfaction >= DelightedFrom ? Mood.Delighted
+            : satisfaction >= ContentFrom ? Mood.Content
+            : satisfaction >= UneasyFrom ? Mood.Uneasy
+            : Mood.Unhappy;
+
+        public SquareWear WearFor(double lastingWear) =>
+            lastingWear >= WearHeavyFrom ? SquareWear.Heavy
+            : lastingWear >= WearWornFrom ? SquareWear.Worn
+            : lastingWear >= WearLightFrom ? SquareWear.Light
+            : SquareWear.Fresh;
 
         public AnswerEffects AnswersFor(Stakeholder stakeholder) => stakeholder == Stakeholder.Board ? BoardAnswers : CaptainAnswers;
 
