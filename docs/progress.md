@@ -6,7 +6,7 @@ Phase 5: first playtest (5 to 8 testers). Plan in `docs/phase-5-plan.md`. Ends a
 ## Phase 5 tasks
 - [x] 1. Saves (seed plus command log, autosave, resume)
 - [x] 2. Telemetry (JSON Lines, mapped to the pass test)
-- [ ] 3. Fast-forward to the next event
+- [x] 3. Fast-forward to the next event
 - [ ] 4. Onboarding (intro, first-season tips, quick-start guide)
 - [ ] 5. Tester builds (macOS and Windows, self-contained)
 - [ ] 6. Playtest kit (briefing, questionnaire, tracker)
@@ -312,4 +312,6 @@ In `content/stakeholders.json`:
   - readable verdicts: `screen` lines for status, fixtures, record, help, verdict and review;
   - context: `session_start` (resumed or not), `session_end`, `invalid` input (first 40 characters), and a `review` summary when the season ends.
 - On first launch the Cli says what's recorded and that nothing is sent, and writes a README.txt in the playtest folder saying the same and what to send back. A restored season keeps appending to its log; replaying a save logs nothing.
-- Next: phase 5 task 3, fast-forward.
+- Fast-forward: `ff` advances until `FastForward.StopReason` (a pure function of the view) finds something that needs the player: news (any notice: a request, a lock, a satisfaction change, a verdict), a match starting, close of play when footholes can be filled, a fixture with no strip whose build-up starts today or tomorrow, likely rain (60% today or tomorrow) on an uncovered strip in its build-up (once a day, so choosing not to cover doesn't stop every turn), or the end of the season; 60 turns at most. Commentary from skipped sessions still prints. The log marks fast-forwarded advances (`ff`) and summarises each fast-forward (turns, why it stopped). Tested over a season that it never skips a turn that needs the player.
+- First version stopped at every match session (132 of 248 stops in a season of only `ff`); narrowed to the start of a match and close of play. A season of only `ff` and no other commands now takes 173 presses instead of 353 turns; about 80 of those stops are a neglectful player's own doing (no strips assigned, nothing covered).
+- Next: phase 5 task 4, onboarding.
