@@ -9,7 +9,7 @@ Phase 5: first playtest (5 to 8 testers). Plan in `docs/phase-5-plan.md`. Ends a
 - [x] 3. Fast-forward to the next event
 - [x] 4. Onboarding (intro, first-season tips, quick-start guide)
 - [x] 5. Tester builds (macOS and Windows, self-contained)
-- [ ] 6. Playtest kit (briefing, questionnaire, tracker)
+- [x] 6. Playtest kit (briefing, questionnaire, tracker)
 - [ ] 7. Telemetry analysis and the Gate C summary
 - [ ] 8. Run the playtest in two waves
 
@@ -317,4 +317,5 @@ In `content/stakeholders.json`:
 - Onboarding: a one-screen introduction in a panel on first launch (the job, the three judges, readings are ranges, the four commands to start with), and again with `intro`. Six first-time tips, each shown once ever (remembered in tips.json in the playtest folder, so later seasons start clean): the season start (choosing strips, spreading wear, centre strips), the first request, the first lock (the build-up routine), the first rain stop, the first match, the first verdict (demerits, repairs and rest). `tips off` turns them off for good. The help gained `intro`, `tips off` and a line of examples. `docs/playtest/guide.md` is the testers' quick-start, with a cricket glossary for sim players and an interface section for cricket people; every claim in it was checked against the game as built.
 - Tester builds: `scripts/publish.sh` publishes the Cli self-contained and single-file for macOS Apple silicon, macOS Intel and Windows x64 into `dist/` (ignored by git), each zipped with its content (the harness's scoring.json left out), a README for its platform (`docs/playtest/readme-macos.txt`, `readme-windows.txt`: how to start it, the unsigned-build step, 80 columns, stopping and resuming, what to send back) and the guide. About 31 MB a zip. It stamps `git describe` into the build as the game version, shown on launch, kept in saves and logged at session start, and warns when building from uncommitted changes. The executable is now `CricketGroundsman`. The Cli sets UTF-8 output so Windows consoles draw the boxes.
 - Checked: the Apple silicon build plays a fresh season to the review with `ff`, and resumes a season quit at turn 36 and plays it to the review; the Intel build plays to the review under Rosetta. The Windows build is built but not yet run: it needs checking in a Windows VM by the user.
-- Next: phase 5 task 6, the playtest kit.
+- Playtest kit in `docs/playtest/`: `briefing.md` (what we're testing and why it's text, time, what the game records, what to send back), `questionnaire.md` (15 short questions: background, then one each for planning ahead, readings, requests turned down, explaining a verdict, pace, playing again, plus context), `tracker.md` (testers by alias only, two waves, builds sent, blockers fixed between waves, and the questionnaire's mapping to the pass test, kept off the questionnaire so it doesn't steer answers). The "two to three hours" for a season is a guess, to check against the first wave's logs.
+- Next: phase 5 task 7, telemetry analysis and the Gate C summary.
