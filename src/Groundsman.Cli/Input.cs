@@ -18,6 +18,8 @@ public sealed record RecordInput : Input;
 
 public sealed record FixturesInput : Input;
 
+public sealed record NewSeasonInput : Input;
+
 /// <summary>Answers a request, numbered as in the messages from 1.</summary>
 public sealed record AnswerInput(int Request, bool Accept) : Input;
 

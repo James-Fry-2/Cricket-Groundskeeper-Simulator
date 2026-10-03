@@ -185,6 +185,47 @@ public static class Format
         return $"{Who(change.Stakeholder)} {(points >= 0 ? "+" : "−")}{Math.Abs(points):0}: {why}.";
     }
 
+    public static string Mood(Groundsman.Core.Pressures.Mood mood) => mood switch
+    {
+        Groundsman.Core.Pressures.Mood.Delighted => "delighted",
+        Groundsman.Core.Pressures.Mood.Content => "content",
+        Groundsman.Core.Pressures.Mood.Uneasy => "uneasy",
+        _ => "unhappy",
+    };
+
+    public static string Wear(Groundsman.Core.Pressures.SquareWear wear) => wear switch
+    {
+        Groundsman.Core.Pressures.SquareWear.Heavy => "Heavily worn",
+        Groundsman.Core.Pressures.SquareWear.Worn => "Worn",
+        Groundsman.Core.Pressures.SquareWear.Light => "Lightly worn",
+        _ => "Fresh",
+    };
+
+    /// <summary>A season's worth of one reason, for the review.</summary>
+    public static string Summary(Groundsman.Core.Pressures.ReasonSummary summary)
+    {
+        var asked = summary.Request is { } kind ? Request(kind) : "";
+        var times = summary.Count == 1 ? "" : $" ({summary.Count} times)";
+        var why = summary.Reason switch
+        {
+            Groundsman.Core.Pressures.SatisfactionReason.RequestDelivered => $"delivered {asked}",
+            Groundsman.Core.Pressures.SatisfactionReason.RequestNotDelivered => $"promised {asked} and didn't deliver",
+            Groundsman.Core.Pressures.SatisfactionReason.RequestDeclined => $"turned down {asked}",
+            Groundsman.Core.Pressures.SatisfactionReason.RequestIgnored => $"never answered a request for {asked}",
+            Groundsman.Core.Pressures.SatisfactionReason.HomeWin => "the county's wins",
+            Groundsman.Core.Pressures.SatisfactionReason.HomeLoss => "the county's defeats",
+            Groundsman.Core.Pressures.SatisfactionReason.DayFourReached => "four-day matches going into day four",
+            Groundsman.Core.Pressures.SatisfactionReason.ShortFourDay => "four-day matches over inside three days",
+            Groundsman.Core.Pressures.SatisfactionReason.NoResult => "matches without a result",
+            Groundsman.Core.Pressures.SatisfactionReason.TelevisedCentre => "televised matches on a centre strip",
+            Groundsman.Core.Pressures.SatisfactionReason.TelevisedOffCentre => "televised matches on an outer strip",
+            Groundsman.Core.Pressures.SatisfactionReason.Demerits => "demerits",
+            _ => "the pitch ratings",
+        };
+        var points = Math.Round(summary.Total, MidpointRounding.AwayFromZero);
+        return $"{(points >= 0 ? "+" : "−")}{Math.Abs(points):0}: {why}{times}";
+    }
+
     public static string Satisfaction(IReadOnlyList<Groundsman.Core.Pressures.StakeholderView> stakeholders) =>
         "Satisfaction: " + string.Join(", ", stakeholders.Select(s => $"{s.Stakeholder} {s.Satisfaction:0}")) + ".";
 

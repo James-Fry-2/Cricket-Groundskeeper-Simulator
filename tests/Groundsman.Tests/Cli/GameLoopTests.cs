@@ -416,4 +416,46 @@ public class GameLoopTests
         Assert.Single(output.Split('\n'), l => l.Contains("The captain asks for"));
         Assert.Equal(Groundsman.Core.Pressures.RequestStatus.Accepted, game.View.Requests[0].Status);
     }
+
+    private static Game OneMatchSeason(ulong seed = 2)
+    {
+        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 5, 20), TestFormats.OneDay, new Groundsman.Core.Strips.StripId(6), TestTeams.Opponent);
+        return new Game(new GameSetup(TestContent.Content, new GameTime(2027, 5, 19, 13), new[] { fixture }, seed));
+    }
+
+    [Fact]
+    public void The_season_ends_with_a_review_and_no_more_advancing()
+    {
+        var console = new TestConsole();
+        console.Profile.Width = 160;
+        var game = OneMatchSeason();
+
+        new GameLoop(console, game, new StringReader("\n\n\n\n\n\n")).Run();
+
+        var output = console.Output;
+        Assert.Single(output.Split('\n'), l => l.Contains("Season review: Test Ground"));
+        Assert.Contains("The captain", output);
+        Assert.Contains("The square at the end of the season:", output);
+        Assert.Contains("6 (1 match)", output);
+        Assert.Contains("The season is over. Type new for another season", output);
+        Assert.Equal(new GameTime(2027, 5, 20, 18), game.View.Now);
+    }
+
+    [Fact]
+    public void New_starts_another_season_once_this_one_is_over()
+    {
+        var console = new TestConsole();
+        console.Profile.Width = 160;
+        var started = 0;
+
+        new GameLoop(console, OneMatchSeason(), new StringReader("new\n\n\n\n\n\nnew\n"), nextSeason: () =>
+        {
+            started++;
+            return OneMatchSeason(9);
+        }).Run();
+
+        Assert.Contains("The season isn't over yet.", console.Output);
+        Assert.Equal(1, started);
+        Assert.Contains("A new season begins.", console.Output);
+    }
 }

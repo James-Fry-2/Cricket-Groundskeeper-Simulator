@@ -42,6 +42,8 @@ public static class InputParser
                 return new RecordInput();
             case ("yes" or "no", 2) when int.TryParse(words[1], out var request):
                 return new AnswerInput(request, words[0] == "yes");
+            case ("new", 1):
+                return new NewSeasonInput();
             case ("x" or "fixtures", 1):
                 return new FixturesInput();
             case ("p" or "pick", 3) when int.TryParse(words[1], out var fixture) && TryStrip(words[2], out var strip):

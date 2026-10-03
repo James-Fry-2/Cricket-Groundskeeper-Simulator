@@ -235,4 +235,10 @@ public class InputParserTests
         Assert.Equal(new AnswerInput(1, false), InputParser.Parse("no 1"));
         Assert.IsType<InvalidInput>(InputParser.Parse("yes"));
     }
+
+    [Fact]
+    public void New_asks_for_another_season()
+    {
+        Assert.IsType<NewSeasonInput>(InputParser.Parse("new"));
+    }
 }

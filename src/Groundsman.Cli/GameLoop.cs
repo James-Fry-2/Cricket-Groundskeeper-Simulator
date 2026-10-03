@@ -11,23 +11,27 @@ namespace Groundsman.Cli;
 public sealed class GameLoop
 {
     private readonly IAnsiConsole _console;
-    private readonly IGame _game;
     private readonly TextReader? _pipedInput;
-    private readonly Func<TruthSnapshot>? _inspect;
+    private readonly Func<IGame>? _nextSeason;
+    private IGame _game;
+    private Func<TruthSnapshot>? _inspect;
     private Groundsman.Core.Fixture? _commentaryFixture;
     private int _commentaryShown;
     private Groundsman.Core.Fixture? _verdictShown;
+    private bool _reviewShown;
 
     /// <param name="pipedInput">
     /// Plain line source for when stdin is redirected, since Spectre's prompts refuse to read it.
     /// </param>
     /// <param name="inspect">Debug mode: shows true values beside readings when given.</param>
-    public GameLoop(IAnsiConsole console, IGame game, TextReader? pipedInput = null, Func<TruthSnapshot>? inspect = null)
+    /// <param name="nextSeason">Starts a new season once this one is over; without it, the season can't be replayed.</param>
+    public GameLoop(IAnsiConsole console, IGame game, TextReader? pipedInput = null, Func<TruthSnapshot>? inspect = null, Func<IGame>? nextSeason = null)
     {
         _console = console;
         _game = game;
         _pipedInput = pipedInput;
         _inspect = inspect;
+        _nextSeason = nextSeason;
     }
 
     public void Run()
@@ -66,6 +70,9 @@ public sealed class GameLoop
                     break;
                 case AnswerInput answer:
                     Answer(answer);
+                    break;
+                case NewSeasonInput:
+                    NewSeason();
                     break;
                 case ReadInput { Strip: null } all:
                     var now = _game.View.Now;
@@ -147,6 +154,12 @@ public sealed class GameLoop
 
     private void Advance()
     {
+        if (_game.View.Review != null)
+        {
+            _console.MarkupLine("[yellow]The season is over. Type new for another season, or q to quit. s, v and x still show this one.[/]");
+            return;
+        }
+
         var result = _game.Advance();
         _console.MarkupLine($"[grey]Advanced {result.HoursRun} hours to {Format.Time(result.To)}[/]");
         var view = _game.View;
@@ -157,6 +170,13 @@ public sealed class GameLoop
             ShowNewCommentary(view);
         }
         ShowVerdictOnce(view);
+        if (view.Review is { } review && !_reviewShown)
+        {
+            _reviewShown = true;
+            ShowReview(review);
+            _console.MarkupLine("[yellow]The season is over. Type new for another season, or q to quit.[/]");
+            return;
+        }
         ShowStatus(withScoreboard: false);
     }
 
@@ -371,6 +391,59 @@ public sealed class GameLoop
         }
     }
 
+    private void NewSeason()
+    {
+        if (_game.View.Review == null)
+        {
+            _console.MarkupLine("[red]The season isn't over yet.[/]");
+            return;
+        }
+        if (_nextSeason == null)
+        {
+            _console.MarkupLine("[red]No new season is available here.[/]");
+            return;
+        }
+
+        _game = _nextSeason();
+        if (_inspect != null && _game is Game game)
+        {
+            _inspect = game.Inspect;
+        }
+        _commentaryFixture = null;
+        _commentaryShown = 0;
+        _verdictShown = null;
+        _reviewShown = false;
+        _console.MarkupLine("[green]A new season begins.[/]");
+        ShowNotices(_game.View);
+        ShowStatus(withScoreboard: true);
+    }
+
+    private void ShowReview(Groundsman.Core.Pressures.SeasonReview review)
+    {
+        var lines = new List<string>();
+        foreach (var stakeholder in review.Stakeholders)
+        {
+            lines.Add($"[bold]{Markup.Escape(Format.Who(stakeholder.Stakeholder))}[/] is {Format.Mood(stakeholder.Mood)} ({stakeholder.Satisfaction:0} of 100).");
+            foreach (var reason in stakeholder.TopReasons)
+            {
+                lines.Add("  " + Markup.Escape(Format.Summary(reason)));
+            }
+        }
+        lines.Add("");
+        lines.Add($"Pitches: very good {review.VeryGood}, satisfactory {review.Satisfactory}, unsatisfactory {review.Unsatisfactory}, unfit {review.Unfit}.");
+        lines.Add($"{Format.Demerits(review.Demerits)} in the last five years{(review.Banned ? ": the ground has lost the right to host." : ".")}");
+        lines.Add($"The county won {review.Wins}, lost {review.Losses}, drew {review.Draws}, no result {review.NoResults}.");
+        lines.Add("");
+        lines.Add("The square at the end of the season:");
+        foreach (var group in review.Square.GroupBy(s => s.Wear).OrderByDescending(g => g.Key))
+        {
+            var strips = string.Join(", ", group.Select(s => $"{s.Strip.Number} ({s.Matches} {(s.Matches == 1 ? "match" : "matches")})"));
+            lines.Add($"  {Format.Wear(group.Key)}: {strips}");
+        }
+
+        _console.Write(new Panel(new Markup(string.Join("\n", lines))).Header($"Season review: {Markup.Escape(_game.View.GroundName)}").Border(BoxBorder.Double));
+    }
+
     private void Answer(AnswerInput answer)
     {
         var requests = _game.View.Requests;
@@ -498,6 +571,7 @@ public sealed class GameLoop
             .AddRow("v", "The season record: every match, its result and the referee's rating")
             .AddRow("x", "The fixture list, with each match's strip and when it locks")
             .AddRow("p <#> <strip>", "Put fixture # on a strip; you can change it until its build-up starts")
+            .AddRow("new", "Once the season is over, start another")
             .AddRow("yes <#> / no <#>", "Accept or turn down request #. Promising and failing costs more than saying no")
             .AddRow("Enter or a", "Advance to the next decision point")
             .AddRow("q", "Quit");

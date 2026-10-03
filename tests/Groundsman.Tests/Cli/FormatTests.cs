@@ -155,4 +155,13 @@ public class FormatTests
         Assert.Equal("The referee −8: Four-day v Test Visitors on Sun 13 Jun was rated unsatisfactory.",
             Format.Change(new Groundsman.Core.Pressures.SatisfactionChange(Groundsman.Core.Pressures.Stakeholder.Referee, -8, Groundsman.Core.Pressures.SatisfactionReason.Rated, fixture, date, grade: Groundsman.Core.Match.PitchGrade.Unsatisfactory)));
     }
+
+    [Fact]
+    public void Review_reasons_sum_up_the_season()
+    {
+        Assert.Equal("−30: promised a green seamer and didn't deliver (2 times)",
+            Format.Summary(new Groundsman.Core.Pressures.ReasonSummary(Groundsman.Core.Pressures.SatisfactionReason.RequestNotDelivered, Groundsman.Core.Pressures.RequestKind.Green, -30, 2)));
+        Assert.Equal("+6: the pitch ratings",
+            Format.Summary(new Groundsman.Core.Pressures.ReasonSummary(Groundsman.Core.Pressures.SatisfactionReason.Rated, null, 6, 1)));
+    }
 }

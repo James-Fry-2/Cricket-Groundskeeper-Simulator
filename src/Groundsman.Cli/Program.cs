@@ -15,7 +15,17 @@ if (debug)
 {
     AnsiConsole.MarkupLine("[magenta]Debug mode: true values shown in magenta.[/]");
 }
-new GameLoop(AnsiConsole.Console, game, Console.IsInputRedirected ? Console.In : null, debug ? game.Inspect : null).Run();
+new GameLoop(
+    AnsiConsole.Console,
+    game,
+    Console.IsInputRedirected ? Console.In : null,
+    debug ? game.Inspect : null,
+    () =>
+    {
+        var next = BitConverter.ToUInt64(RandomNumberGenerator.GetBytes(8));
+        AnsiConsole.MarkupLine($"Seed {next}");
+        return new Game(new GameSetup(content, start, season.Fixtures, next));
+    }).Run();
 
 static ulong? ParseSeed(string[] args)
 {
