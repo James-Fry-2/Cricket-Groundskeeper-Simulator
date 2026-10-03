@@ -186,4 +186,17 @@ public class PitchModelTests
         Assert.Equal(TestPitch.Settings.ConsistencyLastingWeight * 0.2, Model.Explain(worn).LastingWear, 9);
         Assert.Equal(TestPitch.Settings.ConsistencyEndsWeight * 0.7, Model.Explain(thin).ThinEnds, 9);
     }
+
+    [Fact]
+    public void Lasting_wear_also_takes_pace_and_bounce_off_a_tired_strip()
+    {
+        var fresh = Strip();
+        var tired = Strip();
+        tired.LastingWear = 0.1;
+
+        Assert.Equal(Of(fresh).Pace * (1 - TestPitch.Settings.LastingDeadening * 0.1), Of(tired).Pace, 9);
+        Assert.Equal(Of(fresh).Bounce * (1 - TestPitch.Settings.LastingDeadening * 0.1), Of(tired).Bounce, 9);
+        Assert.True(Model.Explain(tired).Tired > 0);
+        Assert.Equal(0, Model.Explain(fresh).Tired);
+    }
 }

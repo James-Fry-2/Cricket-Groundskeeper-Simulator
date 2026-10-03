@@ -1,8 +1,9 @@
 {
   "grassReferenceMm": 10,
   "grassCushion": 0.4,
+  "lastingDeadening": 6,
   "bounce": { "depthBase": 0.6, "clayReference": 30, "clayExponent": 0.5 },
-  "consistency": { "damageWeight": 0.6, "looseBelow": 0.65, "looseWeight": 1.0, "crackWeight": 0.4, "footholeWeight": 0.4, "surfaceWearWeight": 0.2, "lastingWeight": 1.0, "endsWeight": 0.15 },
+  "consistency": { "damageWeight": 0.6, "looseBelow": 0.65, "looseWeight": 1.0, "crackWeight": 0.4, "footholeWeight": 0.4, "surfaceWearWeight": 0.2, "lastingWeight": 3.0, "endsWeight": 0.15 },
   "seam": { "base": 0.3, "wetWeight": 0.7 },
   "spin": { "dryWeight": 0.6, "crackWeight": 0.3, "grassWeight": 0.4, "roughWeight": 0.5, "surfaceWearWeight": 0.4 }
 }

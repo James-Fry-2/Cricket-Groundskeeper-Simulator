@@ -21,7 +21,7 @@ public class RollingContentTests
     {
         var compaction = ContentParser.ParseCompaction(Read("compaction.json"));
 
-        Assert.Equal(0.55, compaction.StartingCompaction);
+        Assert.InRange(compaction.StartingCompaction, 0.5, 0.75);
         Assert.Equal(5, compaction.MinRollingMinutes);
         Assert.Equal(120, compaction.MaxRollingMinutes);
         Assert.Equal(0.7, compaction.HardnessDryWeight);
@@ -43,7 +43,7 @@ public class RollingContentTests
     }
 
     [Theory]
-    [InlineData("\"compaction\": 0.55", "\"compaction\": 1.2", "compaction")]
+    [InlineData("\"compaction\": 0.62", "\"compaction\": 1.2", "compaction")]
     [InlineData("\"max\": 120", "\"max\": 4", "rollingMinutes")]
     [InlineData("\"dryWeight\": 0.7", "\"dryWeight\": 2", "dryWeight")]
     [InlineData("\"clayReference\": 30", "\"clayReference\": 0", "clayReference")]

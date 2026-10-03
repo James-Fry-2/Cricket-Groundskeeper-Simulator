@@ -18,6 +18,7 @@ namespace Groundsman.Core.Pitch
             double crackSpin,
             double wearSpin,
             double cushion,
+            double tired,
             double wetness)
         {
             GrassSeam = grassSeam;
@@ -34,6 +35,7 @@ namespace Groundsman.Core.Pitch
             CrackSpin = crackSpin;
             WearSpin = wearSpin;
             Cushion = cushion;
+            Tired = tired;
             Wetness = wetness;
         }
 
@@ -57,6 +59,9 @@ namespace Groundsman.Core.Pitch
 
         /// <summary>Share of pace and bounce long grass is taking off.</summary>
         public double Cushion { get; }
+
+        /// <summary>Share of pace and bounce a strip tired by earlier matches has lost.</summary>
+        public double Tired { get; }
 
         /// <summary>How wet the surface is, 0 at air-dry to 1 at field capacity.</summary>
         public double Wetness { get; }

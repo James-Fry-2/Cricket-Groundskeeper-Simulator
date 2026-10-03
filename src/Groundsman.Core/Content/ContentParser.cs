@@ -424,6 +424,7 @@ namespace Groundsman.Core.Content
             return new PitchSettings(
                 Required(file, "grassReferenceMm", dto.GrassReferenceMm),
                 Required(file, "grassCushion", dto.GrassCushion),
+                Required(file, "lastingDeadening", dto.LastingDeadening),
                 Required(file, "bounce.depthBase", bounce.DepthBase),
                 Required(file, "bounce.clayReference", bounce.ClayReference),
                 Required(file, "bounce.clayExponent", bounce.ClayExponent),
@@ -1134,6 +1135,7 @@ namespace Groundsman.Core.Content
         {
             public double? GrassReferenceMm { get; set; }
             public double? GrassCushion { get; set; }
+            public double? LastingDeadening { get; set; }
             public BounceDto? Bounce { get; set; }
             public ConsistencyDto? Consistency { get; set; }
             public SeamDto? Seam { get; set; }

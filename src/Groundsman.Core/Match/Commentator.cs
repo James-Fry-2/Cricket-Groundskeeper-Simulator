@@ -69,7 +69,7 @@ namespace Groundsman.Core.Match
                 .Concat(seamCauses.Select(c => (c.Item1, c.Item2 * attack.Seam)))
                 .Concat(spinCauses.Select(c => (c.Item1, c.Item2 * attack.Spin)))
                 .ToArray();
-            var deadCauses = new[] { ("loose", drivers.Loose * 2), ("longGrass", drivers.Cushion), ("wet", drivers.Wetness * 0.5) };
+            var deadCauses = new[] { ("loose", drivers.Loose * 2), ("longGrass", drivers.Cushion), ("wet", drivers.Wetness * 0.5), ("lastingWear", drivers.Tired) };
 
             Raise(match, hour, strip, innings, "seam", pitch.Seam >= Threshold("seam"), seamCauses, wickets);
             Raise(match, hour, strip, innings, "dead", pitch.Carry <= Threshold("dead"), deadCauses, wickets);

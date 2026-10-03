@@ -7,6 +7,7 @@ internal static class TestPitch
     public static PitchSettings Settings { get; } = new PitchSettings(
         grassReferenceMm: 10,
         grassCushion: 0.4,
+        lastingDeadening: 3,
         bounceDepthBase: 0.6,
         bounceClayReference: 30,
         bounceClayExponent: 0.5,

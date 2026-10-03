@@ -131,7 +131,7 @@ namespace Groundsman.Core.Match
 
         private string DeadCause(MatchState match, MatchHour slowest) =>
             CommentaryCause(match, "dead")
-            ?? CauseText(Biggest(("loose", slowest.Drivers.Loose * 2), ("longGrass", slowest.Drivers.Cushion), ("wet", slowest.Drivers.Wetness * 0.5)), slowest);
+            ?? CauseText(Biggest(("loose", slowest.Drivers.Loose * 2), ("longGrass", slowest.Drivers.Cushion), ("wet", slowest.Drivers.Wetness * 0.5), ("lastingWear", slowest.Drivers.Tired)), slowest);
 
         private static string? CommentaryCause(MatchState match, params string[] eventIds) =>
             match.Commentary.FirstOrDefault(c => c.EventId != null && eventIds.Contains(c.EventId) && c.CauseText != null)?.CauseText;

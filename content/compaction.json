@@ -1,5 +1,5 @@
 {
-  "starting": { "compaction": 0.55, "structureDamage": 0 },
+  "starting": { "compaction": 0.62, "structureDamage": 0 },
   "rollingMinutes": { "min": 5, "max": 120 },
   "wetDamagePerPoint": 0.1,
   "hardness": { "dryWeight": 0.7, "clayReference": 30, "clayExponent": 0.5 }

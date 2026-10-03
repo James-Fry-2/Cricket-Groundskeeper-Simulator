@@ -1007,8 +1007,8 @@
     "satisfaction": "Captain:35 Board:50 Referee:52",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.913365 bounce 4.993491 true 7.443966 carry 4.42056 seam 4.467669 spin 0.746172 cracks 0.230471",
-      "pace 2.267325 bounce 4.437148 true 8.499852 carry 3.171822 seam 6.066756 spin 0 cracks 0",
+      "pace 3.42727 bounce 4.37323 true 7.443966 carry 3.871465 seam 4.467669 spin 0.746172 cracks 0.230471",
+      "pace 2.209287 bounce 4.323567 true 8.499852 carry 3.090631 seam 6.066756 spin 0 cracks 0",
       "pace 2.338876 bounce 4.597956 true 9.099785 carry 3.279336 seam 6.520563 spin 0 cracks 0",
       "pace 2.187531 bounce 4.482478 true 9 carry 3.131383 seam 7.157729 spin 0 cracks 0",
       "pace 2.145318 bounce 4.156243 true 9 carry 2.986045 seam 7.248251 spin 0 cracks 0",
@@ -1062,8 +1062,8 @@
     "satisfaction": "Captain:35 Board:50 Referee:52",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.262707 bounce 4.988557 true 7.461246 carry 4.611373 seam 4.172533 spin 1.156222 cracks 0.230471",
-      "pace 2.709363 bounce 4.43275 true 8.513213 carry 3.465535 seam 5.615061 spin 0 cracks 0",
+      "pace 3.733219 bounce 4.368909 true 7.461246 carry 4.038576 seam 4.172533 spin 1.156222 cracks 0.230471",
+      "pace 2.64001 bounce 4.319281 true 8.513213 carry 3.376825 seam 5.615061 spin 0 cracks 0",
       "pace 3.045548 bounce 4.590336 true 9.099785 carry 3.738996 seam 5.701579 spin 0 cracks 0",
       "pace 2.863499 bounce 4.446853 true 9 carry 3.568411 seam 6.157795 spin 0 cracks 0",
       "pace 2.819805 bounce 4.193638 true 9.09 carry 3.438785 seam 6.241857 spin 0 cracks 0",
@@ -1112,8 +1112,8 @@
     "satisfaction": "Captain:35 Board:50 Referee:52",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.635979 bounce 4.979496 true 7.422324 carry 4.804668 seam 3.814963 spin 1.624329 cracks 0.237046",
-      "pace 3.042741 bounce 4.42901 true 8.287665 carry 3.671012 seam 5.215027 spin 0 cracks 0",
+      "pace 4.060125 bounce 4.360973 true 7.422324 carry 4.207861 seam 3.814963 spin 1.624329 cracks 0.237046",
+      "pace 2.964853 bounce 4.315637 true 8.287665 carry 3.577042 seam 5.215027 spin 0 cracks 0",
       "pace 3.554718 bounce 4.583624 true 9.05528 carry 4.03652 seam 5.087117 spin 0 cracks 0",
       "pace 3.346652 bounce 4.42166 true 9 carry 3.846785 seam 5.4348 spin 0 cracks 0",
       "pace 3.276994 bounce 4.172187 true 9.09 carry 3.697598 seam 5.514488 spin 0 cracks 0",
@@ -1134,7 +1134,7 @@
       "04-22 rain 0 to 7.941838 chance 0.27644, high 13.286993 to 20.786993",
       "04-23 rain 0 to 8.816765 chance 0.283625, high 12.220667 to 20.620667"
     ],
-    "match": "Test Visitors 145-3 (33.3) ",
+    "match": "Test Visitors 143-3 (33.3) ",
     "commentary": [],
     "rating": null,
     "demerits": 0,
@@ -1162,8 +1162,8 @@
     "satisfaction": "Captain:35 Board:50 Referee:52",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.835299 bounce 4.972205 true 7.376734 carry 4.903274 seam 3.62939 spin 1.87182 cracks 0.26536",
-      "pace 3.295267 bounce 4.425862 true 8.080082 carry 3.818952 seam 4.900531 spin 0.309279 cracks 0",
+      "pace 4.234687 bounce 4.354587 true 7.376734 carry 4.294219 seam 3.62939 spin 1.87182 cracks 0.26536",
+      "pace 3.210916 bounce 4.31257 true 8.080082 carry 3.721196 seam 4.900531 spin 0.309279 cracks 0",
       "pace 3.834156 bounce 4.578976 true 9.017206 carry 4.190049 seam 4.75431 spin 0.172421 cracks 0",
       "pace 3.606059 bounce 4.402956 true 9 carry 3.984635 seam 5.040008 spin 0 cracks 0",
       "pace 3.779073 bounce 4.456631 true 9.09 carry 4.103892 seam 4.12608 spin 0.578114 cracks 0",
@@ -1184,9 +1184,9 @@
       "04-22 rain 0 to 7.941838 chance 0.27644, high 13.286993 to 20.786993",
       "04-23 rain 0 to 8.816765 chance 0.283625, high 12.220667 to 20.620667"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 64-2 (16.7) ",
+    "match": "Test Visitors 220-6 (50) / Test County 63-2 (16.7) ",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6"
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6"
     ],
     "rating": null,
     "demerits": 0,
@@ -1214,9 +1214,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.95009 bounce 4.966826 true 7.075649 carry 4.958451 seam 3.523788 spin 2.015043 cracks 0.295066",
-      "pace 2.909588 bounce 4.423152 true 6.495701 carry 3.587416 seam 5.382233 spin 0 cracks 0",
-      "pace 3.995372 bounce 4.575171 true 8.726126 carry 4.275455 seam 4.56318 spin 0.399061 cracks 0",
+      "pace 4.239824 bounce 4.254159 true 7.075649 carry 4.246985 seam 3.523788 spin 2.015043 cracks 0.295066",
+      "pace 2.29193 bounce 3.48419 true 6.495701 carry 2.825867 seam 5.382233 spin 0 cracks 0",
+      "pace 3.918375 bounce 4.487001 true 8.726126 carry 4.19306 seam 4.56318 spin 0.399061 cracks 0",
       "pace 3.753538 bounce 4.389662 true 9 carry 4.059158 seam 4.812789 spin 0.211714 cracks 0",
       "pace 3.938958 bounce 4.453565 true 9.09 carry 4.188366 seam 3.961218 spin 0.806964 cracks 0",
       "pace 2.322809 bounce 2.652114 true 9 carry 2.482006 seam 5.505988 spin 0 cracks 0",
@@ -1236,13 +1236,13 @@
       "04-22 rain 0 to 7.941838 chance 0.27644, high 13.286993 to 20.786993",
       "04-23 rain 0 to 8.816765 chance 0.283625, high 12.220667 to 20.620667"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 13.195902 to 22.279235",
@@ -1268,9 +1268,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 5.084232 bounce 4.939856 true 6.998639 carry 5.011524 seam 3.452138 spin 2.184193 cracks 0.543834",
-      "pace 3.193648 bounce 4.419786 true 6.519727 carry 3.757025 seam 5.135741 spin 0.3423 cracks 0",
-      "pace 4.241099 bounce 4.556884 true 8.730881 carry 4.396157 seam 4.322761 spin 0.714158 cracks 0.032551",
+      "pace 4.354719 bounce 4.231058 true 6.998639 carry 4.292443 seam 3.452138 spin 2.184193 cracks 0.543834",
+      "pace 2.515689 bounce 3.481538 true 6.519727 carry 2.959471 seam 5.135741 spin 0.3423 cracks 0",
+      "pace 4.159367 bounce 4.469066 true 8.730881 carry 4.311437 seam 4.322761 spin 0.714158 cracks 0.032551",
       "pace 3.953488 bounce 4.334836 true 8.992455 carry 4.139773 seam 4.477579 spin 0.580396 cracks 0.018863",
       "pace 4.188957 bounce 4.438191 true 9.07571 carry 4.311774 seam 3.751826 spin 1.136968 cracks 0.035725",
       "pace 2.466697 bounce 2.641844 true 8.986933 carry 2.552769 seam 5.111837 spin 0.144607 cracks 0.032669",
@@ -1290,13 +1290,13 @@
       "04-23 rain 0 to 4.638746 chance 0.19194, high 13.542678 to 21.042678",
       "04-24 rain 0.025206 to 15.325206 chance 0.524363, high 8.384948 to 16.784948"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 12.925069 to 22.550069",
@@ -1322,9 +1322,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.732877 bounce 4.910779 true 6.987068 carry 4.821008 seam 4.027823 spin 1.560574 cracks 0.690161",
-      "pace 3.359273 bounce 4.409055 true 6.57079 carry 3.848534 seam 5.154356 spin 0.404892 cracks 0",
-      "pace 4.021002 bounce 4.484043 true 8.759464 carry 4.246215 seam 4.63503 spin 0.407972 cracks 0.054465",
+      "pace 4.053778 bounce 4.206154 true 6.987068 carry 4.129263 seam 4.027823 spin 1.560574 cracks 0.690161",
+      "pace 2.646155 bounce 3.473085 true 6.57079 carry 3.031554 seam 5.154356 spin 0.404892 cracks 0",
+      "pace 3.943511 bounce 4.397629 true 8.759464 carry 4.164384 seam 4.63503 spin 0.407972 cracks 0.054465",
       "pace 3.725895 bounce 4.237137 true 8.985692 carry 3.973302 seam 4.742288 spin 0.309966 cracks 0.035769",
       "pace 4.023929 bounce 4.420376 true 9.066421 carry 4.217497 seam 4.149603 spin 0.755322 cracks 0.058947",
       "pace 2.366241 bounce 2.629629 true 8.978215 carry 2.494461 seam 5.412507 spin 0 cracks 0.054462",
@@ -1344,13 +1344,13 @@
       "04-24 rain 0 to 9.479965 chance 0.330099, high 10.624413 to 18.124413",
       "04-25 rain 0 to 5.797277 chance 0.21627, high 7.08561 to 15.48561"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 12.132605 to 23.342532",
@@ -1376,9 +1376,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.625381 bounce 5.017215 true 7.31491 carry 3.629339 seam 6.839985 spin 0 cracks 0",
-      "pace 2.259019 bounce 4.597277 true 6.632841 carry 3.222629 seam 6.864554 spin 0 cracks 0",
-      "pace 2.281879 bounce 4.526147 true 8.823252 carry 3.213739 seam 7.068021 spin 0 cracks 0",
+      "pace 2.248677 bounce 4.297318 true 7.31491 carry 3.108582 seam 6.839985 spin 0 cracks 0",
+      "pace 1.779467 bounce 3.621351 true 6.632841 carry 2.538518 seam 6.864554 spin 0 cracks 0",
+      "pace 2.237904 bounce 4.438922 true 8.823252 carry 3.151806 seam 7.068021 spin 0 cracks 0",
       "pace 2.276325 bounce 4.567234 true 9 carry 3.224361 seam 6.057888 spin 0 cracks 0",
       "pace 2.313574 bounce 4.543072 true 9.09 carry 3.242026 seam 6.679352 spin 0 cracks 0",
       "pace 1.365795 bounce 2.702873 true 9 carry 1.921346 seam 8.259823 spin 0 cracks 0",
@@ -1398,13 +1398,13 @@
       "04-25 rain 0 to 8.463611 chance 0.293461, high 12.983706 to 20.483706",
       "04-26 rain 1.173749 to 16.473749 chance 0.581933, high 6.133052 to 14.533052"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 10.011956 to 25.463181",
@@ -1430,9 +1430,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.344709 bounce 4.995098 true 7.365189 carry 4.658567 seam 4.924338 spin 0.41357 cracks 0",
-      "pace 3.661247 bounce 4.47069 true 6.693065 carry 4.045776 seam 4.797966 spin 0.764011 cracks 0",
-      "pace 3.725317 bounce 4.417764 true 8.863968 carry 4.056793 seam 4.904323 spin 0.119936 cracks 0",
+      "pace 3.721307 bounce 4.278374 true 7.365189 carry 3.99013 seam 4.924338 spin 0.41357 cracks 0",
+      "pace 2.884025 bounce 3.521637 true 6.693065 carry 3.186925 seam 4.797966 spin 0.764011 cracks 0",
+      "pace 3.653524 bounce 4.332627 true 8.863968 carry 3.978613 seam 4.904323 spin 0.119936 cracks 0",
       "pace 3.773671 bounce 4.533752 true 9 carry 4.136289 seam 4.439813 spin 0.416656 cracks 0",
       "pace 3.853507 bounce 4.518313 true 9.09 carry 4.172691 seam 4.833126 spin 0.171421 cracks 0",
       "pace 2.271201 bounce 2.686388 true 9 carry 2.470086 seam 5.724175 spin 0 cracks 0",
@@ -1452,13 +1452,13 @@
       "04-26 rain 0 to 3.543251 chance 0.171028, high 7.399204 to 14.899204",
       "04-27 rain 0 to 12.361939 chance 0.396123, high 13.223029 to 21.623029"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 9.511956 to 25.963181",
@@ -1484,9 +1484,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.951027 bounce 4.913223 true 7.309113 carry 4.932089 seam 4.190142 spin 1.235473 cracks 0.26571",
-      "pace 4.102627 bounce 4.32826 true 6.688721 carry 4.213934 seam 4.060225 spin 1.560909 cracks 0.159157",
-      "pace 4.194039 bounce 4.291525 true 8.821874 carry 4.242502 seam 4.115736 spin 1.024348 cracks 0.185167",
+      "pace 4.240626 bounce 4.208247 true 7.309113 carry 4.224406 seam 4.190142 spin 1.235473 cracks 0.26571",
+      "pace 3.231707 bounce 3.409442 true 6.688721 carry 3.319385 seam 4.060225 spin 1.560909 cracks 0.159157",
+      "pace 4.113214 bounce 4.208821 true 8.821874 carry 4.160743 seam 4.115736 spin 1.024348 cracks 0.185167",
       "pace 4.319037 bounce 4.480212 true 8.931556 carry 4.398886 seam 3.92593 spin 1.15995 cracks 0.17111",
       "pace 4.424227 bounce 4.473203 true 9.014539 carry 4.448648 seam 4.217295 spin 0.951919 cracks 0.188653",
       "pace 2.604534 bounce 2.657809 true 8.927064 carry 2.631036 seam 4.797095 spin 0.491374 cracks 0.182339",
@@ -1506,13 +1506,13 @@
       "04-27 rain 0 to 9.530791 chance 0.332059, high 12.955655 to 20.455655",
       "04-28 rain 0 to 11.966877 chance 0.381459, high 10.263948 to 18.663948"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 9.011956 to 26.463181",
@@ -1538,9 +1538,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 5.106841 bounce 4.791402 true 7.137007 carry 4.946608 seam 3.895864 spin 1.650693 cracks 0.809481",
-      "pace 4.207557 bounce 4.194991 true 6.598139 carry 4.201269 seam 3.809469 spin 1.885523 cracks 0.518615",
-      "pace 4.312519 bounce 4.170108 true 8.671845 carry 4.240716 seam 3.842567 spin 1.439253 cracks 0.586989",
+      "pace 4.374084 bounce 4.103906 true 7.137007 carry 4.236842 seam 3.895864 spin 1.650693 cracks 0.809481",
+      "pace 3.314362 bounce 3.304463 true 6.598139 carry 3.309409 seam 3.809469 spin 1.885523 cracks 0.518615",
+      "pace 4.22941 bounce 4.089744 true 8.671845 carry 4.158991 seam 3.842567 spin 1.439253 cracks 0.586989",
       "pace 4.512017 bounce 4.423183 true 8.780532 carry 4.467379 seam 3.829918 spin 1.430848 cracks 0.548669",
       "pace 4.572321 bounce 4.368457 true 8.852766 carry 4.469227 seam 3.956704 spin 1.350469 cracks 0.593084",
       "pace 2.72331 bounce 2.626173 true 8.769132 carry 2.674301 seam 4.474169 spin 0.905586 cracks 0.57717",
@@ -1560,13 +1560,13 @@
       "04-28 rain 0 to 8.586894 chance 0.297654, high 15.249089 to 22.749089",
       "04-29 rain 0 to 9.645802 chance 0.306298, high 11.459623 to 19.859623"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 8.511956 to 26.963181",
@@ -1592,9 +1592,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 5.133805 bounce 4.675483 true 6.923576 carry 4.899288 seam 3.775037 spin 1.926893 cracks 1.432413",
-      "pace 4.211654 bounce 4.071735 true 6.476778 carry 4.141104 seam 3.710591 spin 2.067016 cracks 0.945921",
-      "pace 4.768414 bounce 4.473039 true 8.49295 carry 4.618366 seam 3.120203 spin 2.232514 cracks 1.05921",
+      "pace 4.397179 bounce 4.004619 true 6.923576 carry 4.196311 seam 3.775037 spin 1.926893 cracks 1.432413",
+      "pace 3.31759 bounce 3.207373 true 6.476778 carry 3.262016 seam 3.710591 spin 2.067016 cracks 0.945921",
+      "pace 4.67652 bounce 4.386837 true 8.49295 carry 4.529363 seam 3.120203 spin 2.232514 cracks 1.05921",
       "pace 4.570626 bounce 4.345847 true 8.602077 carry 4.45682 seam 3.817494 spin 1.600782 cracks 0.994807",
       "pace 4.593181 bounce 4.25773 true 8.663067 carry 4.422276 seam 3.838454 spin 1.615594 cracks 1.067333",
       "pace 2.77419 bounce 2.595311 true 8.58346 carry 2.68326 seam 4.34254 spin 1.165087 cracks 1.04135",
@@ -1614,13 +1614,13 @@
       "04-29 rain 0 to 9.807749 chance 0.342961, high 14.042185 to 21.542185",
       "04-30 rain 0 to 14.183037 chance 0.47118, high 13.666464 to 22.066464"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 8.011956 to 27.463181",
@@ -1646,9 +1646,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 5.104322 bounce 4.578005 true 6.702107 carry 4.834006 seam 3.747589 spin 2.119003 cracks 2.048249",
-      "pace 4.172327 bounce 3.969926 true 6.342988 carry 4.069869 seam 3.696431 spin 2.168892 cracks 1.378158",
-      "pace 4.790678 bounce 4.424085 true 8.310535 carry 4.603734 seam 3.208177 spin 2.308434 cracks 1.53499",
+      "pace 4.371926 bounce 3.921128 true 6.702107 carry 4.140396 seam 3.747589 spin 2.119003 cracks 2.048249",
+      "pace 3.286611 bounce 3.127177 true 6.342988 carry 3.205903 seam 3.696431 spin 2.168892 cracks 1.378158",
+      "pace 4.698355 bounce 4.338827 true 8.310535 carry 4.515013 seam 3.208177 spin 2.308434 cracks 1.53499",
       "pace 4.536256 bounce 4.24564 true 8.421833 carry 4.388543 seam 3.798908 spin 1.757342 cracks 1.445419",
       "pace 4.563659 bounce 4.165012 true 8.471856 carry 4.359781 seam 3.81369 spin 1.785632 cracks 1.545359",
       "pace 2.787319 bounce 2.567128 true 8.396177 carry 2.674959 seam 4.31564 spin 1.330241 cracks 1.509558",
@@ -1668,13 +1668,13 @@
       "04-30 rain 0 to 3.867353 chance 0.176913, high 5.966856 to 13.466856",
       "05-01 rain 0 to 0 chance 0.101603, high 8.386042 to 16.786042"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 7.511956 to 27.963181",
@@ -1700,9 +1700,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 5.074295 bounce 4.498198 true 6.487862 carry 4.777571 seam 3.737904 spin 2.287976 cracks 2.630193",
-      "pace 4.137657 bounce 3.887597 true 6.205114 carry 4.010679 seam 3.694013 spin 2.26456 cracks 1.795543",
-      "pace 4.800556 bounce 4.379627 true 8.133241 carry 4.585263 seam 3.281305 spin 2.385612 cracks 1.992924",
+      "pace 4.346207 bounce 3.852772 true 6.487862 carry 4.092059 seam 3.737904 spin 2.287976 cracks 2.630193",
+      "pace 3.259301 bounce 3.062324 true 6.205114 carry 3.159278 seam 3.694013 spin 2.26456 cracks 1.795543",
+      "pace 4.708042 bounce 4.295225 true 8.133241 carry 4.496899 seam 3.281305 spin 2.385612 cracks 1.992924",
       "pace 4.504401 bounce 4.16405 true 8.247959 carry 4.330883 seam 3.794171 spin 1.894096 cracks 1.880103",
       "pace 4.534736 bounce 4.089279 true 8.287695 carry 4.306252 seam 3.805571 spin 1.932991 cracks 2.005762",
       "pace 2.793161 bounce 2.541514 true 8.215695 carry 2.664368 seam 4.306811 spin 1.473766 cracks 1.960762",
@@ -1722,13 +1722,13 @@
       "05-01 rain 0 to 8.109334 chance 0.27201, high 13.303599 to 20.803599",
       "05-02 rain 0 to 12.976499 chance 0.408239, high 10.136756 to 18.536756"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 7.011956 to 28.463181",
@@ -1754,9 +1754,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.497506 bounce 4.443098 true 6.379783 carry 4.47022 seam 4.517873 spin 1.574969 cracks 2.941272",
-      "pace 3.650023 bounce 3.828164 true 6.152755 carry 3.738032 seam 4.431448 spin 1.499882 cracks 1.990445",
-      "pace 4.279719 bounce 4.354671 true 8.045387 carry 4.317033 seam 4.034191 spin 1.602717 cracks 2.225516",
+      "pace 3.85218 bounce 3.805578 true 6.379783 carry 3.828808 seam 4.517873 spin 1.574969 cracks 2.941272",
+      "pace 2.875184 bounce 3.015508 true 6.152755 carry 2.94451 seam 4.431448 spin 1.499882 cracks 1.990445",
+      "pace 4.197243 bounce 4.270751 true 8.045387 carry 4.233837 seam 4.034191 spin 1.602717 cracks 2.225516",
       "pace 3.981029 bounce 4.106158 true 8.162611 carry 4.043109 seam 4.560626 spin 1.165342 cracks 2.093472",
       "pace 4.014618 bounce 4.036336 true 8.191417 carry 4.025462 seam 4.588832 spin 1.213092 cracks 2.246456",
       "pace 2.490478 bounce 2.527205 true 8.123321 carry 2.508774 seam 5.180443 spin 0.754854 cracks 2.191698",
@@ -1776,13 +1776,13 @@
       "05-02 rain 0 to 10.345262 chance 0.353979, high 9.475877 to 16.975877",
       "05-03 rain 0 to 10.560594 chance 0.323006, high 19.370176 to 27.770176"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 6.250445 to 29.224692",
@@ -1808,9 +1808,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.419315 bounce 4.387474 true 6.327893 carry 3.873262 seam 6.030532 spin 0.079825 cracks 3.122314",
-      "pace 3.126326 bounce 4.2653 true 6.139171 carry 3.651673 seam 4.769522 spin 0.575311 cracks 2.104372",
-      "pace 3.279728 bounce 4.337701 true 7.997376 carry 3.771801 seam 5.485599 spin 0.050529 cracks 2.361768",
+      "pace 2.928693 bounce 3.757935 true 6.327893 carry 3.317505 seam 6.030532 spin 0.079825 cracks 3.122314",
+      "pace 2.462659 bounce 3.359847 true 6.139171 carry 2.876483 seam 4.769522 spin 0.575311 cracks 2.104372",
+      "pace 3.216523 bounce 4.254107 true 7.997376 carry 3.699113 seam 5.485599 spin 0.050529 cracks 2.361768",
       "pace 3.018477 bounce 4.048196 true 8.112634 carry 3.495624 seam 6.025948 spin 0 cracks 2.218415",
       "pace 3.048771 bounce 3.983056 true 8.134948 carry 3.484742 seam 6.099293 spin 0 cracks 2.387629",
       "pace 1.908798 bounce 2.517499 true 8.069166 carry 2.192122 seam 6.854974 spin 0 cracks 2.327085",
@@ -1830,13 +1830,13 @@
       "05-03 rain 0 to 13.205168 chance 0.496792, high 14.41855 to 21.91855",
       "05-04 rain 0 to 3.271364 chance 0.167501, high 8.214628 to 16.614628"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 5.215387 to 30.259751",
@@ -1862,9 +1862,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.509012 bounce 4.346404 true 6.346843 carry 3.302299 seam 7.333244 spin 0 cracks 3.122314",
-      "pace 2.310541 bounce 4.260613 true 6.164817 carry 3.137566 seam 5.911206 spin 0 cracks 2.104372",
-      "pace 2.425766 bounce 4.333756 true 8.00336 carry 3.242326 seam 6.796429 spin 0 cracks 2.361768",
+      "pace 2.149005 bounce 3.722758 true 6.346843 carry 2.828467 seam 7.333244 spin 0 cracks 3.122314",
+      "pace 1.820051 bounce 3.356156 true 6.164817 carry 2.471513 seam 5.911206 spin 0 cracks 2.104372",
+      "pace 2.379018 bounce 4.250238 true 8.00336 carry 3.179842 seam 6.796429 spin 0 cracks 2.361768",
       "pace 2.211048 bounce 4.006611 true 8.112634 carry 2.976375 seam 7.281891 spin 0 cracks 2.218415",
       "pace 2.235472 bounce 3.944178 true 8.134948 carry 2.96936 seam 7.397578 spin 0 cracks 2.387629",
       "pace 1.411889 bounce 2.515249 true 8.069166 carry 1.884477 seam 8.285472 spin 0 cracks 2.327085",
@@ -1884,13 +1884,13 @@
       "05-04 rain 0 to 5.541028 chance 0.203503, high 8.476578 to 15.976578",
       "05-05 rain 0 to 12.975837 chance 0.408212, high 14.092979 to 22.492979"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 4.182245 to 31.292892",
@@ -1916,9 +1916,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.303904 bounce 4.303757 true 6.366412 carry 3.770836 seam 6.136999 spin 0 cracks 3.122314",
-      "pace 3.11497 bounce 4.255366 true 6.187279 carry 3.640788 seam 5.079518 spin 0.349165 cracks 2.104372",
-      "pace 3.295492 bounce 4.395232 true 8.095973 carry 3.805844 seam 5.817438 spin 0 cracks 2.361768",
+      "pace 2.829842 bounce 3.686231 true 6.366412 carry 3.229776 seam 6.136999 spin 0 cracks 3.122314",
+      "pace 2.453713 bounce 3.352022 true 6.187279 carry 2.867909 seam 5.079518 spin 0.349165 cracks 2.104372",
+      "pace 3.231983 bounce 4.31053 true 8.095973 carry 3.7325 seam 5.817438 spin 0 cracks 2.361768",
       "pace 2.93984 bounce 3.963434 true 8.112634 carry 3.413483 seam 6.088241 spin 0 cracks 2.218415",
       "pace 2.955089 bounce 3.903809 true 8.134948 carry 3.396484 seam 6.188264 spin 0 cracks 2.387629",
       "pace 1.888098 bounce 2.512725 true 8.069166 carry 2.178135 seam 6.914565 spin 0 cracks 2.327085",
@@ -1938,13 +1938,13 @@
       "05-05 rain 0 to 4.859743 chance 0.188937, high 10.197043 to 17.697043",
       "05-06 rain 0 to 11.774489 chance 0.363166, high 16.217032 to 24.617032"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 3.682245 to 31.792892",
@@ -1970,9 +1970,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.902456 bounce 4.257108 true 6.387957 carry 4.075926 seam 5.203469 spin 0.877205 cracks 3.122314",
-      "pace 3.742708 bounce 4.249945 true 6.211977 carry 3.988271 seam 4.430064 spin 1.214769 cracks 2.104372",
-      "pace 3.945369 bounce 4.390581 true 8.102769 carry 4.162026 seam 5.053316 spin 0.71991 cracks 2.361768",
+      "pace 3.34251 bounce 3.646275 true 6.387957 carry 3.49109 seam 5.203469 spin 0.877205 cracks 3.122314",
+      "pace 2.948193 bounce 3.347752 true 6.211977 carry 3.141627 seam 4.430064 spin 1.214769 cracks 2.104372",
+      "pace 3.869336 bounce 4.305968 true 8.102769 carry 4.081818 seam 5.053316 spin 0.71991 cracks 2.361768",
       "pace 3.487366 bounce 3.916327 true 8.112634 carry 3.695628 seam 5.156687 spin 0.604216 cracks 2.218415",
       "pace 3.496368 bounce 3.859695 true 8.134948 carry 3.673543 seam 5.244517 spin 0.608098 cracks 2.387629",
       "pace 2.25971 bounce 2.510111 true 8.069166 carry 2.381622 seam 5.844775 spin 0.196073 cracks 2.327085",
@@ -1992,13 +1992,13 @@
       "05-06 rain 0 to 2.367712 chance 0.145422, high 12.015262 to 19.515262",
       "05-07 rain 0 to 4.182544 chance 0.180911, high 6.016224 to 14.416224"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 3.182245 to 32.292892",
@@ -2024,9 +2024,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.909884 bounce 4.690991 true 6.356651 carry 4.799189 seam 3.60272 spin 2.331777 cracks 3.253062",
-      "pace 4.257444 bounce 4.232922 true 6.198241 carry 4.245165 seam 3.877457 spin 1.935371 cracks 2.198679",
-      "pace 4.456628 bounce 4.342667 true 8.067445 carry 4.399278 seam 4.303235 spin 1.542357 cracks 2.466607",
+      "pace 4.205387 bounce 4.017902 true 6.356651 carry 4.110575 seam 3.60272 spin 2.331777 cracks 3.253062",
+      "pace 3.353659 bounce 3.334343 true 6.198241 carry 3.343987 seam 3.877457 spin 1.935371 cracks 2.198679",
+      "pace 4.370742 bounce 4.258977 true 8.067445 carry 4.314498 seam 4.303235 spin 1.542357 cracks 2.466607",
       "pace 3.927111 bounce 3.861459 true 8.072992 carry 3.894147 seam 4.379816 spin 1.433929 cracks 2.31752",
       "pace 3.626476 bounce 3.875959 true 8.223148 carry 3.749143 seam 5.070838 spin 0.786157 cracks 2.387629",
       "pace 2.572913 bounce 2.502575 true 8.027719 carry 2.5375 seam 4.943129 spin 1.040673 cracks 2.430702",
@@ -2046,13 +2046,13 @@
       "05-07 rain 0 to 10.977097 chance 0.381702, high 10.266381 to 17.766381",
       "05-08 rain 9.976724 to 25.276724 chance 0.95375, high 6.561991 to 14.961991"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 2.682245 to 32.792892",
@@ -2078,9 +2078,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 5.239556 bounce 4.665222 true 6.235003 carry 4.944057 seam 3.332934 spin 2.806073 cracks 3.611374",
-      "pace 4.537526 bounce 4.202357 true 6.107929 carry 4.366727 seam 3.610548 spin 2.344939 cracks 2.485941",
-      "pace 4.705536 bounce 4.272463 true 7.953429 carry 4.483774 seam 3.88541 spin 2.068156 cracks 2.768653",
+      "pace 4.487756 bounce 3.995831 true 6.235003 carry 4.234656 seam 3.332934 spin 2.806073 cracks 3.611374",
+      "pace 3.574284 bounce 3.310266 true 6.107929 carry 3.439743 seam 3.610548 spin 2.344939 cracks 2.485941",
+      "pace 4.614853 bounce 4.190127 true 7.953429 carry 4.397365 seam 3.88541 spin 2.068156 cracks 2.768653",
       "pace 4.140752 bounce 3.79336 true 7.955972 carry 3.963251 seam 3.959769 spin 1.953414 cracks 2.610069",
       "pace 4.01843 bounce 3.822516 true 8.168902 carry 3.919249 seam 4.353534 spin 1.547264 cracks 2.523245",
       "pace 2.743864 bounce 2.486866 true 7.908749 carry 2.612206 seam 4.450997 spin 1.57393 cracks 2.728129",
@@ -2100,13 +2100,13 @@
       "05-08 rain 9.114086 to 22.614086 chance 0.968073, high 8.960252 to 16.460252",
       "05-09 rain 0 to 12.486828 chance 0.389218, high 13.499893 to 21.899893"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.737569 to 21.737569 at 2027-04-16 16:00, now 2.182245 to 33.292892",
@@ -2132,9 +2132,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 5.174749 bounce 4.627203 true 6.061237 carry 4.893323 seam 3.528927 spin 2.764725 cracks 4.111371",
-      "pace 4.48228 bounce 4.161436 true 5.967449 carry 4.318879 seam 3.821168 spin 2.249553 cracks 2.911218",
-      "pace 4.591598 bounce 4.183298 true 7.787198 carry 4.382696 seam 3.982037 spin 2.101367 cracks 3.204762",
+      "pace 4.432248 bounce 3.963266 true 6.061237 carry 4.191202 seam 3.528927 spin 2.764725 cracks 4.111371",
+      "pace 3.530766 bounce 3.278032 true 5.967449 carry 3.402053 seam 3.821168 spin 2.249553 cracks 2.911218",
+      "pace 4.503111 bounce 4.102679 true 7.787198 carry 4.298235 seam 3.982037 spin 2.101367 cracks 3.204762",
       "pace 4.035264 bounce 3.707842 true 7.785054 carry 3.86809 seam 4.057276 spin 1.98437 cracks 3.037365",
       "pace 4.013569 bounce 3.743959 true 8.02348 carry 3.87642 seam 4.282767 spin 1.729419 cracks 2.886801",
       "pace 2.710031 bounce 2.464818 true 7.737088 carry 2.584518 seam 4.548395 spin 1.614797 cracks 3.15728",
@@ -2154,13 +2154,13 @@
       "05-09 rain 0 to 5.878912 chance 0.211229, high 12.274324 to 19.774324",
       "05-10 rain 0 to 6.896134 chance 0.229542, high 7.754 to 16.154"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 11.523612 to 20.745046",
@@ -2186,9 +2186,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.237379 bounce 4.623887 true 6.078641 carry 4.426416 seam 4.771662 spin 1.402429 cracks 4.119932",
-      "pace 3.66605 bounce 4.147677 true 5.988659 carry 3.899435 seam 5.088674 spin 0.901683 cracks 2.916875",
-      "pace 3.725547 bounce 4.139276 true 7.791143 carry 3.926967 seam 5.226387 spin 0.824337 cracks 3.211184",
+      "pace 3.629377 bounce 3.960426 true 6.078641 carry 3.79129 seam 4.771662 spin 1.402429 cracks 4.119932",
+      "pace 2.887808 bounce 3.267194 true 5.988659 carry 3.071649 seam 5.088674 spin 0.901683 cracks 2.916875",
+      "pace 3.65375 bounce 4.059506 true 7.791143 carry 3.851288 seam 5.226387 spin 0.824337 cracks 3.211184",
       "pace 3.271412 bounce 3.664566 true 7.782672 carry 3.462413 seam 5.3132 spin 0.712438 cracks 3.043319",
       "pace 3.260917 bounce 3.700818 true 8.021834 carry 3.473911 seam 5.529359 spin 0.493624 cracks 2.890916",
       "pace 2.220221 bounce 2.462716 true 7.734516 carry 2.338328 seam 5.958453 spin 0.344493 cracks 3.163709",
@@ -2208,13 +2208,13 @@
       "05-10 rain 0 to 12.754984 chance 0.471398, high 8.988064 to 16.488064",
       "05-11 rain 0 to 4.182159 chance 0.180905, high 15.729391 to 24.129391"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 10.470028 to 21.79863",
@@ -2240,9 +2240,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.991415 bounce 4.615609 true 6.054578 carry 4.799835 seam 3.990893 spin 2.361752 cracks 4.251046",
-      "pace 4.269832 bounce 4.079203 true 5.978443 carry 4.173429 seam 4.130999 spin 1.92855 cracks 3.022191",
-      "pace 4.335423 bounce 4.074614 true 7.755238 carry 4.202996 seam 4.235504 spin 1.881048 cracks 3.32311",
+      "pace 4.275219 bounce 3.953336 true 6.054578 carry 4.111129 seam 3.990893 spin 2.361752 cracks 4.251046",
+      "pace 3.363417 bounce 3.213255 true 5.978443 carry 3.287479 seam 4.130999 spin 1.92855 cracks 3.022191",
+      "pace 4.251873 bounce 3.99609 true 7.755238 carry 4.121998 seam 4.235504 spin 1.881048 cracks 3.32311",
       "pace 3.80316 bounce 3.600865 true 7.739465 carry 3.70063 seam 4.308704 spin 1.768195 cracks 3.151339",
       "pace 4.460661 bounce 4.237022 true 7.984152 carry 4.347404 seam 3.641653 spin 2.225982 cracks 2.985119",
       "pace 2.618186 bounce 2.457018 true 7.690266 carry 2.536322 seam 4.812799 spin 1.411354 cracks 3.274335",
@@ -2262,13 +2262,13 @@
       "05-11 rain 0 to 6.895583 chance 0.236694, high 10.553634 to 18.053634",
       "05-12 rain 0 to 11.139121 chance 0.3415, high 14.380101 to 22.780101"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 9.970028 to 22.29863",
@@ -2294,9 +2294,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 5.321191 bounce 4.592417 true 5.939209 carry 4.943393 seam 3.681951 spin 2.821185 cracks 4.600415",
-      "pace 4.495124 bounce 4.005513 true 5.883759 carry 4.243262 seam 3.726091 spin 2.427555 cracks 3.327046",
-      "pace 4.566572 bounce 4.004594 true 7.638219 carry 4.276361 seam 3.811248 spin 2.411315 cracks 3.634642",
+      "pace 4.557678 bounce 3.933472 true 5.939209 carry 4.234088 seam 3.681951 spin 2.821185 cracks 4.600415",
+      "pace 3.540884 bounce 3.155208 true 5.883759 carry 3.342488 seam 3.726091 spin 2.427555 cracks 3.327046",
+      "pace 4.478568 bounce 3.927419 true 7.638219 carry 4.19395 seam 3.811248 spin 2.411315 cracks 3.634642",
       "pace 4.000042 bounce 3.533236 true 7.61705 carry 3.7594 seam 3.881074 spin 2.294371 cracks 3.457376",
       "pace 4.774227 bounce 4.213726 true 7.862722 carry 4.48523 seam 3.367301 spin 2.688847 cracks 3.288696",
       "pace 2.79004 bounce 2.443118 true 7.567432 carry 2.610823 seam 4.318067 spin 1.949855 cracks 3.581421",
@@ -2316,13 +2316,13 @@
       "05-12 rain 0 to 7.740464 chance 0.260663, high 18.01085 to 25.51085",
       "05-13 rain 0 to 4.704301 chance 0.189192, high 11.216185 to 19.616185"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 9.470028 to 22.79863",
@@ -2348,9 +2348,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 5.507716 bounce 4.56022 true 5.782672 carry 5.011626 seam 3.516548 spin 3.133547 cracks 5.038396",
-      "pace 4.610954 bounce 3.93677 true 5.74575 carry 4.260548 seam 3.494711 spin 2.774018 cracks 3.724015",
-      "pace 4.684579 bounce 3.938754 true 7.483817 carry 4.29551 seam 3.570449 spin 2.778467 cracks 4.035146",
+      "pace 4.717439 bounce 3.905895 true 5.782672 carry 4.29253 seam 3.516548 spin 3.133547 cracks 5.038396",
+      "pace 3.632125 bounce 3.101059 true 5.74575 carry 3.356104 seam 3.494711 spin 2.774018 cracks 3.724015",
+      "pace 4.594301 bounce 3.862849 true 7.483817 carry 4.212729 seam 3.570449 spin 2.778467 cracks 4.035146",
       "pace 4.099343 bounce 3.470689 true 7.458665 carry 3.771942 seam 3.637593 spin 2.659526 cracks 3.853338",
       "pace 4.951986 bounce 4.182 true 7.701385 carry 4.550737 seam 3.221142 spin 3.000216 cracks 3.692036",
       "pace 2.887852 bounce 2.42468 true 7.409445 carry 2.646152 seam 4.036486 spin 2.322403 cracks 3.976388",
@@ -2370,13 +2370,13 @@
       "05-13 rain 0 to 8.263215 chance 0.276912, high 12.664443 to 20.164443",
       "05-14 rain 0 to 9.882191 chance 0.302745, high 14.325701 to 22.725701"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 8.970028 to 23.29863",
@@ -2402,9 +2402,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 1.878712 bounce 5.416439 true 6.868827 carry 3.189973 seam 8.614168 spin 0 cracks 2.385871",
-      "pace 1.571362 bounce 4.612361 true 6.918587 carry 2.692154 seam 8.147208 spin 0 cracks 0.859938",
-      "pace 1.587587 bounce 4.618593 true 8.556828 carry 2.707844 seam 8.417503 spin 0 cracks 1.371865",
+      "pace 1.609144 bounce 4.639259 true 6.868827 carry 2.732258 seam 8.614168 spin 0 cracks 2.385871",
+      "pace 1.237788 bounce 3.633233 true 6.918587 carry 2.120654 seam 8.147208 spin 0 cracks 0.859938",
+      "pace 1.556992 bounce 4.529586 true 8.556828 carry 2.65566 seam 8.417503 spin 0 cracks 1.371865",
       "pace 1.390957 bounce 4.062964 true 8.604491 carry 2.377269 seam 8.53178 spin 0 cracks 0.988771",
       "pace 1.70346 bounce 4.964124 true 8.845849 carry 2.907952 seam 7.787544 spin 0 cracks 0.830879",
       "pace 0.99 bounce 2.87774 true 8.475462 carry 1.687887 seam 9.5 spin 0 cracks 1.311346",
@@ -2424,13 +2424,13 @@
       "05-14 rain 0 to 8.346457 chance 0.279605, high 10.991406 to 18.491406",
       "05-15 rain 0 to 10.391347 chance 0.31781, high 12.789715 to 21.189715"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 5.296386 to 26.972273",
@@ -2456,9 +2456,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.362055 bounce 5.477513 true 6.943781 carry 4.291352 seam 6.697014 spin 0 cracks 1.985871",
-      "pace 2.70535 bounce 4.483277 true 7.12942 carry 3.482648 seam 6.320633 spin 0 cracks 0.459938",
-      "pace 2.732903 bounce 4.490671 true 8.731374 carry 3.503222 seam 6.527905 spin 0 cracks 0.971865",
+      "pace 2.879649 bounce 4.691569 true 6.943781 carry 3.675605 seam 6.697014 spin 0 cracks 1.985871",
+      "pace 2.131049 bounce 3.531552 true 7.12942 carry 2.743339 seam 6.320633 spin 0 cracks 0.459938",
+      "pace 2.680236 bounce 4.404129 true 8.731374 carry 3.43571 seam 6.527905 spin 0 cracks 0.971865",
       "pace 2.906662 bounce 4.794474 true 8.764491 carry 3.733084 seam 5.487345 spin 0 cracks 0.588771",
       "pace 3.000838 bounce 4.938865 true 9.005849 carry 3.84977 seam 6.388866 spin 0 cracks 0.430879",
       "pace 1.743997 bounce 2.863495 true 8.635462 carry 2.23471 seam 7.329402 spin 0 cracks 0.911346",
@@ -2478,13 +2478,13 @@
       "05-15 rain 0 to 7.300892 chance 0.247854, high 7.818481 to 15.318481",
       "05-16 rain 0 to 8.528697 chance 0.266563, high 10.480216 to 18.880216"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 4.796386 to 27.472273",
@@ -2510,9 +2510,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 1.873655 bounce 5.49872 true 7.762266 carry 3.209783 seam 8.716717 spin 0 cracks 0",
-      "pace 1.502878 bounce 4.485196 true 7.361531 carry 2.596286 seam 8.23342 spin 0 cracks 0",
-      "pace 1.518599 bounce 4.494206 true 9.121983 carry 2.61245 seam 8.499843 spin 0 cracks 0",
+      "pace 1.604813 bounce 4.709734 true 7.762266 carry 2.749226 seam 8.716717 spin 0 cracks 0",
+      "pace 1.183842 bounce 3.533063 true 7.361531 carry 2.045137 seam 8.23342 spin 0 cracks 0",
+      "pace 1.489333 bounce 4.407596 true 9.121983 carry 2.562104 seam 8.499843 spin 0 cracks 0",
       "pace 1.651328 bounce 4.905594 true 9 carry 2.846181 seam 7.567587 spin 0 cracks 0",
       "pace 1.697511 bounce 5.031675 true 9.1782 carry 2.922555 seam 8.654423 spin 0 cracks 0",
       "pace 0.991097 bounce 2.930854 true 9 carry 1.704336 seam 9.496843 spin 0 cracks 0",
@@ -2532,13 +2532,13 @@
       "05-16 rain 0 to 10.270087 chance 0.350823, high 12.908961 to 20.408961",
       "05-17 rain 0 to 3.149818 chance 0.165807, high 13.497339 to 21.897339"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 3.093826 to 29.174832",
@@ -2564,9 +2564,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.263892 bounce 5.496824 true 7.779429 carry 3.527636 seam 8.135221 spin 0 cracks 0",
-      "pace 1.812492 bounce 4.465623 true 7.422496 carry 2.844979 seam 7.687152 spin 0 cracks 0",
-      "pace 1.820739 bounce 4.630713 true 9.146631 carry 2.903673 seam 7.993271 spin 0 cracks 0",
+      "pace 1.939057 bounce 4.70811 true 7.779429 carry 3.021472 seam 8.135221 spin 0 cracks 0",
+      "pace 1.42773 bounce 3.517645 true 7.422496 carry 2.241037 seam 7.687152 spin 0 cracks 0",
+      "pace 1.785651 bounce 4.541472 true 9.146631 carry 2.847715 seam 7.993271 spin 0 cracks 0",
       "pace 2.04907 bounce 5.028537 true 9 carry 3.209957 seam 7.563716 spin 0 cracks 0",
       "pace 2.052428 bounce 5.027168 true 9.1782 carry 3.212149 seam 8.077722 spin 0 cracks 0",
       "pace 1.229513 bounce 3.005367 true 9 carry 1.922274 seam 8.810492 spin 0 cracks 0",
@@ -2586,13 +2586,13 @@
       "05-17 rain 0 to 11.715918 chance 0.416873, high 20.133534 to 27.633534",
       "05-18 rain 0 to 7.065032 chance 0.23307, high 15.644629 to 24.044629"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 1.888241 to 30.380417",
@@ -2618,9 +2618,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 1.773584 bounce 5.339043 true 7.797632 carry 3.077213 seam 8.823991 spin 0 cracks 0",
-      "pace 1.414529 bounce 4.320786 true 7.486987 carry 2.472221 seam 8.34523 spin 0 cracks 0",
-      "pace 1.442472 bounce 4.467127 true 9.146631 carry 2.538446 seam 8.617482 spin 0 cracks 0",
+      "pace 1.5191 bounce 4.572968 true 7.797632 carry 2.635678 seam 8.823991 spin 0 cracks 0",
+      "pace 1.114248 bounce 3.403554 true 7.486987 carry 1.947409 seam 8.34523 spin 0 cracks 0",
+      "pace 1.414673 bounce 4.381039 true 9.146631 carry 2.489526 seam 8.617482 spin 0 cracks 0",
       "pace 1.627618 bounce 4.952115 true 9 carry 2.839041 seam 8.488475 spin 0 cracks 0",
       "pace 1.607642 bounce 4.881834 true 9.1782 carry 2.801471 seam 8.76452 spin 0 cracks 0",
       "pace 0.99062 bounce 3.001986 true 9 carry 1.724479 seam 9.498214 spin 0 cracks 0",
@@ -2640,13 +2640,13 @@
       "05-18 rain 0 to 5.58303 chance 0.204444, high 16.917642 to 24.417642",
       "05-19 rain 0 to 12.542603 chance 0.391338, high 10.015237 to 18.415237"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0.752215 to 31.516444",
@@ -2672,9 +2672,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 1.73174 bounce 5.327573 true 7.811902 carry 3.037429 seam 8.869575 spin 0 cracks 0",
-      "pace 1.379282 bounce 4.297524 true 7.537424 carry 2.434645 seam 8.389734 spin 0 cracks 0",
-      "pace 1.754803 bounce 5.540706 true 9.146631 carry 3.118148 seam 7.149014 spin 0 cracks 0",
+      "pace 1.483261 bounce 4.563144 true 7.811902 carry 2.601602 seam 8.869575 spin 0 cracks 0",
+      "pace 1.086483 bounce 3.385231 true 7.537424 carry 1.91781 seam 8.389734 spin 0 cracks 0",
+      "pace 1.720985 bounce 5.433929 true 9.146631 carry 3.058057 seam 7.149014 spin 0 cracks 0",
       "pace 1.592258 bounce 4.944149 true 9 carry 2.805773 seam 8.533267 spin 0 cracks 0",
       "pace 1.594962 bounce 4.944357 true 9.223478 carry 2.808213 seam 8.809592 spin 0 cracks 0",
       "pace 0.99 bounce 3.063516 true 9 carry 1.741517 seam 9.5 spin 0 cracks 0",
@@ -2694,13 +2694,13 @@
       "05-19 rain 0 to 9.380083 chance 0.315651, high 7.213622 to 14.713622",
       "05-20 rain 0 to 7.000884 chance 0.231723, high 10.397195 to 18.797195"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 33.241574",
@@ -2726,9 +2726,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.080325 bounce 5.596708 true 7.830718 carry 3.41218 seam 8.285983 spin 0 cracks 0",
-      "pace 1.646311 bounce 4.448581 true 7.562868 carry 2.706243 seam 7.854312 spin 0 cracks 0",
-      "pace 2.153878 bounce 5.849343 true 9.146631 carry 3.549475 seam 7.237265 spin 0 cracks 0",
+      "pace 1.781828 bounce 4.793662 true 7.830718 carry 2.922581 seam 8.285983 spin 0 cracks 0",
+      "pace 1.296827 bounce 3.504221 true 7.562868 carry 2.131752 seam 7.854312 spin 0 cracks 0",
+      "pace 2.11237 bounce 5.736618 true 9.146631 carry 3.481071 seam 7.237265 spin 0 cracks 0",
       "pace 1.911409 bounce 5.1585 true 9 carry 3.140065 seam 7.983833 spin 0 cracks 0",
       "pace 1.913198 bounce 5.160343 true 9.223478 carry 3.142094 seam 8.238768 spin 0 cracks 0",
       "pace 1.224214 bounce 3.3 true 9 carry 2.009952 seam 8.825747 spin 0 cracks 0",
@@ -2748,13 +2748,13 @@
       "05-20 rain 0 to 5.563698 chance 0.20401, high 12.858094 to 20.358094",
       "05-21 rain 0 to 5.774524 chance 0.207697, high 15.277413 to 23.677413"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 34.65465",
@@ -2780,9 +2780,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.134826 bounce 5.610324 true 7.547338 carry 3.460789 seam 8.255451 spin 0 cracks 0",
-      "pace 1.633568 bounce 4.310399 true 7.580315 carry 2.65355 seam 7.827286 spin 0 cracks 0",
-      "pace 2.206694 bounce 5.849343 true 9.146631 carry 3.59273 seam 7.702344 spin 0 cracks 0",
+      "pace 1.828509 bounce 4.805324 true 7.547338 carry 2.964216 seam 8.255451 spin 0 cracks 0",
+      "pace 1.286788 bounce 3.395373 true 7.580315 carry 2.090246 seam 7.827286 spin 0 cracks 0",
+      "pace 2.164168 bounce 5.736618 true 9.146631 carry 3.523493 seam 7.702344 spin 0 cracks 0",
       "pace 1.904784 bounce 5.020319 true 9 carry 3.092349 seam 7.955749 spin 0 cracks 0",
       "pace 1.903982 bounce 5.015513 true 9.223478 carry 3.090218 seam 8.208313 spin 0 cracks 0",
       "pace 1.253437 bounce 3.3 true 9 carry 2.0338 seam 8.741621 spin 0 cracks 0",
@@ -2802,13 +2802,13 @@
       "05-21 rain 0 to 5.815802 chance 0.20976, high 8.361271 to 15.861271",
       "05-22 rain 0 to 3.04876 chance 0.164415, high 15.130538 to 23.530538"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 35.70066",
@@ -2834,9 +2834,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.864169 bounce 5.321249 true 7.566885 carry 3.903966 seam 6.97414 spin 0 cracks 0",
-      "pace 2.186142 bounce 4.091437 true 7.600025 carry 2.990729 seam 6.621598 spin 0 cracks 0",
-      "pace 2.995182 bounce 5.647699 true 9.146631 carry 4.112893 seam 6.61431 spin 0 cracks 0",
+      "pace 2.453202 bounce 4.557727 true 7.566885 carry 3.343804 seam 6.97414 spin 0 cracks 0",
+      "pace 1.72206 bounce 3.222893 true 7.600025 carry 2.355847 seam 6.621598 spin 0 cracks 0",
+      "pace 2.93746 bounce 5.53886 true 9.146631 carry 4.033631 seam 6.61431 spin 0 cracks 0",
       "pace 2.562571 bounce 4.78655 true 9 carry 3.502267 seam 6.727772 spin 0 cracks 0",
       "pace 2.55746 bounce 4.772483 true 9.223478 carry 3.493628 seam 6.939009 spin 0 cracks 0",
       "pace 1.740207 bounce 3.244081 true 9 carry 2.375999 seam 7.340314 spin 0 cracks 0",
@@ -2856,13 +2856,13 @@
       "05-22 rain 0 to 7.059525 chance 0.241135, high 15.787791 to 23.287791",
       "05-23 rain 0 to 11.767071 chance 0.362905, high 11.345374 to 19.745374"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 36.20066",
@@ -2888,9 +2888,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.627477 bounce 4.947886 true 7.588564 carry 4.236549 seam 5.498643 spin 0 cracks 0",
-      "pace 3.817852 bounce 5.23574 true 7.621884 carry 4.470937 seam 4.309819 spin 0.532978 cracks 0",
-      "pace 3.882775 bounce 5.353573 true 9.229644 carry 4.559245 seam 5.219845 spin 0 cracks 0",
+      "pace 3.106987 bounce 4.237936 true 7.588564 carry 3.628665 seam 5.498643 spin 0 cracks 0",
+      "pace 3.007385 bounce 4.124279 true 7.621884 carry 3.521831 seam 4.309819 spin 0.532978 cracks 0",
+      "pace 3.807948 bounce 5.250401 true 9.229644 carry 4.471382 seam 5.219845 spin 0 cracks 0",
       "pace 3.258987 bounce 4.462942 true 9 carry 3.813747 seam 5.307087 spin 0 cracks 0",
       "pace 3.24596 bounce 4.442021 true 9.223478 carry 3.797186 seam 5.472267 spin 0 cracks 0",
       "pace 2.293778 bounce 3.136609 true 9 carry 2.682291 seam 5.746701 spin 0 cracks 0",
@@ -2910,13 +2910,13 @@
       "05-23 rain 0 to 11.556838 chance 0.409047, high 10.953499 to 18.453499",
       "05-24 rain 2.597871 to 17.897871 chance 0.646039, high 12.808507 to 21.208507"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 36.70066",
@@ -2942,9 +2942,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.759013 bounce 4.63516 true 7.550154 carry 4.174162 seam 5.05369 spin 0.222138 cracks 0.145186",
-      "pace 4.106986 bounce 5.088251 true 7.605522 carry 4.571365 seam 4.286585 spin 0.75714 cracks 0.09044",
-      "pace 4.051309 bounce 5.042859 true 9.194026 carry 4.519976 seam 4.800266 spin 0.381578 cracks 0.089047",
+      "pace 3.21965 bounce 3.970082 true 7.550154 carry 3.57523 seam 5.05369 spin 0.222138 cracks 0.145186",
+      "pace 3.235141 bounce 4.008099 true 7.605522 carry 3.600939 seam 4.286585 spin 0.75714 cracks 0.09044",
+      "pace 3.973235 bounce 4.945675 true 9.194026 carry 4.432869 seam 4.800266 spin 0.381578 cracks 0.089047",
       "pace 3.388467 bounce 4.192826 true 8.963264 carry 3.769251 seam 4.879314 spin 0.329978 cracks 0.091839",
       "pace 3.36876 bounce 4.165912 true 9.185965 carry 3.746192 seam 5.030075 spin 0.221896 cracks 0.093782",
       "pace 2.467053 bounce 3.04881 true 8.962698 carry 2.742549 seam 5.247879 spin 0.064477 cracks 0.093255",
@@ -2964,13 +2964,13 @@
       "05-24 rain 0 to 13.307845 chance 0.502725, high 11.123433 to 18.623433",
       "05-25 rain 0 to 3.048472 chance 0.164411, high 7.378875 to 15.778875"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 37.20066",
@@ -2996,9 +2996,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.222215 bounce 4.424751 true 7.549767 carry 3.77591 seam 5.886339 spin 0 cracks 0.18387",
-      "pace 3.61736 bounce 4.991681 true 7.611043 carry 4.249319 seam 5.25718 spin 0 cracks 0.114621",
-      "pace 3.487933 bounce 4.836372 true 9.18451 carry 4.107182 seam 5.589416 spin 0 cracks 0.112837",
+      "pace 2.759874 bounce 3.789863 true 7.549767 carry 3.234122 seam 5.886339 spin 0 cracks 0.18387",
+      "pace 2.849454 bounce 3.93203 true 7.611043 carry 3.347259 seam 5.25718 spin 0 cracks 0.114621",
+      "pace 3.420716 bounce 4.743168 true 9.18451 carry 4.02803 seam 5.589416 spin 0 cracks 0.112837",
       "pace 2.911224 bounce 4.012105 true 8.95344 carry 3.417622 seam 5.683088 spin 0 cracks 0.116399",
       "pace 2.890207 bounce 3.980646 true 9.175934 carry 3.391886 seam 5.857996 spin 0 cracks 0.118861",
       "pace 2.177459 bounce 2.996935 true 8.95272 carry 2.554545 seam 6.081557 spin 0 cracks 0.118199",
@@ -3018,13 +3018,13 @@
       "05-25 rain 1.663782 to 15.163782 chance 0.617309, high 10.976517 to 18.476517",
       "05-26 rain 0 to 9.01942 chance 0.279061, high 14.150251 to 22.550251"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 37.994941",
@@ -3050,9 +3050,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.721313 bounce 4.242761 true 7.565293 carry 3.397923 seam 6.702838 spin 0 cracks 0.18387",
-      "pace 3.079964 bounce 4.825646 true 7.626674 carry 3.855232 seam 5.987876 spin 0 cracks 0.114621",
-      "pace 2.960643 bounce 4.661301 true 9.18451 carry 3.714895 seam 6.361811 spin 0 cracks 0.112837",
+      "pace 2.330844 bounce 3.633986 true 7.565293 carry 2.910371 seam 6.702838 spin 0 cracks 0.18387",
+      "pace 2.426139 bounce 3.801241 true 7.626674 carry 3.03683 seam 5.987876 spin 0 cracks 0.114621",
+      "pace 2.903587 bounce 4.571471 true 9.18451 carry 3.643304 seam 6.361811 spin 0 cracks 0.112837",
       "pace 2.465094 bounce 3.857271 true 8.95344 carry 3.083591 seam 6.470846 spin 0 cracks 0.116399",
       "pace 2.443484 bounce 3.821044 true 9.175934 carry 3.055595 seam 6.669265 spin 0 cracks 0.118861",
       "pace 1.896992 bounce 2.964408 true 8.95272 carry 2.371383 seam 6.888961 spin 0 cracks 0.118199",
@@ -3072,13 +3072,13 @@
       "05-26 rain 0 to 4.99525 chance 0.191731, high 17.966265 to 25.466265",
       "05-27 rain 7.592721 to 22.892721 chance 0.888448, high 5.585462 to 13.985462"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 38.940399",
@@ -3104,9 +3104,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.987855 bounce 6.147342 true 7.577827 carry 4.285717 seam 6.299217 spin 0 cracks 0.18387",
-      "pace 2.659466 bounce 4.692681 true 7.639219 carry 3.532708 seam 6.587015 spin 0 cracks 0.114621",
-      "pace 2.550797 bounce 4.521439 true 9.18451 carry 3.396067 seam 6.993008 spin 0 cracks 0.112837",
+      "pace 2.559141 bounce 5.265288 true 7.577827 carry 3.670779 seam 6.299217 spin 0 cracks 0.18387",
+      "pace 2.094905 bounce 3.696502 true 7.639219 carry 2.782773 seam 6.587015 spin 0 cracks 0.114621",
+      "pace 2.501639 bounce 4.434304 true 9.18451 carry 3.33062 seam 6.993008 spin 0 cracks 0.112837",
       "pace 2.118477 bounce 3.733563 true 8.95344 carry 2.812378 seam 7.116843 spin 0 cracks 0.116399",
       "pace 2.097033 bounce 3.693587 true 9.175934 carry 2.783087 seam 7.334631 spin 0 cracks 0.118861",
       "pace 1.668757 bounce 2.937346 true 8.95272 carry 2.213982 seam 7.546004 spin 0 cracks 0.118199",
@@ -3126,13 +3126,13 @@
       "05-27 rain 3.336117 to 16.836117 chance 0.725436, high 12.131963 to 19.631963",
       "05-28 rain 0 to 3.01435 chance 0.163944, high 12.368928 to 20.768928"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 40.141118",
@@ -3158,9 +3158,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.827727 bounce 6.037473 true 7.593031 carry 5.398822 seam 4.666968 spin 0.372822 cracks 0.18387",
-      "pace 3.747668 bounce 4.495877 true 7.650268 carry 4.10476 seam 4.763656 spin 0.375304 cracks 0.12484",
-      "pace 3.588336 bounce 4.317796 true 9.180984 carry 3.936204 seam 5.056092 spin 0.167468 cracks 0.12165",
+      "pace 4.135018 bounce 5.171184 true 7.593031 carry 4.624169 seam 4.666968 spin 0.372822 cracks 0.18387",
+      "pace 2.9521 bounce 3.541477 true 7.650268 carry 3.233387 seam 4.763656 spin 0.375304 cracks 0.12484",
+      "pace 3.519184 bounce 4.234586 true 9.180984 carry 3.860348 seam 5.056092 spin 0.167468 cracks 0.12165",
       "pace 2.966638 bounce 3.556035 true 8.949162 carry 3.247995 seam 5.144614 spin 0.110077 cracks 0.127096",
       "pace 2.931091 bounce 3.512038 true 9.171496 carry 3.208443 seam 5.301195 spin 0.001614 cracks 0.129956",
       "pace 2.40473 bounce 2.880105 true 8.948231 carry 2.631706 seam 5.427291 spin 0 cracks 0.129422",
@@ -3180,13 +3180,13 @@
       "05-28 rain 0 to 6.825845 chance 0.234835, high 15.555424 to 23.055424",
       "05-29 rain 0 to 8.54391 chance 0.26694, high 14.109899 to 22.509899"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 40.641118",
@@ -3212,9 +3212,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 5.11902 bounce 5.948942 true 7.583631 carry 5.518402 seam 4.593284 spin 0.569166 cracks 0.241019",
-      "pace 3.826684 bounce 4.335279 true 7.61757 carry 4.073051 seam 4.52756 spin 0.659014 cracks 0.239937",
-      "pace 3.653924 bounce 4.15161 true 9.134543 carry 3.894826 seam 4.805166 spin 0.451028 cracks 0.237752",
+      "pace 4.384515 bounce 5.095355 true 7.583631 carry 4.726591 seam 4.593284 spin 0.569166 cracks 0.241019",
+      "pace 3.014342 bounce 3.414971 true 7.61757 carry 3.208409 seam 4.52756 spin 0.659014 cracks 0.239937",
+      "pace 3.583508 bounce 4.071602 true 9.134543 carry 3.819767 seam 4.805166 spin 0.451028 cracks 0.237752",
       "pace 3.01256 bounce 3.410297 true 8.902692 carry 3.205265 seam 4.887634 spin 0.394232 cracks 0.243269",
       "pace 2.971692 bounce 3.362758 true 9.124189 carry 3.161184 seam 5.0356 spin 0.286457 cracks 0.248224",
       "pace 2.506907 bounce 2.835629 true 8.901323 carry 2.666207 seam 5.133148 spin 0.214025 cracks 0.246693",
@@ -3234,13 +3234,13 @@
       "05-29 rain 0 to 7.076175 chance 0.241592, high 17.457437 to 24.957437",
       "05-30 rain 0 to 8.751011 chance 0.272141, high 16.453728 to 24.853728"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 12.134329 to 20.134329 at 2027-05-03 07:00, now 0 to 41.141118",
@@ -3266,9 +3266,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.068676 bounce 6.42844 true 7.691218 carry 3.646691 seam 8.619763 spin 0 cracks 0",
-      "pace 1.486027 bounce 4.593438 true 7.724593 carry 2.612656 seam 8.403935 spin 0 cracks 0",
-      "pace 1.417466 bounce 4.388249 true 9.229644 carry 2.494032 seam 8.900834 spin 0 cracks 0",
+      "pace 1.771851 bounce 5.506052 true 7.691218 carry 3.123444 seam 8.619763 spin 0 cracks 0",
+      "pace 1.170568 bounce 3.618327 true 7.724593 carry 2.058033 seam 8.403935 spin 0 cracks 0",
+      "pace 1.39015 bounce 4.303681 true 9.229644 carry 2.445968 seam 8.900834 spin 0 cracks 0",
       "pace 1.163904 bounce 3.596248 true 9 carry 2.045896 seam 9.074117 spin 0 cracks 0",
       "pace 1.146314 bounce 3.541184 true 9.223478 carry 2.014772 seam 9.350062 spin 0 cracks 0",
       "pace 0.99 bounce 3.057628 true 9 carry 1.739842 seam 9.5 spin 0 cracks 0",
@@ -3288,13 +3288,13 @@
       "05-30 rain 0 to 2.591493 chance 0.148788, high 14.877012 to 22.377012",
       "05-31 rain 0 to 11.115904 chance 0.340735, high 17.498562 to 25.898562"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 10.305007 to 23.989179",
@@ -3320,9 +3320,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.992705 bounce 6.332993 true 7.70372 carry 4.353479 seam 7.531854 spin 0 cracks 0",
-      "pace 2.136348 bounce 4.498059 true 7.736917 carry 3.099907 seam 7.259548 spin 0 cracks 0",
-      "pace 2.032234 bounce 4.284995 true 9.229644 carry 2.950951 seam 7.687036 spin 0 cracks 0",
+      "pace 2.563295 bounce 5.424301 true 7.70372 carry 3.728818 seam 7.531854 spin 0 cracks 0",
+      "pace 1.682837 bounce 3.543196 true 7.736917 carry 2.441848 seam 7.259548 spin 0 cracks 0",
+      "pace 1.99307 bounce 4.202417 true 9.229644 carry 2.894082 seam 7.687036 spin 0 cracks 0",
       "pace 1.663997 bounce 3.50218 true 9 carry 2.414046 seam 7.835899 spin 0 cracks 0",
       "pace 2.573455 bounce 5.415281 true 9.256322 carry 3.733093 seam 6.21155 spin 0 cracks 0",
       "pace 1.451856 bounce 3.054488 true 9 carry 2.105867 seam 8.170416 spin 0 cracks 0",
@@ -3342,13 +3342,13 @@
       "05-31 rain 0 to 13.412656 chance 0.508834, high 10.37887 to 17.87887",
       "06-01 rain 0 to 12.621089 chance 0.406053, high 14.76333 to 23.16333"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 9.805007 to 24.489179",
@@ -3374,9 +3374,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.216235 bounce 6.063261 true 7.720792 carry 5.056099 seam 5.852222 spin 0 cracks 0",
-      "pace 3.007725 bounce 4.298151 true 7.753767 carry 3.595505 seam 5.630594 spin 0 cracks 0",
-      "pace 2.848294 bounce 4.077738 true 9.229644 carry 3.408019 seam 5.963679 spin 0 cracks 0",
+      "pace 3.611267 bounce 5.193271 true 7.720792 carry 4.330622 seam 5.852222 spin 0 cracks 0",
+      "pace 2.369235 bounce 3.385724 true 7.753767 carry 2.832239 seam 5.630594 spin 0 cracks 0",
+      "pace 2.793403 bounce 3.999154 true 9.229644 carry 3.342342 seam 5.963679 spin 0 cracks 0",
       "pace 2.32437 bounce 3.31999 true 9 carry 2.777928 seam 6.074004 spin 0 cracks 0",
       "pace 3.726382 bounce 5.321272 true 9.256322 carry 4.452987 seam 5.16176 spin 0 cracks 0",
       "pace 1.912976 bounce 3.01072 true 9 carry 2.399883 seam 6.842946 spin 0 cracks 0",
@@ -3396,13 +3396,13 @@
       "06-01 rain 4.048741 to 17.548741 chance 0.778204, high 17.460142 to 24.960142",
       "06-02 rain 0 to 8.741199 chance 0.281657, high 11.390684 to 19.790684"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 9.305007 to 24.989179",
@@ -3428,9 +3428,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.096598 bounce 6.675763 true 7.734218 carry 3.741175 seam 8.724112 spin 0 cracks 0",
-      "pace 1.451926 bounce 4.616256 true 7.767165 carry 2.588911 seam 8.407731 spin 0 cracks 0",
-      "pace 1.37079 bounce 4.360156 true 9.229644 carry 2.444762 seam 8.898993 spin 0 cracks 0",
+      "pace 1.795767 bounce 5.717888 true 7.734218 carry 3.204371 seam 8.724112 spin 0 cracks 0",
+      "pace 1.143706 bounce 3.636301 true 7.767165 carry 2.039328 seam 8.407731 spin 0 cracks 0",
+      "pace 1.344373 bounce 4.27613 true 9.229644 carry 2.397648 seam 8.898993 spin 0 cracks 0",
       "pace 1.114418 bounce 3.542777 true 9 carry 1.986991 seam 9.06775 spin 0 cracks 0",
       "pace 1.840076 bounce 5.849343 true 9.256322 carry 3.280737 seam 8.11927 spin 0 cracks 0",
       "pace 1.033243 bounce 3.3 true 9 carry 1.846538 seam 9.375514 spin 0 cracks 0",
@@ -3450,13 +3450,13 @@
       "06-02 rain 0 to 6.99925 chance 0.24849, high 15.529237 to 23.029237",
       "06-03 rain 0 to 14.850517 chance 0.50172, high 8.8188 to 17.2188"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 5.032732 to 29.261455",
@@ -3482,9 +3482,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.645257 bounce 6.503642 true 7.751096 carry 4.869029 seam 6.580982 spin 0 cracks 0",
-      "pace 2.516065 bounce 4.482581 true 7.784043 carry 3.358343 seam 6.339748 spin 0 cracks 0",
-      "pace 2.365436 bounce 4.215973 true 9.229644 carry 3.157945 seam 6.709199 spin 0 cracks 0",
+      "pace 3.122215 bounce 5.570464 true 7.751096 carry 4.170394 seam 6.580982 spin 0 cracks 0",
+      "pace 1.981946 bounce 3.531003 true 7.784043 carry 2.645422 seam 6.339748 spin 0 cracks 0",
+      "pace 2.31985 bounce 4.134725 true 9.229644 carry 3.097086 seam 6.709199 spin 0 cracks 0",
       "pace 1.913736 bounce 3.409102 true 9 carry 2.554236 seam 6.834161 spin 0 cracks 0",
       "pace 3.265589 bounce 5.816958 true 9.256322 carry 4.358417 seam 6.422678 spin 0 cracks 0",
       "pace 1.844153 bounce 3.3 true 9 carry 2.466922 seam 7.041074 spin 0 cracks 0",
@@ -3504,13 +3504,13 @@
       "06-03 rain 0 to 2.488042 chance 0.153451, high 8.338637 to 15.838637",
       "06-04 rain 0 to 0.695982 chance 0.141583, high 17.24533 to 25.64533"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 4.532732 to 29.761455",
@@ -3536,9 +3536,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.495309 bounce 6.209138 true 7.768519 carry 5.28318 seam 5.275861 spin 0 cracks 0",
-      "pace 3.090371 bounce 4.259754 true 7.801444 carry 3.628253 seam 5.083244 spin 0.071513 cracks 0",
-      "pace 2.931861 bounce 4.043678 true 9.310997 carry 3.443182 seam 5.377785 spin 0 cracks 0",
+      "pace 3.850298 bounce 5.318217 true 7.768519 carry 4.525121 seam 5.275861 spin 0 cracks 0",
+      "pace 2.434337 bounce 3.355478 true 7.801444 carry 2.858035 seam 5.083244 spin 0.071513 cracks 0",
+      "pace 2.87536 bounce 3.96575 true 9.310997 carry 3.376827 seam 5.377785 spin 0 cracks 0",
       "pace 3.912359 bounce 5.391914 true 9 carry 4.592941 seam 4.229995 spin 0.651443 cracks 0",
       "pace 4.033727 bounce 5.558739 true 9.256322 carry 4.735234 seam 5.149294 spin 0.02684 cracks 0",
       "pace 2.340436 bounce 3.246558 true 9 carry 2.756513 seam 5.612381 spin 0 cracks 0",
@@ -3558,13 +3558,13 @@
       "06-04 rain 0 to 4.666154 chance 0.192502, high 9.656192 to 17.156192",
       "06-05 rain 0 to 10.09287 chance 0.319388, high 12.082079 to 20.482079"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 4.032732 to 30.261455",
@@ -3590,9 +3590,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.709538 bounce 5.784508 true 7.679918 carry 5.219421 seam 4.781528 spin 0.500357 cracks 0.271758",
-      "pace 3.223156 bounce 3.952148 true 7.748675 carry 3.569088 seam 4.608269 spin 0.605218 cracks 0.182041",
-      "pace 3.040254 bounce 3.729703 true 9.235131 carry 3.367379 seam 4.873393 spin 0.407146 cracks 0.189666",
+      "pace 4.033787 bounce 4.954515 true 7.679918 carry 4.47051 seam 4.781528 spin 0.500357 cracks 0.271758",
+      "pace 2.538933 bounce 3.113172 true 7.748675 carry 2.81143 seam 4.608269 spin 0.605218 cracks 0.182041",
+      "pace 2.981664 bounce 3.657826 true 9.235131 carry 3.302485 seam 4.873393 spin 0.407146 cracks 0.189666",
       "pace 4.235172 bounce 5.192372 true 8.927112 carry 4.689412 seam 4.156575 spin 0.946283 cracks 0.182221",
       "pace 4.236529 bounce 5.193698 true 9.181157 carry 4.690762 seam 4.66775 spin 0.562217 cracks 0.187912",
       "pace 2.535138 bounce 3.124707 true 8.930028 carry 2.814527 seam 5.051874 spin 0.265826 cracks 0.174931",
@@ -3612,13 +3612,13 @@
       "06-05 rain 0 to 3.744483 chance 0.174653, high 4.715496 to 12.215496",
       "06-06 rain 0 to 13.549158 chance 0.44366, high 18.758211 to 27.158211"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 3.532732 to 30.761455",
@@ -3644,9 +3644,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 1.780444 bounce 5.836107 true 7.806875 carry 3.223486 seam 9.066505 spin 0 cracks 0",
-      "pace 1.212536 bounce 3.970952 true 7.839699 carry 2.194293 seam 8.749252 spin 0 cracks 0",
-      "pace 1.137455 bounce 3.726044 true 9.310997 carry 2.05869 seam 9.24663 spin 0 cracks 0",
+      "pace 1.524977 bounce 4.998711 true 7.806875 carry 2.760963 seam 9.066505 spin 0 cracks 0",
+      "pace 0.955135 bounce 3.127984 true 7.839699 carry 1.728481 seam 8.749252 spin 0 cracks 0",
+      "pace 1.115534 bounce 3.654238 true 9.310997 carry 2.019016 seam 9.24663 spin 0 cracks 0",
       "pace 1.649784 bounce 5.402522 true 9 carry 2.985464 seam 8.444767 spin 0 cracks 0",
       "pace 1.604486 bounce 5.254001 true 9.256322 carry 2.903441 seam 8.862567 spin 0 cracks 0",
       "pace 0.99 bounce 3.251196 true 9 carry 1.794069 seam 9.5 spin 0 cracks 0",
@@ -3666,13 +3666,13 @@
       "06-06 rain 0 to 12.175513 chance 0.452324, high 16.7567 to 24.2567",
       "06-07 rain 0 to 0 chance 0.113199, high 15.592782 to 23.992782"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 0.638884 to 33.655302",
@@ -3698,9 +3698,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 2.64111 bounce 5.604587 true 7.827187 carry 3.84738 seam 7.656882 spin 0 cracks 0",
-      "pace 1.790362 bounce 3.794996 true 7.859968 carry 2.60661 seam 7.389132 spin 0 cracks 0",
-      "pace 1.667772 bounce 3.536287 true 9.310997 carry 2.428522 seam 7.80678 spin 0 cracks 0",
+      "pace 2.262149 bounce 4.80041 true 7.827187 carry 3.295337 seam 7.656882 spin 0 cracks 0",
+      "pace 1.410298 bounce 2.989381 true 7.859968 carry 2.05327 seam 7.389132 spin 0 cracks 0",
+      "pace 1.635631 bounce 3.468137 true 9.310997 carry 2.381721 seam 7.80678 spin 0 cracks 0",
       "pace 2.462765 bounce 5.219821 true 9 carry 3.585414 seam 7.133635 spin 0 cracks 0",
       "pace 2.388449 bounce 5.062091 true 9.256322 carry 3.477146 seam 7.483983 spin 0 cracks 0",
       "pace 1.520517 bounce 3.234076 true 9 carry 2.217536 seam 7.972755 spin 0 cracks 0",
@@ -3720,13 +3720,13 @@
       "06-07 rain 0 to 0 chance 0.116971, high 14.94596 to 22.44596",
       "06-08 rain 0 to 7.227226 chance 0.245444, high 14.750944 to 23.150944"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 0.138884 to 34.155302",
@@ -3752,9 +3752,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.693086 bounce 5.417502 true 7.843613 carry 4.472952 seam 5.981576 spin 0 cracks 0",
-      "pace 2.432606 bounce 3.564711 true 7.876365 carry 2.944748 seam 5.772207 spin 0 cracks 0",
-      "pace 3.899138 bounce 5.715484 true 9.310997 carry 4.720748 seam 4.657894 spin 0.126823 cracks 0",
+      "pace 3.163182 bounce 4.640169 true 7.843613 carry 3.831149 seam 5.981576 spin 0 cracks 0",
+      "pace 1.916204 bounce 2.807982 true 7.876365 carry 2.319626 seam 5.772207 spin 0 cracks 0",
+      "pace 3.823996 bounce 5.605338 true 9.310997 carry 4.629772 seam 4.657894 spin 0.126823 cracks 0",
       "pace 3.377865 bounce 4.949477 true 9 carry 4.088846 seam 5.573628 spin 0 cracks 0",
       "pace 3.268058 bounce 4.788387 true 9.256322 carry 3.955847 seam 5.845735 spin 0 cracks 0",
       "pace 2.137124 bounce 3.141812 true 9 carry 2.591224 seam 6.197673 spin 0 cracks 0",
@@ -3774,13 +3774,13 @@
       "06-08 rain 0 to 3.616414 chance 0.172335, high 15.333685 to 22.833685",
       "06-09 rain 0 to 6.138318 chance 0.222827, high 11.255831 to 19.655831"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 0 to 34.655302",
@@ -3806,9 +3806,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 3.979116 bounce 5.144972 true 7.857577 carry 4.524648 seam 5.376869 spin 0 cracks 0",
-      "pace 2.610756 bounce 3.372361 true 7.890306 carry 2.967223 seam 5.188898 spin 0.014269 cracks 0",
-      "pace 4.31158 bounce 5.570933 true 9.310997 carry 4.900972 seam 4.433436 spin 0.532338 cracks 0",
+      "pace 3.408171 bounce 4.406743 true 7.857577 carry 3.875427 seam 5.376869 spin 0 cracks 0",
+      "pace 2.056535 bounce 2.656464 true 7.890306 carry 2.33733 seam 5.188898 spin 0.014269 cracks 0",
+      "pace 4.22849 bounce 5.463573 true 9.310997 carry 4.806523 seam 4.433436 spin 0.532338 cracks 0",
       "pace 3.656014 bounce 4.722179 true 9 carry 4.155039 seam 5.011178 spin 0.136278 cracks 0",
       "pace 3.529569 bounce 4.558687 true 9.256322 carry 4.011259 seam 5.254611 spin 0 cracks 0",
       "pace 2.363125 bounce 3.061717 true 9 carry 2.689836 seam 5.547064 spin 0 cracks 0",
@@ -3828,13 +3828,13 @@
       "06-09 rain 0 to 11.755594 chance 0.430768, high 14.963084 to 22.463084",
       "06-10 rain 0 to 5.439712 chance 0.209647, high 15.001944 to 23.401944"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 0 to 35.155302",
@@ -3860,9 +3860,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.10754 bounce 4.873358 true 7.780757 carry 4.474094 seam 4.987566 spin 0.320142 cracks 0.229992",
-      "pace 2.682722 bounce 3.180062 true 7.844169 carry 2.920826 seam 4.813875 spin 0.426741 cracks 0.153226",
-      "pace 4.581492 bounce 5.432234 true 9.247048 carry 4.988761 seam 4.361354 spin 0.764916 cracks 0.159874",
+      "pace 3.518168 bounce 4.174102 true 7.780757 carry 3.832126 seam 4.987566 spin 0.320142 cracks 0.229992",
+      "pace 2.113225 bounce 2.504987 true 7.844169 carry 2.300783 seam 4.813875 spin 0.426741 cracks 0.153226",
+      "pace 4.4932 bounce 5.327547 true 9.247048 carry 4.89262 seam 4.361354 spin 0.764916 cracks 0.159874",
       "pace 3.793401 bounce 4.496334 true 8.938671 carry 4.129939 seam 4.649824 spin 0.548775 cracks 0.153322",
       "pace 3.653233 bounce 4.330044 true 9.193087 carry 3.977268 seam 4.874508 spin 0.38319 cracks 0.158089",
       "pace 2.511319 bounce 2.984996 true 8.940214 carry 2.737933 seam 5.120445 spin 0.196318 cracks 0.149465",
@@ -3882,13 +3882,13 @@
       "06-10 rain 0 to 10.987771 chance 0.393773, high 14.03782 to 21.53782",
       "06-11 rain 0 to 0.254815 chance 0.136755, high 7.379474 to 15.779474"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 0 to 35.655302",
@@ -3914,9 +3914,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.095157 bounce 4.647453 true 7.66158 carry 4.362574 seam 4.843456 spin 0.556097 cracks 0.561197",
-      "pace 2.663318 bounce 3.019997 true 7.768558 carry 2.836056 seam 4.675439 spin 0.629971 cracks 0.375468",
-      "pace 4.666564 bounce 5.292794 true 9.154305 carry 4.969825 seam 4.396089 spin 0.849441 cracks 0.39173",
+      "pace 3.507562 bounce 3.980611 true 7.66158 carry 3.736608 seam 4.843456 spin 0.556097 cracks 0.561197",
+      "pace 2.097939 bounce 2.378902 true 7.768558 carry 2.234008 seam 4.675439 spin 0.629971 cracks 0.375468",
+      "pace 4.576633 bounce 5.190794 true 9.154305 carry 4.874049 seam 4.396089 spin 0.849441 cracks 0.39173",
       "pace 3.490006 bounce 4.326012 true 8.938671 carry 3.88559 seam 5.068185 spin 0.141013 cracks 0.153322",
       "pace 3.651282 bounce 4.139873 true 9.101451 carry 3.88791 seam 4.734058 spin 0.588469 cracks 0.387177",
       "pace 2.570102 bounce 2.92171 true 8.852784 carry 2.740272 seam 4.95122 spin 0.414574 cracks 0.36804",
@@ -3936,13 +3936,13 @@
       "06-11 rain 4.790967 to 18.290967 chance 0.820137, high 10.863232 to 18.363232",
       "06-12 rain 0 to 7.0154 chance 0.240834, high 10.826496 to 19.226496"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 0 to 36.155302",
@@ -3968,9 +3968,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.245234 bounce 4.393592 true 7.422926 carry 4.318776 seam 4.367534 spin 1.186151 cracks 1.195333",
-      "pace 4.581836 bounce 4.738781 true 7.610951 carry 4.659648 seam 3.214093 spin 2.057846 cracks 0.806937",
-      "pace 4.87786 bounce 5.04592 true 8.974348 carry 4.961179 seam 3.966283 spin 1.423809 cracks 0.841623",
+      "pace 3.636105 bounce 3.763176 true 7.422926 carry 3.699094 seam 4.367534 spin 1.186151 cracks 1.195333",
+      "pace 3.609188 bounce 3.732816 true 7.610951 carry 3.670482 seam 3.214093 spin 2.057846 cracks 0.806937",
+      "pace 4.783856 bounce 4.948678 true 8.974348 carry 4.865569 seam 3.966283 spin 1.423809 cracks 0.841623",
       "pace 3.833985 bounce 4.116843 true 8.823539 carry 3.972897 seam 4.304552 spin 0.985224 cracks 0.441151",
       "pace 3.795917 bounce 3.925635 true 8.923805 carry 3.860231 seam 4.269728 spin 1.160869 cracks 0.831293",
       "pace 2.746841 bounce 2.846754 true 8.681188 carry 2.796351 seam 4.442428 spin 1.002332 cracks 0.79703",
@@ -3990,13 +3990,13 @@
       "06-12 rain 0 to 0 chance 0.10236, high 12.047563 to 19.547563",
       "06-13 rain 0 to 5.987737 chance 0.219902, high 11.967491 to 20.367491"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 0 to 36.655302",
@@ -4022,9 +4022,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.177812 bounce 4.182011 true 7.159304 carry 4.179911 seam 4.292161 spin 1.463841 cracks 1.888048",
-      "pace 4.636943 bounce 4.638767 true 7.431067 carry 4.637855 seam 3.340039 spin 2.118091 cracks 1.290262",
-      "pace 4.838365 bounce 4.841123 true 8.773188 carry 4.839744 seam 3.899585 spin 1.644462 cracks 1.344523",
+      "pace 3.578356 bounce 3.581953 true 7.159304 carry 3.580154 seam 4.292161 spin 1.463841 cracks 1.888048",
+      "pace 3.652597 bounce 3.654033 true 7.431067 carry 3.653315 seam 3.340039 spin 2.118091 cracks 1.290262",
+      "pace 4.745123 bounce 4.747827 true 8.773188 carry 4.746475 seam 3.899585 spin 1.644462 cracks 1.344523",
       "pace 3.850083 bounce 3.939195 true 8.650927 carry 3.894384 seam 4.129089 spin 1.289569 cracks 0.872682",
       "pace 3.746088 bounce 3.747296 true 8.72513 carry 3.746692 seam 4.196551 spin 1.379605 cracks 1.327981",
       "pace 2.780084 bounce 2.786378 true 8.488588 carry 2.783229 seam 4.346729 spin 1.233127 cracks 1.27853",
@@ -4044,13 +4044,13 @@
       "06-13 rain 0 to 4.494764 chance 0.189021, high 10.868738 to 18.368738",
       "06-14 rain 0 to 8.299308 chance 0.270468, high 11.370819 to 19.770819"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 0 to 37.155302",
@@ -4076,9 +4076,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.147675 bounce 4.001114 true 6.887574 carry 4.073735 seam 4.173287 spin 1.784739 cracks 2.595501",
-      "pace 4.715198 bounce 4.546091 true 7.239032 carry 4.629872 seam 3.395189 spin 2.248694 cracks 1.798443",
-      "pace 4.836611 bounce 4.663887 true 8.562212 carry 4.749464 seam 3.793042 spin 1.91122 cracks 1.871962",
+      "pace 3.552544 bounce 3.427012 true 6.887574 carry 3.489213 seam 4.173287 spin 1.784739 cracks 2.595501",
+      "pace 3.714239 bounce 3.581031 true 7.239032 carry 3.647027 seam 3.395189 spin 2.248694 cracks 1.798443",
+      "pace 4.743403 bounce 4.574007 true 8.562212 carry 4.657935 seam 3.793042 spin 1.91122 cracks 1.871962",
       "pace 3.867743 bounce 3.784492 true 8.45226 carry 3.825891 seam 3.965546 spin 1.599816 cracks 1.36935",
       "pace 3.728155 bounce 3.594219 true 8.516616 carry 3.660575 seam 4.080813 spin 1.644439 cracks 1.849265",
       "pace 2.827281 bounce 2.73045 true 8.285824 carry 2.778444 seam 4.210857 spin 1.507791 cracks 1.78544",
@@ -4098,13 +4098,13 @@
       "06-14 rain 0 to 2.564673 chance 0.154651, high 12.296558 to 19.796558",
       "06-15 rain 0 to 0.75398 chance 0.142234, high 13.903898 to 22.303898"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 0 to 37.655302",
@@ -4130,9 +4130,9 @@
     "satisfaction": "Captain:32 Board:50 Referee:54",
     "requests": "2027-04-16-captain:Pace:Ignored 2027-04-17-captain:Pace:Ignored",
     "pitch": [
-      "pace 4.117884 bounce 3.850159 true 6.617802 carry 3.981772 seam 4.082435 spin 2.076336 cracks 3.292668",
-      "pace 4.774999 bounce 4.462335 true 7.04126 carry 4.616021 seam 3.438156 spin 2.379987 cracks 2.315583",
-      "pace 4.829671 bounce 4.514075 true 8.348117 carry 4.669207 seam 3.711618 spin 2.15413 cracks 2.4072",
+      "pace 3.527027 bounce 3.297717 true 6.617802 carry 3.410446 seam 4.082435 spin 2.076336 cracks 3.292668",
+      "pace 3.761346 bounce 3.515055 true 7.04126 carry 3.636116 seam 3.438156 spin 2.379987 cracks 2.315583",
+      "pace 4.736596 bounce 4.427082 true 8.348117 carry 4.579225 seam 3.711618 spin 2.15413 cracks 2.4072",
       "pace 3.866891 bounce 3.653794 true 8.242539 carry 3.758833 seam 3.856771 spin 1.863719 cracks 1.893653",
       "pace 3.709006 bounce 3.465943 true 8.304845 carry 3.585415 seam 3.992366 spin 1.885546 cracks 2.378692",
       "pace 2.863356 bounce 2.679927 true 8.079291 carry 2.770124 seam 4.107007 spin 1.75639 cracks 2.301772",
@@ -4152,13 +4152,13 @@
       "06-15 rain 0 to 2.649766 chance 0.155997, high 11.412282 to 18.912282",
       "06-16 rain 0 to 1.456997 chance 0.15042, high 11.897311 to 20.297311"
     ],
-    "match": "Test Visitors 222-6 (50) / Test County 213-9 (50) Test Visitors won by 9 runs",
+    "match": "Test Visitors 220-6 (50) / Test County 211-9 (50) Test Visitors won by 9 runs",
     "commentary": [
-      "2027-04-17 14:00 Innings break: Test Visitors 222-6",
+      "2027-04-17 14:00 Innings break: Test Visitors 220-6",
       "2027-04-17 16:00 COLLAPSE Test County lose 5. cause:damp.",
-      "2027-04-17 18:00 Close: Test Visitors 222-6; Test County 213-9"
+      "2027-04-17 18:00 Close: Test Visitors 220-6; Test County 211-9"
     ],
-    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.7 | R:movement",
+    "rating": "Satisfactory (0): R:consistent 8.2 | R:carry 3.6 | R:movement",
     "demerits": 0,
     "readings": [
       "1: 13.147093 to 21.147093 at 2027-05-24 07:00, now 0 to 38.155302",

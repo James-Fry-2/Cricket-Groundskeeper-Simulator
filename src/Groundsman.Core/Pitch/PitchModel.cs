@@ -34,9 +34,10 @@ namespace Groundsman.Core.Pitch
             // Long grass cushions the ball, taking pace and bounce off it.
             var cushion = 1 - _settings.GrassCushion * Clamp01((strip.GrassHeightMm - _settings.GrassReferenceMm) / _settings.GrassReferenceMm);
 
-            var pace = _rolling.Hardness(strip) * cushion;
+            var tired = Clamp01(1 - _settings.LastingDeadening * strip.LastingWear);
+            var pace = _rolling.Hardness(strip) * cushion * tired;
             var bounce = Clamp01(
-                cushion
+                cushion * tired
                 * strip.Compaction
                 * Math.Pow(loam.ClayPercent / _settings.BounceClayReference, _settings.BounceClayExponent)
                 * (_settings.BounceDepthBase + (1 - _settings.BounceDepthBase) * depthMoisture));
@@ -87,6 +88,7 @@ namespace Groundsman.Core.Pitch
                 crackSpin: _settings.SpinCrackWeight * strip.Cracks,
                 wearSpin: _settings.SpinSurfaceWearWeight * strip.SurfaceWear,
                 cushion: cushion,
+                tired: 1 - Clamp01(1 - _settings.LastingDeadening * strip.LastingWear),
                 wetness: 1 - dryness);
         }
 

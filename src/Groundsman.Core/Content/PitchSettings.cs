@@ -6,6 +6,7 @@ namespace Groundsman.Core.Content
         public PitchSettings(
             double grassReferenceMm,
             double grassCushion,
+            double lastingDeadening,
             double bounceDepthBase,
             double bounceClayReference,
             double bounceClayExponent,
@@ -30,6 +31,7 @@ namespace Groundsman.Core.Content
                 throw new ContentException($"pitch.grassReferenceMm ({grassReferenceMm}) must be above 0.");
             }
             CheckUnit("grassCushion", grassCushion);
+            CheckNotNegative("lastingDeadening", lastingDeadening);
             CheckUnit("bounce.depthBase", bounceDepthBase);
             if (bounceClayReference <= 0)
             {
@@ -54,6 +56,7 @@ namespace Groundsman.Core.Content
 
             GrassReferenceMm = grassReferenceMm;
             GrassCushion = grassCushion;
+            LastingDeadening = lastingDeadening;
             BounceDepthBase = bounceDepthBase;
             BounceClayReference = bounceClayReference;
             BounceClayExponent = bounceClayExponent;
@@ -82,6 +85,9 @@ namespace Groundsman.Core.Content
         /// is lost at or below the reference.
         /// </summary>
         public double GrassCushion { get; }
+
+        /// <summary>Share of pace and bounce lost per unit of lasting wear: a tired strip plays slower and lower.</summary>
+        public double LastingDeadening { get; }
 
         /// <summary>Share of bounce a compacted strip keeps with no moisture at depth.</summary>
         public double BounceDepthBase { get; }
