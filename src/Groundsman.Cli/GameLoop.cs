@@ -32,6 +32,17 @@ public sealed class GameLoop
         _pipedInput = pipedInput;
         _inspect = inspect;
         _nextSeason = nextSeason;
+        MarkShown();
+    }
+
+    // A resumed season has already shown its commentary, verdicts and review.
+    private void MarkShown()
+    {
+        var view = _game.View;
+        _commentaryFixture = view.LatestMatch?.Fixture;
+        _commentaryShown = view.LatestMatch?.Commentary.Count ?? 0;
+        _verdictShown = view.LatestMatch?.Rating != null ? view.LatestMatch.Fixture : null;
+        _reviewShown = view.Review != null;
     }
 
     public void Run()
@@ -73,6 +84,9 @@ public sealed class GameLoop
                     break;
                 case NewSeasonInput:
                     NewSeason();
+                    break;
+                case SaveInput:
+                    SaveCopy();
                     break;
                 case ReadInput { Strip: null } all:
                     var now = _game.View.Now;
@@ -391,6 +405,18 @@ public sealed class GameLoop
         }
     }
 
+    private void SaveCopy()
+    {
+        if (_game is not RecordingGame { AutosavePath: { } path } recording)
+        {
+            _console.MarkupLine("[red]This season isn't being saved.[/]");
+            return;
+        }
+        var copy = Path.Combine(Path.GetDirectoryName(path)!, $"save-turn-{recording.Data.Turns}.json");
+        SaveFile.Write(copy, recording.Data);
+        _console.MarkupLine($"Saved a copy to {Markup.Escape(copy)}. The season also saves itself after every turn.");
+    }
+
     private void NewSeason()
     {
         if (_game.View.Review == null)
@@ -405,14 +431,11 @@ public sealed class GameLoop
         }
 
         _game = _nextSeason();
-        if (_inspect != null && _game is Game game)
+        if (_inspect != null)
         {
-            _inspect = game.Inspect;
+            _inspect = _game is RecordingGame recording ? recording.Inner.Inspect : _game is Game game ? game.Inspect : _inspect;
         }
-        _commentaryFixture = null;
-        _commentaryShown = 0;
-        _verdictShown = null;
-        _reviewShown = false;
+        MarkShown();
         _console.MarkupLine("[green]A new season begins.[/]");
         ShowNotices(_game.View);
         ShowStatus(withScoreboard: true);
@@ -599,6 +622,7 @@ public sealed class GameLoop
         table.AddRow("s", "Show the ground again")
             .AddRow("Enter or a", "Advance to the next decision point")
             .AddRow("new", "Once the season is over, start another")
+            .AddRow("save", "Save a copy now; the season also saves itself after every turn")
             .AddRow("q", "Quit");
 
         _console.Write(table);

@@ -241,4 +241,10 @@ public class InputParserTests
     {
         Assert.IsType<NewSeasonInput>(InputParser.Parse("new"));
     }
+
+    [Fact]
+    public void Save_saves_a_copy()
+    {
+        Assert.IsType<SaveInput>(InputParser.Parse("save"));
+    }
 }

@@ -9,10 +9,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Groundsman.Core\Groundsman.Core.csproj" />
+    <ProjectReference Include="..\Groundsman.Cli\Groundsman.Cli.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Groundsman.Cli\ContentLoader.cs" Link="ContentLoader.cs" />
     <None Include="..\..\content\*.json" LinkBase="content" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 

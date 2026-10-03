@@ -39,6 +39,24 @@ public static class ContentLoader
         return (content, ContentParser.ParseSeason(Read("season.json"), formats, teams));
     }
 
+    /// <summary>
+    /// A fingerprint of every content file, so a save is only replayed on the content it was
+    /// played with.
+    /// </summary>
+    public static string Hash(string directory)
+    {
+        using var sha = System.Security.Cryptography.SHA256.Create();
+        foreach (var file in Directory.GetFiles(directory, "*.json").OrderBy(f => Path.GetFileName(f), StringComparer.Ordinal))
+        {
+            var name = System.Text.Encoding.UTF8.GetBytes(Path.GetFileName(file));
+            sha.TransformBlock(name, 0, name.Length, null, 0);
+            var bytes = File.ReadAllBytes(file);
+            sha.TransformBlock(bytes, 0, bytes.Length, null, 0);
+        }
+        sha.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+        return Convert.ToHexString(sha.Hash!);
+    }
+
     /// <summary>The phase 2 stand-in score, used by the harness only.</summary>
     public static ScoringSettings LoadScoring(string directory) =>
         ContentParser.ParseScoring(File.ReadAllText(Path.Combine(directory, "scoring.json")));
