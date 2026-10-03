@@ -40,13 +40,14 @@ public static class ContentLoader
     }
 
     /// <summary>
-    /// A fingerprint of every content file, so a save is only replayed on the content it was
-    /// played with.
+    /// A fingerprint of every content file the game reads, so a save is only replayed on the
+    /// content it was played with. The harness's scoring.json is left out: tester builds don't
+    /// ship it.
     /// </summary>
     public static string Hash(string directory)
     {
         using var sha = System.Security.Cryptography.SHA256.Create();
-        foreach (var file in Directory.GetFiles(directory, "*.json").OrderBy(f => Path.GetFileName(f), StringComparer.Ordinal))
+        foreach (var file in Directory.GetFiles(directory, "*.json").Where(f => Path.GetFileName(f) != "scoring.json").OrderBy(f => Path.GetFileName(f), StringComparer.Ordinal))
         {
             var name = System.Text.Encoding.UTF8.GetBytes(Path.GetFileName(file));
             sha.TransformBlock(name, 0, name.Length, null, 0);

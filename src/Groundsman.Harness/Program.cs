@@ -8,6 +8,7 @@ const string usage = """
       pitch [--seasons N] [--out FILE]   How an untouched strip plays each morning, averaged by month
       gate [--seasons N] [--seed FIRST] [--lead 0.25] [--out FILE]   Gate A: by the book against neglect and random play
       gateb [--seasons N] [--seed FIRST] [--lead 10] [--tolerance 3] [--out FILE]   Gate B: greedy against planned strip rotation
+      playtest FOLDER [--content DIR]   The pass test and Gate C from testers' returned folders (DIR: the build's content, if not this one's)
       reuse [--seasons N]   A strip reused after gaps of 11 to 42 days, and a third use, against a fresh strip
       check [--seasons N] [--seed FIRST] [--satisfactory 0.85] [--very-good 0.1] [--neglect 0.8] [--out FILE]   Check 3: the referee's ratings, planned play against neglect
     """;
@@ -79,6 +80,19 @@ switch (args[0])
         Console.WriteLine(report.SummaryTable());
         Console.WriteLine($"Per-match results written to {path}");
         return report.Passed ? 0 : 2;
+    }
+    case "playtest":
+    {
+        if (args.Length < 2)
+        {
+            Console.WriteLine(usage);
+            return 1;
+        }
+        var contentDir = Option("--content") ?? ContentLoader.DefaultDirectory;
+        var (buildContent, buildSeason) = ContentLoader.Load(contentDir);
+        var report = PlaytestReport.Run(args[1], buildContent, buildSeason.Fixtures, ContentLoader.Hash(contentDir));
+        Console.WriteLine(report.Summary());
+        return report.GateCPassed ? 0 : 2;
     }
     case "reuse":
     {

@@ -38,6 +38,8 @@ public class PlaytestFolderTests
 
         var hash = ContentLoader.Hash(directory);
         Assert.Equal(hash, ContentLoader.Hash(directory));
+        File.WriteAllText(Path.Combine(directory, "scoring.json"), "{ }");
+        Assert.Equal(hash, ContentLoader.Hash(directory));
         File.WriteAllText(Path.Combine(directory, "b.json"), "{ \"y\": 3 }");
         Assert.NotEqual(hash, ContentLoader.Hash(directory));
         Directory.Delete(directory, recursive: true);

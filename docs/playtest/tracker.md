@@ -46,4 +46,27 @@ Kept here rather than on the questionnaire, so it doesn't steer the answers.
 | 1 to 3, 11 to 13, 15 | Context |
 
 ## Where returned folders go
-Keep returned folders outside the repo, one per tester (for example `~/Playtest/T1/`), and point the analysis at them: `harness playtest <folder>` (task 7).
+Keep returned folders outside the repo, one folder per tester, each holding that tester's season folders:
+
+```
+~/Playtest/
+  gatec.csv
+  T1/season-2026-10-12-1930-18234.../
+  T2/season-...
+```
+
+`gatec.csv` holds your reading of the questionnaires: did they explain a verdict (question 8), and would they play another season (question 14)?
+
+```
+tester,explained_verdict,play_again
+T1,yes,yes
+T2,no,maybe
+```
+
+Then run:
+
+```
+dotnet run --project src/Groundsman.Harness -- playtest ~/Playtest
+```
+
+It replays each save to check it, and reports each season, the pass-test rows and Gate C. If a tester played a build with different content, add `--content <that build's content folder>`.
