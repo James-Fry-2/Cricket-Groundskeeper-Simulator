@@ -2,6 +2,8 @@
 
 Testers appear here by alias only (T1 to T8). Keep names and contact details out of the repo.
 
+The briefing and questionnaire are also one shareable page, https://claude.ai/artifact/MXdnK4Js2cH2ggFZV7Ucxw (source: `kestrel-playtest.html`; keep it in step with `briefing.md` and `questionnaire.md`). Testers copy their answers or save them as a file and email them back. Share it from the page's Share menu before sending the link.
+
 Wave 1 is two testers, to catch blockers before the rest; wave 2 is everyone else. Fix only blockers between waves, and log each fix below with the build it went into.
 
 ## Testers

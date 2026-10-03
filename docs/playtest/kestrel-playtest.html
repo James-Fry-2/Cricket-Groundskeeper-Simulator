@@ -1,0 +1,543 @@
+<title>Kestrel Lane Playtest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=IBM+Plex+Mono:wght@500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+  :root {
+    --ground: #f4f6f0;
+    --surface: #fbfcf8;
+    --ink: #1c2620;
+    --muted: #59665c;
+    --rule: #d5dccf;
+    --accent: #2e6b3f;
+    --accent-ink: #ffffff;
+    --accent-soft: #e2ece2;
+    --loam: #8b6b3d;
+    --loam-soft: #c9b28b;
+    --code-bg: #e7ece2;
+    --display: "Bitter", "Rockwell", "Georgia", serif;
+    --body: "Source Sans 3", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --ground: #111712;
+      --surface: #18201a;
+      --ink: #e4ebe2;
+      --muted: #9ba89d;
+      --rule: #2c372e;
+      --accent: #86c895;
+      --accent-ink: #0e1a11;
+      --accent-soft: #1f2e22;
+      --loam: #c9a36d;
+      --loam-soft: #5e4d33;
+      --code-bg: #222c24;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground: #111712;
+    --surface: #18201a;
+    --ink: #e4ebe2;
+    --muted: #9ba89d;
+    --rule: #2c372e;
+    --accent: #86c895;
+    --accent-ink: #0e1a11;
+    --accent-soft: #1f2e22;
+    --loam: #c9a36d;
+    --loam-soft: #5e4d33;
+    --code-bg: #222c24;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font: 17px/1.6 var(--body);
+    padding: 0 20px;
+  }
+  .page {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding-block: 40px 140px;
+    display: grid;
+    gap: 48px;
+  }
+  h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.2; margin: 0; }
+  h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.01em; }
+  h2 { font-size: 1.6rem; font-weight: 700; }
+  h3 { font-size: 1.15rem; font-weight: 600; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  code {
+    font: 500 0.88em var(--mono);
+    background: var(--code-bg);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .eyebrow {
+    font: 600 0.78rem var(--body);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--loam);
+  }
+
+  /* Header */
+  header { display: grid; gap: 20px; }
+  .lede { font-size: 1.15rem; color: var(--muted); max-width: 38rem; }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0;
+  }
+  .facts div { background: var(--surface); padding: 12px 14px; }
+  .facts dt { font-size: 0.8rem; color: var(--muted); }
+  .facts dd { margin: 2px 0 0; font: 700 1.1rem var(--display); font-variant-numeric: tabular-nums; }
+
+  .square { display: grid; gap: 8px; }
+  .strips {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 4px;
+    max-width: 420px;
+    padding: 10px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+  }
+  .strip {
+    height: 64px;
+    border-radius: 2px;
+    background: var(--loam-soft);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font: 500 0.7rem var(--mono);
+    color: var(--ink);
+    padding-bottom: 3px;
+  }
+  .strip.centre { background: var(--loam); color: var(--surface); }
+  .square figcaption { font-size: 0.85rem; color: var(--muted); }
+
+  nav.jump { display: flex; flex-wrap: wrap; gap: 10px; }
+  nav.jump a {
+    text-decoration: none;
+    font-weight: 600;
+    padding: 6px 14px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+  nav.jump a:hover { border-color: var(--accent); }
+
+  /* Briefing */
+  section { display: grid; gap: 20px; }
+  .prose { display: grid; gap: 14px; }
+  .prose ul, .prose ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+  .send {
+    display: grid;
+    gap: 10px;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+  }
+
+  /* Questionnaire */
+  form { display: grid; gap: 28px; }
+  fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 18px; }
+  legend { padding: 0; margin-bottom: 4px; }
+  .q { display: grid; gap: 8px; }
+  .q label.ask, .q .ask { font-weight: 600; }
+  .q .n { font: 500 0.9rem var(--mono); color: var(--loam); margin-right: 6px; }
+  .hint { font-size: 0.9rem; color: var(--muted); }
+  textarea, input[type="text"] {
+    width: 100%;
+    font: 400 1rem/1.5 var(--body);
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  textarea { min-height: 5.2em; resize: vertical; field-sizing: content; }
+  input[type="text"] { max-width: 12rem; }
+  textarea:focus, input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+  .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+  .choices label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: var(--surface);
+    cursor: pointer;
+  }
+  .choices input { accent-color: var(--accent); margin: 0; }
+  .choices label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+  .choices label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Send bar */
+  .bar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: var(--surface);
+    border-top: 1px solid var(--rule);
+  }
+  .bar-inner {
+    max-width: 44rem;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+  }
+  .progress { font-size: 0.9rem; color: var(--muted); font-variant-numeric: tabular-nums; margin-right: auto; }
+  button {
+    font: 600 0.95rem var(--body);
+    padding: 9px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    cursor: pointer;
+  }
+  button.primary { background: var(--accent); color: var(--accent-ink); }
+  button.secondary { background: transparent; color: var(--accent); }
+  button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .status { width: 100%; font-size: 0.9rem; color: var(--muted); min-height: 1.3em; }
+  .fallback { display: grid; gap: 8px; }
+  .fallback textarea { min-height: 12em; font: 500 0.85rem/1.5 var(--mono); }
+
+  @media (max-width: 520px) {
+    body { font-size: 16px; }
+    h1 { font-size: 1.9rem; }
+    .strip { height: 48px; font-size: 0.6rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    nav.jump a, .choices label { transition: border-color 120ms, background 120ms; }
+  }
+</style>
+
+<div class="page">
+  <header>
+    <p class="eyebrow">Cricket Groundsman · first playtest</p>
+    <h1>Kestrel Lane Playtest</h1>
+    <p class="lede">You're head groundsman at a county cricket ground for one season. Thank you for testing it. Below is what we're testing and what to send back, then a short questionnaire for when you've played.</p>
+    <dl class="facts">
+      <div><dt>Season</dt><dd>April to September</dd></div>
+      <div><dt>Home matches</dt><dd>18</dd></div>
+      <div><dt>Strips on the square</dt><dd>12</dd></div>
+      <div><dt>Time to play</dt><dd>About 2–3 hours</dd></div>
+    </dl>
+    <figure class="square" aria-label="The square: strips 1 to 12, with strips 5 to 8 in the centre">
+      <div class="strips" aria-hidden="true">
+        <div class="strip">1</div><div class="strip">2</div><div class="strip">3</div><div class="strip">4</div>
+        <div class="strip centre">5</div><div class="strip centre">6</div><div class="strip centre">7</div><div class="strip centre">8</div>
+        <div class="strip">9</div><div class="strip">10</div><div class="strip">11</div><div class="strip">12</div>
+      </div>
+      <figcaption>The square you'll look after. The darker strips, 5 to 8, are the centre strips the board wants for televised matches.</figcaption>
+    </figure>
+    <nav class="jump" aria-label="On this page">
+      <a href="#briefing">Briefing</a>
+      <a href="#questionnaire">Questionnaire</a>
+    </nav>
+  </header>
+
+  <section id="briefing" aria-labelledby="briefing-title">
+    <h2 id="briefing-title">Briefing</h2>
+    <div class="prose">
+      <h3>What it is</h3>
+      <p>A management game about preparing cricket pitches. Over one season you choose which strip each match is played on, prepare it with water, rollers, mowers and covers, and live with the verdicts: the match referee's rating, the captain's requests and the board's wishes.</p>
+
+      <h3>What we're testing</h3>
+      <p>One question: is it fun to rotate strips across a season while balancing those pressures? We're not testing how it looks. It's text in a terminal on purpose, because the rules still change daily, and pictures come later if the idea works. Please judge the decisions, not the presentation.</p>
+      <p>There are no right answers, and you can't do it wrong. If something confuses you, that's useful to us.</p>
+
+      <h3>What it takes</h3>
+      <ul>
+        <li>About two to three hours for a season, in one sitting or a few. It saves itself after every turn and asks to carry on next time.</li>
+        <li>A Mac or a Windows PC. The zip has everything, so there's nothing else to install.</li>
+        <li>Follow <code>README.txt</code> in the zip to start it, then read <code>Guide.md</code>, which is a few pages. The game also shows tips the first time things happen.</li>
+      </ul>
+
+      <h3>While you play</h3>
+      <ul>
+        <li>Play however you like. Some players plan everything; some take each day as it comes.</li>
+        <li>Notes help a lot. If anything surprises, confuses or annoys you, or a choice feels hard, jot it in <code>notes.txt</code> in your season's folder, however rough.</li>
+        <li>If the game breaks or gets stuck, note what you did just before, and send the folder anyway.</li>
+      </ul>
+
+      <h3>What the game records</h3>
+      <p>Each season's folder holds <code>save.json</code>, the season so it can be replayed exactly, and <code>telemetry.jsonl</code>, a log of the commands you gave, the readings you took, how you answered requests, the screens you looked at, and how long each turn took. Nothing about you or your computer is recorded, and the game sends nothing anywhere.</p>
+    </div>
+
+    <div class="send">
+      <h3>What to send back</h3>
+      <ol>
+        <li>Zip your season's folder. It's in <code>Documents/Cricket Groundsman</code>, named <code>season-&lt;date&gt;-&lt;number&gt;</code>.</li>
+        <li>Answer the questionnaire below, then copy your answers or save them as a file.</li>
+        <li>Send both to the person who sent you the game.</li>
+      </ol>
+      <p class="hint">An honest "this bit dragged" is worth more to us than politeness.</p>
+    </div>
+  </section>
+
+  <section id="questionnaire" aria-labelledby="questionnaire-title">
+    <h2 id="questionnaire-title">Questionnaire</h2>
+    <p class="hint">About 15 minutes. Short answers are fine. Please answer from memory before looking anything up in the game. Your answers stay in this browser until you copy or save them.</p>
+
+    <form id="answers" autocomplete="off">
+      <div class="q">
+        <label class="ask" for="tester">Your tester code</label>
+        <span class="hint">It's in the email that came with the game, for example T3.</span>
+        <input type="text" id="tester" name="tester" maxlength="12">
+      </div>
+
+      <fieldset>
+        <legend><h3>About you</h3></legend>
+        <div class="q" role="group" aria-labelledby="q1-ask">
+          <span class="ask" id="q1-ask"><span class="n">1</span>How often do you play management or strategy games, such as Football Manager or city builders?</span>
+          <div class="choices">
+            <label><input type="radio" name="q1" id="q1-never" value="Never"> Never</label>
+            <label><input type="radio" name="q1" id="q1-sometimes" value="Sometimes"> Sometimes</label>
+            <label><input type="radio" name="q1" id="q1-often" value="Often"> Often</label>
+          </div>
+        </div>
+        <div class="q" role="group" aria-labelledby="q2-ask">
+          <span class="ask" id="q2-ask"><span class="n">2</span>How well do you know cricket?</span>
+          <div class="choices">
+            <label><input type="radio" name="q2" id="q2-hardly" value="Hardly"> Hardly</label>
+            <label><input type="radio" name="q2" id="q2-follow" value="I follow it"> I follow it</label>
+            <label><input type="radio" name="q2" id="q2-play" value="I play or work in it"> I play or work in it</label>
+          </div>
+        </div>
+        <div class="q">
+          <label class="ask" for="q3"><span class="n">3</span>Mac or Windows? About how long did you play, and in how many sittings?</label>
+          <textarea id="q3" name="q3" rows="2"></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><h3>The season</h3></legend>
+        <div class="q">
+          <label class="ask" for="q4"><span class="n">4</span>Did you finish the season and reach the review? If not, where did you stop, and why?</label>
+          <textarea id="q4" name="q4" rows="3"></textarea>
+        </div>
+        <div class="q">
+          <label class="ask" for="q5"><span class="n">5</span>Think about the matches in June and July. When did you decide which strip each would be played on? Did you have strips in mind for matches two or more fixtures away? How did you choose between strips?</label>
+          <textarea id="q5" name="q5" rows="3"></textarea>
+        </div>
+        <div class="q">
+          <label class="ask" for="q6"><span class="n">6</span>Describe a time a reading (feel, probe or soil core) changed what you did. If none did, why not?</label>
+          <textarea id="q6" name="q6" rows="3"></textarea>
+        </div>
+        <div class="q">
+          <label class="ask" for="q7"><span class="n">7</span>Describe a request from the captain or the board that you turned down on purpose. Why did you say no? If you said yes to everything, why?</label>
+          <textarea id="q7" name="q7" rows="3"></textarea>
+        </div>
+        <div class="q">
+          <label class="ask" for="q8"><span class="n">8</span>Pick one match. How did the pitch play, and why do you think it played that way?</label>
+          <textarea id="q8" name="q8" rows="3"></textarea>
+        </div>
+        <div class="q">
+          <label class="ask" for="q9"><span class="n">9</span>Was there a verdict, a rating or a reaction that felt unfair or made no sense? What happened?</label>
+          <textarea id="q9" name="q9" rows="3"></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><h3>Pace and feel</h3></legend>
+        <div class="q">
+          <label class="ask" for="q10"><span class="n">10</span>Where did it drag, with too many turns of just pressing on? Where did too much happen at once?</label>
+          <textarea id="q10" name="q10" rows="3"></textarea>
+        </div>
+        <div class="q">
+          <label class="ask" for="q11"><span class="n">11</span>What was the most interesting decision you made all season?</label>
+          <textarea id="q11" name="q11" rows="3"></textarea>
+        </div>
+        <div class="q">
+          <label class="ask" for="q12"><span class="n">12</span>What was the most confusing moment?</label>
+          <textarea id="q12" name="q12" rows="3"></textarea>
+        </div>
+        <div class="q">
+          <label class="ask" for="q13"><span class="n">13</span>If you could change one thing, what would it be?</label>
+          <textarea id="q13" name="q13" rows="3"></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><h3>Overall</h3></legend>
+        <div class="q" role="group" aria-labelledby="q14-ask">
+          <span class="ask" id="q14-ask"><span class="n">14</span>Would you play another season?</span>
+          <div class="choices">
+            <label><input type="radio" name="q14" id="q14-yes" value="Yes"> Yes</label>
+            <label><input type="radio" name="q14" id="q14-maybe" value="Maybe"> Maybe</label>
+            <label><input type="radio" name="q14" id="q14-no" value="No"> No</label>
+          </div>
+          <label class="hint" for="q14why">Why?</label>
+          <textarea id="q14why" name="q14why" rows="2"></textarea>
+        </div>
+        <div class="q">
+          <label class="ask" for="q15"><span class="n">15</span>Anything else?</label>
+          <textarea id="q15" name="q15" rows="3"></textarea>
+        </div>
+      </fieldset>
+
+      <div class="fallback" id="fallback" hidden>
+        <label class="ask" for="plain">Your answers as text</label>
+        <span class="hint">Select all of this and copy it into your email.</span>
+        <textarea id="plain" readonly></textarea>
+      </div>
+    </form>
+  </section>
+</div>
+
+<div class="bar">
+  <div class="bar-inner">
+    <span class="progress" id="progress">0 of 15 answered</span>
+    <button type="button" class="primary" id="copy">Copy my answers</button>
+    <button type="button" class="secondary" id="save" hidden>Save as a file</button>
+    <span class="status" id="status" role="status" aria-live="polite"></span>
+  </div>
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById("answers");
+  var progress = document.getElementById("progress");
+  var status = document.getElementById("status");
+  var saveButton = document.getElementById("save");
+  var key = "kestrel-lane-playtest-draft";
+  var questions = [
+    ["q1", "How often do you play management or strategy games?"],
+    ["q2", "How well do you know cricket?"],
+    ["q3", "Mac or Windows? How long did you play, in how many sittings?"],
+    ["q4", "Did you finish the season and reach the review? If not, where did you stop, and why?"],
+    ["q5", "When did you decide which strip June and July's matches would be played on? Did you plan two or more fixtures ahead? How did you choose?"],
+    ["q6", "A time a reading changed what you did (or why none did)"],
+    ["q7", "A request you turned down on purpose, and why"],
+    ["q8", "One match: how did the pitch play, and why?"],
+    ["q9", "A verdict, rating or reaction that felt unfair or made no sense"],
+    ["q10", "Where it dragged, and where too much happened at once"],
+    ["q11", "The most interesting decision of the season"],
+    ["q12", "The most confusing moment"],
+    ["q13", "One thing to change"],
+    ["q14", "Would you play another season?"],
+    ["q15", "Anything else"]
+  ];
+
+  function value(name) {
+    var field = form.elements[name];
+    if (!field) return "";
+    if (field.length !== undefined && field.tagName === undefined) {
+      for (var i = 0; i < field.length; i++) if (field[i].checked) return field[i].value;
+      return "";
+    }
+    return (field.value || "").trim();
+  }
+
+  function answered() {
+    return questions.filter(function (q) { return value(q[0]) !== ""; }).length;
+  }
+
+  function asText() {
+    var lines = ["Cricket Groundsman playtest answers", "Tester: " + (value("tester") || "(not given)"), ""];
+    questions.forEach(function (q, i) {
+      var answer = value(q[0]);
+      if (q[0] === "q14" && value("q14why")) answer = (answer || "(no choice)") + ". " + value("q14why");
+      lines.push((i + 1) + ". " + q[1]);
+      lines.push(answer || "(no answer)");
+      lines.push("");
+    });
+    return lines.join("\n");
+  }
+
+  function update() {
+    progress.textContent = answered() + " of 15 answered";
+    try {
+      var draft = {};
+      Array.prototype.forEach.call(form.elements, function (el) {
+        if (!el.name) return;
+        if (el.type === "radio") { if (el.checked) draft[el.name] = el.value; }
+        else draft[el.name] = el.value;
+      });
+      localStorage.setItem(key, JSON.stringify(draft));
+    } catch (e) { /* drafts are a convenience; the form works without them */ }
+  }
+
+  function restore() {
+    try {
+      var draft = JSON.parse(localStorage.getItem(key) || "{}");
+      Object.keys(draft).forEach(function (name) {
+        var field = form.elements[name];
+        if (!field) return;
+        if (field.length !== undefined && field.tagName === undefined) {
+          for (var i = 0; i < field.length; i++) field[i].checked = field[i].value === draft[name];
+        } else {
+          field.value = draft[name];
+        }
+      });
+    } catch (e) { /* no stored draft available */ }
+  }
+
+  function showFallback() {
+    var fallback = document.getElementById("fallback");
+    var plain = document.getElementById("plain");
+    plain.value = asText();
+    fallback.hidden = false;
+    plain.focus();
+    plain.select();
+  }
+
+  document.getElementById("copy").addEventListener("click", function () {
+    var text = asText();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        status.textContent = "Copied. Paste your answers into your email, with your zipped season folder.";
+      }, function () {
+        status.textContent = "This page couldn't reach your clipboard, so your answers are shown as text below to copy.";
+        showFallback();
+      });
+    } else {
+      status.textContent = "Your answers are shown as text below to copy.";
+      showFallback();
+    }
+  });
+
+  form.addEventListener("input", update);
+  form.addEventListener("change", update);
+  form.addEventListener("submit", function (e) { e.preventDefault(); });
+  restore();
+  update();
+
+  if (window.claude && window.claude.use) {
+    window.claude.use("downloads").then(function (downloads) {
+      if (!downloads) return;
+      saveButton.hidden = false;
+      saveButton.addEventListener("click", function () {
+        var name = "groundsman-answers-" + (value("tester") || "tester").replace(/[^A-Za-z0-9-]/g, "") + ".txt";
+        downloads.save({ filename: name, data: asText() }).then(function () {
+          status.textContent = "Saved. Attach the file to your email, with your zipped season folder.";
+        }, function (error) {
+          if (error && error.code === "declined") {
+            status.textContent = "Not saved. You can copy your answers instead.";
+          } else if (error && error.code === "rate_limited") {
+            status.textContent = "A save is already waiting for your answer.";
+          } else {
+            saveButton.hidden = true;
+            status.textContent = "Saving isn't available here. Copy your answers instead.";
+          }
+        });
+      });
+    });
+  }
+})();
+</script>
