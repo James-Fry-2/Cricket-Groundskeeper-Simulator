@@ -4,7 +4,7 @@
 Phase 5: first playtest (5 to 8 testers). Plan in `docs/phase-5-plan.md`. Ends at Gate C: most testers finish the season, can explain at least one verdict, and ask to play another.
 
 ## Phase 5 tasks
-- [ ] 1. Saves (seed plus command log, autosave, resume)
+- [x] 1. Saves (seed plus command log, autosave, resume)
 - [ ] 2. Telemetry (JSON Lines, mapped to the pass test)
 - [ ] 3. Fast-forward to the next event
 - [ ] 4. Onboarding (intro, first-season tips, quick-start guide)
@@ -302,4 +302,6 @@ In `content/stakeholders.json`:
 - Worth watching in playtests: greedy dips in June (−16) when early televised matches find the centre strips' ends not yet grown back and go to outer strips; a third use is now close to certain unsatisfactory, which may be too harsh.
 - Phase 4 complete.
 - Phase 5 planned in `docs/phase-5-plan.md` with the user: saves are seed plus command log (replayed on load, refused if content changed), a fast-forward to the next event, testers send back one folder, testers are a mix of sim players and cricket people. A season is 353 turns today.
-- Next: phase 5 task 1, saves.
+- Saves: a `RecordingGame` wraps the game in the Cli, records each accepted command with its turn (rejected ones change nothing, so replay doesn't need them) and writes the save after every command and turn (written beside the target then moved into place). A save holds a schema version, a SHA-256 over every content file, the seed and start, the turns played and the commands; `SaveFile.Restore` refuses another version or other content, rebuilds the game from the seed and replays each turn's commands, and reports the turn and command if one is refused on replay. Tested: every command type round-trips (checked against all `IGameCommand` types by reflection), and a restored game equals the original in view and truth after 70 turns of random commands of every kind on 12 seeds, and stays equal after another turn.
+- Seasons live in Documents/Cricket Groundsman/season-<date>-<seed>/save.json (`--data` overrides it). On launch the Cli offers to resume the latest unfinished season; `save` writes a named copy; a resumed season doesn't repeat old commentary, verdicts or the review. The harness now references the Cli project instead of linking `ContentLoader.cs`, so saves are there for task 7.
+- Next: phase 5 task 2, telemetry.
