@@ -1,7 +1,17 @@
 # Progress
 
 ## Current phase
-Phase 5: first playtest (5 to 8 testers), including saves and telemetry moved from phase 4. Not yet planned.
+Phase 5: first playtest (5 to 8 testers). Plan in `docs/phase-5-plan.md`. Ends at Gate C: most testers finish the season, can explain at least one verdict, and ask to play another.
+
+## Phase 5 tasks
+- [ ] 1. Saves (seed plus command log, autosave, resume)
+- [ ] 2. Telemetry (JSON Lines, mapped to the pass test)
+- [ ] 3. Fast-forward to the next event
+- [ ] 4. Onboarding (intro, first-season tips, quick-start guide)
+- [ ] 5. Tester builds (macOS and Windows, self-contained)
+- [ ] 6. Playtest kit (briefing, questionnaire, tracker)
+- [ ] 7. Telemetry analysis and the Gate C summary
+- [ ] 8. Run the playtest in two waves
 
 ## Phase 4 tasks (done)
 - [x] 1. Fixture ids and strip assignment
@@ -291,4 +301,5 @@ In `content/stakeholders.json`:
 - Check 3 over 1,000 seasons: planned 91% satisfactory or better (91%), 19% very good (19%), banned in 1% of seasons; neglect demerits on 97% (97%). PASSED on both. Gate A unchanged: by the book 56%, neglect 14%.
 - Worth watching in playtests: greedy dips in June (−16) when early televised matches find the centre strips' ends not yet grown back and go to outer strips; a third use is now close to certain unsatisfactory, which may be too harsh.
 - Phase 4 complete.
-- Next: plan phase 5, the first playtest (saves, telemetry, tester builds).
+- Phase 5 planned in `docs/phase-5-plan.md` with the user: saves are seed plus command log (replayed on load, refused if content changed), a fast-forward to the next event, testers send back one folder, testers are a mix of sim players and cricket people. A season is 353 turns today.
+- Next: phase 5 task 1, saves.
