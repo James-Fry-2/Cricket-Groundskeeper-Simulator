@@ -51,7 +51,7 @@ public sealed class GameLoop
 
     public void Run()
     {
-        Log("session_start", ("resumed", (_game as RecordingGame)?.Data.Turns > 0));
+        Log("session_start", ("resumed", (_game as RecordingGame)?.Data.Turns > 0), ("version", GameInfo.Version));
         ShowNotices(_game.View);
         ShowStatus(withScoreboard: true);
         Log("screen", ("name", "status"));
@@ -536,7 +536,7 @@ public sealed class GameLoop
 
         Log("session_end");
         _game = _nextSeason();
-        Log("session_start", ("resumed", false));
+        Log("session_start", ("resumed", false), ("version", GameInfo.Version));
         if (_inspect != null)
         {
             _inspect = _game is RecordingGame recording ? recording.Inner.Inspect : _game is Game game ? game.Inspect : _inspect;

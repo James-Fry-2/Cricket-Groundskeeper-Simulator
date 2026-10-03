@@ -4,6 +4,9 @@ using Groundsman.Core;
 using Groundsman.Core.Time;
 using Spectre.Console;
 
+// Windows consoles need telling, or the box drawing comes out as question marks.
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+
 var (content, season) = ContentLoader.Load(ContentLoader.DefaultDirectory);
 var contentHash = ContentLoader.Hash(ContentLoader.DefaultDirectory);
 var start = GameTime.OnDate(season.Start, content.Calendar.MorningHour);
@@ -15,10 +18,10 @@ RecordingGame NewSeason(ulong seed)
 {
     var seasonFolder = folder.NewSeason(DateTime.Now, seed);
     AnsiConsole.MarkupLine($"[green]A new season[/], seed {seed}. It saves itself to [grey]{Markup.Escape(seasonFolder)}[/].");
-    return RecordingGame.Start(content, season.Fixtures, start, seed, contentHash, Path.Combine(seasonFolder, PlaytestFolder.SaveName), telemetry: new Telemetry(Path.Combine(seasonFolder, Telemetry.FileName)));
+    return RecordingGame.Start(content, season.Fixtures, start, seed, contentHash, Path.Combine(seasonFolder, PlaytestFolder.SaveName), GameInfo.Version, new Telemetry(Path.Combine(seasonFolder, Telemetry.FileName)));
 }
 
-AnsiConsole.MarkupLine("[green]Cricket Groundsman Simulator[/]");
+AnsiConsole.MarkupLine($"[green]Cricket Groundsman Simulator[/] [grey]{Markup.Escape(GameInfo.Version)}[/]");
 var firstLaunch = folder.EnsureReadme();
 if (firstLaunch)
 {
