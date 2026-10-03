@@ -185,6 +185,47 @@ public static class Format
         return $"{Who(change.Stakeholder)} {(points >= 0 ? "+" : "−")}{Math.Abs(points):0}: {why}.";
     }
 
+    /// <summary>
+    /// Days a fixture's strip will have rested since its previous match there, played or
+    /// planned, and that match; null when it's the strip's first this season or unassigned.
+    /// </summary>
+    public static (int Days, Fixture Previous)? Rest(IReadOnlyList<FixtureView> fixtures, int index)
+    {
+        var fixture = fixtures[index];
+        if (fixture.Strip is not { } strip)
+        {
+            return null;
+        }
+        var previous = fixtures
+            .Where(f => f.Strip == strip && f.Fixture.End < fixture.Fixture.Start)
+            .Select(f => f.Fixture)
+            .OrderBy(f => f.End)
+            .LastOrDefault();
+        return previous == null ? null : ((fixture.Fixture.Start - previous.End).Days - 1, previous);
+    }
+
+    public static string ShortRequest(Groundsman.Core.Pressures.RequestKind kind) => kind switch
+    {
+        Groundsman.Core.Pressures.RequestKind.Green => "green",
+        Groundsman.Core.Pressures.RequestKind.Turning => "turning",
+        Groundsman.Core.Pressures.RequestKind.Pace => "pace",
+        Groundsman.Core.Pressures.RequestKind.Flat => "flat",
+        _ => "4 days",
+    };
+
+    /// <summary>A fixture's requests in brief: what was asked, and where it stands.</summary>
+    public static string Requests(IEnumerable<Groundsman.Core.Pressures.RequestView> requests) =>
+        string.Join(", ", requests.Select(r => $"{ShortRequest(r.Kind)} {r.Status switch
+        {
+            Groundsman.Core.Pressures.RequestStatus.Open => "?",
+            Groundsman.Core.Pressures.RequestStatus.Accepted => "yes",
+            Groundsman.Core.Pressures.RequestStatus.Declined => "no",
+            Groundsman.Core.Pressures.RequestStatus.Ignored => "ignored",
+            Groundsman.Core.Pressures.RequestStatus.Delivered => "✓",
+            Groundsman.Core.Pressures.RequestStatus.NotDelivered => "✗",
+            _ => "rained off",
+        }}"));
+
     public static string Mood(Groundsman.Core.Pressures.Mood mood) => mood switch
     {
         Groundsman.Core.Pressures.Mood.Delighted => "delighted",

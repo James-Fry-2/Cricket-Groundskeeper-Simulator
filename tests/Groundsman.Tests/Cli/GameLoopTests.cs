@@ -339,7 +339,9 @@ public class GameLoopTests
         Assert.Contains("clean <strip>", console.Output);
         Assert.Contains("fill <strip>", console.Output);
         Assert.Contains("u <strip>", console.Output);
+        Assert.Contains("Planning", console.Output);
         Assert.Contains("season record", console.Output);
+        Assert.Contains("yes <#> / no <#>", console.Output);
     }
 
     [Fact]
@@ -357,7 +359,7 @@ public class GameLoopTests
         Assert.Contains("10 May", output);
         Assert.Contains("TV", output);
         Assert.Contains("none", output);
-        Assert.Contains("One-day v Test Visitors on Thu 20 May will be played on strip 7.", output);
+        Assert.Contains("One-day v Test Visitors on Thu 20 May will be played on strip 7, its first match this season.", output);
         Assert.Contains("There's no fixture 2.", output);
         Assert.Equal(new Groundsman.Core.Strips.StripId(7), game.View.Fixtures[0].Strip);
     }
@@ -457,5 +459,26 @@ public class GameLoopTests
         Assert.Contains("The season isn't over yet.", console.Output);
         Assert.Equal(1, started);
         Assert.Contains("A new season begins.", console.Output);
+    }
+
+    [Fact]
+    public void The_fixture_list_shows_rest_requests_and_ratings_and_assigning_says_how_long_the_strip_rested()
+    {
+        var console = new TestConsole();
+        console.Profile.Width = 160;
+        var first = new Groundsman.Core.Fixture(new DateTime(2027, 6, 3), TestFormats.OneDay, new Groundsman.Core.Strips.StripId(7), TestTeams.Opponent);
+        var second = new Groundsman.Core.Fixture(new DateTime(2027, 6, 25), TestFormats.FourDay, null, TestTeams.Opponent);
+        var content = TestContent.WithStakeholders(TestStakeholders.With(1, 1));
+        var game = new Game(new GameSetup(content, new GameTime(2027, 6, 1, 7), new[] { first, second }, 1));
+        var input = "p 2 7\n" + string.Join("\n", Enumerable.Repeat("", 20)) + "\nx\n";
+
+        new GameLoop(console, game, new StringReader(input)).Run();
+
+        var output = console.Output;
+        Assert.Contains("will be played on strip 7, 21 days after One-day v Test Visitors there.", output);
+        var screen = output.Substring(output.LastIndexOf("Fixtures", StringComparison.Ordinal));
+        Assert.Contains("21d", screen);
+        Assert.Contains("4 days ", screen);
+        Assert.Contains(game.View.Matches[0].Rating is { } rating ? Format.Grade(rating.Grade).ToLowerInvariant() : "not rated", output);
     }
 }

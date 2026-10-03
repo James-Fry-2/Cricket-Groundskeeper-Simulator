@@ -164,4 +164,17 @@ public class FormatTests
         Assert.Equal("+6: the pitch ratings",
             Format.Summary(new Groundsman.Core.Pressures.ReasonSummary(Groundsman.Core.Pressures.SatisfactionReason.Rated, null, 6, 1)));
     }
+
+    [Fact]
+    public void Requests_read_briefly_with_where_they_stand()
+    {
+        var fixture = new Groundsman.Core.Fixture(new DateTime(2027, 6, 13), TestFormats.FourDay, null, TestTeams.Opponent);
+        var requests = new[]
+        {
+            new Groundsman.Core.Pressures.RequestView("a", Groundsman.Core.Pressures.Stakeholder.Captain, Groundsman.Core.Pressures.RequestKind.Green, fixture, fixture.Start, fixture.Start, Groundsman.Core.Pressures.RequestStatus.Delivered),
+            new Groundsman.Core.Pressures.RequestView("b", Groundsman.Core.Pressures.Stakeholder.Board, Groundsman.Core.Pressures.RequestKind.LastsFourDays, fixture, fixture.Start, fixture.Start, Groundsman.Core.Pressures.RequestStatus.Open),
+        };
+
+        Assert.Equal("green ✓, 4 days ?", Format.Requests(requests));
+    }
 }

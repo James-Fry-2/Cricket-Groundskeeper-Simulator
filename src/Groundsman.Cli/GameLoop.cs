@@ -474,7 +474,14 @@ public sealed class GameLoop
             return;
         }
         var fixture = fixtures[assign.Fixture - 1];
-        Order(new AssignStrip(fixture.Id, assign.Strip), $"{Markup.Escape(Format.Match(fixture.Fixture))} on {Format.Day(fixture.Fixture.Start)} will be played on strip {assign.Strip.Number}.");
+        if (!Report(_game.Submit(new AssignStrip(fixture.Id, assign.Strip))))
+        {
+            return;
+        }
+        var rest = Format.Rest(_game.View.Fixtures, assign.Fixture - 1) is { } r
+            ? $", {r.Days} days after {Format.Match(r.Previous)} there"
+            : ", its first match this season";
+        _console.MarkupLine(Markup.Escape($"{Format.Match(fixture.Fixture)} on {Format.Day(fixture.Fixture.Start)} will be played on strip {assign.Strip.Number}{rest}."));
     }
 
     private void ShowFixtures()
@@ -486,22 +493,35 @@ public sealed class GameLoop
             .AddColumn(new TableColumn("Match").NoWrap())
             .AddColumn("TV")
             .AddColumn("Strip")
-            .AddColumn("Locks");
+            .AddColumn("Rest")
+            .AddColumn("Requests")
+            .AddColumn(new TableColumn("Status").NoWrap());
+        foreach (var column in table.Columns)
+        {
+            column.Padding = new Padding(0, 0, 1, 0);
+        }
+
         for (var i = 0; i < view.Fixtures.Count; i++)
         {
             var fixture = view.Fixtures[i];
-            var played = fixture.Fixture.End < view.Now.Date;
-            var grey = played ? "grey" : "default";
+            var played = view.Matches.FirstOrDefault(m => m.Fixture == fixture.Fixture && m.Finished);
+            var grey = played != null ? "grey" : "default";
+            var status = played?.Rating is { } rating ? $"[{GradeColour(rating.Grade)}]{Format.Grade(rating.Grade).ToLowerInvariant()}[/]"
+                : played != null ? "[grey]not rated[/]"
+                : fixture.Locked ? "locked"
+                : "locks " + fixture.LocksOn.ToString("d MMM", System.Globalization.CultureInfo.InvariantCulture);
             table.AddRow(
                 $"[{grey}]{i + 1}[/]",
                 $"[{grey}]{fixture.Fixture.Start.ToString("d MMM", System.Globalization.CultureInfo.InvariantCulture)}[/]",
                 $"[{grey}]{Markup.Escape(Format.Match(fixture.Fixture))}[/]",
                 fixture.Fixture.Televised ? "TV" : "",
-                fixture.Strip is { } strip ? strip.Number.ToString() : "[yellow]none[/]",
-                played ? "" : fixture.Locked ? "locked" : fixture.LocksOn.ToString("d MMM", System.Globalization.CultureInfo.InvariantCulture));
+                fixture.Strip is { } strip ? (_game.View.Strips[strip.Number - 1].Centre ? $"{strip.Number}c" : strip.Number.ToString()) : "[yellow]none[/]",
+                Format.Rest(view.Fixtures, i) is { } rest ? $"{rest.Days}d" : "",
+                Markup.Escape(Format.Requests(view.Requests.Where(r => r.Fixture == fixture.Fixture))),
+                status);
         }
         _console.Write(table);
-        _console.MarkupLine("[grey]p <#> <strip> puts a fixture on a strip until it locks, 10 days out.[/]");
+        _console.MarkupLine("[grey]p <#> <strip> puts a fixture on a strip until it locks, 10 days out. Rest: days since the strip's last match. c: centre.[/]");
     }
 
     private void ShowRecord()
@@ -553,27 +573,32 @@ public sealed class GameLoop
     {
         var table = new Table().Border(TableBorder.None).HideHeaders()
             .AddColumn("Command")
-            .AddColumn("What it does")
-            .AddRow("r <strip> [[name]]", "Take a moisture probe reading of a strip; add a name to send someone else")
-            .AddRow("r all", "Read every strip")
-            .AddRow("f <strip>", "Feel a strip: quick, gives dry, damp or wet, can be wrong")
-            .AddRow("d <strip>", "Take a soil core: slow, reads moisture below the surface")
-            .AddRow("w <strip>", "Water a strip (done when time advances)")
-            .AddRow("m <strip> <mm>", "Mow a strip to a height; more than a third off at once scalps it")
-            .AddRow("l <strip> <roller> <min>", $"Roll a strip ({string.Join(", ", _game.View.Rollers.Select(r => r.Id))}): only moist, never wet")
-            .AddRow("e <strip>", "Repair the ends after a match: fill and seed footholes and rough")
-            .AddRow("clean <strip>", "During a match: clean and dry the footholes before play or at a break")
-            .AddRow("fill <strip>", "During a match over one day: fill the footholes at close of play")
-            .AddRow("c <strip>", "Put a cover on a strip: keeps rain off, slows drying")
-            .AddRow("u <strip>", "Take a strip's cover off")
-            .AddRow("", "Every strip job takes a name, e.g. w 3 sam. You do it if none is given.")
-            .AddRow("s", "Show the ground again")
-            .AddRow("v", "The season record: every match, its result and the referee's rating")
-            .AddRow("x", "The fixture list, with each match's strip and when it locks")
-            .AddRow("p <#> <strip>", "Put fixture # on a strip; you can change it until its build-up starts")
-            .AddRow("new", "Once the season is over, start another")
-            .AddRow("yes <#> / no <#>", "Accept or turn down request #. Promising and failing costs more than saying no")
+            .AddColumn("What it does");
+        void Section(string title) => table.AddRow($"[bold]{title}[/]", "");
+
+        Section("Readings");
+        table.AddRow("r <strip>", "Moisture probe reading of the surface; r all reads every strip")
+            .AddRow("f <strip>", "Feel a strip: quick, dry, damp or wet (can be wrong), and a look at the ends")
+            .AddRow("d <strip>", "Soil core: slow, reads moisture below the surface");
+        Section("Strip work");
+        table.AddRow("w <strip>", "Water a strip (done when time advances)")
+            .AddRow("m <strip> <mm>", "Mow to a height; more than a third off at once scalps it")
+            .AddRow("l <strip> <roller> <min>", $"Roll ({string.Join(", ", _game.View.Rollers.Select(r => r.Id))}): only moist, never wet")
+            .AddRow("e <strip>", "Repair the ends after a match: fill and seed them")
+            .AddRow("c <strip> / u <strip>", "Put a cover on, or take it off")
+            .AddRow("", "Every strip job takes a name, e.g. w 3 sam. You do it if none is given.");
+        Section("Match days");
+        table.AddRow("clean <strip>", "Clean and dry the footholes before play or at a break")
+            .AddRow("fill <strip>", "Fill the footholes at close of play, in matches over one day");
+        Section("Planning");
+        table.AddRow("x", "The fixture list: strips, rest, requests, locks and ratings")
+            .AddRow("p <#> <strip>", "Put fixture # on a strip; change it until its build-up starts")
+            .AddRow("yes <#> / no <#>", "Accept or turn down request #. A broken promise costs more than no")
+            .AddRow("v", "The season record: every match, its result and rating");
+        Section("Game");
+        table.AddRow("s", "Show the ground again")
             .AddRow("Enter or a", "Advance to the next decision point")
+            .AddRow("new", "Once the season is over, start another")
             .AddRow("q", "Quit");
 
         _console.Write(table);
